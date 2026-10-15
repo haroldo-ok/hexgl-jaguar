@@ -1,0 +1,16 @@
+python3 -m unittest discover -s tests -p 'test_*.py' -v
+test_animated_video_cannot_hide_dead_heartbeat (test_watchdogs.CoreWatchdog.test_animated_video_cannot_hide_dead_heartbeat) ... ok
+test_black_tail_including_last_field (test_watchdogs.CoreWatchdog.test_black_tail_including_last_field) ... ok
+test_boot_logo_not_native_game (test_watchdogs.CoreWatchdog.test_boot_logo_not_native_game) ... ok
+test_healthy (test_watchdogs.CoreWatchdog.test_healthy) ... ok
+test_hud_only_cannot_pass (test_watchdogs.CoreWatchdog.test_hud_only_cannot_pass) ... ok
+test_pause_is_allowed_to_be_static (test_watchdogs.CoreWatchdog.test_pause_is_allowed_to_be_static) ... ok
+test_running_telemetry_cannot_hide_frozen_video (test_watchdogs.CoreWatchdog.test_running_telemetry_cannot_hide_frozen_video) ... ok
+test_black_rejected (test_watchdogs.DesktopWatchdog.test_black_rejected) ... ok
+test_bright_solid_color_rejected (test_watchdogs.DesktopWatchdog.test_bright_solid_color_rejected) ... ok
+test_identical_frames_have_zero_motion (test_watchdogs.DesktopWatchdog.test_identical_frames_have_zero_motion) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.048s
+
+OK

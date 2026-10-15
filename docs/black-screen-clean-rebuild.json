@@ -1,0 +1,24 @@
+{
+  "rom_sha256": "4c8a579bd4676e5a7d6a1fb415aaa547ad13cfa459a452f779334654b5de0911",
+  "byte_identical": true,
+  "source_archive_extracted": true,
+  "assembler_built_from_source": true,
+  "emulator_built_from_source": true,
+  "cases": {
+    "bios": {
+      "fields": 500,
+      "native_entry": true,
+      "nonblack_world": true,
+      "audio_and_heartbeat": true,
+      "exit_code": 0
+    },
+    "direct": {
+      "fields": 500,
+      "native_entry": true,
+      "nonblack_world": true,
+      "audio_and_heartbeat": true,
+      "exit_code": 0
+    }
+  },
+  "status": "PASS"
+}

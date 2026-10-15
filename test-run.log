@@ -1,0 +1,24 @@
+manual-ntsc exit 0 fields 1200 elapsed 22.0 s
+race-ntsc exit 0 fields 12393 elapsed 219.3 s
+manual-pal exit 0 fields 1200 elapsed 22.3 s
+race-pal exit 0 fields 10813 elapsed 221.9 s
+negative-frozen-gpu exit 0 fields 750 elapsed 8.4 s
+Traceback (most recent call last):
+  File "/home/user/hexgl-jaguar/tests/e2e.py", line 77, in main
+    try:common(negative)
+        ~~~~~~^^^^^^^^^^
+  File "/home/user/hexgl-jaguar/tests/e2e.py", line 32, in common
+    assert min(f['world_lit'] for f in w)>1500,f'World viewport black at {start}'
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: World viewport black at 330
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/user/hexgl-jaguar/tests/e2e.py", line 88, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/home/user/hexgl-jaguar/tests/e2e.py", line 79, in main
+    assert 'heartbeat stalled' in str(e),str(e)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: World viewport black at 330

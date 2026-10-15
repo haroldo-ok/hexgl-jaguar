@@ -1,0 +1,10 @@
+bg_start equ $b00000
+bg_end equ $bb9621
+wind_start equ $bb9621
+wind_end equ $be944b
+boost_start equ $be944b
+boost_end equ $bec5fc
+crash_start equ $bec5fc
+crash_end equ $bed56e
+destroyed_start equ $bed56e
+destroyed_end equ $bfe59b

@@ -1,0 +1,617 @@
+--- a/Makefile
++++ b/Makefile
+@@ -5,7 +5,7 @@
+ VJ := $(ROOT)/vendor/virtualjaguar
+ PYTHON ?= python3
+ export BJL_ROOT
+-.PHONY: all rom assets toolchain emulator test test-quick verify clean
++.PHONY: all rom assets toolchain emulator test test-core test-gui test-unit test-quick release verify clean
+ all: rom
+ 
+ toolchain:
+@@ -23,6 +23,8 @@
+ 	$(PYTHON) tools/prepare_engine.py
+ 	cd src && $(LYXASS) -d -o audio.bin audio.js
+ 	cd src && $(LYXASS) -sh hexgl.js
++	m68k-linux-gnu-as -m68000 src/cart_boot.S -o src/cart_boot.o
++	m68k-linux-gnu-ld -Ttext=0x900000 --oformat=binary src/cart_boot.o -o src/cart_boot.bin
+ 	$(PYTHON) tools/package_rom.py
+ 	$(PYTHON) tools/verify.py
+ 
+@@ -32,10 +34,25 @@
+ 	$(MAKE) -C "$(VJ)/src/m68000" CROSS= CFLAGS="-O2 -std=gnu89 -w -fomit-frame-pointer" INCS="-I. -I./obj"
+ 	$(MAKE) -C tests/vjrunner VJ="$(VJ)"
+ 
+-test: emulator
++# Release gate: compile current source, test assertions, real core, and stock GUI.
++test: rom emulator test-unit
++	$(PYTHON) tests/e2e.py
++	xvfb-run -a -s '-screen 0 1024x768x24' $(PYTHON) tests/gui_e2e.py
++
++test-core: rom emulator
+ 	$(PYTHON) tests/e2e.py
+ 
+-test-quick: emulator
++test-gui: rom
++	xvfb-run -a -s '-screen 0 1024x768x24' $(PYTHON) tests/gui_e2e.py
++
++test-unit:
++	$(PYTHON) -m unittest discover -s tests -p 'test_*.py' -v
++
++release: test
++	$(PYTHON) tools/black_screen_report.py
++	$(PYTHON) tools/bundle.py
++
++test-quick: rom emulator test-unit
+ 	$(PYTHON) tests/e2e.py --quick
+ 
+ verify:
+--- a/src/cart_boot.S
++++ b/src/cart_boot.S
+@@ -0,0 +1,45 @@
++/* 68000 direct-cartridge entry for emulators with BIOS disabled.
++ * Retail BIOS still uses the unchanged encrypted GPU loader at ROM offset 0.
++ * Linked at $900000 in otherwise unused ROM. No emulator-specific RAM patches.
++ */
++    .text
++    .global _start
++_start:
++    move.w #0x2700,%sr
++    move.l #0x200000,%sp
++    moveq #0,%d0
++    move.l %d0,0xf02114
++    move.l %d0,0xf1a114
++    move.l #0x23e00,0xf1a100
++    move.l #0x7e00,0xf02100
++    move.w #0,0xf0004e
++    move.l #4,4
++    move.l %d0,0xf00020
++    /* Same 68K interrupt-acknowledgement loop as the retail GPU loader. */
++    lea irq_stub(%pc),%a0
++    lea 0x110,%a1
++    moveq #((irq_end-irq_stub)/2)-1,%d0
++1:  move.w (%a0)+,(%a1)+
++    dbra %d0,1b
++    move.l #0x110,0x100
++    /* BS94 payload: destination and length follow signature at $80040c. */
++    lea 0x800410,%a0
++    movea.l (%a0)+,%a1
++    move.l (%a0)+,%d0
++    move.l %a1,%d1
++2:  move.l (%a0)+,(%a1)+
++    subq.l #4,%d0
++    bne.s 2b
++    move.l %d1,0xf02110
++    move.l #1,0xf02114
++    jmp 0x110
++    .balign 4
++irq_stub:
++    lea 0xf000e0,%a0
++3:  move.w 2(%a0),%d0
++    lsl.w #8,%d0
++    swap %d0
++    move.l %d0,(%a0)
++    stop #0x2000
++    bra.s 3b
++irq_end:
+--- a/tools/package_rom.py
++++ b/tools/package_rom.py
+@@ -10,5 +10,9 @@
+ rom[len(loader):len(loader)+len(program)]=program
+ for name,offset in [('collision.bin',0x200000),('height.bin',0x240000),('replay.bin',0x2c0000),('route.bin',0x2d8000),('audio.bin',0x300000),('sky.bin',0x400000)]:
+  b=(R/'assets'/name).read_bytes();rom[offset:offset+len(b)]=b
++boot=(R/'src/cart_boot.bin').read_bytes()
++assert len(loader)+len(program)<0x100000 and len(boot)<0x1000
++rom[0x100000:0x100000+len(boot)]=boot
++struct.pack_into('>I',rom,0x404,0x900000)
+ p=R/'rom/hexgl.j64';p.parent.mkdir(exist_ok=True);p.write_bytes(rom)
+ print(p, len(rom),'bytes',hashlib.sha256(rom).hexdigest())
+--- a/tools/verify.py
++++ b/tools/verify.py
+@@ -6,7 +6,11 @@
+ rom=(R/'rom/hexgl.j64').read_bytes();payload=(R/'src/hexgl.o').read_bytes()
+ loader=(R/'vendor/jag_3d_engine/loader/sbl.XXX').read_bytes()
+ assert len(rom)==6*1024*1024
+-assert rom[:len(loader)]==loader
++assert rom[:0x404]==loader[:0x404] and rom[0x408:len(loader)]==loader[0x408:]
++assert struct.unpack_from('>I',rom,0x404)[0]==0x900000
++boot=(R/'src/cart_boot.bin').read_bytes()
++assert rom[0x100000:0x100000+len(boot)]==boot
++assert len(loader)+len(payload)<0x100000 and len(boot)<0x1000
+ assert rom[len(loader):len(loader)+len(payload)]==payload
+ assert payload[:4]==b'BS94'
+ addr,size=struct.unpack('>II',payload[4:12]);assert addr==0x2000
+--- a/tests/e2e.py
++++ b/tests/e2e.py
+@@ -10,15 +10,23 @@
+ MAGIC=0x48455847
+ INPUT='100:a,180:a+left,205:a,250:pause,265:none,400:pause,415:a,500:option,520:a,1000:option,1020:a'
+ 
+-def run(name,standard,frames,input,extra=()):
++def run(name,standard,frames,input,extra=(),expect_failure=False):
+     d=R/'test-results'/name;d.mkdir(parents=True,exist_ok=True)
+     args=[str(R/'tests/vjrunner/vjrun'),'--frames',str(frames),'--'+standard,'--out',str(d),'--input',input,'--quiet','--dump-at','80,175,350,600,1200,2400,3600,4800,6000,8000,10000,12000','--title','run',*extra,str(R/'rom/hexgl.j64')]
++    (d/'run_report.json').unlink(missing_ok=True)
++    (d/'invocation.json').write_text(json.dumps({'args':args,'rom_sha256':hashlib.sha256((R/'rom/hexgl.j64').read_bytes()).hexdigest()},indent=2)+'\n')
+     t=time.time()
+     with (d/'emulator.log').open('w') as f:
+         c=subprocess.run(args,stdout=f,stderr=subprocess.STDOUT,timeout=900)
+     result=json.loads((d/'run_report.json').read_text())
+     print(name,'exit',c.returncode,'fields',result['field_count'],'elapsed',round(time.time()-t,1),'s',flush=True)
+     (d/'ram.bin').unlink(missing_ok=True)
++    assert c.returncode in (0,1),'Emulator crashed or setup failed'
++    if not expect_failure:assert c.returncode==0,'Emulator watchdog failed; see '+str(d/'emulator.log')
++    assert result['field_count']==len(result['fields']),'Truncated trace'
++    assert len(result['fields'])==frames or '--stop-on-finish' in extra,'Incomplete run'
++    result['process_exit_code']=c.returncode
++    result['boot_mode']='direct' if '--no-bios' in extra else 'bios'
+     return result
+ 
+ def common(result):
+@@ -26,10 +34,14 @@
+     live=[f for f in s if f['game'][0]==MAGIC]
+     assert live and live[0]['f']<120,'ROM never reached native gameplay'
+     assert result['worst_black_streak']<=45,'Black-screen watchdog'
+-    for start in range(150,len(s)-90,90):
++    assert all(f['game'][0]==MAGIC for f in s[150:]),'Native state lost'
++    assert min(f['world_lit'] for f in s[150:])>1500,'World viewport black (includes final field)'
++    for start in range(150,len(s)-29,30):
+         w=s[start:start+90]
+         assert len({f['game'][1] for f in w})>1,f'GPU/game heartbeat stalled at field {start}'
+         assert min(f['world_lit'] for f in w)>1500,f'World viewport black at {start}'
++        if len(w)>=90 and all(f['game'][2]==1 and not f['game'][13] and f['game'][8]>10 for f in w):
++            assert any(f['world_changed']>100 for f in w),f'World framebuffer frozen at {start}'
+     assert s[-1]['audio_samples']>s[120]['audio_samples']+1000,'ROM DSP PCM mixer stalled'
+     assert sum(f['audio_nonzero']>100 for f in s[120:])>len(s[120:])*.8,'Audio is silent'
+     return s
+@@ -46,7 +58,7 @@
+     assert any(f['game'][2]==2 for f in s[750:990]),'Destruction state not reached'
+     assert s[1010]['game'][9]==100 and s[1010]['game'][2]==0,'Restart failed'
+     assert sum(f['world_changed']>100 for f in s[110:240])>=15,'Only HUD animated'
+-    return dict(checks=['BIOS boot','native entry','nonblack world','GPU heartbeat','DSP sample clock','audible PCM','throttle','steering','pause/resume','collision damage','destruction','restart'],fields=len(s),updates=s[-1]['game'][1],audio_samples=s[-1]['audio_samples'])
++    return dict(checks=['direct cartridge boot' if result.get('boot_mode')=='direct' else 'BIOS boot','native entry','nonblack world','GPU heartbeat','DSP sample clock','audible PCM','throttle','steering','pause/resume','collision damage','destruction','restart'],fields=len(s),updates=s[-1]['game'][1],audio_samples=s[-1]['audio_samples'])
+ 
+ def race(result):
+     s=common(result)
+@@ -63,36 +75,35 @@
+     return dict(checks=['BIOS boot','native entry','nonblack world','GPU heartbeat','DSP sample clock','audible PCM','continuous world animation','all checkpoints','boost pads','three laps','finish'],fields=len(s),updates=s[-1]['game'][1],race_ticks=s[-1]['game'][16],audio_samples=s[-1]['audio_samples'])
+ 
+ def main():
+-    ap=argparse.ArgumentParser();ap.add_argument('--quick',action='store_true');ap.add_argument('--reuse-positive',action='store_true',help='Revalidate saved positive traces for the identical ROM, rerun negative control');a=ap.parse_args()
++    ap=argparse.ArgumentParser();ap.add_argument('--quick',action='store_true');a=ap.parse_args()
+     result={'rom_sha256':hashlib.sha256((R/'rom/hexgl.j64').read_bytes()).hexdigest(),'emulator':'Virtual Jaguar Rx 2.1.3 headless core harness','cases':{},'status':'FAIL'}
+     out=R/'test-results';out.mkdir(exist_ok=True)
+-    if a.reuse_positive:
+-        previous=json.loads((out/'summary.json').read_text())
+-        assert previous['rom_sha256']==result['rom_sha256'],'Cannot reuse traces from a different ROM'
+-        result['execution_note']='Positive emulator traces revalidated unchanged; negative control rerun after correcting expected-failure classification.'
+-    def positive(name,standard,frames,inputs,extra=()):
+-        if a.reuse_positive:
+-            print('Revalidating existing emulator trace:',name,flush=True)
+-            return json.loads((out/name/'run_report.json').read_text())
+-        return run(name,standard,frames,inputs,extra)
+     try:
+         for standard in ['ntsc','pal']:
+-            name='manual-'+standard
+-            result['cases'][name]=manual(positive(name,standard,1200,INPUT))
++            for boot in ['bios','direct']:
++                name='manual-'+standard+('-direct' if boot=='direct' else '')
++                extra=['--no-bios'] if boot=='direct' else []
++                result['cases'][name]=manual(run(name,standard,1200,INPUT,extra))
+             if not a.quick:
+                 name='race-'+standard
+-                result['cases'][name]=race(positive(name,standard,18000,'100:a+c,120:a', ['--stop-on-finish']))
+-        negative=run('negative-frozen-gpu','ntsc',750,'100:a+c,120:a',['--halt-gpu-at','400'])
+-        try:common(negative)
+-        except AssertionError as e:
+-            assert any(x in str(e) for x in ('heartbeat stalled','World viewport black')),str(e)
+-            # Depending on window boundaries, black pixels can be noticed before
+-            # a full heartbeat window elapses. Independently require BOTH facts.
+-            tail=negative['fields'][450:]
+-            assert len({f['game'][1] for f in tail})==1,'Injected GPU halt did not stop native updates'
+-            assert all(f['world_lit']<1500 for f in tail),'Injected halt did not produce black world output'
+-            result['cases']['negative-frozen-gpu']={'expected_failure_detected':str(e),'native_heartbeat_stopped':True,'black_world_fields':len(tail)}
+-        else:raise AssertionError('Watchdog falsely accepted halted GPU')
++                result['cases'][name]=race(run(name,standard,18000,'100:a+c,120:a', ['--stop-on-finish']))
++        for seed in [7,42]:
++            name='cold-boot-seed-'+str(seed)
++            trace=run(name,'ntsc',600,'100:a+c,120:a',['--no-bios','--seed',str(seed)])
++            common(trace)
++            result['cases'][name]={'checks':['randomized power-on RAM','direct entry','nonblack world','heartbeat','world animation'],'fields':600}
++        for name,flag,expected in [('negative-frozen-gpu','--halt-gpu-at','black'),('negative-black-video','--blank-video-at','black'),('negative-frozen-video','--freeze-video-at','frozen')]:
++            negative=run(name,'ntsc',750,'100:a+c,120:a',[flag,'400'],expect_failure=True)
++            try:common(negative)
++            except AssertionError as e:
++                assert expected in str(e).lower(),str(e)
++                tail=negative['fields'][450:]
++                if flag=='--halt-gpu-at':
++                    assert len({f['game'][1] for f in tail})==1
++                else:
++                    assert len({f['game'][1] for f in tail})>10,'Video-only fault unexpectedly halted native gameplay'
++                result['cases'][name]={'expected_failure_detected':str(e),'process_exit_code':negative['process_exit_code'],'native_heartbeat_stopped':flag=='--halt-gpu-at'}
++            else:raise AssertionError('Watchdog falsely accepted '+name)
+         result['status']='PASS_QUICK' if a.quick else 'PASS'
+     except Exception as e:
+         result['error']=str(e);raise
+--- a/tests/vjrunner/vjrun.cpp
++++ b/tests/vjrunner/vjrun.cpp
+@@ -304,6 +304,10 @@
+         "  --require-live      fail if the picture is black for > N fields (default 45)\n"
+         "  --title STR         name used in the report\n"
+         "  --quiet             do not print per-field lines\n"
++        "  --no-bios           boot from cartridge 68000 entry, like default GUI\n"
++        "  --seed N            randomized power-on RAM seed\n"
++        "  --blank-video-at N  negative control: black video, CPU/GPU still running\n"
++        "  --freeze-video-at N negative control: frozen picture, game still running\n"
+         "  --stop-on-finish    end after native phase 3 (HexGL finish)\n",
+         argv0);
+ }
+@@ -321,7 +325,9 @@
+     std::string title = "rom";
+     bool quiet = false;
+     bool stopFinish = false;
+-    int haltGpuAt = -1;
++    int haltGpuAt = -1, blankVideoAt = -1, freezeVideoAt = -1;
++    bool useBIOS = true;
++    unsigned seed = 1;
+ 
+     for (int i = 1; i < argc; i++) {
+         std::string a = argv[i];
+@@ -344,6 +350,10 @@
+         else if (a == "--require-live" && i + 1 < argc) liveLimit = atoi(argv[++i]);
+         else if (a == "--title" && i + 1 < argc)      title = argv[++i];
+         else if (a == "--halt-gpu-at" && i+1<argc) haltGpuAt=atoi(argv[++i]);
++        else if (a == "--no-bios") useBIOS = false;
++        else if (a == "--seed" && i+1<argc) seed = (unsigned)atoi(argv[++i]);
++        else if (a == "--blank-video-at" && i+1<argc) blankVideoAt=atoi(argv[++i]);
++        else if (a == "--freeze-video-at" && i+1<argc) freezeVideoAt=atoi(argv[++i]);
+         else if (a == "--stop-on-finish") stopFinish = true;
+         else if (a == "--quiet")                      quiet = true;
+         else if (a == "-h" || a == "--help") { usage(argv[0]); return 0; }
+@@ -356,7 +366,7 @@
+     // ---- settings (the same defaults the GUI uses) -------------------------
+     memset(&vjs, 0, sizeof(vjs));
+     vjs.hardwareTypeNTSC     = true;
+-    vjs.useJaguarBIOS        = true;
++    vjs.useJaguarBIOS        = useBIOS;
+     vjs.useRetailBIOS        = true;
+     vjs.GPUEnabled           = true;
+     vjs.DSPEnabled           = true;
+@@ -369,7 +379,7 @@
+     vjs.DRAM_size            = 0x200000;
+     vjs.useFastBlitter       = false;
+     vjs.allowM68KExceptionCatch = false;
+-    vjs.allowWritesToROM     = true;
++    vjs.allowWritesToROM     = false;
+     vjs.nbrdisasmlines       = 0;
+     vjs.nbrmemory1browserwindow = 0;
+     snprintf(vjs.EEPROMPath, MAX_PATH, "%s/eeprom.bin", outDir.c_str());
+@@ -402,6 +412,7 @@
+ 
+     // ---- boot the virtual console -----------------------------------------
+     vjs.DSPEnabled = false; // no nondeterministic host audio thread
++    srand(seed);
+     JaguarInit();
+     vjs.DSPEnabled = true;
+     if (!SelectBIOS(vjs.biosType)) { fprintf(stderr, "vjrun: no BIOS available!\n"); return 2; }
+@@ -414,6 +425,7 @@
+     jaguarCartInserted = true;
+     memcpy(jagMemSpace + 0x800000, rom.data(), (size_t)romSize);
+ 
++    jaguarRunAddress = GET32(jagMemSpace, 0x800404);
+     JaguarReset();
+     SET32(jaguarMainRAM, 0, vjs.DRAM_size);
+     m68k_pulse_reset();
+@@ -436,6 +448,7 @@
+     if (w <= 0 || w > FB_PITCH) w = FB_PITCH;
+     int h = vjs.hardwareTypeNTSC ? 240 : 256;
+ 
++    std::vector<uint32_t> frozenVideo;
+     for (int f = 0; f < frames; f++) {
+         if(f==haltGpuAt)vjs.GPUEnabled=false; // negative control, never a ROM feature
+         applyInput(script, f);
+@@ -443,6 +456,10 @@
+         extern void SDLSoundCallback(void*, Uint8*, int);
+         Uint8 pcm[3840];
+         SDLSoundCallback(nullptr,pcm,vjs.hardwareTypeNTSC ? 3200 : 3840);
++        // Fault injection affects observed video only, not native state.
++        if(f == freezeVideoAt) frozenVideo.assign(framebuffer, framebuffer+FB_PITCH*FB_HEIGHT);
++        if(!frozenVideo.empty()) std::copy(frozenVideo.begin(),frozenVideo.end(),framebuffer);
++        if(blankVideoAt >= 0 && f >= blankVideoAt) memset(framebuffer,0,sizeof(framebuffer));
+         FrameStats st = analyseFrame(f);
+         for(int i=0;i<(vjs.hardwareTypeNTSC?3200:3840);i++)if(pcm[i])st.audioNonzero++;
+         stats.push_back(st);
+@@ -517,6 +534,19 @@
+ 
+     // ---- verdict -----------------------------------------------------------
+     int rc = 0;
++    bool nativeSeen = false;
++    int badWorld = 0, stalled = 0;
++    uint32_t lastUpdate = 0;
++    for(const auto &s : stats) {
++        if(s.frame < 120) { if(s.game[0]==0x48455847) nativeSeen=true; continue; }
++        if(s.game[0] != 0x48455847) { rc=1; continue; }
++        badWorld = s.worldLit < 1500 ? badWorld+1 : 0;
++        stalled = s.game[1] == lastUpdate ? stalled+1 : 0;
++        lastUpdate = s.game[1];
++        if(badWorld > 45 || stalled > 90) rc=1;
++    }
++    if(!nativeSeen) rc=1;
++    if(rc) printf("vjrun: FAIL - native-entry/world/heartbeat watchdog\n");
+     if (firstLiveFrame < 0) {
+         printf("vjrun: FAIL - the emulated console never showed a picture (black screen)\n");
+         rc = 1;
+--- a/tests/gui_e2e.py
++++ b/tests/gui_e2e.py
+@@ -0,0 +1,165 @@
++#!/usr/bin/env python3
++"""Black-box end-to-end test of the STOCK Virtual Jaguar Qt/OpenGL executable.
++No emulator patch, RAM reads/writes, custom ROM loader, or deterministic DSP
++scheduler. Drives X11 keyboard events and captures actual displayed pixels.
++Run under xvfb-run (make test-gui). Separate clean config for every launch.
++"""
++from pathlib import Path
++import argparse, hashlib, json, os, shutil, signal, subprocess, tempfile, time
++import numpy as np
++from PIL import ImageGrab
++
++ROOT=Path(__file__).resolve().parents[1]
++
++class VisualFailure(AssertionError): pass
++
++def command(*args):
++    return subprocess.check_output(['xdotool',*map(str,args)],stderr=subprocess.DEVNULL,text=True,timeout=3).strip()
++
++def world(image):
++    # Image is the actual top-level VJ window. Exclude menus, status bar,
++    # HUD (bottom 40 console lines), and the upper sky. Never score desktop.
++    w,h=image.size
++    return np.asarray(image.convert('RGB'))[int(h*.50):int(h*.78),int(w*.22):int(w*.78)].copy()
++
++def metrics(pixels,previous=None):
++    rgb=pixels.astype(np.int16)
++    luma=(rgb[:,:,0]*30+rgb[:,:,1]*59+rgb[:,:,2]*11)/100
++    return {'lit_fraction':float((luma>8).mean()),
++            'contrast':float(luma.std()),
++            'colors':int(len(np.unique((pixels//16).reshape(-1,3),axis=0))),
++            'changed_fraction':None if previous is None else float((np.abs(rgb-previous.astype(np.int16)).max(axis=2)>8).mean())}
++
++def visible(m):
++    return m['lit_fraction']>.15 and m['contrast']>3 and m['colors']>=8
++
++def run_case(binary,rom,out,standard,boot,freeze=False):
++    out.mkdir(parents=True,exist_ok=True)
++    for old in out.glob('capture-*.png'):old.unlink()
++    samples=[]; p=None; win=None; previous=None; begin=time.monotonic()
++    result={'status':'FAIL','rom_sha256':hashlib.sha256(rom.read_bytes()).hexdigest(),'video':standard,'boot':boot,'samples':samples}
++    with tempfile.TemporaryDirectory(prefix='vj-home-') as home, (out/'emulator.log').open('w') as log:
++        env=dict(os.environ,HOME=home,XDG_CONFIG_HOME=home+'/config',XDG_DATA_HOME=home+'/data',SDL_AUDIODRIVER='dummy',LIBGL_ALWAYS_SOFTWARE='1')
++        argv=[binary,str(rom),'--'+standard,'--gpu','--dsp','--no-blur']
++        if boot!='default':argv.append('--'+boot)
++        result['command']=argv
++        try:
++            p=subprocess.Popen(argv,cwd=home,env=env,stdout=log,stderr=subprocess.STDOUT)
++            deadline=time.monotonic()+15
++            # A missing/non-mapped window cannot be mistaken for a working ROM.
++            while time.monotonic()<deadline:
++                if p.poll() is not None: raise VisualFailure('emulator exited before presenting video')
++                try:
++                    ids=command('search','--onlyvisible','--pid',p.pid).splitlines()
++                    for wid in ids:
++                        geo=dict(line.split('=',1) for line in command('getwindowgeometry','--shell',wid).splitlines())
++                        if int(geo['WIDTH'])>=300 and int(geo['HEIGHT'])>=250:
++                            win=wid;break
++                    if win:break
++                except subprocess.CalledProcessError:pass
++                time.sleep(.25)
++            if not win:
++                ImageGrab.grab().save(out/'failure-desktop.png')
++                raise VisualFailure('no game window by startup deadline')
++            command('windowfocus',win)
++            command('mousemove',0,0)
++            geo=dict(line.split('=',1) for line in command('getwindowgeometry','--shell',win).splitlines())
++            x,y,w,h=[int(geo[k]) for k in ('X','Y','WIDTH','HEIGHT')]
++            bbox=(x,y,x+w,y+h);result['window_bbox']=bbox
++            def capture(phase):
++                nonlocal previous
++                if p.poll() is not None:raise VisualFailure('emulator exited while running')
++                image=ImageGrab.grab(bbox=bbox)
++                pixels=world(image);m=metrics(pixels,previous);previous=pixels
++                m.update(seconds=round(time.monotonic()-begin,3),phase=phase)
++                samples.append(m)
++                # Keep regular visual evidence without bloating the source bundle.
++                if len(samples)%4==0 or len(samples)==1 or samples[-2]['phase']!=phase:
++                    image.save(out/f'capture-{len(samples):03d}.png')
++                image.save(out/'latest.png')
++                return m
++            # BIOS/logo/menu brightness alone is not sufficient: later checks
++            # require track-region animation in response to controller input.
++            while time.monotonic()<deadline:
++                if visible(capture('boot')):break
++                time.sleep(.5)
++            else:raise VisualFailure('world black or untextured at startup deadline')
++            def key(action,*keys):command(action,*keys)
++            def observe(phase,seconds,moving=False,paused=False):
++                end=time.monotonic()+seconds;dark_since=None;last_motion=time.monotonic();changed=0;stable=0
++                while time.monotonic()<end:
++                    time.sleep(.5);m=capture(phase);now=time.monotonic()
++                    if not visible(m):
++                        dark_since=dark_since or now
++                        if now-dark_since>=1.5:raise VisualFailure('world black/untextured for 1.5 seconds')
++                    else:dark_since=None
++                    if (m['changed_fraction'] or 0)>.02:
++                        changed+=1;last_motion=now
++                    else:stable+=1
++                    if moving and now-last_motion>3:raise VisualFailure('world frozen for 3 seconds during throttle')
++                if moving and changed<3:raise VisualFailure('insufficient world animation after controller input')
++                if paused and stable<3:raise VisualFailure('pause did not hold displayed world')
++            observe('idle',2)
++            key('keydown','l','j');time.sleep(.35);key('keyup','j') # Jaguar A + C, then held A
++            if freeze:
++                observe('moving-before-freeze',4,moving=True)
++                os.kill(p.pid,signal.SIGSTOP)
++                observe('injected-process-freeze',5,moving=True)
++                raise AssertionError('fault injection was not detected')
++            observe('throttle-autopilot',8,moving=True)
++            key('keydown','p');time.sleep(.25);key('keyup','p')
++            observe('pause',3,paused=True)
++            key('keydown','p');time.sleep(.25);key('keyup','p')
++            observe('resume',4,moving=True)
++            key('keyup','l');key('keydown','o');time.sleep(.3);key('keyup','o')
++            observe('restart-ready',2)
++            key('keydown','l','j');time.sleep(.3);key('keyup','j')
++            observe('restart-moving',4,moving=True)
++            key('keyup','l')
++            result['status']='PASS'
++        except VisualFailure as e:
++            result['error']=str(e)
++        finally:
++            if p and p.poll() is None:
++                if freeze:os.kill(p.pid,signal.SIGCONT)
++                p.terminate()
++                try:p.wait(timeout=2)
++                except subprocess.TimeoutExpired:p.kill();p.wait()
++            result['elapsed_seconds']=round(time.monotonic()-begin,2)
++            (out/'result.json').write_text(json.dumps(result,indent=2)+'\n')
++    print(out.name,result['status'],result.get('error',''),flush=True)
++    return result
++
++def main():
++    ap=argparse.ArgumentParser();ap.add_argument('--rom',type=Path,default=ROOT/'rom/hexgl.j64');ap.add_argument('--binary',default='virtualjaguar');ap.add_argument('--out',type=Path,default=ROOT/'test-results/gui');ap.add_argument('--case',choices=['default-ntsc','no-bios-ntsc','bios-ntsc','no-bios-pal','bios-pal']);a=ap.parse_args()
++    if not os.environ.get('DISPLAY'):raise SystemExit('Run through xvfb-run -a -s "-screen 0 1024x768x24"')
++    binary=shutil.which(a.binary)
++    if not binary:raise SystemExit('Install the stock virtualjaguar executable')
++    rom=a.rom.resolve();out=a.out.resolve();out.mkdir(parents=True,exist_ok=True)
++    summary={'status':'FAIL','rom_sha256':hashlib.sha256(rom.read_bytes()).hexdigest(),'emulator_binary_sha256':hashlib.sha256(Path(binary).read_bytes()).hexdigest(),'emulator_version':subprocess.check_output([binary,'--help'],text=True).splitlines()[0],'cases':{}}
++    try:
++        cases=[('ntsc','default'),('ntsc','no-bios'),('ntsc','bios'),('pal','no-bios'),('pal','bios')]
++        for standard,boot in cases:
++            name=boot+'-'+standard
++            if a.case and name!=a.case:continue
++            r=run_case(binary,rom,out/name,standard,boot)
++            summary['cases'][name]={k:v for k,v in r.items() if k!='samples'}
++            if r['status']!='PASS':raise VisualFailure(name+': '+r.get('error','failed'))
++        if not a.case:
++            # Recreate ONLY the old broken direct-entry vector. The encrypted
++            # retail loader and game payload remain identical to this build.
++            bad=bytearray(rom.read_bytes());bad[0x404:0x408]=(0x802000).to_bytes(4,'big')
++            with tempfile.TemporaryDirectory(prefix='vj-negative-') as temp:
++                badrom=Path(temp)/'broken-entry.j64';badrom.write_bytes(bad)
++                r=run_case(binary,badrom,out/'negative-old-entry','ntsc','no-bios')
++            assert r['status']=='FAIL' and r.get('error') in ('no game window by startup deadline','world black or untextured at startup deadline'),'old startup defect escaped detection'
++            summary['cases']['negative-old-entry']={'status':'EXPECTED_FAILURE','detected':r['error']}
++            r=run_case(binary,rom,out/'negative-frozen-window','ntsc','no-bios',freeze=True)
++            assert r['status']=='FAIL' and 'world frozen' in r.get('error',''),'frozen-window detector failed'
++            summary['cases']['negative-frozen-window']={'status':'EXPECTED_FAILURE','detected':r['error']}
++        summary['status']='PASS_SINGLE' if a.case else 'PASS'
++    except Exception as e:
++        summary['error']=str(e);raise
++    finally:(out/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
++    print(json.dumps(summary,indent=2))
++if __name__=='__main__':main()
+--- a/tests/test_watchdogs.py
++++ b/tests/test_watchdogs.py
+@@ -0,0 +1,50 @@
++"""Unit tests of the visual assertions. Synthetic traces are unit fixtures only;
++positive end-to-end evidence always comes from a fresh emulator execution.
++"""
++import copy, unittest
++import numpy as np
++from e2e import common, MAGIC
++from gui_e2e import metrics, visible
++
++
++def healthy():
++    fields=[]
++    for f in range(400):
++        game=[0]*20;game[0]=MAGIC;game[1]=f//3;game[2]=1;game[8]=50
++        fields.append(dict(f=f,game=game,world_lit=9000,world_changed=250,audio_samples=f*133,audio_nonzero=400))
++    return dict(fields=fields,worst_black_streak=0)
++
++class CoreWatchdog(unittest.TestCase):
++    def test_healthy(self):common(healthy())
++    def test_black_tail_including_last_field(self):
++        r=healthy();r['fields'][-1]['world_lit']=0
++        with self.assertRaisesRegex(AssertionError,'World viewport black'):common(r)
++    def test_hud_only_cannot_pass(self):
++        r=healthy()
++        for f in r['fields'][150:]:f['world_lit']=0
++        with self.assertRaisesRegex(AssertionError,'World viewport black'):common(r)
++    def test_running_telemetry_cannot_hide_frozen_video(self):
++        r=healthy()
++        for f in r['fields'][150:]:f['world_changed']=0
++        with self.assertRaisesRegex(AssertionError,'World framebuffer frozen'):common(r)
++    def test_animated_video_cannot_hide_dead_heartbeat(self):
++        r=healthy()
++        for f in r['fields'][150:]:f['game'][1]=25
++        with self.assertRaisesRegex(AssertionError,'heartbeat stalled'):common(r)
++    def test_pause_is_allowed_to_be_static(self):
++        r=healthy()
++        for f in r['fields'][150:]:f['game'][13]=1;f['world_changed']=0
++        common(r)
++    def test_boot_logo_not_native_game(self):
++        r=healthy()
++        for f in r['fields']:f['game'][0]=0
++        with self.assertRaisesRegex(AssertionError,'native gameplay'):common(r)
++
++class DesktopWatchdog(unittest.TestCase):
++    def test_black_rejected(self):self.assertFalse(visible(metrics(np.zeros((80,160,3),dtype=np.uint8))))
++    def test_bright_solid_color_rejected(self):self.assertFalse(visible(metrics(np.full((80,160,3),180,dtype=np.uint8))))
++    def test_identical_frames_have_zero_motion(self):
++        pixels=np.random.default_rng(42).integers(0,255,(80,160,3),dtype=np.uint8)
++        self.assertEqual(metrics(pixels,pixels)['changed_fraction'],0)
++
++if __name__=='__main__':unittest.main()
+--- a/tools/bundle.py
++++ b/tools/bundle.py
+@@ -7,7 +7,9 @@
+ summary=json.loads((R/'test-results/summary.json').read_text())
+ romsha=hashlib.sha256((R/'rom/hexgl.j64').read_bytes()).hexdigest()
+ assert summary['status']=='PASS' and summary['rom_sha256']==romsha
+-skipdirs={'.git','__pycache__','.venv','node_modules','obj'}
++gui=json.loads((R/'test-results/gui/summary.json').read_text())
++assert gui['status']=='PASS' and gui['rom_sha256']==romsha,'Stock GUI regression gate has not passed for this ROM'
++skipdirs={'.git','__pycache__','.venv','node_modules','obj','.cache'}
+ with zipfile.ZipFile(path,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=6) as z:
+     for p in sorted(R.rglob('*')):
+         if not p.is_file():continue
+--- a/.github/workflows/virtual-jaguar.yml
++++ b/.github/workflows/virtual-jaguar.yml
+@@ -0,0 +1,37 @@
++name: ROM and Virtual Jaguar regression gate
++on: [push, pull_request, workflow_dispatch]
++jobs:
++  cartridge-e2e:
++    runs-on: ubuntu-24.04
++    timeout-minutes: 45
++    steps:
++      - uses: actions/checkout@v4
++      - uses: actions/setup-python@v5
++        with:
++          python-version: '3.13'
++      - name: Install build and desktop-test dependencies
++        run: |
++          sudo apt-get update
++          sudo apt-get install -y build-essential pkg-config libsdl2-dev qtbase5-dev zlib1g-dev binutils-m68k-linux-gnu virtualjaguar xvfb xauth xdotool libgl1-mesa-dri
++          python -m pip install -r requirements.txt
++      - name: Build ROM and run all fresh tests
++        run: make test
++      - name: Preserve logs, metrics and actual screenshots even on failure
++        if: always()
++        uses: actions/upload-artifact@v4
++        with:
++          name: virtual-jaguar-evidence
++          path: |
++            hexgl-jaguar/test-results/
++            test-results/
++            rom/verification.json
++      - name: Package only the verified ROM
++        run: |
++          python tools/black_screen_report.py
++          python tools/bundle.py
++      - uses: actions/upload-artifact@v4
++        with:
++          name: verified-rom-and-source
++          path: |
++            rom/hexgl.j64
++            ../HexGL-Jaguar-source-and-ROM.zip

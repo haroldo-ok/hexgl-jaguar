@@ -1,0 +1,42 @@
+[
+  {
+    "name": "bg",
+    "bytes": 759329,
+    "rom_address": "0xb00000",
+    "sample_rate": 7990,
+    "format": "signed PCM8 mono",
+    "truncated": false
+  },
+  {
+    "name": "wind",
+    "bytes": 196138,
+    "rom_address": "0xbb9621",
+    "sample_rate": 7990,
+    "format": "signed PCM8 mono",
+    "truncated": false
+  },
+  {
+    "name": "boost",
+    "bytes": 12721,
+    "rom_address": "0xbe944b",
+    "sample_rate": 7990,
+    "format": "signed PCM8 mono",
+    "truncated": false
+  },
+  {
+    "name": "crash",
+    "bytes": 3954,
+    "rom_address": "0xbec5fc",
+    "sample_rate": 7990,
+    "format": "signed PCM8 mono",
+    "truncated": false
+  },
+  {
+    "name": "destroyed",
+    "bytes": 69677,
+    "rom_address": "0xbed56e",
+    "sample_rate": 7990,
+    "format": "signed PCM8 mono",
+    "truncated": false
+  }
+]

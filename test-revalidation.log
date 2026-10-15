@@ -1,0 +1,94 @@
+Revalidating existing emulator trace: manual-ntsc
+Revalidating existing emulator trace: race-ntsc
+Revalidating existing emulator trace: manual-pal
+Revalidating existing emulator trace: race-pal
+negative-frozen-gpu exit 0 fields 750 elapsed 8.4 s
+{
+  "rom_sha256": "935f4d18e90da997d52329fa063dfe7ca485d3926ab4b6f78ed5836bb1fffe76",
+  "emulator": "Virtual Jaguar Rx 2.1.3 headless core harness",
+  "cases": {
+    "manual-ntsc": {
+      "checks": [
+        "BIOS boot",
+        "native entry",
+        "nonblack world",
+        "GPU heartbeat",
+        "DSP sample clock",
+        "audible PCM",
+        "throttle",
+        "steering",
+        "pause/resume",
+        "collision damage",
+        "destruction",
+        "restart"
+      ],
+      "fields": 1200,
+      "updates": 64,
+      "audio_samples": 157937
+    },
+    "race-ntsc": {
+      "checks": [
+        "BIOS boot",
+        "native entry",
+        "nonblack world",
+        "GPU heartbeat",
+        "DSP sample clock",
+        "audible PCM",
+        "continuous world animation",
+        "all checkpoints",
+        "boost pads",
+        "three laps",
+        "finish"
+      ],
+      "fields": 12393,
+      "updates": 3892,
+      "race_ticks": 12294,
+      "audio_samples": 1648482
+    },
+    "manual-pal": {
+      "checks": [
+        "BIOS boot",
+        "native entry",
+        "nonblack world",
+        "GPU heartbeat",
+        "DSP sample clock",
+        "audible PCM",
+        "throttle",
+        "steering",
+        "pause/resume",
+        "collision damage",
+        "destruction",
+        "restart"
+      ],
+      "fields": 1200,
+      "updates": 65,
+      "audio_samples": 189866
+    },
+    "race-pal": {
+      "checks": [
+        "BIOS boot",
+        "native entry",
+        "nonblack world",
+        "GPU heartbeat",
+        "DSP sample clock",
+        "audible PCM",
+        "continuous world animation",
+        "all checkpoints",
+        "boost pads",
+        "three laps",
+        "finish"
+      ],
+      "fields": 10813,
+      "updates": 3893,
+      "race_ticks": 10713,
+      "audio_samples": 1726207
+    },
+    "negative-frozen-gpu": {
+      "expected_failure_detected": "World viewport black at 330",
+      "native_heartbeat_stopped": true,
+      "black_world_fields": 300
+    }
+  },
+  "status": "PASS",
+  "execution_note": "Positive emulator traces revalidated unchanged; negative control rerun after correcting expected-failure classification."
+}

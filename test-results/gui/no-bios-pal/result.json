@@ -1,0 +1,352 @@
+{
+  "status": "PASS",
+  "rom_sha256": "4c8a579bd4676e5a7d6a1fb415aaa547ad13cfa459a452f779334654b5de0911",
+  "video": "pal",
+  "boot": "no-bios",
+  "samples": [
+    {
+      "lit_fraction": 0.0,
+      "contrast": 0.0,
+      "colors": 1,
+      "changed_fraction": null,
+      "seconds": 0.391,
+      "phase": "boot"
+    },
+    {
+      "lit_fraction": 0.9442812345271497,
+      "contrast": 45.50442253058136,
+      "colors": 249,
+      "changed_fraction": 0.9442812345271497,
+      "seconds": 1.016,
+      "phase": "boot"
+    },
+    {
+      "lit_fraction": 0.9442812345271497,
+      "contrast": 45.50442253058136,
+      "colors": 249,
+      "changed_fraction": 0.0,
+      "seconds": 1.615,
+      "phase": "idle"
+    },
+    {
+      "lit_fraction": 0.9442812345271497,
+      "contrast": 45.50442253058136,
+      "colors": 249,
+      "changed_fraction": 0.0,
+      "seconds": 2.298,
+      "phase": "idle"
+    },
+    {
+      "lit_fraction": 0.9442812345271497,
+      "contrast": 45.50442253058136,
+      "colors": 249,
+      "changed_fraction": 0.0,
+      "seconds": 2.98,
+      "phase": "idle"
+    },
+    {
+      "lit_fraction": 0.9442812345271497,
+      "contrast": 45.50442253058136,
+      "colors": 249,
+      "changed_fraction": 0.0,
+      "seconds": 3.599,
+      "phase": "idle"
+    },
+    {
+      "lit_fraction": 0.9441987126588546,
+      "contrast": 47.78022154726829,
+      "colors": 261,
+      "changed_fraction": 0.8307311437530945,
+      "seconds": 4.603,
+      "phase": "throttle-autopilot"
+    },
+    {
+      "lit_fraction": 0.9440336689222644,
+      "contrast": 43.654823915934365,
+      "colors": 258,
+      "changed_fraction": 0.7839247400561149,
+      "seconds": 5.202,
+      "phase": "throttle-autopilot"
+    },
+    {
+      "lit_fraction": 0.9437861033173791,
+      "contrast": 48.226728458546596,
+      "colors": 266,
+      "changed_fraction": 0.8575507509490015,
+      "seconds": 5.853,
+      "phase": "throttle-autopilot"
+    },
+    {
+      "lit_fraction": 0.94461132200033,
+      "contrast": 48.765175563620474,
+      "colors": 266,
+      "changed_fraction": 0.9051988777025912,
+      "seconds": 6.513,
+      "phase": "throttle-autopilot"
+    },
+    {
+      "lit_fraction": 0.9451229575837597,
+      "contrast": 45.89501717133563,
+      "colors": 235,
+      "changed_fraction": 0.9081531605875557,
+      "seconds": 7.166,
+      "phase": "throttle-autopilot"
+    },
+    {
+      "lit_fraction": 0.9451229575837597,
+      "contrast": 47.75405803367329,
+      "colors": 217,
+      "changed_fraction": 0.8606040600759202,
+      "seconds": 7.833,
+      "phase": "throttle-autopilot"
+    },
+    {
+      "lit_fraction": 0.9451229575837597,
+      "contrast": 46.580933643588644,
+      "colors": 132,
+      "changed_fraction": 0.8673048357814821,
+      "seconds": 8.541,
+      "phase": "throttle-autopilot"
+    },
+    {
+      "lit_fraction": 0.9451229575837597,
+      "contrast": 45.53148715203046,
+      "colors": 204,
+      "changed_fraction": 0.8199042746327777,
+      "seconds": 9.197,
+      "phase": "throttle-autopilot"
+    },
+    {
+      "lit_fraction": 0.9451229575837597,
+      "contrast": 47.006449001198845,
+      "colors": 210,
+      "changed_fraction": 0.8566925235187325,
+      "seconds": 9.803,
+      "phase": "throttle-autopilot"
+    },
+    {
+      "lit_fraction": 0.9447598613632613,
+      "contrast": 49.240789438836735,
+      "colors": 288,
+      "changed_fraction": 0.9038455190625516,
+      "seconds": 10.426,
+      "phase": "throttle-autopilot"
+    },
+    {
+      "lit_fraction": 0.9446608351213072,
+      "contrast": 51.57892638717214,
+      "colors": 297,
+      "changed_fraction": 0.9031358309952138,
+      "seconds": 11.09,
+      "phase": "throttle-autopilot"
+    },
+    {
+      "lit_fraction": 0.9438686251856742,
+      "contrast": 52.07521243002145,
+      "colors": 305,
+      "changed_fraction": 0.9173956098366067,
+      "seconds": 11.741,
+      "phase": "throttle-autopilot"
+    },
+    {
+      "lit_fraction": 0.9429113715134511,
+      "contrast": 47.03084139515258,
+      "colors": 310,
+      "changed_fraction": 0.8969796996203994,
+      "seconds": 12.344,
+      "phase": "throttle-autopilot"
+    },
+    {
+      "lit_fraction": 0.9410298729163228,
+      "contrast": 49.36659182469462,
+      "colors": 300,
+      "changed_fraction": 0.8381746162733125,
+      "seconds": 13.266,
+      "phase": "pause"
+    },
+    {
+      "lit_fraction": 0.9410298729163228,
+      "contrast": 49.36659182469462,
+      "colors": 300,
+      "changed_fraction": 0.0,
+      "seconds": 13.988,
+      "phase": "pause"
+    },
+    {
+      "lit_fraction": 0.9410298729163228,
+      "contrast": 49.36659182469462,
+      "colors": 300,
+      "changed_fraction": 0.0,
+      "seconds": 14.649,
+      "phase": "pause"
+    },
+    {
+      "lit_fraction": 0.9410298729163228,
+      "contrast": 49.36659182469462,
+      "colors": 300,
+      "changed_fraction": 0.0,
+      "seconds": 15.27,
+      "phase": "pause"
+    },
+    {
+      "lit_fraction": 0.9410298729163228,
+      "contrast": 49.36659182469462,
+      "colors": 300,
+      "changed_fraction": 0.0,
+      "seconds": 15.898,
+      "phase": "pause"
+    },
+    {
+      "lit_fraction": 0.9427298234032019,
+      "contrast": 48.943097990742594,
+      "colors": 272,
+      "changed_fraction": 0.876448258788579,
+      "seconds": 16.876,
+      "phase": "resume"
+    },
+    {
+      "lit_fraction": 0.9431589371183363,
+      "contrast": 45.76976395146146,
+      "colors": 253,
+      "changed_fraction": 0.8892886614952963,
+      "seconds": 17.532,
+      "phase": "resume"
+    },
+    {
+      "lit_fraction": 0.9434725202178578,
+      "contrast": 47.55320824342469,
+      "colors": 256,
+      "changed_fraction": 0.7041425977884139,
+      "seconds": 18.207,
+      "phase": "resume"
+    },
+    {
+      "lit_fraction": 0.9451229575837597,
+      "contrast": 43.40752315070955,
+      "colors": 214,
+      "changed_fraction": 0.8939428948671397,
+      "seconds": 18.871,
+      "phase": "resume"
+    },
+    {
+      "lit_fraction": 0.9444627826373989,
+      "contrast": 47.917089344317546,
+      "colors": 293,
+      "changed_fraction": 0.9079386037299885,
+      "seconds": 19.552,
+      "phase": "resume"
+    },
+    {
+      "lit_fraction": 0.944495791384717,
+      "contrast": 45.76650591280617,
+      "colors": 188,
+      "changed_fraction": 0.8522693513781152,
+      "seconds": 20.196,
+      "phase": "resume"
+    },
+    {
+      "lit_fraction": 0.9442812345271497,
+      "contrast": 45.50442253058136,
+      "colors": 249,
+      "changed_fraction": 0.8929691368212577,
+      "seconds": 21.233,
+      "phase": "restart-ready"
+    },
+    {
+      "lit_fraction": 0.9442812345271497,
+      "contrast": 45.50442253058136,
+      "colors": 249,
+      "changed_fraction": 0.0,
+      "seconds": 21.873,
+      "phase": "restart-ready"
+    },
+    {
+      "lit_fraction": 0.9442812345271497,
+      "contrast": 45.50442253058136,
+      "colors": 249,
+      "changed_fraction": 0.0,
+      "seconds": 22.492,
+      "phase": "restart-ready"
+    },
+    {
+      "lit_fraction": 0.9442812345271497,
+      "contrast": 45.50442253058136,
+      "colors": 249,
+      "changed_fraction": 0.0,
+      "seconds": 23.108,
+      "phase": "restart-ready"
+    },
+    {
+      "lit_fraction": 0.9440996864169005,
+      "contrast": 44.279136716625274,
+      "colors": 252,
+      "changed_fraction": 0.7355669252351873,
+      "seconds": 24.061,
+      "phase": "restart-moving"
+    },
+    {
+      "lit_fraction": 0.9431424327446774,
+      "contrast": 42.37757855782648,
+      "colors": 249,
+      "changed_fraction": 0.7574352203333884,
+      "seconds": 24.707,
+      "phase": "restart-moving"
+    },
+    {
+      "lit_fraction": 0.9437861033173791,
+      "contrast": 48.226728458546596,
+      "colors": 266,
+      "changed_fraction": 0.8397755405182373,
+      "seconds": 25.419,
+      "phase": "restart-moving"
+    },
+    {
+      "lit_fraction": 0.9444627826373989,
+      "contrast": 49.18987355321351,
+      "colors": 277,
+      "changed_fraction": 0.8901303845519063,
+      "seconds": 26.084,
+      "phase": "restart-moving"
+    },
+    {
+      "lit_fraction": 0.9449414094735105,
+      "contrast": 49.98635630927703,
+      "colors": 221,
+      "changed_fraction": 0.9012873411454035,
+      "seconds": 26.717,
+      "phase": "restart-moving"
+    },
+    {
+      "lit_fraction": 0.9448258788578974,
+      "contrast": 52.02648887037246,
+      "colors": 209,
+      "changed_fraction": 0.6928866149529626,
+      "seconds": 27.382,
+      "phase": "restart-moving"
+    },
+    {
+      "lit_fraction": 0.9451229575837597,
+      "contrast": 44.88118055202462,
+      "colors": 135,
+      "changed_fraction": 0.8807724046872422,
+      "seconds": 28.07,
+      "phase": "restart-moving"
+    }
+  ],
+  "command": [
+    "/usr/bin/virtualjaguar",
+    "/home/user/hexgl-jaguar/rom/hexgl.j64",
+    "--pal",
+    "--gpu",
+    "--dsp",
+    "--no-blur",
+    "--no-bios"
+  ],
+  "window_bbox": [
+    200,
+    200,
+    852,
+    793
+  ],
+  "elapsed_seconds": 30.16
+}

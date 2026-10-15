@@ -1,0 +1,132 @@
+default-ntsc PASS 
+no-bios-ntsc PASS 
+bios-ntsc PASS 
+no-bios-pal PASS 
+bios-pal PASS 
+negative-old-entry FAIL world black or untextured at startup deadline
+negative-frozen-window FAIL world frozen for 3 seconds during throttle
+{
+  "status": "PASS",
+  "rom_sha256": "4c8a579bd4676e5a7d6a1fb415aaa547ad13cfa459a452f779334654b5de0911",
+  "emulator_binary_sha256": "9ce9b17eaf33382e3aafce8841f3dc44c5547a140733baf8499254ad21488f86",
+  "emulator_version": "Virtual Jaguar v2.1.3 (Final)",
+  "cases": {
+    "default-ntsc": {
+      "status": "PASS",
+      "rom_sha256": "4c8a579bd4676e5a7d6a1fb415aaa547ad13cfa459a452f779334654b5de0911",
+      "video": "ntsc",
+      "boot": "default",
+      "command": [
+        "/usr/bin/virtualjaguar",
+        "/home/user/hexgl-jaguar/rom/hexgl.j64",
+        "--ntsc",
+        "--gpu",
+        "--dsp",
+        "--no-blur"
+      ],
+      "window_bbox": [
+        200,
+        200,
+        852,
+        761
+      ],
+      "elapsed_seconds": 30.53
+    },
+    "no-bios-ntsc": {
+      "status": "PASS",
+      "rom_sha256": "4c8a579bd4676e5a7d6a1fb415aaa547ad13cfa459a452f779334654b5de0911",
+      "video": "ntsc",
+      "boot": "no-bios",
+      "command": [
+        "/usr/bin/virtualjaguar",
+        "/home/user/hexgl-jaguar/rom/hexgl.j64",
+        "--ntsc",
+        "--gpu",
+        "--dsp",
+        "--no-blur",
+        "--no-bios"
+      ],
+      "window_bbox": [
+        200,
+        200,
+        852,
+        761
+      ],
+      "elapsed_seconds": 30.33
+    },
+    "bios-ntsc": {
+      "status": "PASS",
+      "rom_sha256": "4c8a579bd4676e5a7d6a1fb415aaa547ad13cfa459a452f779334654b5de0911",
+      "video": "ntsc",
+      "boot": "bios",
+      "command": [
+        "/usr/bin/virtualjaguar",
+        "/home/user/hexgl-jaguar/rom/hexgl.j64",
+        "--ntsc",
+        "--gpu",
+        "--dsp",
+        "--no-blur",
+        "--bios"
+      ],
+      "window_bbox": [
+        200,
+        200,
+        852,
+        761
+      ],
+      "elapsed_seconds": 30.02
+    },
+    "no-bios-pal": {
+      "status": "PASS",
+      "rom_sha256": "4c8a579bd4676e5a7d6a1fb415aaa547ad13cfa459a452f779334654b5de0911",
+      "video": "pal",
+      "boot": "no-bios",
+      "command": [
+        "/usr/bin/virtualjaguar",
+        "/home/user/hexgl-jaguar/rom/hexgl.j64",
+        "--pal",
+        "--gpu",
+        "--dsp",
+        "--no-blur",
+        "--no-bios"
+      ],
+      "window_bbox": [
+        200,
+        200,
+        852,
+        793
+      ],
+      "elapsed_seconds": 30.16
+    },
+    "bios-pal": {
+      "status": "PASS",
+      "rom_sha256": "4c8a579bd4676e5a7d6a1fb415aaa547ad13cfa459a452f779334654b5de0911",
+      "video": "pal",
+      "boot": "bios",
+      "command": [
+        "/usr/bin/virtualjaguar",
+        "/home/user/hexgl-jaguar/rom/hexgl.j64",
+        "--pal",
+        "--gpu",
+        "--dsp",
+        "--no-blur",
+        "--bios"
+      ],
+      "window_bbox": [
+        200,
+        200,
+        852,
+        793
+      ],
+      "elapsed_seconds": 29.82
+    },
+    "negative-old-entry": {
+      "status": "EXPECTED_FAILURE",
+      "detected": "world black or untextured at startup deadline"
+    },
+    "negative-frozen-window": {
+      "status": "EXPECTED_FAILURE",
+      "detected": "world frozen for 3 seconds during throttle"
+    }
+  }
+}

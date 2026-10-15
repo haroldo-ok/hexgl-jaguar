@@ -1,0 +1,47 @@
+diff --git a/src/dac.cpp b/src/dac.cpp
+index f082954..d89de06 100644
+--- a/src/dac.cpp
++++ b/src/dac.cpp
+@@ -75,6 +75,10 @@
+ 
+ // Local variables
+ 
++// [hexgl-jaguar test harness]
++uint32_t dacWriteCount = 0;
++
++
+ static SDL_AudioSpec desired;
+ static bool SDLSoundInitialized;
+ //static uint8_t SCLKFrequencyDivider = 19;			// Default is roughly 22 KHz (20774 Hz in NTSC mode)
+@@ -266,6 +270,8 @@ int GetCalculatedFrequency(void)
+ //
+ void DACWriteByte(uint32_t offset, uint8_t data, uint32_t who/*= UNKNOWN*/)
+ {
++	dacWriteCount++;	// [hexgl-jaguar test harness]
++
+ 	WriteLog("DAC: %s writing BYTE %02X at %08X\n", whoName[who], data, offset);
+ 	if (offset == SCLK + 3)
+ 		DACWriteWord(offset - 3, (uint16_t)data);
+@@ -274,6 +280,8 @@ void DACWriteByte(uint32_t offset, uint8_t data, uint32_t who/*= UNKNOWN*/)
+ 
+ void DACWriteWord(uint32_t offset, uint16_t data, uint32_t who/*= UNKNOWN*/)
+ {
++	dacWriteCount++;	// [hexgl-jaguar test harness]
++
+ 	if (offset == LTXD + 2)
+ 	{
+ 		ltxd = data;
+diff --git a/src/dac.h b/src/dac.h
+index 52a9324..e712308 100644
+--- a/src/dac.h
++++ b/src/dac.h
+@@ -7,6 +7,9 @@
+ 
+ #include "memory.h"
+ 
++// [hexgl-jaguar test harness] number of DAC writes since reset
++extern uint32_t dacWriteCount;
++
+ void DACInit(void);
+ void DACReset(void);
+ void DACPauseAudioThread(bool state = true);

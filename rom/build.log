@@ -1,0 +1,36 @@
+make -C vendor/lyxass
+make[1]: Entering directory '/home/user/hexgl-jaguar/vendor/lyxass'
+make[1]: Nothing to be done for 'all'.
+make[1]: Leaving directory '/home/user/hexgl-jaguar/vendor/lyxass'
+python3 tools/prepare_engine.py
+cd src && /home/user/hexgl-jaguar/vendor/lyxass/lyxass -d -o audio.bin audio.js
+cd src && /home/user/hexgl-jaguar/vendor/lyxass/lyxass -sh hexgl.js
+3D objsize: 52
+TxtScreen: $1ff870
+screen1:   $1b4800
+screen0:   $1b4808
+memory end: $14acc8
+stacktop $f03ffc
+RSPC: $968
+Size (engine): $b50
+ENDE (engine): $f03be0
+drawHex:$3704 104 _0 $374c
+ENDE : $999e0
+m68k-linux-gnu-as -m68000 src/cart_boot.S -o src/cart_boot.o
+m68k-linux-gnu-ld -Ttext=0x900000 --oformat=binary src/cart_boot.o -o src/cart_boot.bin
+python3 tools/package_rom.py
+/home/user/hexgl-jaguar/rom/hexgl.j64 6291456 bytes 4c8a579bd4676e5a7d6a1fb415aaa547ad13cfa459a452f779334654b5de0911
+python3 tools/verify.py
+{
+  "rom_bytes": 6291456,
+  "sha256": "4c8a579bd4676e5a7d6a1fb415aaa547ad13cfa459a452f779334654b5de0911",
+  "load_address": "0x2000",
+  "loaded_bytes": 621024,
+  "loaded_end": "0x999e0",
+  "scratch_start": "0x110000",
+  "triangle_arena_end": "0x14acc8",
+  "framebuffer_start": "0x1b4800",
+  "runtime_triangles": 12206,
+  "runtime_objects": 289,
+  "status": "PASS"
+}

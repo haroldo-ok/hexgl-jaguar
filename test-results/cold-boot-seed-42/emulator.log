@@ -1,0 +1,9 @@
+vjrun: Virtual Jaguar core v2.1.3 (built Oct 15 2026 16:06:08)
+vjrun: rom='/home/user/hexgl-jaguar/rom/hexgl.j64' fields=600 video=NTSC
+vjrun: rom size = 6291456 bytes
+vjrun: wrote /home/user/hexgl-jaguar/test-results/cold-boot-seed-42/frame_00080.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/cold-boot-seed-42/frame_00175.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/cold-boot-seed-42/frame_00350.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/cold-boot-seed-42/final.png
+vjrun: report = /home/user/hexgl-jaguar/test-results/cold-boot-seed-42/run_report.json
+vjrun: PASS - first live field 26, 138/600 fields animated, worst black streak 26

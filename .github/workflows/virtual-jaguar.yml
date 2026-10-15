@@ -1,0 +1,37 @@
+name: ROM and Virtual Jaguar regression gate
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  cartridge-e2e:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install build and desktop-test dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential pkg-config libsdl2-dev qtbase5-dev zlib1g-dev binutils-m68k-linux-gnu virtualjaguar xvfb xauth xdotool libgl1-mesa-dri
+          python -m pip install -r requirements.txt
+      - name: Build ROM and run all fresh tests
+        run: make test
+      - name: Preserve logs, metrics and actual screenshots even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: virtual-jaguar-evidence
+          path: |
+            hexgl-jaguar/test-results/
+            test-results/
+            rom/verification.json
+      - name: Package only the verified ROM
+        run: |
+          python tools/black_screen_report.py
+          python tools/bundle.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: verified-rom-and-source
+          path: |
+            rom/hexgl.j64
+            ../HexGL-Jaguar-source-and-ROM.zip

@@ -1,0 +1,7 @@
+{
+  "HexGL": {"url":"https://github.com/BKcore/HexGL.git","commit":"6addc95a2fce3bf05f4d751823cc054c61a16d68"},
+  "jag_3d_engine": {"url":"https://github.com/42Bastian/jag_3d_engine.git","commit":"f8bc66bf27346f73ec91719b62932b9ceef37d50"},
+  "lyxass": {"url":"https://github.com/42Bastian/lyxass.git","commit":"7bc8ad1daf4c8301a67223a9312d2d45418365d3"},
+  "new_bjl": {"url":"https://github.com/42Bastian/new_bjl.git","commit":"443e37c57ae779a22c33857a11fae9750646da4e"},
+  "virtualjaguar": {"url":"https://github.com/djipi/Virtual-Jaguar-Rx.git","commit":"d027df4d08fe48a6debd4b6861a7ff736f9f9223","patch":"tests/vjrunner/instrument_vj.py: DAC write counter only"}
+}

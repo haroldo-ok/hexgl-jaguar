@@ -1,0 +1,21 @@
+{
+  "args": [
+    "/home/user/hexgl-jaguar/tests/vjrunner/vjrun",
+    "--frames",
+    "750",
+    "--ntsc",
+    "--out",
+    "/home/user/hexgl-jaguar/test-results/negative-black-video",
+    "--input",
+    "100:a+c,120:a",
+    "--quiet",
+    "--dump-at",
+    "80,175,350,600,1200,2400,3600,4800,6000,8000,10000,12000",
+    "--title",
+    "run",
+    "--blank-video-at",
+    "400",
+    "/home/user/hexgl-jaguar/rom/hexgl.j64"
+  ],
+  "rom_sha256": "4c8a579bd4676e5a7d6a1fb415aaa547ad13cfa459a452f779334654b5de0911"
+}

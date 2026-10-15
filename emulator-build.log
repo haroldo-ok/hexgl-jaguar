@@ -1,0 +1,15 @@
+python3 tests/vjrunner/instrument_vj.py "/home/user/hexgl-jaguar/vendor/virtualjaguar"
+instrument_vj: already patched (dac.h), already patched (dac.cpp)
+make -C "/home/user/hexgl-jaguar/vendor/virtualjaguar" -f jaguarcore.mak SDL_CFLAGS="$(pkg-config --cflags sdl2)" QT_CFLAGS="-fPIC $(pkg-config --cflags Qt5Widgets)" CXXFLAGS="-O2 -w -std=c++11"
+make[1]: Entering directory '/home/user/hexgl-jaguar/vendor/virtualjaguar'
+-e [01;33m***[00;32m Compiling src/blitter.cpp...[00m
+Done!
+make[1]: Leaving directory '/home/user/hexgl-jaguar/vendor/virtualjaguar'
+make -C "/home/user/hexgl-jaguar/vendor/virtualjaguar/src/m68000" CROSS= CFLAGS="-O2 -std=gnu89 -w -fomit-frame-pointer" INCS="-I. -I./obj"
+make[1]: Entering directory '/home/user/hexgl-jaguar/vendor/virtualjaguar/src/m68000'
+Done!
+make[1]: Leaving directory '/home/user/hexgl-jaguar/vendor/virtualjaguar/src/m68000'
+make -C tests/vjrunner VJ="/home/user/hexgl-jaguar/vendor/virtualjaguar"
+make[1]: Entering directory '/home/user/hexgl-jaguar/tests/vjrunner'
+g++ -O2 -g -fPIC -std=c++11 -D__GCCUNIX__ -I/home/user/hexgl-jaguar/vendor/virtualjaguar/src -I/usr/include/SDL2 -DQT_WIDGETS_LIB -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -DQT_GUI_LIB -I/usr/include/x86_64-linux-gnu/qt5/QtGui -DQT_CORE_LIB  vjrun.cpp -o vjrun /home/user/hexgl-jaguar/vendor/virtualjaguar/obj/settings_harness.o /home/user/hexgl-jaguar/vendor/virtualjaguar/obj/log_harness.o /home/user/hexgl-jaguar/vendor/virtualjaguar/obj/libjaguarcore.a /home/user/hexgl-jaguar/vendor/virtualjaguar/src/m68000/obj/libm68k.a -lQt5Widgets -lQt5Gui -lQt5Core  -lSDL2 -lz -lpthread -lm
+make[1]: Leaving directory '/home/user/hexgl-jaguar/tests/vjrunner'

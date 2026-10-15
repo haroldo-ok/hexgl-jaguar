@@ -1,0 +1,157 @@
+{
+  "rom_sha256": "4c8a579bd4676e5a7d6a1fb415aaa547ad13cfa459a452f779334654b5de0911",
+  "emulator": "Virtual Jaguar Rx 2.1.3 headless core harness",
+  "cases": {
+    "manual-ntsc": {
+      "checks": [
+        "BIOS boot",
+        "native entry",
+        "nonblack world",
+        "GPU heartbeat",
+        "DSP sample clock",
+        "audible PCM",
+        "throttle",
+        "steering",
+        "pause/resume",
+        "collision damage",
+        "destruction",
+        "restart"
+      ],
+      "fields": 1200,
+      "updates": 64,
+      "audio_samples": 157937
+    },
+    "manual-ntsc-direct": {
+      "checks": [
+        "direct cartridge boot",
+        "native entry",
+        "nonblack world",
+        "GPU heartbeat",
+        "DSP sample clock",
+        "audible PCM",
+        "throttle",
+        "steering",
+        "pause/resume",
+        "collision damage",
+        "destruction",
+        "restart"
+      ],
+      "fields": 1200,
+      "updates": 64,
+      "audio_samples": 156339
+    },
+    "race-ntsc": {
+      "checks": [
+        "BIOS boot",
+        "native entry",
+        "nonblack world",
+        "GPU heartbeat",
+        "DSP sample clock",
+        "audible PCM",
+        "continuous world animation",
+        "all checkpoints",
+        "boost pads",
+        "three laps",
+        "finish"
+      ],
+      "fields": 12393,
+      "updates": 3892,
+      "race_ticks": 12294,
+      "audio_samples": 1648482
+    },
+    "manual-pal": {
+      "checks": [
+        "BIOS boot",
+        "native entry",
+        "nonblack world",
+        "GPU heartbeat",
+        "DSP sample clock",
+        "audible PCM",
+        "throttle",
+        "steering",
+        "pause/resume",
+        "collision damage",
+        "destruction",
+        "restart"
+      ],
+      "fields": 1200,
+      "updates": 65,
+      "audio_samples": 189866
+    },
+    "manual-pal-direct": {
+      "checks": [
+        "direct cartridge boot",
+        "native entry",
+        "nonblack world",
+        "GPU heartbeat",
+        "DSP sample clock",
+        "audible PCM",
+        "throttle",
+        "steering",
+        "pause/resume",
+        "collision damage",
+        "destruction",
+        "restart"
+      ],
+      "fields": 1200,
+      "updates": 65,
+      "audio_samples": 188427
+    },
+    "race-pal": {
+      "checks": [
+        "BIOS boot",
+        "native entry",
+        "nonblack world",
+        "GPU heartbeat",
+        "DSP sample clock",
+        "audible PCM",
+        "continuous world animation",
+        "all checkpoints",
+        "boost pads",
+        "three laps",
+        "finish"
+      ],
+      "fields": 10813,
+      "updates": 3893,
+      "race_ticks": 10713,
+      "audio_samples": 1726207
+    },
+    "cold-boot-seed-7": {
+      "checks": [
+        "randomized power-on RAM",
+        "direct entry",
+        "nonblack world",
+        "heartbeat",
+        "world animation"
+      ],
+      "fields": 600
+    },
+    "cold-boot-seed-42": {
+      "checks": [
+        "randomized power-on RAM",
+        "direct entry",
+        "nonblack world",
+        "heartbeat",
+        "world animation"
+      ],
+      "fields": 600
+    },
+    "negative-frozen-gpu": {
+      "expected_failure_detected": "World viewport black (includes final field)",
+      "process_exit_code": 1,
+      "native_heartbeat_stopped": true
+    },
+    "negative-black-video": {
+      "expected_failure_detected": "Black-screen watchdog",
+      "process_exit_code": 1,
+      "native_heartbeat_stopped": false
+    },
+    "negative-frozen-video": {
+      "expected_failure_detected": "World framebuffer frozen at 420",
+      "process_exit_code": 0,
+      "native_heartbeat_stopped": false
+    }
+  },
+  "status": "PASS",
+  "execution_note": "All cases executed fresh. Direct manual cases executed a second time after correcting their descriptive boot-mode labels; assertions and ROM unchanged."
+}

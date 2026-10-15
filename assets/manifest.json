@@ -1,0 +1,96 @@
+{
+  "models": [
+    {
+      "name": "ship",
+      "source": "geometries/ships/feisar/feisar.js",
+      "sha256": "5a97ef50a510e2d1ff3628ee13210a27666139ee07783fe67374b34773dcc716",
+      "vertices": 832,
+      "triangles": 1676,
+      "objects": 1,
+      "runtime": true
+    },
+    {
+      "name": "booster",
+      "source": "geometries/booster/booster.js",
+      "sha256": "3d032b38292fba7edd0f4d517e738c605c24713bee1cafed90c11689d5ccdea1",
+      "vertices": 48,
+      "triangles": 72,
+      "objects": 1,
+      "runtime": true
+    },
+    {
+      "name": "track",
+      "source": "geometries/tracks/cityscape/track.js",
+      "sha256": "194637db9a5cb1b219180c64f727567f4050d36fa1a6d0f6341e382c059d8a55",
+      "vertices": 4800,
+      "triangles": 9600,
+      "objects": 197,
+      "runtime": true
+    },
+    {
+      "name": "base",
+      "source": "geometries/bonus/base/base.js",
+      "sha256": "79485de286a2e950284d54e1e789d85c7f6c84727e3239942412607ad0e05dca",
+      "vertices": 112,
+      "triangles": 168,
+      "objects": 16,
+      "runtime": true
+    },
+    {
+      "name": "speed",
+      "source": "geometries/tracks/cityscape/bonus/speed.js",
+      "sha256": "5f59eca92bfdba8350a0731e6a4757c26996a50ffa3ae57f4ed9ad1b3925b805",
+      "vertices": 224,
+      "triangles": 168,
+      "objects": 16,
+      "runtime": true
+    },
+    {
+      "name": "scrapers1",
+      "source": "geometries/tracks/cityscape/scrapers1.js",
+      "sha256": "3ed663ec33f3282f0bb111ddf78e5c523aa2a85eef6a78dc687f10b94f3bda91",
+      "vertices": 96,
+      "triangles": 176,
+      "objects": 28,
+      "runtime": true
+    },
+    {
+      "name": "scrapers2",
+      "source": "geometries/tracks/cityscape/scrapers2.js",
+      "sha256": "0fa57ea89932f78816b9e81128216970a3a7ea882986e3d2c32988e33e4aa7df",
+      "vertices": 96,
+      "triangles": 176,
+      "objects": 27,
+      "runtime": true
+    },
+    {
+      "name": "start",
+      "source": "geometries/tracks/cityscape/start.js",
+      "sha256": "93077d9b8285850e799942d3816bcd302b95738f3d0aea1c701f2e4c7ef70f55",
+      "vertices": 88,
+      "triangles": 160,
+      "objects": 2,
+      "runtime": true
+    },
+    {
+      "name": "banner",
+      "source": "geometries/tracks/cityscape/startbanner.js",
+      "sha256": "46ef976e97dbb5f53c9f47ba96784c749aa752ae6e10e179c78ad705599f8829",
+      "vertices": 12,
+      "triangles": 10,
+      "objects": 1,
+      "runtime": true
+    },
+    {
+      "name": "edge",
+      "vertices": 3208,
+      "triangles": 6416,
+      "runtime": false,
+      "reason": "Not loaded by upstream Cityscape"
+    }
+  ],
+  "max_vertices": 832,
+  "max_faces": 1676,
+  "objects": 289,
+  "scale": 4
+}

@@ -1,0 +1,10 @@
+{
+  "source_archive_extracted": true,
+  "assembler_built_from_source": true,
+  "emulator_built_from_source": true,
+  "ROM_sha256_identical": true,
+  "sha256": "935f4d18e90da997d52329fa063dfe7ca485d3926ab4b6f78ed5836bb1fffe76",
+  "additional_smoke_fields": 500,
+  "native_entry_verified": true,
+  "scope": "Historical verification of previous BIOS-only ROM; does not certify current bootstrap build."
+}

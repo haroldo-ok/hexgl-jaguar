@@ -1,0 +1,7 @@
+	include "../assets/models_00.inc"
+	include "../assets/models_01.inc"
+	include "../assets/models_02.inc"
+	include "../assets/models_03.inc"
+	include "../assets/models_04.inc"
+	include "../assets/models_05.inc"
+	include "../assets/models_06.inc"

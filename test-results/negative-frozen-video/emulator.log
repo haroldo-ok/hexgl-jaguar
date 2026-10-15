@@ -1,0 +1,10 @@
+vjrun: Virtual Jaguar core v2.1.3 (built Oct 15 2026 16:06:08)
+vjrun: rom='/home/user/hexgl-jaguar/rom/hexgl.j64' fields=750 video=NTSC
+vjrun: rom size = 6291456 bytes
+vjrun: wrote /home/user/hexgl-jaguar/test-results/negative-frozen-video/frame_00080.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/negative-frozen-video/frame_00175.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/negative-frozen-video/frame_00350.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/negative-frozen-video/frame_00600.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/negative-frozen-video/final.png
+vjrun: report = /home/user/hexgl-jaguar/test-results/negative-frozen-video/run_report.json
+vjrun: PASS - first live field 14, 86/750 fields animated, worst black streak 14

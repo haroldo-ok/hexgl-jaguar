@@ -1,0 +1,2 @@
+; -*-asm-*-
+	RSL joy_pad,3
