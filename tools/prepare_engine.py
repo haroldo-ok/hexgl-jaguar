@@ -4,6 +4,18 @@ Renderer source files in src/ contain the separately maintained port changes.
 """
 from pathlib import Path
 R=Path(__file__).resolve().parents[1]
+# The upstream HUD starts too low for its fourth glyph row in NTSC output.
+# Move only the text bitmap up two visible lines (four half-lines), preserving
+# every other field of the supplied object-list binary. Always derive from
+# upstream, so repeated builds cannot accumulate the adjustment.
+for name in ['obl0_50.bin','obl1_50.bin','obl0_60.bin','obl1_60.bin']:
+    data=bytearray((R/'vendor/jag_3d_engine'/name).read_bytes())
+    phrase=int.from_bytes(data[0x50:0x58],'big')
+    assert phrase&7==0 and phrase>>43==0x1ff870//8
+    y=(phrase>>3)&0x7ff
+    phrase=(phrase&~(0x7ff<<3))|((y-4)<<3)
+    data[0x50:0x58]=phrase.to_bytes(8,'big')
+    (R/'src'/name).write_bytes(data)
 s=(R/'vendor/jag_3d_engine/polygon.js').read_text()
 s=s.replace('GOURAUD\t\tset 1','GOURAUD\t\tset 0').replace('LANDSCAPE\tset 1','LANDSCAPE\tset 0')
 s=s.replace('CAM_X\t\tequ -60','CAM_X\t\tequ -9072').replace('CAM_Y\t\tequ 30','CAM_Y\t\tequ 1628').replace('CAM_Z\t\tequ 2500\t;2418','CAM_Z\t\tequ -3704').replace('CAM_ANGLE\tequ 228','CAM_ANGLE\tequ 0')
@@ -55,4 +67,19 @@ s=s.replace('\talign\t32\nende:', '\talign 8\npcm_code:\n\tincbin "audio.bin"\np
 s=s.replace('#$0FF0F0FF,r1','#$000088ff,r1')
 a=s.index('\nlogo:\n');b=s.index('\n\talign 4\nASCII',a)
 s=s[:a]+'\nlogo:\n\tdc.l 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0\n'+s[b:]
+s=s.replace('\n\tend\n', '\nmotion_ship_address:: EQU obj_ship\nmotion_booster_address:: EQU obj_booster\nmotion_camera_address:: EQU CAMERA_X\n\tend\n')
+s=s.replace('\tinclude "control.js"','\tinclude "control.js"\n\tinclude "bitmap_hud.js"')
+s=s.replace('\tMBL\tengine','\tMBL\tengine\n\tMyINITMODULE bitmap_hud\n\tMBL bitmap_hud')
+s=s.replace('\tinclude "../assets/textures.inc"','\tinclude "../assets/textures.inc"\n\tinclude "../assets/hud.inc"')
+s=s.replace('\tinclude "bitmap_hud.js"','\tinclude "bitmap_hud.js"\n\tinclude "frontend.js"\n\tinclude "frontdraw.js"')
+s=s.replace('\tMyINITMODULE control','\tMyINITMODULE frontend\n\tMBL frontend\n\tMyINITMODULE control')
+s=s.replace('\tMyINITMODULE bitmap_hud','\tMyINITMODULE frontdraw\n\tMBL frontdraw\n\tMyINITMODULE bitmap_hud')
+s=s.replace('\tinclude "../assets/hud.inc"','\tinclude "../assets/hud.inc"\n\tinclude "../assets/frontend.inc"')
+s=s.replace('\tinclude "frontdraw.js"','\tinclude "frontdraw.js"\n\tinclude "recording.js"')
+s=s.replace('\tMyINITMODULE control','\tMyINITMODULE recording\n\tMBL recording\n\tMyINITMODULE control')
+s=s.replace('\tinclude "control.js"','\tinclude "control.js"\n\tinclude "pose.js"')
+s=s.replace('\tMBL control','\tMBL control\n\tMyINITMODULE pose\n\tMBL pose')
+s=s.replace('\tinclude "pose.js"','\tinclude "pose.js"\n\tinclude "effects.js"')
+s=s.replace('\tMBL\tengine','\tMBL\tengine\n\tMyINITMODULE effects\n\tMBL effects')
+s=s.replace('\tinclude "../assets/frontend.inc"','\tinclude "../assets/frontend.inc"\n align 4\neffect_atlas:\n incbin "../assets/effects.bin"')
 (R/'src/hexgl.js').write_text(s)

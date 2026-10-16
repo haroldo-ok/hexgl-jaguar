@@ -1,18 +1,18 @@
-vjrun: Virtual Jaguar core v2.1.3 (built Oct 15 2026 16:06:08)
+vjrun: Virtual Jaguar core v2.1.3 (built Oct 16 2026 03:48:40)
 vjrun: rom='/home/user/hexgl-jaguar/rom/hexgl.j64' fields=18000 video=NTSC
 vjrun: rom size = 6291456 bytes
 vjrun: wrote /home/user/hexgl-jaguar/test-results/race-ntsc/frame_00080.png
-vjrun: wrote /home/user/hexgl-jaguar/test-results/race-ntsc/frame_00175.png
-vjrun: wrote /home/user/hexgl-jaguar/test-results/race-ntsc/frame_00350.png
-vjrun: wrote /home/user/hexgl-jaguar/test-results/race-ntsc/frame_00600.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/race-ntsc/frame_00180.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/race-ntsc/frame_00280.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/race-ntsc/frame_00380.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/race-ntsc/frame_00480.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/race-ntsc/frame_00580.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/race-ntsc/frame_00800.png
 vjrun: wrote /home/user/hexgl-jaguar/test-results/race-ntsc/frame_01200.png
 vjrun: wrote /home/user/hexgl-jaguar/test-results/race-ntsc/frame_02400.png
-vjrun: wrote /home/user/hexgl-jaguar/test-results/race-ntsc/frame_03600.png
 vjrun: wrote /home/user/hexgl-jaguar/test-results/race-ntsc/frame_04800.png
-vjrun: wrote /home/user/hexgl-jaguar/test-results/race-ntsc/frame_06000.png
 vjrun: wrote /home/user/hexgl-jaguar/test-results/race-ntsc/frame_08000.png
-vjrun: wrote /home/user/hexgl-jaguar/test-results/race-ntsc/frame_10000.png
 vjrun: wrote /home/user/hexgl-jaguar/test-results/race-ntsc/frame_12000.png
 vjrun: wrote /home/user/hexgl-jaguar/test-results/race-ntsc/final.png
 vjrun: report = /home/user/hexgl-jaguar/test-results/race-ntsc/run_report.json
-vjrun: PASS - first live field 14, 3865/12393 fields animated, worst black streak 14
+vjrun: PASS - first live field 14, 3874/14000 fields animated, worst black streak 14

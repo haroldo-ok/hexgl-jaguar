@@ -1,0 +1,140 @@
+{
+  "rom_sha256": "bfe5591fa30c95baa290f2591253d1ff47e12639a92b37d7bc9980d8456f1faa",
+  "status": "PASS",
+  "cases": {
+    "menu-ntsc": {
+      "checks": [
+        "controller navigation",
+        "controls/records/credits",
+        "Option return",
+        "real source font pixels",
+        "Start enters countdown",
+        "no unsolicited saves"
+      ],
+      "source_font_pixels": 1586
+    },
+    "replay-ntsc": {
+      "samples": 88,
+      "interpolated_commits": 137,
+      "fractional_commits": 73,
+      "record_ticks": 326,
+      "checks": [
+        "real run samples",
+        "time interpolation",
+        "mesh positions and camera",
+        "wrapped heading",
+        "pause/resume",
+        "stable end",
+        "Option exit",
+        "no replay score writes"
+      ],
+      "recording_input": "manual throttle and steering",
+      "recorded_pitch_pairs_verified": 88
+    },
+    "menu-pal": {
+      "checks": [
+        "controller navigation",
+        "controls/records/credits",
+        "Option return",
+        "real source font pixels",
+        "Start enters countdown",
+        "no unsolicited saves"
+      ],
+      "source_font_pixels": 1586
+    },
+    "replay-pal": {
+      "samples": 121,
+      "interpolated_commits": 147,
+      "fractional_commits": 92,
+      "record_ticks": 396,
+      "checks": [
+        "real run samples",
+        "time interpolation",
+        "mesh positions and camera",
+        "wrapped heading",
+        "pause/resume",
+        "stable end",
+        "Option exit",
+        "no replay score writes"
+      ],
+      "recording_input": "autopilot",
+      "recorded_pitch_pairs_verified": 121
+    },
+    "save-ntsc": {
+      "checks": [
+        "real full-race serial EEPROM write",
+        "nine writes only on improvement",
+        "readback verified",
+        "new process cold-load",
+        "PAL/NTSC normalized milliseconds",
+        "manual/assisted separation",
+        "visible original-font saved time"
+      ],
+      "record": {
+        "generation": 1,
+        "total_ms": 221633,
+        "lap_ms": 73600,
+        "slot": 16
+      },
+      "eeprom_sha256": "fd84697b1a224a578ceceedf6262f4d6e6666b7c3d08eed53261c69b1cb28b20"
+    },
+    "save-pal": {
+      "checks": [
+        "real full-race serial EEPROM write",
+        "nine writes only on improvement",
+        "readback verified",
+        "new process cold-load",
+        "PAL/NTSC normalized milliseconds",
+        "manual/assisted separation",
+        "visible original-font saved time"
+      ],
+      "record": {
+        "generation": 1,
+        "total_ms": 232080,
+        "lap_ms": 77120,
+        "slot": 16
+      },
+      "eeprom_sha256": "02d23b6b60ed1cb3e4ebabd3cd60f25fc6e098679fcf5db81f1f8ab30b3405d9"
+    },
+    "journal-torn": {
+      "checks": [
+        "EEPROM boot recovery",
+        "bounded boot/no freeze",
+        "no repair writes"
+      ],
+      "fixture": "torn",
+      "loaded_total_ms": 221633,
+      "generation": 1
+    },
+    "journal-checksum": {
+      "checks": [
+        "EEPROM boot recovery",
+        "bounded boot/no freeze",
+        "no repair writes"
+      ],
+      "fixture": "checksum",
+      "loaded_total_ms": 221633,
+      "generation": 1
+    },
+    "journal-wrap": {
+      "checks": [
+        "EEPROM boot recovery",
+        "bounded boot/no freeze",
+        "no repair writes"
+      ],
+      "fixture": "wrap",
+      "loaded_total_ms": 221633,
+      "generation": 0
+    },
+    "journal-invalid": {
+      "checks": [
+        "EEPROM boot recovery",
+        "bounded boot/no freeze",
+        "no repair writes"
+      ],
+      "fixture": "invalid",
+      "loaded_total_ms": 0,
+      "generation": 0
+    }
+  }
+}

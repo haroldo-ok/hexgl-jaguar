@@ -9,5 +9,6 @@
     "tests/gui_e2e.py": "01f950acad415cc650efe3b1a4fa5cfdf9f6f6822a5d92dd7b56c4b1266061b3",
     "tests/test_watchdogs.py": "c292d99a7b3abded55a7bb67de7455ec8e905529c7174f87fb3967457d2ee454"
   },
-  "execution": "Local Linux sandbox; real GUI under Xvfb/Mesa. Remote CI not executed."
+  "execution": "Local Linux sandbox; real GUI under Xvfb/Mesa. Remote CI not executed.",
+  "scope": "Historical BIOS-off-fix build. Current milestone evidence is in race-flow-environment.json and test-results/."
 }

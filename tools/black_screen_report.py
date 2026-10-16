@@ -1,37 +1,5 @@
 #!/usr/bin/env python3
-"""Generate a self-contained report from executed core + stock-GUI evidence."""
+"""Compatibility entry point for the current verified milestone."""
+import runpy
 from pathlib import Path
-import base64, hashlib, html, json
-R=Path(__file__).resolve().parents[1]
-sha=hashlib.sha256((R/'rom/hexgl.j64').read_bytes()).hexdigest()
-core=json.loads((R/'test-results/summary.json').read_text())
-gui=json.loads((R/'test-results/gui/summary.json').read_text())
-assert all(s['status']=='PASS' and s['rom_sha256']==sha for s in (core,gui))
-def shot(rel,label):
-    data=base64.b64encode((R/rel).read_bytes()).decode()
-    return f'<figure><img src="data:image/png;base64,{data}" alt="{html.escape(label)}"><figcaption>{html.escape(label)}</figcaption></figure>'
-rows=''
-for name,c in gui['cases'].items():
-    rows+=f'<tr><td>{html.escape(name)}</td><td>{html.escape(c["status"])}</td><td>{html.escape(c.get("detected","Start → motion → pause → resume → restart"))}</td></tr>'
-for name,c in core['cases'].items():
-    rows+=f'<tr><td>Core: {html.escape(name)}</td><td>{"EXPECTED FAILURE" if "expected_failure_detected" in c else "PASS"}</td><td>{html.escape(c.get("expected_failure_detected",str(c.get("fields",""))+" video fields"))}</td></tr>'
-page=f'''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HexGL Jaguar — black-screen fix and regression evidence</title>
-<style>*{{box-sizing:border-box}}body{{margin:0;background:#101820;color:#edf3f6;font:16px/1.65 system-ui,sans-serif}}main{{max-width:1050px;margin:auto;padding:45px 24px}}.tag{{color:#82e2bf;letter-spacing:2px;font-size:12px}}h1{{font-size:46px;line-height:1.1;margin:18px 0}}h2{{margin-top:36px}}.lead{{font-size:20px;color:#b9cbd6}}.notice{{padding:18px 22px;border-left:3px solid #e2b360;background:#2b2820}}.ok{{padding:16px;background:#16342c;color:#a6edd1}}.shots{{display:grid;grid-template-columns:1fr 1fr;gap:18px}}figure{{margin:0;background:#1b2832}}img{{width:100%;display:block;image-rendering:pixelated}}figcaption{{padding:12px;font-size:13px}}table{{border-collapse:collapse;width:100%;font-size:13px}}td,th{{border-bottom:1px solid #3a4d58;padding:10px;text-align:left;vertical-align:top}}code,pre{{font:13px/1.7 ui-monospace,monospace;overflow-wrap:anywhere;white-space:pre-wrap}}pre{{padding:18px;background:#1b2832}}li{{margin:8px 0}}footer{{color:#9fb3c0;font-size:13px;border-top:1px solid #3a4d58;margin-top:40px;padding-top:20px}}@media(max-width:650px){{.shots{{grid-template-columns:1fr}}h1{{font-size:34px}}td,th{{padding:7px 3px}}}}</style>
-<main><div class="tag">ATARI JAGUAR · EXECUTED REGRESSION TESTS · 2026-10-15</div><h1>Black-screen startup fixed.<br>Desktop tests added.</h1><p class="lead">A reproduced BIOS-off startup defect, a rebuilt cartridge, and tests that inspect what Virtual Jaguar actually displays.</p><div class="ok"><strong>PASS:</strong> stock Virtual Jaguar desktop suite + detailed Virtual Jaguar Rx core suite. Both reports match the downloadable ROM's SHA-256.</div>
-<h2>What went wrong</h2><p>The earlier harness forced the Jaguar BIOS on. Virtual Jaguar defaults to BIOS-off, where the old cartridge entry pointed into GPU data instead of a valid 68000 bootstrap. The BIOS-only passing tests missed that path.</p><p>The ROM now includes <code>src/cart_boot.S</code>, a real 68000 bootstrap at <code>$900000</code>. It installs the interrupt acknowledgement loop, copies the existing payload and starts the GPU. The retail-BIOS path is retained. The user's exact emulator configuration was not supplied; this is the confirmed reproduced defect, not proof that all possible black-screen causes have been eliminated.</p>
-<h2>Actual stock-emulator captures</h2><div class="shots">{shot('test-results/gui/negative-old-entry/latest.png','Rejected: recreated old entry, BIOS off')}{shot('test-results/gui/no-bios-ntsc/capture-012.png','Passing: rebuilt ROM, BIOS off, racing')}</div><p>These are actual X11 captures of the unmodified Virtual Jaguar GUI, not a mock-up or reconstructed framebuffer. The detector scores the world viewport, excluding desktop, toolbar, HUD and status bar.</p>
-<h2>What now blocks a release</h2><ul><li><strong>Stock GUI:</strong> clean settings; default startup; explicit BIOS on/off; PAL/NTSC; real keyboard inputs; OpenGL window captures; start, motion, pause/resume and restart.</li><li><strong>Core E2E:</strong> per-field world pixels through the final frame, native entry and heartbeat, controls/collisions, randomized RAM startup, DSP audio and complete three-lap races in both video standards.</li><li><strong>Five fault cases:</strong> broken entry and frozen desktop process; halted GPU, black video with live game code, and frozen video with live game code in the core harness.</li><li><strong>Ten watchdog unit tests:</strong> including HUD-only output and an otherwise healthy trace going black on its final field.</li><li><strong>Packaging guard:</strong> refuses to bundle unless both complete E2E suites passed for the exact ROM hash. All positive runs are fresh; no saved trace reuse.</li></ul>
-<h2>Executed results</h2><table><thead><tr><th>Scenario</th><th>Result</th><th>Evidence</th></tr></thead><tbody>{rows}</tbody></table>
-<h2>Run it yourself</h2><pre>make test       # rebuild + unit tests + core E2E + stock GUI E2E
-make test-gui   # rebuild + stock desktop test only
-make release    # full gate + report + source/ROM archive</pre><p>Linux GUI prerequisites: <code>virtualjaguar xvfb xauth xdotool libgl1-mesa-dri</code>. The new bootstrap requires <code>binutils-m68k-linux-gnu</code>. Complete installation steps are in README.md. A GitHub Actions workflow is included; remote CI execution is not claimed.</p>
-<h2>Play</h2><pre>virtualjaguar rom/hexgl.j64 --ntsc --gpu --dsp</pre><p>BIOS-on also works in the tested emulator. Stock keyboard mapping: <strong>L</strong> thrust, <strong>J</strong> optional autopilot, <strong>Z/C</strong> steer, <strong>K</strong> brake, <strong>P</strong> pause, <strong>O</strong> restart.</p>
-<h2>Artifact identity</h2><p><code>rom/hexgl.j64 · 6,291,456 bytes<br>SHA-256: {sha}</code></p><p>Desktop executable: {html.escape(gui['emulator_version'])}<br><code>SHA-256: {gui['emulator_binary_sha256']}</code></p><p>Evidence: <code>test-results/gui/summary.json</code>, <code>test-results/summary.json</code>, per-case screenshots, logs and metrics. Detailed diagnosis: <code>docs/BLACK-SCREEN-FIX.md</code>.</p>
-<div class="notice"><strong>The HexGL conversion remains incomplete.</strong> This update corrects startup and strengthens verification; it does not add the still-missing original menus/bitmap HUD, full physics/camera parity, particles, shader effects, replay or leaderboards. See docs/PARITY.md.</div><footer>Finite tests block covered regressions; they cannot guarantee every input, emulator version or driver will never freeze. No physical Jaguar test has been performed. Preserve upstream licensing notices in NOTICE.md.</footer></main></html>'''
-(R/'REPORT.html').write_text(page)
-md=f'# Executed regression results\n\nROM SHA-256: `{sha}`\n\nBoth full suites: **PASS**. All positive cases executed fresh.\n\n'
-for title,s in [('Stock Virtual Jaguar desktop',gui),('Virtual Jaguar Rx core',core)]:
-    md+='## '+title+'\n\n```json\n'+json.dumps(s,indent=2)+'\n```\n\n'
-md+='Ten watchdog unit tests passed (test-results/unit-tests.log). Remote CI and physical hardware execution are not claimed.\n'
-(R/'docs/TEST-RESULTS.md').write_text(md)
-print(R/'REPORT.html')
+runpy.run_path(str(Path(__file__).with_name("frontend_report.py")),run_name="__main__")

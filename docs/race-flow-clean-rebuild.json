@@ -1,0 +1,40 @@
+{
+  "status": "PASS",
+  "source_archive_extracted": true,
+  "assembler_and_emulator_built_from_source": true,
+  "byte_identical_rom": true,
+  "rom_sha256": "b40795a1291661122543dccd4dfaf88abe0936d0fbee0e8f36b9ec01ad4572d7",
+  "cases": {
+    "clean-flow-ntsc-direct": {
+      "status": "PASS",
+      "fields": 1100,
+      "checks": [
+        "native boot",
+        "countdown timing",
+        "motion lock",
+        "GO",
+        "wall clock",
+        "actual glyph pixels",
+        "nonblack world",
+        "heartbeat",
+        "audio"
+      ]
+    },
+    "clean-flow-pal-bios": {
+      "status": "PASS",
+      "fields": 1100,
+      "checks": [
+        "native boot",
+        "countdown timing",
+        "motion lock",
+        "GO",
+        "wall clock",
+        "actual glyph pixels",
+        "nonblack world",
+        "heartbeat",
+        "audio"
+      ]
+    }
+  },
+  "scope": "Historical race-flow milestone. Current ship/camera verification is in motion-environment.json and test-results/."
+}

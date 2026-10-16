@@ -1,120 +1,262 @@
 {
-  "rom_sha256": "4c8a579bd4676e5a7d6a1fb415aaa547ad13cfa459a452f779334654b5de0911",
+  "rom_sha256": "bfe5591fa30c95baa290f2591253d1ff47e12639a92b37d7bc9980d8456f1faa",
   "emulator": "Virtual Jaguar Rx 2.1.3 headless core harness",
   "cases": {
     "manual-ntsc": {
       "checks": [
         "BIOS boot",
-        "native entry",
+        "seven-second countdown",
+        "3/2/1/GO display",
+        "throttle locked until GO",
+        "wall-clock timing",
+        "formatted timer",
         "nonblack world",
-        "GPU heartbeat",
-        "DSP sample clock",
-        "audible PCM",
+        "heartbeat",
+        "audio",
         "throttle",
         "steering",
         "pause/resume",
-        "collision damage",
+        "collision",
         "destruction",
         "restart"
       ],
-      "fields": 1200,
+      "fields": 2040,
       "updates": 64,
-      "audio_samples": 157937
+      "audio_samples": 269798
     },
     "manual-ntsc-direct": {
       "checks": [
         "direct cartridge boot",
-        "native entry",
+        "seven-second countdown",
+        "3/2/1/GO display",
+        "throttle locked until GO",
+        "wall-clock timing",
+        "formatted timer",
         "nonblack world",
-        "GPU heartbeat",
-        "DSP sample clock",
-        "audible PCM",
+        "heartbeat",
+        "audio",
         "throttle",
         "steering",
         "pause/resume",
-        "collision damage",
+        "collision",
         "destruction",
         "restart"
       ],
-      "fields": 1200,
-      "updates": 64,
-      "audio_samples": 156339
+      "fields": 2040,
+      "updates": 63,
+      "audio_samples": 268067
     },
     "race-ntsc": {
       "checks": [
         "BIOS boot",
-        "native entry",
+        "countdown",
         "nonblack world",
-        "GPU heartbeat",
-        "DSP sample clock",
-        "audible PCM",
+        "heartbeat",
+        "audio",
         "continuous world animation",
-        "all checkpoints",
-        "boost pads",
+        "checkpoints",
+        "boost",
         "three laps",
-        "finish"
+        "lap splits",
+        "best lap",
+        "frozen finish clock",
+        "finish results",
+        "bank filter",
+        "speed camera",
+        "terrain-height filtering",
+        "renderer pose"
       ],
-      "fields": 12393,
-      "updates": 3892,
-      "race_ticks": 12294,
-      "audio_samples": 1648482
+      "motion_checks": {
+        "verified_updates": 3864,
+        "height_filtered_updates": 2901,
+        "left_bank_seen": true,
+        "right_bank_seen": true
+      },
+      "fields": 14000,
+      "updates": 4061,
+      "race_ticks": 13298,
+      "lap_ticks": [
+        4465,
+        4417,
+        4416
+      ],
+      "audio_samples": 1862483
     },
     "manual-pal": {
       "checks": [
         "BIOS boot",
-        "native entry",
+        "seven-second countdown",
+        "3/2/1/GO display",
+        "throttle locked until GO",
+        "wall-clock timing",
+        "formatted timer",
         "nonblack world",
-        "GPU heartbeat",
-        "DSP sample clock",
-        "audible PCM",
+        "heartbeat",
+        "audio",
         "throttle",
         "steering",
         "pause/resume",
-        "collision damage",
+        "collision",
         "destruction",
         "restart"
       ],
-      "fields": 1200,
-      "updates": 65,
-      "audio_samples": 189866
+      "fields": 1900,
+      "updates": 66,
+      "audio_samples": 301739
     },
     "manual-pal-direct": {
       "checks": [
         "direct cartridge boot",
-        "native entry",
+        "seven-second countdown",
+        "3/2/1/GO display",
+        "throttle locked until GO",
+        "wall-clock timing",
+        "formatted timer",
         "nonblack world",
-        "GPU heartbeat",
-        "DSP sample clock",
-        "audible PCM",
+        "heartbeat",
+        "audio",
         "throttle",
         "steering",
         "pause/resume",
-        "collision damage",
+        "collision",
         "destruction",
         "restart"
       ],
-      "fields": 1200,
-      "updates": 65,
-      "audio_samples": 188427
+      "fields": 1900,
+      "updates": 66,
+      "audio_samples": 299981
     },
     "race-pal": {
       "checks": [
         "BIOS boot",
-        "native entry",
+        "countdown",
         "nonblack world",
-        "GPU heartbeat",
-        "DSP sample clock",
-        "audible PCM",
+        "heartbeat",
+        "audio",
         "continuous world animation",
-        "all checkpoints",
-        "boost pads",
+        "checkpoints",
+        "boost",
         "three laps",
-        "finish"
+        "lap splits",
+        "best lap",
+        "frozen finish clock",
+        "finish results",
+        "bank filter",
+        "speed camera",
+        "terrain-height filtering",
+        "renderer pose"
       ],
-      "fields": 10813,
-      "updates": 3893,
-      "race_ticks": 10713,
-      "audio_samples": 1726207
+      "motion_checks": {
+        "verified_updates": 3864,
+        "height_filtered_updates": 2907,
+        "left_bank_seen": true,
+        "right_bank_seen": true
+      },
+      "fields": 12237,
+      "updates": 4055,
+      "race_ticks": 11604,
+      "lap_ticks": [
+        3892,
+        3856,
+        3856
+      ],
+      "audio_samples": 1953789
+    },
+    "bank-ntsc": {
+      "verified_updates": 153,
+      "height_filtered_updates": 0,
+      "left_bank_seen": true,
+      "right_bank_seen": true,
+      "half_second_left_roll_q8": -45390,
+      "checks": [
+        "left/right bank",
+        "airbrake bank",
+        "return to level",
+        "pause freezes renderer pose",
+        "restart clears filters",
+        "actual ship and booster angles",
+        "fixed-point recurrence",
+        "PAL/NTSC coefficients"
+      ],
+      "fields": 1180,
+      "capture_fields": {
+        "left": 632,
+        "right": 752,
+        "airbrake": 872,
+        "paused": 1052
+      }
+    },
+    "camera-speed-ntsc": {
+      "verified_updates": 76,
+      "height_filtered_updates": 0,
+      "left_bank_seen": false,
+      "right_bank_seen": false,
+      "checks": [
+        "speed-dependent pullback",
+        "smooth camera distance",
+        "return after braking",
+        "rendered camera position",
+        "fixed-point recurrence"
+      ],
+      "fields": 820
+    },
+    "bank-pal": {
+      "verified_updates": 149,
+      "height_filtered_updates": 0,
+      "left_bank_seen": true,
+      "right_bank_seen": true,
+      "half_second_left_roll_q8": -46748,
+      "checks": [
+        "left/right bank",
+        "airbrake bank",
+        "return to level",
+        "pause freezes renderer pose",
+        "restart clears filters",
+        "actual ship and booster angles",
+        "fixed-point recurrence",
+        "PAL/NTSC coefficients"
+      ],
+      "fields": 1000,
+      "capture_fields": {
+        "left": 542,
+        "right": 642,
+        "airbrake": 742,
+        "paused": 892
+      }
+    },
+    "camera-speed-pal": {
+      "verified_updates": 83,
+      "height_filtered_updates": 0,
+      "left_bank_seen": false,
+      "right_bank_seen": false,
+      "checks": [
+        "speed-dependent pullback",
+        "smooth camera distance",
+        "return after braking",
+        "rendered camera position",
+        "fixed-point recurrence"
+      ],
+      "fields": 700
+    },
+    "countdown-pause-ntsc": {
+      "checks": [
+        "countdown pause/resume",
+        "seven-second active countdown",
+        "no premature movement",
+        "correct GO",
+        "timer formatting"
+      ],
+      "fields": 1200
+    },
+    "countdown-pause-pal": {
+      "checks": [
+        "countdown pause/resume",
+        "seven-second active countdown",
+        "no premature movement",
+        "correct GO",
+        "timer formatting"
+      ],
+      "fields": 1200
     },
     "cold-boot-seed-7": {
       "checks": [
@@ -124,7 +266,7 @@
         "heartbeat",
         "world animation"
       ],
-      "fields": 600
+      "fields": 1100
     },
     "cold-boot-seed-42": {
       "checks": [
@@ -134,7 +276,7 @@
         "heartbeat",
         "world animation"
       ],
-      "fields": 600
+      "fields": 1100
     },
     "negative-frozen-gpu": {
       "expected_failure_detected": "World viewport black (includes final field)",
@@ -147,11 +289,1088 @@
       "native_heartbeat_stopped": false
     },
     "negative-frozen-video": {
-      "expected_failure_detected": "World framebuffer frozen at 420",
-      "process_exit_code": 0,
+      "expected_failure_detected": "World framebuffer frozen at 810",
+      "process_exit_code": 1,
       "native_heartbeat_stopped": false
     }
   },
-  "status": "PASS",
-  "execution_note": "All cases executed fresh. Direct manual cases executed a second time after correcting their descriptive boot-mode labels; assertions and ROM unchanged."
+  "bitmap_hud": {
+    "manual-ntsc": {
+      "checks": [
+        "original three PNG layers in actual TOM output",
+        "HUD.js speed trapezoid and shield rectangle",
+        "native speed/shield digits",
+        "recent live game state"
+      ],
+      "captures": [
+        {
+          "capture": "frame_00180.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00280.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00380.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00480.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00580.png",
+          "speed": 28,
+          "shield": 100,
+          "pixels": 2793
+        },
+        {
+          "capture": "frame_00800.png",
+          "speed": 0,
+          "shield": 88,
+          "pixels": 1718
+        },
+        {
+          "capture": "frame_01200.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "final.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        }
+      ]
+    },
+    "manual-ntsc-direct": {
+      "checks": [
+        "original three PNG layers in actual TOM output",
+        "HUD.js speed trapezoid and shield rectangle",
+        "native speed/shield digits",
+        "recent live game state"
+      ],
+      "captures": [
+        {
+          "capture": "frame_00180.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00280.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00380.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00480.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00580.png",
+          "speed": 28,
+          "shield": 100,
+          "pixels": 2793
+        },
+        {
+          "capture": "frame_00800.png",
+          "speed": 0,
+          "shield": 88,
+          "pixels": 1718
+        },
+        {
+          "capture": "frame_01200.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "final.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        }
+      ]
+    },
+    "race-ntsc": {
+      "checks": [
+        "original three PNG layers in actual TOM output",
+        "HUD.js speed trapezoid and shield rectangle",
+        "native speed/shield digits",
+        "recent live game state"
+      ],
+      "captures": [
+        {
+          "capture": "frame_00180.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00280.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00380.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00480.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00580.png",
+          "speed": 28,
+          "shield": 100,
+          "pixels": 2793
+        },
+        {
+          "capture": "frame_00800.png",
+          "speed": 28,
+          "shield": 100,
+          "pixels": 2793
+        },
+        {
+          "capture": "frame_01200.png",
+          "speed": 28,
+          "shield": 100,
+          "pixels": 2793
+        },
+        {
+          "capture": "frame_02400.png",
+          "speed": 28,
+          "shield": 100,
+          "pixels": 2793
+        },
+        {
+          "capture": "frame_04800.png",
+          "speed": 28,
+          "shield": 100,
+          "pixels": 2793
+        },
+        {
+          "capture": "frame_08000.png",
+          "speed": 28,
+          "shield": 100,
+          "pixels": 2793
+        },
+        {
+          "capture": "frame_12000.png",
+          "speed": 28,
+          "shield": 100,
+          "pixels": 2793
+        },
+        {
+          "capture": "final.png",
+          "speed": 28,
+          "shield": 100,
+          "pixels": 2793
+        }
+      ]
+    },
+    "manual-pal": {
+      "checks": [
+        "original three PNG layers in actual TOM output",
+        "HUD.js speed trapezoid and shield rectangle",
+        "native speed/shield digits",
+        "recent live game state"
+      ],
+      "captures": [
+        {
+          "capture": "frame_00180.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00280.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00380.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00480.png",
+          "speed": 21,
+          "shield": 100,
+          "pixels": 2527
+        },
+        {
+          "capture": "frame_00580.png",
+          "speed": 0,
+          "shield": 97,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00800.png",
+          "speed": 0,
+          "shield": 0,
+          "pixels": 1538
+        },
+        {
+          "capture": "frame_01200.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "final.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        }
+      ]
+    },
+    "manual-pal-direct": {
+      "checks": [
+        "original three PNG layers in actual TOM output",
+        "HUD.js speed trapezoid and shield rectangle",
+        "native speed/shield digits",
+        "recent live game state"
+      ],
+      "captures": [
+        {
+          "capture": "frame_00180.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00280.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00380.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00480.png",
+          "speed": 24,
+          "shield": 100,
+          "pixels": 2652
+        },
+        {
+          "capture": "frame_00580.png",
+          "speed": 0,
+          "shield": 97,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00800.png",
+          "speed": 0,
+          "shield": 0,
+          "pixels": 1538
+        },
+        {
+          "capture": "frame_01200.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "final.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        }
+      ]
+    },
+    "race-pal": {
+      "checks": [
+        "original three PNG layers in actual TOM output",
+        "HUD.js speed trapezoid and shield rectangle",
+        "native speed/shield digits",
+        "recent live game state"
+      ],
+      "captures": [
+        {
+          "capture": "frame_00180.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00280.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00380.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00480.png",
+          "speed": 28,
+          "shield": 100,
+          "pixels": 2793
+        },
+        {
+          "capture": "frame_00580.png",
+          "speed": 28,
+          "shield": 100,
+          "pixels": 2793
+        },
+        {
+          "capture": "frame_00800.png",
+          "speed": 28,
+          "shield": 100,
+          "pixels": 2793
+        },
+        {
+          "capture": "frame_01200.png",
+          "speed": 28,
+          "shield": 100,
+          "pixels": 2793
+        },
+        {
+          "capture": "frame_02400.png",
+          "speed": 28,
+          "shield": 100,
+          "pixels": 2793
+        },
+        {
+          "capture": "frame_04800.png",
+          "speed": 28,
+          "shield": 100,
+          "pixels": 2793
+        },
+        {
+          "capture": "frame_08000.png",
+          "speed": 28,
+          "shield": 100,
+          "pixels": 2793
+        },
+        {
+          "capture": "frame_12000.png",
+          "speed": 28,
+          "shield": 100,
+          "pixels": 2793
+        },
+        {
+          "capture": "final.png",
+          "speed": 28,
+          "shield": 100,
+          "pixels": 2793
+        }
+      ]
+    },
+    "bank-ntsc": {
+      "checks": [
+        "original three PNG layers in actual TOM output",
+        "HUD.js speed trapezoid and shield rectangle",
+        "native speed/shield digits",
+        "recent live game state"
+      ],
+      "captures": [
+        {
+          "capture": "frame_00180.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00280.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00380.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00480.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00580.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00632.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00752.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00800.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00872.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_01052.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "final.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        }
+      ]
+    },
+    "camera-speed-ntsc": {
+      "checks": [
+        "original three PNG layers in actual TOM output",
+        "HUD.js speed trapezoid and shield rectangle",
+        "native speed/shield digits",
+        "recent live game state"
+      ],
+      "captures": [
+        {
+          "capture": "frame_00180.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00280.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00380.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00480.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00580.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00582.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00584.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00586.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00588.png",
+          "speed": 4,
+          "shield": 100,
+          "pixels": 1867
+        },
+        {
+          "capture": "frame_00590.png",
+          "speed": 4,
+          "shield": 100,
+          "pixels": 1867
+        },
+        {
+          "capture": "frame_00592.png",
+          "speed": 8,
+          "shield": 100,
+          "pixels": 2024
+        },
+        {
+          "capture": "frame_00594.png",
+          "speed": 8,
+          "shield": 100,
+          "pixels": 2024
+        },
+        {
+          "capture": "frame_00596.png",
+          "speed": 12,
+          "shield": 100,
+          "pixels": 2181
+        },
+        {
+          "capture": "frame_00598.png",
+          "speed": 12,
+          "shield": 100,
+          "pixels": 2181
+        },
+        {
+          "capture": "frame_00600.png",
+          "speed": 16,
+          "shield": 100,
+          "pixels": 2335
+        },
+        {
+          "capture": "frame_00602.png",
+          "speed": 16,
+          "shield": 100,
+          "pixels": 2335
+        },
+        {
+          "capture": "frame_00604.png",
+          "speed": 20,
+          "shield": 100,
+          "pixels": 2492
+        },
+        {
+          "capture": "frame_00606.png",
+          "speed": 20,
+          "shield": 100,
+          "pixels": 2492
+        },
+        {
+          "capture": "frame_00608.png",
+          "speed": 24,
+          "shield": 100,
+          "pixels": 2652
+        },
+        {
+          "capture": "frame_00610.png",
+          "speed": 24,
+          "shield": 100,
+          "pixels": 2652
+        },
+        {
+          "capture": "frame_00636.png",
+          "speed": 28,
+          "shield": 100,
+          "pixels": 2793
+        },
+        {
+          "capture": "frame_00652.png",
+          "speed": 10,
+          "shield": 100,
+          "pixels": 2105
+        },
+        {
+          "capture": "frame_00720.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00800.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "final.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        }
+      ]
+    },
+    "bank-pal": {
+      "checks": [
+        "original three PNG layers in actual TOM output",
+        "HUD.js speed trapezoid and shield rectangle",
+        "native speed/shield digits",
+        "recent live game state"
+      ],
+      "captures": [
+        {
+          "capture": "frame_00180.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00280.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00380.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00480.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00542.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00580.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00642.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00742.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00800.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00892.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "final.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        }
+      ]
+    },
+    "camera-speed-pal": {
+      "checks": [
+        "original three PNG layers in actual TOM output",
+        "HUD.js speed trapezoid and shield rectangle",
+        "native speed/shield digits",
+        "recent live game state"
+      ],
+      "captures": [
+        {
+          "capture": "frame_00180.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00280.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00380.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00480.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00500.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00502.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00504.png",
+          "speed": 3,
+          "shield": 100,
+          "pixels": 1832
+        },
+        {
+          "capture": "frame_00506.png",
+          "speed": 3,
+          "shield": 100,
+          "pixels": 1832
+        },
+        {
+          "capture": "frame_00508.png",
+          "speed": 6,
+          "shield": 100,
+          "pixels": 1949
+        },
+        {
+          "capture": "frame_00510.png",
+          "speed": 9,
+          "shield": 100,
+          "pixels": 2065
+        },
+        {
+          "capture": "frame_00512.png",
+          "speed": 9,
+          "shield": 100,
+          "pixels": 2065
+        },
+        {
+          "capture": "frame_00514.png",
+          "speed": 12,
+          "shield": 100,
+          "pixels": 2181
+        },
+        {
+          "capture": "frame_00516.png",
+          "speed": 15,
+          "shield": 100,
+          "pixels": 2294
+        },
+        {
+          "capture": "frame_00518.png",
+          "speed": 15,
+          "shield": 100,
+          "pixels": 2294
+        },
+        {
+          "capture": "frame_00520.png",
+          "speed": 18,
+          "shield": 100,
+          "pixels": 2411
+        },
+        {
+          "capture": "frame_00522.png",
+          "speed": 21,
+          "shield": 100,
+          "pixels": 2527
+        },
+        {
+          "capture": "frame_00524.png",
+          "speed": 21,
+          "shield": 100,
+          "pixels": 2527
+        },
+        {
+          "capture": "frame_00526.png",
+          "speed": 24,
+          "shield": 100,
+          "pixels": 2652
+        },
+        {
+          "capture": "frame_00528.png",
+          "speed": 27,
+          "shield": 100,
+          "pixels": 2765
+        },
+        {
+          "capture": "frame_00530.png",
+          "speed": 27,
+          "shield": 100,
+          "pixels": 2765
+        },
+        {
+          "capture": "frame_00546.png",
+          "speed": 28,
+          "shield": 100,
+          "pixels": 2793
+        },
+        {
+          "capture": "frame_00562.png",
+          "speed": 1,
+          "shield": 100,
+          "pixels": 1751
+        },
+        {
+          "capture": "frame_00580.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00620.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "final.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        }
+      ]
+    },
+    "countdown-pause-ntsc": {
+      "checks": [
+        "original three PNG layers in actual TOM output",
+        "HUD.js speed trapezoid and shield rectangle",
+        "native speed/shield digits",
+        "recent live game state"
+      ],
+      "captures": [
+        {
+          "capture": "frame_00180.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00280.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00380.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00480.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00580.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00800.png",
+          "speed": 28,
+          "shield": 100,
+          "pixels": 2793
+        },
+        {
+          "capture": "final.png",
+          "speed": 28,
+          "shield": 100,
+          "pixels": 2793
+        }
+      ]
+    },
+    "countdown-pause-pal": {
+      "checks": [
+        "original three PNG layers in actual TOM output",
+        "HUD.js speed trapezoid and shield rectangle",
+        "native speed/shield digits",
+        "recent live game state"
+      ],
+      "captures": [
+        {
+          "capture": "frame_00180.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00280.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00380.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00480.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00580.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00800.png",
+          "speed": 28,
+          "shield": 100,
+          "pixels": 2793
+        },
+        {
+          "capture": "final.png",
+          "speed": 28,
+          "shield": 100,
+          "pixels": 2793
+        }
+      ]
+    },
+    "cold-boot-seed-7": {
+      "checks": [
+        "original three PNG layers in actual TOM output",
+        "HUD.js speed trapezoid and shield rectangle",
+        "native speed/shield digits",
+        "recent live game state"
+      ],
+      "captures": [
+        {
+          "capture": "frame_00180.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00280.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00380.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00480.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00580.png",
+          "speed": 28,
+          "shield": 100,
+          "pixels": 2793
+        },
+        {
+          "capture": "frame_00800.png",
+          "speed": 28,
+          "shield": 100,
+          "pixels": 2793
+        },
+        {
+          "capture": "final.png",
+          "speed": 28,
+          "shield": 100,
+          "pixels": 2793
+        }
+      ]
+    },
+    "cold-boot-seed-42": {
+      "checks": [
+        "original three PNG layers in actual TOM output",
+        "HUD.js speed trapezoid and shield rectangle",
+        "native speed/shield digits",
+        "recent live game state"
+      ],
+      "captures": [
+        {
+          "capture": "frame_00180.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00280.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00380.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00480.png",
+          "speed": 0,
+          "shield": 100,
+          "pixels": 1735
+        },
+        {
+          "capture": "frame_00580.png",
+          "speed": 28,
+          "shield": 100,
+          "pixels": 2793
+        },
+        {
+          "capture": "frame_00800.png",
+          "speed": 28,
+          "shield": 100,
+          "pixels": 2793
+        },
+        {
+          "capture": "final.png",
+          "speed": 28,
+          "shield": 100,
+          "pixels": 2793
+        }
+      ]
+    }
+  },
+  "status": "PASS"
 }

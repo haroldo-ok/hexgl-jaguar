@@ -1,0 +1,31 @@
+vjrun: Virtual Jaguar core v2.1.3 (built Oct 16 2026 03:48:40)
+vjrun: rom='/home/user/hexgl-jaguar/rom/hexgl.j64' fields=830 video=PAL
+vjrun: rom size = 6291456 bytes
+vjrun: wrote /home/user/hexgl-jaguar/test-results/hud-live-pal/frame_00080.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/hud-live-pal/frame_00180.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/hud-live-pal/frame_00280.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/hud-live-pal/frame_00380.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/hud-live-pal/frame_00456.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/hud-live-pal/frame_00460.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/hud-live-pal/frame_00464.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/hud-live-pal/frame_00468.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/hud-live-pal/frame_00476.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/hud-live-pal/frame_00480.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/hud-live-pal/frame_00510.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/hud-live-pal/frame_00544.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/hud-live-pal/frame_00562.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/hud-live-pal/frame_00580.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/hud-live-pal/frame_00582.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/hud-live-pal/frame_00602.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/hud-live-pal/frame_00622.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/hud-live-pal/frame_00642.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/hud-live-pal/frame_00662.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/hud-live-pal/frame_00682.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/hud-live-pal/frame_00702.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/hud-live-pal/frame_00750.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/hud-live-pal/frame_00780.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/hud-live-pal/frame_00800.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/hud-live-pal/frame_00810.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/hud-live-pal/final.png
+vjrun: report = /home/user/hexgl-jaguar/test-results/hud-live-pal/run_report.json
+vjrun: PASS - first live field 23, 72/830 fields animated, worst black streak 23

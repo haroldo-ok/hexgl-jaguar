@@ -1,0 +1,31 @@
+vjrun: Virtual Jaguar core v2.1.3 (built Oct 16 2026 03:48:40)
+vjrun: rom='/home/user/hexgl-jaguar/rom/hexgl.j64' fields=700 video=PAL
+vjrun: rom size = 6291456 bytes
+vjrun: wrote /home/user/hexgl-jaguar/test-results/camera-speed-pal/frame_00080.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/camera-speed-pal/frame_00180.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/camera-speed-pal/frame_00280.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/camera-speed-pal/frame_00380.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/camera-speed-pal/frame_00480.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/camera-speed-pal/frame_00500.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/camera-speed-pal/frame_00502.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/camera-speed-pal/frame_00504.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/camera-speed-pal/frame_00506.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/camera-speed-pal/frame_00508.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/camera-speed-pal/frame_00510.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/camera-speed-pal/frame_00512.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/camera-speed-pal/frame_00514.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/camera-speed-pal/frame_00516.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/camera-speed-pal/frame_00518.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/camera-speed-pal/frame_00520.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/camera-speed-pal/frame_00522.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/camera-speed-pal/frame_00524.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/camera-speed-pal/frame_00526.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/camera-speed-pal/frame_00528.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/camera-speed-pal/frame_00530.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/camera-speed-pal/frame_00546.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/camera-speed-pal/frame_00562.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/camera-speed-pal/frame_00580.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/camera-speed-pal/frame_00620.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/camera-speed-pal/final.png
+vjrun: report = /home/user/hexgl-jaguar/test-results/camera-speed-pal/run_report.json
+vjrun: PASS - first live field 23, 90/700 fields animated, worst black streak 23

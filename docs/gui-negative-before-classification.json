@@ -1,0 +1,118 @@
+{
+  "status": "FAIL",
+  "rom_sha256": "346785af7b774034606bc5c997da138f73e1e40a185f790f1bcc5ed04e9f0671",
+  "emulator_binary_sha256": "9ce9b17eaf33382e3aafce8841f3dc44c5547a140733baf8499254ad21488f86",
+  "emulator_version": "Virtual Jaguar v2.1.3 (Final)",
+  "cases": {
+    "default-ntsc": {
+      "status": "PASS",
+      "rom_sha256": "346785af7b774034606bc5c997da138f73e1e40a185f790f1bcc5ed04e9f0671",
+      "video": "ntsc",
+      "boot": "default",
+      "command": [
+        "/usr/bin/virtualjaguar",
+        "/home/user/hexgl-jaguar/rom/hexgl.j64",
+        "--ntsc",
+        "--gpu",
+        "--dsp",
+        "--no-blur"
+      ],
+      "window_bbox": [
+        200,
+        200,
+        852,
+        761
+      ],
+      "elapsed_seconds": 46.22
+    },
+    "no-bios-ntsc": {
+      "status": "PASS",
+      "rom_sha256": "346785af7b774034606bc5c997da138f73e1e40a185f790f1bcc5ed04e9f0671",
+      "video": "ntsc",
+      "boot": "no-bios",
+      "command": [
+        "/usr/bin/virtualjaguar",
+        "/home/user/hexgl-jaguar/rom/hexgl.j64",
+        "--ntsc",
+        "--gpu",
+        "--dsp",
+        "--no-blur",
+        "--no-bios"
+      ],
+      "window_bbox": [
+        200,
+        200,
+        852,
+        761
+      ],
+      "elapsed_seconds": 46.97
+    },
+    "bios-ntsc": {
+      "status": "PASS",
+      "rom_sha256": "346785af7b774034606bc5c997da138f73e1e40a185f790f1bcc5ed04e9f0671",
+      "video": "ntsc",
+      "boot": "bios",
+      "command": [
+        "/usr/bin/virtualjaguar",
+        "/home/user/hexgl-jaguar/rom/hexgl.j64",
+        "--ntsc",
+        "--gpu",
+        "--dsp",
+        "--no-blur",
+        "--bios"
+      ],
+      "window_bbox": [
+        200,
+        200,
+        852,
+        761
+      ],
+      "elapsed_seconds": 47.0
+    },
+    "no-bios-pal": {
+      "status": "PASS",
+      "rom_sha256": "346785af7b774034606bc5c997da138f73e1e40a185f790f1bcc5ed04e9f0671",
+      "video": "pal",
+      "boot": "no-bios",
+      "command": [
+        "/usr/bin/virtualjaguar",
+        "/home/user/hexgl-jaguar/rom/hexgl.j64",
+        "--pal",
+        "--gpu",
+        "--dsp",
+        "--no-blur",
+        "--no-bios"
+      ],
+      "window_bbox": [
+        200,
+        200,
+        852,
+        793
+      ],
+      "elapsed_seconds": 45.84
+    },
+    "bios-pal": {
+      "status": "PASS",
+      "rom_sha256": "346785af7b774034606bc5c997da138f73e1e40a185f790f1bcc5ed04e9f0671",
+      "video": "pal",
+      "boot": "bios",
+      "command": [
+        "/usr/bin/virtualjaguar",
+        "/home/user/hexgl-jaguar/rom/hexgl.j64",
+        "--pal",
+        "--gpu",
+        "--dsp",
+        "--no-blur",
+        "--bios"
+      ],
+      "window_bbox": [
+        200,
+        200,
+        852,
+        793
+      ],
+      "elapsed_seconds": 47.1
+    }
+  },
+  "error": "old startup defect escaped detection"
+}

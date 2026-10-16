@@ -1,0 +1,26 @@
+{
+  "args": [
+    "/home/user/hexgl-jaguar/tests/vjrunner/vjrun",
+    "--symbols",
+    "/home/user/hexgl-jaguar/src/hexgl.equ",
+    "--frames",
+    "820",
+    "--ntsc",
+    "--out",
+    "/home/user/hexgl-jaguar/test-results/camera-speed-ntsc",
+    "--input",
+    "100:a,120:none,580:a,640:b,700:none",
+    "--quiet",
+    "--dump-at",
+    "80,180,280,380,480,580,800,1200,2400,4800,8000,12000",
+    "--title",
+    "run",
+    "--no-bios",
+    "--dump-max",
+    "32",
+    "--dump-at",
+    "180,280,580,582,584,586,588,590,592,594,596,598,600,602,604,606,608,610,636,652,720",
+    "/home/user/hexgl-jaguar/rom/hexgl.j64"
+  ],
+  "rom_sha256": "bfe5591fa30c95baa290f2591253d1ff47e12639a92b37d7bc9980d8456f1faa"
+}

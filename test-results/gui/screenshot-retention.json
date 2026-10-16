@@ -1,0 +1,202 @@
+{
+  "policy": "Desktop moving/countdown phases retain first/last saved screenshots; other static phases retain the last saved screenshot. Complete metrics and every negative-control screenshot retained.",
+  "removed": [
+    {
+      "path": "default-ntsc/capture-012.png",
+      "sha256": "d9d52a444af7a94159a198686f142e62043536b0daae2287da4dc8a6755f22b7"
+    },
+    {
+      "path": "default-ntsc/capture-016.png",
+      "sha256": "59a2cef0c8951e51ef5d79e80ab548c147b409eea1b73a4811948c685f3ba5f1"
+    },
+    {
+      "path": "default-ntsc/capture-024.png",
+      "sha256": "34029d07b22997f70ae0d55f648789abf0013d846d124d70cd247abbbc4d105d"
+    },
+    {
+      "path": "default-ntsc/capture-052.png",
+      "sha256": "330f1da7231237eb239849e33eef0b0578f64189c833cbcf9bd7826d3646b56d"
+    },
+    {
+      "path": "default-ntsc/capture-056.png",
+      "sha256": "1e58481e8207ebd3b7a8f9175950cfb012d21e834edc3e6e4067ff0302e092a4"
+    },
+    {
+      "path": "bios-pal/capture-008.png",
+      "sha256": "adb4005a55d49ad722f3ff506006bdb9e14cb5f6d339abd3775bead00871f881"
+    },
+    {
+      "path": "bios-pal/capture-012.png",
+      "sha256": "69724a0c34c3aa5a516b18faf6c4d273eaf3494defe01208b0316556652253c3"
+    },
+    {
+      "path": "bios-pal/capture-024.png",
+      "sha256": "b40389403524ccf36631e0cf87b2bdefd72e8eb53260c5a41c093231957529a7"
+    },
+    {
+      "path": "bios-pal/capture-052.png",
+      "sha256": "69724a0c34c3aa5a516b18faf6c4d273eaf3494defe01208b0316556652253c3"
+    },
+    {
+      "path": "bios-pal/capture-056.png",
+      "sha256": "39653c4106f95beeeb0205b4d78a4f175c79ada1d03e2d518ce1b75b3f082a1e"
+    },
+    {
+      "path": "no-bios-ntsc/capture-008.png",
+      "sha256": "30d8bdd3d46d3fec42c453c243e0123caf242cb9aee01bd411092182e2a33c71"
+    },
+    {
+      "path": "no-bios-ntsc/capture-012.png",
+      "sha256": "4ef10211502dbe0bcf3680abf7726623954df9a130114d5319c86e76ccbd3ebc"
+    },
+    {
+      "path": "no-bios-ntsc/capture-024.png",
+      "sha256": "eb349d5a45c2b49711912f0be1112f4bdb90a68968bff7e5fa1aa43916784524"
+    },
+    {
+      "path": "no-bios-ntsc/capture-052.png",
+      "sha256": "20abdcc27abc833a51506c3fc7d0face17fcbd12ea683a54b8d5596bb1d89f11"
+    },
+    {
+      "path": "no-bios-ntsc/capture-056.png",
+      "sha256": "846277d145751c760920a46f8358bc072b71e4fdc9117ea456ca5d229d4fdc5e"
+    },
+    {
+      "path": "no-bios-pal/capture-008.png",
+      "sha256": "adb4005a55d49ad722f3ff506006bdb9e14cb5f6d339abd3775bead00871f881"
+    },
+    {
+      "path": "no-bios-pal/capture-012.png",
+      "sha256": "39653c4106f95beeeb0205b4d78a4f175c79ada1d03e2d518ce1b75b3f082a1e"
+    },
+    {
+      "path": "no-bios-pal/capture-020.png",
+      "sha256": "199a0ee8aa6dc13e57327f6ac6109ab6009a94b8e9971c254c27d68343156b91"
+    },
+    {
+      "path": "no-bios-pal/capture-048.png",
+      "sha256": "adb4005a55d49ad722f3ff506006bdb9e14cb5f6d339abd3775bead00871f881"
+    },
+    {
+      "path": "no-bios-pal/capture-052.png",
+      "sha256": "39653c4106f95beeeb0205b4d78a4f175c79ada1d03e2d518ce1b75b3f082a1e"
+    },
+    {
+      "path": "bios-ntsc/capture-012.png",
+      "sha256": "d1991ccd876d2e625a0e6df174bf10f666a77018cca9a68008f238a08cc9f613"
+    },
+    {
+      "path": "bios-ntsc/capture-024.png",
+      "sha256": "d8ada622068f9ee3fb116171d994265d169156a491497c385f58d21d2695cc9f"
+    },
+    {
+      "path": "bios-ntsc/capture-052.png",
+      "sha256": "e2c721eb754a96d1546692ee990158a49dacd7eea11b79e0f907257e05f70f50"
+    },
+    {
+      "path": "bios-ntsc/capture-056.png",
+      "sha256": "a765f3715b9e135c6ec8662bf6b5c8643a3adad1265a84f345680fbb0323fd8c"
+    },
+    {
+      "path": "default-ntsc/capture-028.png",
+      "sha256": "b7c79fd61370c2e243975b322d40e48f57babb7ae14d23a10091d89ff8d791fa"
+    },
+    {
+      "path": "default-ntsc/capture-034.png",
+      "sha256": "1a108004be7db3ec4267d80e1a3dababfee435968d4f5b0c4c59bc44adf397e9"
+    },
+    {
+      "path": "default-ntsc/capture-040.png",
+      "sha256": "84af60c978f6490ea733d47b1640a17152ec9f48a713a611ecd1a515601d0690"
+    },
+    {
+      "path": "default-ntsc/capture-046.png",
+      "sha256": "31ba29c71529b6f153c2c980faf9f9a81d0d45d40e8b723a0d550611e9470866"
+    },
+    {
+      "path": "default-ntsc/capture-064.png",
+      "sha256": "682acdf1852b043c839809e568a4a1a3cb9774f90699095f4a20ef38ec1403e9"
+    },
+    {
+      "path": "bios-pal/capture-003.png",
+      "sha256": "0773f129c507c06b092df962ce95c18c6755a3128900cdfc3f77c248cf104290"
+    },
+    {
+      "path": "bios-pal/capture-028.png",
+      "sha256": "25d59a3ff8addd4adb1161a1f9db54940fe5a1fa3dbe06243268f24bef4bed15"
+    },
+    {
+      "path": "bios-pal/capture-033.png",
+      "sha256": "b9eeef1d95ec47bf736c4fa0695e29d1b8cce7831969d02515050f1396c48973"
+    },
+    {
+      "path": "bios-pal/capture-040.png",
+      "sha256": "5e9ae5d5262e0a2358ca2423d05bf21ce151b9105191079c360657e48c70799e"
+    },
+    {
+      "path": "bios-pal/capture-045.png",
+      "sha256": "0773f129c507c06b092df962ce95c18c6755a3128900cdfc3f77c248cf104290"
+    },
+    {
+      "path": "no-bios-ntsc/capture-003.png",
+      "sha256": "bc62345d721cbb5a59c86862af99c8321406429c29e336b9b22235400e988269"
+    },
+    {
+      "path": "no-bios-ntsc/capture-028.png",
+      "sha256": "e1f5e5071c37b264fa560526568083cb1dd6a2cc9ee7329d0eeefb3dd0ca1373"
+    },
+    {
+      "path": "no-bios-ntsc/capture-033.png",
+      "sha256": "2e12f7849e3d26b08649ee3ceb177b7f93b7b7865c6e53406745dcd47d6f4ef8"
+    },
+    {
+      "path": "no-bios-ntsc/capture-040.png",
+      "sha256": "95b57bea6f5c30b9cb1f143f6f0dcd78fa2935e87d2cf4fc6cf2ac48c694eac5"
+    },
+    {
+      "path": "no-bios-pal/capture-003.png",
+      "sha256": "0773f129c507c06b092df962ce95c18c6755a3128900cdfc3f77c248cf104290"
+    },
+    {
+      "path": "no-bios-pal/capture-024.png",
+      "sha256": "9189e10e0994b65ada4650b907c7e5f3328ab468b12379758073f4865d326281"
+    },
+    {
+      "path": "no-bios-pal/capture-031.png",
+      "sha256": "682669f3dea1ddbec7e3c8c71f753ba79b38182e6f381599d3a502d6a68c3e5a"
+    },
+    {
+      "path": "no-bios-pal/capture-043.png",
+      "sha256": "0773f129c507c06b092df962ce95c18c6755a3128900cdfc3f77c248cf104290"
+    },
+    {
+      "path": "no-bios-pal/capture-060.png",
+      "sha256": "c338d4cde46be0dce02857c1e1b66f9b3e1b7f239bd0297c85974a98b3babdc3"
+    },
+    {
+      "path": "bios-ntsc/capture-003.png",
+      "sha256": "29ea621cacefc57891b9d8e36f7c5a1344973a09cec2f4029bcdb63a1895c320"
+    },
+    {
+      "path": "bios-ntsc/capture-028.png",
+      "sha256": "285f4e6ca5ab27b4c1dc0a8a00eaff8ddd777bd95a3de41869e5fb0066aafa6c"
+    },
+    {
+      "path": "bios-ntsc/capture-033.png",
+      "sha256": "b40613f0a0b2382174f4f85a8c7f7b8e85f8e9f4ebf1c149f47d37cccb33395d"
+    },
+    {
+      "path": "bios-ntsc/capture-040.png",
+      "sha256": "eaec61a758a3af7ba637f7ad330e2a094f0330ea5f97294089a98ece1bc9e378"
+    },
+    {
+      "path": "bios-ntsc/capture-045.png",
+      "sha256": "dc3b044456e218d40cb5e0c59b27102d489f241693dcdcbdd5b449cae0f5ee4d"
+    },
+    {
+      "path": "bios-ntsc/capture-064.png",
+      "sha256": "fab50dbb5b82d18783a945f913995e7ded71d78b8c42b40f459af40e3ec62c1e"
+    }
+  ],
+  "rom_sha256": "bfe5591fa30c95baa290f2591253d1ff47e12639a92b37d7bc9980d8456f1faa"
+}

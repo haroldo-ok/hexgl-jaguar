@@ -1,0 +1,43 @@
+{
+  "status": "PASS",
+  "rom_sha256": "bfe5591fa30c95baa290f2591253d1ff47e12639a92b37d7bc9980d8456f1faa",
+  "method": "Separate source tree; removed ROM, GPU payload and generated native host build products. Fresh make rom emulator, byte-identical ROM.",
+  "cases": {
+    "ntsc": {
+      "boot": "direct",
+      "fields": 1200,
+      "motion": {
+        "verified_updates": 178,
+        "height_filtered_updates": 137,
+        "left_bank_seen": true,
+        "right_bank_seen": true
+      },
+      "dynamics": {
+        "actual_vertices": 302,
+        "pitched_vertices": 177,
+        "hover_updates": 177,
+        "drifting_updates": 0,
+        "repulsion_updates": 0,
+        "fall_updates": 0
+      }
+    },
+    "pal": {
+      "boot": "bios",
+      "fields": 1200,
+      "motion": {
+        "verified_updates": 235,
+        "height_filtered_updates": 195,
+        "left_bank_seen": true,
+        "right_bank_seen": true
+      },
+      "dynamics": {
+        "actual_vertices": 335,
+        "pitched_vertices": 234,
+        "hover_updates": 234,
+        "drifting_updates": 0,
+        "repulsion_updates": 0,
+        "fall_updates": 0
+      }
+    }
+  }
+}

@@ -1,0 +1,138 @@
+make -C vendor/lyxass
+make[1]: Entering directory '/home/user/.cache/standalone-clean/hexgl-jaguar/vendor/lyxass'
+gcc -MD -c -Wall -O2 -fomit-frame-pointer  lyxass.c -o lyxass.o
+gcc -MD -c -Wall -O2 -fomit-frame-pointer  parser.c -o parser.o
+gcc -MD -c -Wall -O2 -fomit-frame-pointer  debug.c -o debug.o
+gcc -MD -c -Wall -O2 -fomit-frame-pointer  label.c -o label.o
+gcc -MD -c -Wall -O2 -fomit-frame-pointer  opcode.c -o opcode.o
+gcc -MD -c -Wall -O2 -fomit-frame-pointer  pseudo.c -o pseudo.o
+pseudo.c: In function 'p_definebyteblock':
+pseudo.c:263:7: warning: unused variable 'all_err' [-Wunused-variable]
+  263 |   int all_err = 0;
+      |       ^~~~~~~
+pseudo.c: In function 'p_definewordblock':
+pseudo.c:319:7: warning: unused variable 'all_err' [-Wunused-variable]
+  319 |   int all_err = 0;
+      |       ^~~~~~~
+pseudo.c: In function 'p_definelongblock':
+pseudo.c:378:7: warning: unused variable 'all_err' [-Wunused-variable]
+  378 |   int all_err = 0;
+      |       ^~~~~~~
+pseudo.c: In function 'p_definephraseblock':
+pseudo.c:436:7: warning: unused variable 'all_err' [-Wunused-variable]
+  436 |   int all_err = 0;
+      |       ^~~~~~~
+gcc -MD -c -Wall -O2 -fomit-frame-pointer  mnemonics.c -o mnemonics.o
+gcc -MD -c -Wall -O2 -fomit-frame-pointer  expression.c -o expression.o
+gcc -MD -c -Wall -O2 -fomit-frame-pointer  macro.c -o macro.o
+gcc -MD -c -Wall -O2 -fomit-frame-pointer  ref.c -o ref.o
+gcc -MD -c -Wall -O2 -fomit-frame-pointer  error.c -o error.o
+gcc -MD -c -Wall -O2 -fomit-frame-pointer  jaguar.c -o jaguar.o
+gcc  lyxass.o parser.o debug.o label.o opcode.o pseudo.o mnemonics.o expression.o macro.o ref.o error.o jaguar.o -lm -o lyxass
+make[1]: Leaving directory '/home/user/.cache/standalone-clean/hexgl-jaguar/vendor/lyxass'
+python3 tools/frontend.py
+Original front end converted; two backgrounds and actual Bebas Neue atlas
+python3 tools/hud.py
+Original HUD: 23656 bytes
+python3 tools/motion.py
+python3 tools/prepare_engine.py
+cd src && /home/user/.cache/standalone-clean/hexgl-jaguar/vendor/lyxass/lyxass -d -o audio.bin audio.js
+cd src && /home/user/.cache/standalone-clean/hexgl-jaguar/vendor/lyxass/lyxass -sh hexgl.js
+3D objsize: 52
+TxtScreen: $1ff870
+screen1:   $1b4800
+screen0:   $1b4808
+memory end: $14acc8
+stacktop $f03ffc
+RSPC: $968
+Size (engine): $b50
+ENDE (engine): $f03be0
+Size (bitmap HUD): $150
+ENDE (bitmap HUD): $f031e0
+ENDE (frontend): $f037e0
+ENDE (frontdraw): $f03868
+ENDE (recording): $f033b0
+drawHex:$5394 104 _0 $53dc
+ENDE : $a2560
+m68k-linux-gnu-as -m68000 src/cart_boot.S -o src/cart_boot.o
+m68k-linux-gnu-ld -Ttext=0x900000 --oformat=binary src/cart_boot.o -o src/cart_boot.bin
+python3 tools/package_rom.py
+/home/user/.cache/standalone-clean/hexgl-jaguar/rom/hexgl.j64 6291456 bytes 024b965bb8da34470de2c8870c7259784f8605fdeb9a2b8ab4c4744bc336a8fe
+python3 tools/verify.py
+{
+  "recording_capacity": 6144,
+  "recording_end": "0x1b0000",
+  "hud_records": {
+    "bg": 1241,
+    "speed": 1419,
+    "shield": 297
+  },
+  "rom_bytes": 6291456,
+  "sha256": "024b965bb8da34470de2c8870c7259784f8605fdeb9a2b8ab4c4744bc336a8fe",
+  "load_address": "0x2000",
+  "loaded_bytes": 656736,
+  "loaded_end": "0xa2560",
+  "scratch_start": "0x110000",
+  "triangle_arena_end": "0x14acc8",
+  "framebuffer_start": "0x1b4800",
+  "runtime_triangles": 12206,
+  "runtime_objects": 289,
+  "status": "PASS"
+}
+python3 tests/vjrunner/instrument_vj.py "/home/user/.cache/standalone-clean/hexgl-jaguar/vendor/virtualjaguar"
+instrument_vj: already patched (dac.h), already patched (dac.cpp)
+make -C "/home/user/.cache/standalone-clean/hexgl-jaguar/vendor/virtualjaguar" -f jaguarcore.mak SDL_CFLAGS="$(pkg-config --cflags sdl2)" QT_CFLAGS="-fPIC $(pkg-config --cflags Qt5Widgets)" CXXFLAGS="-O2 -w -std=c++11"
+make[1]: Entering directory '/home/user/.cache/standalone-clean/hexgl-jaguar/vendor/virtualjaguar'
+-e [01;33m***[00;32m Compiling src/blitter.cpp...[00m
+-e [01;33m***[00;32m Compiling src/cdintf.cpp...[00m
+-e [01;33m***[00;32m Compiling src/cdrom.cpp...[00m
+-e [01;33m***[00;32m Compiling src/dac.cpp...[00m
+-e [01;33m***[00;32m Compiling src/dsp.cpp...[00m
+-e [01;33m***[00;32m Compiling src/eeprom.cpp...[00m
+-e [01;33m***[00;32m Compiling src/event.cpp...[00m
+-e [01;33m***[00;32m Compiling src/filedb.cpp...[00m
+-e [01;33m***[00;32m Compiling src/gpu.cpp...[00m
+-e [01;33m***[00;32m Compiling src/jagbios.cpp...[00m
+-e [01;33m***[00;32m Compiling src/jagbios2.cpp...[00m
+-e [01;33m***[00;32m Compiling src/jagcdbios.cpp...[00m
+-e [01;33m***[00;32m Compiling src/jagdevcdbios.cpp...[00m
+-e [01;33m***[00;32m Compiling src/jagstub1bios.cpp...[00m
+-e [01;33m***[00;32m Compiling src/jagstub2bios.cpp...[00m
+-e [01;33m***[00;32m Compiling src/jagdasm.cpp...[00m
+-e [01;33m***[00;32m Compiling src/jaguar.cpp...[00m
+-e [01;33m***[00;32m Compiling src/jerry.cpp...[00m
+-e [01;33m***[00;32m Compiling src/joystick.cpp...[00m
+-e [01;33m***[00;32m Compiling src/memory.cpp...[00m
+-e [01;33m***[00;32m Compiling src/memtrack.cpp...[00m
+-e [01;33m***[00;32m Compiling src/mmu.cpp...[00m
+-e [01;33m***[00;32m Compiling src/modelsBIOS.cpp...[00m
+-e [01;33m***[00;32m Compiling src/op.cpp...[00m
+-e [01;33m***[00;32m Compiling src/state.cpp...[00m
+-e [01;33m***[00;32m Compiling src/tom.cpp...[00m
+-e [01;33m***[00;32m Compiling src/universalhdr.cpp...[00m
+-e [01;33m***[00;32m Compiling src/wavetable.cpp...[00m
+ar: creating obj/libjaguarcore.a
+Done!
+make[1]: Leaving directory '/home/user/.cache/standalone-clean/hexgl-jaguar/vendor/virtualjaguar'
+make -C "/home/user/.cache/standalone-clean/hexgl-jaguar/vendor/virtualjaguar/src/m68000" CROSS= CFLAGS="-O2 -std=gnu89 -w -fomit-frame-pointer" INCS="-I. -I./obj"
+make[1]: Entering directory '/home/user/.cache/standalone-clean/hexgl-jaguar/vendor/virtualjaguar/src/m68000'
+-e [01;33m***[00;32m Compiling build68k.c ...[00m
+-e [01;33m***[00;32m Generating cpudefs.c...[00m
+-e [01;33m***[00;32m Generating gencpu...[00m
+-e [01;33m***[00;32m Generating cpuemu.c...[00m
+-e [01;33m***[00;32m Compiling obj/cpustbl.c...[00m
+-e [01;33m***[00;32m Compiling obj/cpudefs.c...[00m
+-e [01;33m***[00;32m Compiling obj/cpuemu.c...[00m
+-e [01;33m***[00;32m Compiling cpuextra.c...[00m
+-e [01;33m***[00;32m Compiling readcpu.c...[00m
+-e [01;33m***[00;32m Compiling m68kinterface.c...[00m
+-e [01;33m***[00;32m Compiling m68kdasm.c...[00m
+ar: creating obj/libm68k.a
+Done!
+make[1]: Leaving directory '/home/user/.cache/standalone-clean/hexgl-jaguar/vendor/virtualjaguar/src/m68000'
+make -C tests/vjrunner VJ="/home/user/.cache/standalone-clean/hexgl-jaguar/vendor/virtualjaguar"
+make[1]: Entering directory '/home/user/.cache/standalone-clean/hexgl-jaguar/tests/vjrunner'
+g++ -O2 -g -fPIC -std=c++11 -D__GCCUNIX__ -I/home/user/.cache/standalone-clean/hexgl-jaguar/vendor/virtualjaguar/src -I/usr/include/SDL2 -DQT_WIDGETS_LIB -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -DQT_GUI_LIB -I/usr/include/x86_64-linux-gnu/qt5/QtGui -DQT_CORE_LIB  -c /home/user/.cache/standalone-clean/hexgl-jaguar/vendor/virtualjaguar/src/log.cpp -o /home/user/.cache/standalone-clean/hexgl-jaguar/vendor/virtualjaguar/obj/log_harness.o
+g++ -O2 -g -fPIC -std=c++11 -D__GCCUNIX__ -I/home/user/.cache/standalone-clean/hexgl-jaguar/vendor/virtualjaguar/src -I/usr/include/SDL2 -DQT_WIDGETS_LIB -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -DQT_GUI_LIB -I/usr/include/x86_64-linux-gnu/qt5/QtGui -DQT_CORE_LIB  -c /home/user/.cache/standalone-clean/hexgl-jaguar/vendor/virtualjaguar/src/settings.cpp -o /home/user/.cache/standalone-clean/hexgl-jaguar/vendor/virtualjaguar/obj/settings_harness.o
+g++ -O2 -g -fPIC -std=c++11 -D__GCCUNIX__ -I/home/user/.cache/standalone-clean/hexgl-jaguar/vendor/virtualjaguar/src -I/usr/include/SDL2 -DQT_WIDGETS_LIB -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtCore -DQT_GUI_LIB -I/usr/include/x86_64-linux-gnu/qt5/QtGui -DQT_CORE_LIB  vjrun.cpp -o vjrun /home/user/.cache/standalone-clean/hexgl-jaguar/vendor/virtualjaguar/obj/settings_harness.o /home/user/.cache/standalone-clean/hexgl-jaguar/vendor/virtualjaguar/obj/log_harness.o /home/user/.cache/standalone-clean/hexgl-jaguar/vendor/virtualjaguar/obj/libjaguarcore.a /home/user/.cache/standalone-clean/hexgl-jaguar/vendor/virtualjaguar/src/m68000/obj/libm68k.a -lQt5Widgets -lQt5Gui -lQt5Core  -lSDL2 -lz -lpthread -lm
+make[1]: Leaving directory '/home/user/.cache/standalone-clean/hexgl-jaguar/tests/vjrunner'

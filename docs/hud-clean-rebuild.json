@@ -1,0 +1,133 @@
+{
+  "status": "PASS",
+  "rom_sha256": "d8b892ad0e81418ea5e0e69b59de19aeb6474187a2c339ec89af93032b17111c",
+  "method": "Fresh source tree without ROM, payload or host object products; make rom emulator completed with exit 0; independent fresh core runs below.",
+  "cases": {
+    "ntsc": {
+      "fields": 1100,
+      "boot": "direct",
+      "bitmap_hud": {
+        "checks": [
+          "original three PNG layers in actual TOM output",
+          "HUD.js speed trapezoid and shield rectangle",
+          "native speed/shield digits",
+          "recent live game state"
+        ],
+        "captures": [
+          {
+            "capture": "frame_00180.png",
+            "speed": 0,
+            "shield": 100,
+            "pixels": 1735
+          },
+          {
+            "capture": "frame_00280.png",
+            "speed": 0,
+            "shield": 100,
+            "pixels": 1735
+          },
+          {
+            "capture": "frame_00380.png",
+            "speed": 0,
+            "shield": 100,
+            "pixels": 1735
+          },
+          {
+            "capture": "frame_00480.png",
+            "speed": 0,
+            "shield": 100,
+            "pixels": 1735
+          },
+          {
+            "capture": "frame_00580.png",
+            "speed": 28,
+            "shield": 100,
+            "pixels": 2793
+          },
+          {
+            "capture": "frame_00800.png",
+            "speed": 28,
+            "shield": 100,
+            "pixels": 2793
+          },
+          {
+            "capture": "final.png",
+            "speed": 28,
+            "shield": 100,
+            "pixels": 2793
+          }
+        ]
+      },
+      "motion": {
+        "verified_updates": 158,
+        "height_filtered_updates": 118,
+        "left_bank_seen": true,
+        "right_bank_seen": true
+      }
+    },
+    "pal": {
+      "fields": 1100,
+      "boot": "bios",
+      "bitmap_hud": {
+        "checks": [
+          "original three PNG layers in actual TOM output",
+          "HUD.js speed trapezoid and shield rectangle",
+          "native speed/shield digits",
+          "recent live game state"
+        ],
+        "captures": [
+          {
+            "capture": "frame_00180.png",
+            "speed": 0,
+            "shield": 100,
+            "pixels": 1735
+          },
+          {
+            "capture": "frame_00280.png",
+            "speed": 0,
+            "shield": 100,
+            "pixels": 1735
+          },
+          {
+            "capture": "frame_00380.png",
+            "speed": 0,
+            "shield": 100,
+            "pixels": 1735
+          },
+          {
+            "capture": "frame_00480.png",
+            "speed": 28,
+            "shield": 100,
+            "pixels": 2793
+          },
+          {
+            "capture": "frame_00580.png",
+            "speed": 28,
+            "shield": 100,
+            "pixels": 2793
+          },
+          {
+            "capture": "frame_00800.png",
+            "speed": 28,
+            "shield": 100,
+            "pixels": 2793
+          },
+          {
+            "capture": "final.png",
+            "speed": 28,
+            "shield": 100,
+            "pixels": 2793
+          }
+        ]
+      },
+      "motion": {
+        "verified_updates": 213,
+        "height_filtered_updates": 171,
+        "left_bank_seen": true,
+        "right_bank_seen": true
+      }
+    }
+  },
+  "historical": true,
+  "historical_note": "Previous bitmap-gauge release; not the current front-end/replay/save ROM."
+}

@@ -1,0 +1,13 @@
+vjrun: Virtual Jaguar core v2.1.3 (built Oct 16 2026 03:48:40)
+vjrun: rom='/home/user/hexgl-jaguar/rom/hexgl.j64' fields=1200 video=NTSC
+vjrun: rom size = 6291456 bytes
+vjrun: wrote /home/user/hexgl-jaguar/test-results/countdown-pause-ntsc/frame_00080.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/countdown-pause-ntsc/frame_00180.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/countdown-pause-ntsc/frame_00280.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/countdown-pause-ntsc/frame_00380.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/countdown-pause-ntsc/frame_00480.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/countdown-pause-ntsc/frame_00580.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/countdown-pause-ntsc/frame_00800.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/countdown-pause-ntsc/final.png
+vjrun: report = /home/user/hexgl-jaguar/test-results/countdown-pause-ntsc/run_report.json
+vjrun: PASS - first live field 27, 130/1200 fields animated, worst black streak 27

@@ -1,0 +1,368 @@
+hud-live-ntsc exit 0 fields 900 elapsed 15.6 s
+hud-live-pal exit 0 fields 830 elapsed 15.9 s
+{
+  "status": "PASS",
+  "rom_sha256": "bfe5591fa30c95baa290f2591253d1ff47e12639a92b37d7bc9980d8456f1faa",
+  "cases": {
+    "ntsc": {
+      "checks": [
+        "throttle/collision speed levels",
+        "collision shield loss",
+        "empty shield on destruction",
+        "full shield after reset",
+        "actual source-art pixel equality"
+      ],
+      "speeds_seen": [
+        0,
+        4,
+        8,
+        16,
+        28
+      ],
+      "shields_seen": [
+        0,
+        97,
+        100
+      ],
+      "fields": 900,
+      "bitmap_hud": {
+        "checks": [
+          "original three PNG layers in actual TOM output",
+          "HUD.js speed trapezoid and shield rectangle",
+          "native speed/shield digits",
+          "recent live game state"
+        ],
+        "captures": [
+          {
+            "capture": "frame_00180.png",
+            "speed": 0,
+            "shield": 100,
+            "pixels": 1735
+          },
+          {
+            "capture": "frame_00280.png",
+            "speed": 0,
+            "shield": 100,
+            "pixels": 1735
+          },
+          {
+            "capture": "frame_00380.png",
+            "speed": 0,
+            "shield": 100,
+            "pixels": 1735
+          },
+          {
+            "capture": "frame_00480.png",
+            "speed": 0,
+            "shield": 100,
+            "pixels": 1735
+          },
+          {
+            "capture": "frame_00526.png",
+            "speed": 0,
+            "shield": 100,
+            "pixels": 1735
+          },
+          {
+            "capture": "frame_00530.png",
+            "speed": 0,
+            "shield": 100,
+            "pixels": 1735
+          },
+          {
+            "capture": "frame_00534.png",
+            "speed": 4,
+            "shield": 100,
+            "pixels": 1867
+          },
+          {
+            "capture": "frame_00538.png",
+            "speed": 8,
+            "shield": 100,
+            "pixels": 2024
+          },
+          {
+            "capture": "frame_00546.png",
+            "speed": 16,
+            "shield": 100,
+            "pixels": 2335
+          },
+          {
+            "capture": "frame_00580.png",
+            "speed": 28,
+            "shield": 100,
+            "pixels": 2793
+          },
+          {
+            "capture": "frame_00614.png",
+            "speed": 28,
+            "shield": 100,
+            "pixels": 2793
+          },
+          {
+            "capture": "frame_00632.png",
+            "speed": 28,
+            "shield": 100,
+            "pixels": 2793
+          },
+          {
+            "capture": "frame_00652.png",
+            "speed": 0,
+            "shield": 97,
+            "pixels": 1735
+          },
+          {
+            "capture": "frame_00672.png",
+            "speed": 0,
+            "shield": 97,
+            "pixels": 1735
+          },
+          {
+            "capture": "frame_00692.png",
+            "speed": 0,
+            "shield": 97,
+            "pixels": 1735
+          },
+          {
+            "capture": "frame_00712.png",
+            "speed": 0,
+            "shield": 97,
+            "pixels": 1735
+          },
+          {
+            "capture": "frame_00732.png",
+            "speed": 0,
+            "shield": 0,
+            "pixels": 1538
+          },
+          {
+            "capture": "frame_00752.png",
+            "speed": 0,
+            "shield": 0,
+            "pixels": 1538
+          },
+          {
+            "capture": "frame_00772.png",
+            "speed": 0,
+            "shield": 0,
+            "pixels": 1538
+          },
+          {
+            "capture": "frame_00800.png",
+            "speed": 0,
+            "shield": 0,
+            "pixels": 1538
+          },
+          {
+            "capture": "frame_00820.png",
+            "speed": 0,
+            "shield": 0,
+            "pixels": 1538
+          },
+          {
+            "capture": "frame_00850.png",
+            "speed": 0,
+            "shield": 0,
+            "pixels": 1538
+          },
+          {
+            "capture": "frame_00880.png",
+            "speed": 0,
+            "shield": 100,
+            "pixels": 1735
+          },
+          {
+            "capture": "final.png",
+            "speed": 0,
+            "shield": 100,
+            "pixels": 1735
+          }
+        ]
+      }
+    },
+    "pal": {
+      "checks": [
+        "throttle/collision speed levels",
+        "collision shield loss",
+        "empty shield on destruction",
+        "full shield after reset",
+        "actual source-art pixel equality"
+      ],
+      "speeds_seen": [
+        0,
+        3,
+        6,
+        12,
+        18,
+        24,
+        28
+      ],
+      "shields_seen": [
+        0,
+        97,
+        100
+      ],
+      "fields": 830,
+      "bitmap_hud": {
+        "checks": [
+          "original three PNG layers in actual TOM output",
+          "HUD.js speed trapezoid and shield rectangle",
+          "native speed/shield digits",
+          "recent live game state"
+        ],
+        "captures": [
+          {
+            "capture": "frame_00180.png",
+            "speed": 0,
+            "shield": 100,
+            "pixels": 1735
+          },
+          {
+            "capture": "frame_00280.png",
+            "speed": 0,
+            "shield": 100,
+            "pixels": 1735
+          },
+          {
+            "capture": "frame_00380.png",
+            "speed": 0,
+            "shield": 100,
+            "pixels": 1735
+          },
+          {
+            "capture": "frame_00456.png",
+            "speed": 0,
+            "shield": 100,
+            "pixels": 1735
+          },
+          {
+            "capture": "frame_00460.png",
+            "speed": 3,
+            "shield": 100,
+            "pixels": 1832
+          },
+          {
+            "capture": "frame_00464.png",
+            "speed": 6,
+            "shield": 100,
+            "pixels": 1949
+          },
+          {
+            "capture": "frame_00468.png",
+            "speed": 12,
+            "shield": 100,
+            "pixels": 2181
+          },
+          {
+            "capture": "frame_00476.png",
+            "speed": 18,
+            "shield": 100,
+            "pixels": 2411
+          },
+          {
+            "capture": "frame_00480.png",
+            "speed": 24,
+            "shield": 100,
+            "pixels": 2652
+          },
+          {
+            "capture": "frame_00510.png",
+            "speed": 28,
+            "shield": 100,
+            "pixels": 2793
+          },
+          {
+            "capture": "frame_00544.png",
+            "speed": 28,
+            "shield": 100,
+            "pixels": 2793
+          },
+          {
+            "capture": "frame_00562.png",
+            "speed": 28,
+            "shield": 100,
+            "pixels": 2793
+          },
+          {
+            "capture": "frame_00580.png",
+            "speed": 0,
+            "shield": 97,
+            "pixels": 1735
+          },
+          {
+            "capture": "frame_00582.png",
+            "speed": 0,
+            "shield": 97,
+            "pixels": 1735
+          },
+          {
+            "capture": "frame_00602.png",
+            "speed": 0,
+            "shield": 97,
+            "pixels": 1735
+          },
+          {
+            "capture": "frame_00622.png",
+            "speed": 0,
+            "shield": 97,
+            "pixels": 1735
+          },
+          {
+            "capture": "frame_00642.png",
+            "speed": 0,
+            "shield": 0,
+            "pixels": 1538
+          },
+          {
+            "capture": "frame_00662.png",
+            "speed": 0,
+            "shield": 0,
+            "pixels": 1538
+          },
+          {
+            "capture": "frame_00682.png",
+            "speed": 0,
+            "shield": 0,
+            "pixels": 1538
+          },
+          {
+            "capture": "frame_00702.png",
+            "speed": 0,
+            "shield": 0,
+            "pixels": 1538
+          },
+          {
+            "capture": "frame_00750.png",
+            "speed": 0,
+            "shield": 0,
+            "pixels": 1538
+          },
+          {
+            "capture": "frame_00780.png",
+            "speed": 0,
+            "shield": 0,
+            "pixels": 1538
+          },
+          {
+            "capture": "frame_00800.png",
+            "speed": 0,
+            "shield": 100,
+            "pixels": 1735
+          },
+          {
+            "capture": "frame_00810.png",
+            "speed": 0,
+            "shield": 100,
+            "pixels": 1735
+          },
+          {
+            "capture": "final.png",
+            "speed": 0,
+            "shield": 100,
+            "pixels": 1735
+          }
+        ]
+      }
+    }
+  }
+}

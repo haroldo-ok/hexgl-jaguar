@@ -5,7 +5,7 @@ LYXASS := $(ROOT)/vendor/lyxass/lyxass
 VJ := $(ROOT)/vendor/virtualjaguar
 PYTHON ?= python3
 export BJL_ROOT
-.PHONY: all rom assets toolchain emulator test test-core test-gui test-unit test-quick release verify clean
+.PHONY: all rom assets toolchain emulator test test-core test-gui test-unit test-quick test-clean release verify clean
 all: rom
 
 toolchain:
@@ -20,6 +20,11 @@ assets:
 
 rom: toolchain
 	@test -f assets/models.inc || { echo 'Run make assets first'; exit 1; }
+	$(PYTHON) tools/frontend.py
+	$(PYTHON) tools/hud.py
+	$(PYTHON) tools/motion.py
+	$(PYTHON) tools/dynamics.py
+	$(PYTHON) tools/effects.py
 	$(PYTHON) tools/prepare_engine.py
 	cd src && $(LYXASS) -d -o audio.bin audio.js
 	cd src && $(LYXASS) -sh hexgl.js
@@ -37,10 +42,18 @@ emulator:
 # Release gate: compile current source, test assertions, real core, and stock GUI.
 test: rom emulator test-unit
 	$(PYTHON) tests/e2e.py
+	$(PYTHON) tests/hud_e2e.py
+	$(PYTHON) tests/dynamics_e2e.py
+	$(PYTHON) tests/frontend_e2e.py
+	$(PYTHON) tools/check_recorded_dynamics.py
 	xvfb-run -a -s '-screen 0 1024x768x24' $(PYTHON) tests/gui_e2e.py
 
 test-core: rom emulator
 	$(PYTHON) tests/e2e.py
+	$(PYTHON) tests/hud_e2e.py
+	$(PYTHON) tests/dynamics_e2e.py
+	$(PYTHON) tests/frontend_e2e.py
+	$(PYTHON) tools/check_recorded_dynamics.py
 
 test-gui: rom
 	xvfb-run -a -s '-screen 0 1024x768x24' $(PYTHON) tests/gui_e2e.py
@@ -48,7 +61,10 @@ test-gui: rom
 test-unit:
 	$(PYTHON) -m unittest discover -s tests -p 'test_*.py' -v
 
-release: test
+test-clean: rom
+	$(PYTHON) tools/clean_rebuild.py
+
+release: test test-clean
 	$(PYTHON) tools/black_screen_report.py
 	$(PYTHON) tools/bundle.py
 

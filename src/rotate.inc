@@ -235,6 +235,8 @@ cam_cos		reg 99
 vertex_source	reg 99
 normals_source	reg 99
 vnormals_source	reg 99
+pitch_sin reg 99
+pitch_cos reg 99
 
 rotate_camera::
 	load	(curr_object),x_pos
@@ -256,7 +258,8 @@ rotate_camera::
 
 	load	(curr_object+obj_points),vertex_source
 	load	(curr_object+obj_normals),normals_source
-	jr	rotate_cont
+	movei #rotate_cont,tmp0
+	jump (tmp0)
 	load	(curr_object+obj_vnormals),vnormals_source
 
 rotate_camera1::
@@ -264,6 +267,16 @@ rotate_camera1::
 	load	(curr_object+obj_normals_rotated),normals_source
 	load	(curr_object+obj_vnormals_rotated),vnormals_source
 rotate_cont
+ movei #PHYS+48,tmp0
+ load (tmp0),tmp0
+ sharq #8,tmp0
+ movei #2044,tmp1
+ and tmp1,tmp0
+ movei #SinTab,tmp1
+ add tmp0,tmp1
+ load (tmp1),pitch_sin
+ move pitch_sin,pitch_cos
+ shrq #16,pitch_cos
 	movefa	cam_cos.a,cam_cos
 	movefa	cam_sin.a,cam_sin
 	movefa	neg_cam_sin.a,neg_cam_sin
@@ -320,8 +333,19 @@ rc_points:
 	add	tmp3,tmp1	; z
 	sharq	#15,tmp0
 	sharq	#15,tmp1
-	shlq	#16,tmp0
-	shlq	#16,tmp1
+ ; Vertical look-at rotation applies to both geometry and normals.
+ imultn pitch_cos,y1
+ imacn pitch_sin,tmp1
+ resmac tmp2
+ imultn pitch_cos,tmp1
+ neg y1
+ imacn pitch_sin,y1
+ resmac tmp1
+ sharq #15,tmp2
+ sharq #15,tmp1
+ move tmp2,y1
+ shlq #16,tmp0
+ shlq #16,tmp1
 
 	load	(xyz_ptr),x1
 	addqt	#4,xyz_ptr
@@ -346,3 +370,5 @@ rc_points:
 	unreg cam_sin, neg_cam_sin, cam_cos
 	unreg vertex_source, normals_source, vnormals_source
 	unreg mask
+
+ unreg pitch_sin,pitch_cos

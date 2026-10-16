@@ -1,0 +1,26 @@
+{
+  "args": [
+    "/home/user/hexgl-jaguar/tests/vjrunner/vjrun",
+    "--symbols",
+    "/home/user/hexgl-jaguar/src/hexgl.equ",
+    "--frames",
+    "1180",
+    "--ntsc",
+    "--out",
+    "/home/user/hexgl-jaguar/test-results/bank-ntsc",
+    "--input",
+    "100:a,120:none,580:left,640:none,700:right,760:none,820:left+b,880:none,940:right+b,1000:pause,1010:none,1060:pause,1070:none,1120:option,1130:none",
+    "--quiet",
+    "--dump-at",
+    "80,180,280,380,480,580,800,1200,2400,4800,8000,12000",
+    "--title",
+    "run",
+    "--no-bios",
+    "--dump-max",
+    "20",
+    "--dump-at",
+    "632,752,872,1052",
+    "/home/user/hexgl-jaguar/rom/hexgl.j64"
+  ],
+  "rom_sha256": "bfe5591fa30c95baa290f2591253d1ff47e12639a92b37d7bc9980d8456f1faa"
+}

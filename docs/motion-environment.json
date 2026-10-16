@@ -1,0 +1,25 @@
+{
+  "rom_sha256": "4d6e3eac68416e200db164418d2b57d1a686cc6b3fbdd9e443f9f09ca59c68dd",
+  "baseline_rom_sha256": "b40795a1291661122543dccd4dfaf88abe0936d0fbee0e8f36b9ec01ad4572d7",
+  "virtualjaguar_package": "2.1.3+final-1",
+  "gui_executable_sha256": "9ce9b17eaf33382e3aafce8841f3dc44c5547a140733baf8499254ad21488f86",
+  "files_sha256": {
+    "src/control.js": "12f2c4166395b8c8cbf1ced980cf3643598a24e593b0f80d9dc592f233111f87",
+    "src/game.h": "4618c3dc67ef5f19d0bb154440eb86a2125fc2244459d675d93c75627f6d741a",
+    "src/motion.inc": "ae31a9a5bb8eea89ae03cf98edc47a294e89bbf16d8c0ab210ac3707686c48a6",
+    "tools/motion.py": "c37af47d22bb63fa567a0b5ff9a2d5f05bea37ac6a3b501c888156e7657c7748",
+    "assets/motion.inc": "104683c4129ad526c639dad6a13a52fcd8ab9b6b3610d0395ae69068492c6e9b",
+    "assets/motion.json": "2377785271df06f5e37531f710d11f6820afbad3885bf55b3507578a56347f30",
+    "tools/prepare_engine.py": "d0f639412d091fd8e90a2ff8b2b5a5e82fc2e853a9abfdae1c52f1cf01c7c2a7",
+    "tools/verify.py": "a12780ba8e5f277842fdf3dcab1a5efa2db8ace494b1d4327f931d3c9a09a0ac",
+    "tests/vjrunner/vjrun.cpp": "3d37024ba9d245f5bc7d4062308c6e6117f2b2563c53c669a68dee9d5e186722",
+    "tests/e2e.py": "e6759f4d6c89cc4b0fbccb1b986e375001666c93d697f04d34d0dd8cf530671c",
+    "tests/motion_checks.py": "ed10d41e7d34474f43594d02bed06fa4d56b5defcfd4660aca492e8095988406",
+    "tests/test_motion.py": "b1e5a62921b158195e753c14efa2b241fdf2333cf73b429949e84a5ec4284a3d",
+    "tools/motion_report.py": "0bf86ac58659655edeb15faf5560e3e2d8143f4c6f4402ebfb36ff9119b9281e",
+    "Makefile": "274cbe6ba1dca27a144e545708bf58b21178c8080eff941ff906dbf1adc1756f"
+  },
+  "scope": "Local real VJ Rx core and stock Linux Virtual Jaguar GUI; physical hardware and remote CI not executed.",
+  "historical": true,
+  "historical_note": "Evidence for the previous ship/camera release, not the current bitmap-HUD ROM."
+}

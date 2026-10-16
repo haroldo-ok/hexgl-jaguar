@@ -1,4 +1,44 @@
 python3 -m unittest discover -s tests -p 'test_*.py' -v
+test_corrupt_projected_pixel_rejected (test_dynamics.DynamicsOracle.test_corrupt_projected_pixel_rejected) ... ok
+test_exact_vertex (test_dynamics.DynamicsOracle.test_exact_vertex) ... ok
+test_missing_camera_pitch_rejected (test_dynamics.DynamicsOracle.test_missing_camera_pitch_rejected) ... ok
+test_missing_ship_pitch_rejected (test_dynamics.DynamicsOracle.test_missing_ship_pitch_rejected) ... ok
+test_original_start_height (test_dynamics.DynamicsOracle.test_original_start_height) ... ok
+test_signed_vertex_word (test_dynamics.DynamicsOracle.test_signed_vertex_word) ... ok
+test_slope_table (test_dynamics.DynamicsOracle.test_slope_table) ... ok
+test_integration_error_rejected (test_dynamics.ParticleOracle.test_integration_error_rejected) ... ok
+test_pause_motion_rejected (test_dynamics.ParticleOracle.test_pause_motion_rejected) ... ok
+test_pointer_in_lifetime_rejected (test_dynamics.ParticleOracle.test_pointer_in_lifetime_rejected) ... ok
+test_real_time_recurrence (test_dynamics.ParticleOracle.test_real_time_recurrence) ... ok
+test_all_original_font_glyphs (test_frontend.FrontendTests.test_all_original_font_glyphs) ... ok
+test_bad_checksum (test_frontend.FrontendTests.test_bad_checksum) ... ok
+test_font_oracle_rejects_black (test_frontend.FrontendTests.test_font_oracle_rejects_black) ... ok
+test_generation_wrap (test_frontend.FrontendTests.test_generation_wrap) ... ok
+test_journal_score_bounds (test_frontend.FrontendTests.test_journal_score_bounds) ... ok
+test_record_buffer_bounds (test_frontend.FrontendTests.test_record_buffer_bounds) ... ok
+test_replay_split_multiply (test_frontend.FrontendTests.test_replay_split_multiply) ... ok
+test_shortest_heading (test_frontend.FrontendTests.test_shortest_heading) ... ok
+test_source_assets (test_frontend.FrontendTests.test_source_assets) ... ok
+test_torn_commit (test_frontend.FrontendTests.test_torn_commit) ... ok
+test_valid_journal (test_frontend.FrontendTests.test_valid_journal) ... ok
+test_all_shield_clip_levels (test_hud.HUDTests.test_all_shield_clip_levels) ... ok
+test_all_speed_clip_levels (test_hud.HUDTests.test_all_speed_clip_levels) ... ok
+test_coverage_from_png (test_hud.HUDTests.test_coverage_from_png) ... ok
+test_original_provenance (test_hud.HUDTests.test_original_provenance) ... ok
+test_pitch_two_addressing (test_hud.HUDTests.test_pitch_two_addressing) ... ok
+test_pixels_accept_reference (test_hud.HUDTests.test_pixels_accept_reference) ... ok
+test_pixels_reject_black (test_hud.HUDTests.test_pixels_reject_black) ... ok
+test_pixels_reject_stuck_shield (test_hud.HUDTests.test_pixels_reject_stuck_shield) ... ok
+test_pixels_reject_stuck_speed (test_hud.HUDTests.test_pixels_reject_stuck_speed) ... ok
+test_world_watchdog_excludes_both_huds (test_hud.HUDTests.test_world_watchdog_excludes_both_huds) ... ok
+test_coefficients_normalize_video_rate (test_motion.MotionMath.test_coefficients_normalize_video_rate) ... ok
+test_constant_target_converges_without_sticking (test_motion.MotionMath.test_constant_target_converges_without_sticking) ... ok
+test_no_overshoot (test_motion.MotionMath.test_no_overshoot) ... ok
+test_split_multiply_matches_wide_integer_reference (test_motion.MotionMath.test_split_multiply_matches_wide_integer_reference) ... ok
+test_healthy_fixture (test_motion.MotionOracle.test_healthy_fixture) ... ok
+test_wrong_actual_camera_rejected (test_motion.MotionOracle.test_wrong_actual_camera_rejected) ... ok
+test_wrong_actual_mesh_angle_rejected (test_motion.MotionOracle.test_wrong_actual_mesh_angle_rejected) ... ok
+test_wrong_filter_recurrence_rejected (test_motion.MotionOracle.test_wrong_filter_recurrence_rejected) ... ok
 test_animated_video_cannot_hide_dead_heartbeat (test_watchdogs.CoreWatchdog.test_animated_video_cannot_hide_dead_heartbeat) ... ok
 test_black_tail_including_last_field (test_watchdogs.CoreWatchdog.test_black_tail_including_last_field) ... ok
 test_boot_logo_not_native_game (test_watchdogs.CoreWatchdog.test_boot_logo_not_native_game) ... ok
@@ -9,8 +49,11 @@ test_running_telemetry_cannot_hide_frozen_video (test_watchdogs.CoreWatchdog.tes
 test_black_rejected (test_watchdogs.DesktopWatchdog.test_black_rejected) ... ok
 test_bright_solid_color_rejected (test_watchdogs.DesktopWatchdog.test_bright_solid_color_rejected) ... ok
 test_identical_frames_have_zero_motion (test_watchdogs.DesktopWatchdog.test_identical_frames_have_zero_motion) ... ok
+test_countdown_can_be_static_but_not_black (test_watchdogs.RaceFlow.test_countdown_can_be_static_but_not_black) ... ok
+test_finish_can_be_static_but_not_dead (test_watchdogs.RaceFlow.test_finish_can_be_static_but_not_dead) ... ok
+test_millisecond_format (test_watchdogs.RaceFlow.test_millisecond_format) ... ok
 
 ----------------------------------------------------------------------
-Ran 10 tests in 0.048s
+Ran 53 tests in 1.743s
 
 OK

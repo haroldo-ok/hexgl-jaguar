@@ -3,7 +3,7 @@ positive end-to-end evidence always comes from a fresh emulator execution.
 """
 import copy, unittest
 import numpy as np
-from e2e import common, MAGIC
+from e2e import common, MAGIC, milliseconds
 from gui_e2e import metrics, visible
 
 
@@ -39,6 +39,23 @@ class CoreWatchdog(unittest.TestCase):
         r=healthy()
         for f in r['fields']:f['game'][0]=0
         with self.assertRaisesRegex(AssertionError,'native gameplay'):common(r)
+
+class RaceFlow(unittest.TestCase):
+    def test_millisecond_format(self):
+        self.assertEqual(milliseconds('01:02.345'),62345)
+        with self.assertRaises(AssertionError):milliseconds('1:2.3')
+    def test_countdown_can_be_static_but_not_black(self):
+        r=healthy()
+        for f in r['fields']:f['game'][2]=4;f['world_changed']=0
+        common(r)
+        r['fields'][-1]['world_lit']=0
+        with self.assertRaisesRegex(AssertionError,'World viewport black'):common(r)
+    def test_finish_can_be_static_but_not_dead(self):
+        r=healthy()
+        for f in r['fields']:f['game'][2]=3;f['world_changed']=0
+        common(r)
+        for f in r['fields'][150:]:f['game'][1]=1
+        with self.assertRaisesRegex(AssertionError,'heartbeat stalled'):common(r)
 
 class DesktopWatchdog(unittest.TestCase):
     def test_black_rejected(self):self.assertFalse(visible(metrics(np.zeros((80,160,3),dtype=np.uint8))))

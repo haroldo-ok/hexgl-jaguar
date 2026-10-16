@@ -5,6 +5,14 @@ import struct,hashlib,json,re
 R=Path(__file__).resolve().parents[1]
 rom=(R/'rom/hexgl.j64').read_bytes();payload=(R/'src/hexgl.o').read_bytes()
 loader=(R/'vendor/jag_3d_engine/loader/sbl.XXX').read_bytes()
+# Object-list adaptation must change ONLY the text bitmap's vertical position.
+for name in ['obl0_50.bin','obl1_50.bin','obl0_60.bin','obl1_60.bin']:
+    original=(R/'vendor/jag_3d_engine'/name).read_bytes()
+    adjusted=(R/'src'/name).read_bytes()
+    assert original[:0x50]==adjusted[:0x50] and original[0x58:]==adjusted[0x58:]
+    a=int.from_bytes(original[0x50:0x58],'big');b=int.from_bytes(adjusted[0x50:0x58],'big')
+    mask=0x7ff<<3
+    assert a&~mask==b&~mask and ((a>>3)&0x7ff)-((b>>3)&0x7ff)==4
 assert len(rom)==6*1024*1024
 assert rom[:0x404]==loader[:0x404] and rom[0x408:len(loader)]==loader[0x408:]
 assert struct.unpack_from('>I',rom,0x404)[0]==0x900000
@@ -16,7 +24,7 @@ assert payload[:4]==b'BS94'
 addr,size=struct.unpack('>II',payload[4:12]);assert addr==0x2000
 assert len(payload)==size+12
 assert addr+size<=0x110000,'Program overlaps renderer scratch space'
-layout=[('collision.bin',0x200000),('height.bin',0x240000),('replay.bin',0x2c0000),('route.bin',0x2d8000),('audio.bin',0x300000),('sky.bin',0x400000)]
+layout=[('collision.bin',0x200000),('height.bin',0x240000),('replay.bin',0x2c0000),('route.bin',0x2d8000),('audio.bin',0x300000),('sky.bin',0x400000),('front-main.cry',0x590000),('front-bg.cry',0x5b5800)]
 for i,(name,offset) in enumerate(layout):
     b=(R/'assets'/name).read_bytes();assert rom[offset:offset+len(b)]==b
     end=layout[i+1][1] if i+1<len(layout) else len(rom)
@@ -28,10 +36,41 @@ for item in m['models']:
         assert hashlib.sha256(p.read_bytes()).hexdigest()==item['sha256']
 assert sum(i['triangles'] for i in m['models'] if i['runtime'])==12206
 assert len((R/'src/audio.bin').read_bytes())<8192
+# Camera smoothing splits signed Q8 deltas before 16-bit IMULT. Establish its
+# high-part range for every driveable height-map pixel, not just tested paths.
+road=(R/'assets/collision.bin').read_bytes()
+heights=[h[0] for i,h in enumerate(struct.iter_unpack('>H',(R/'assets/height.bin').read_bytes())) if road[i]]
+assert max(heights)-min(heights)+80<32768,'Camera height delta exceeds signed multiply range'
 s=(R/'src/hexgl.equ').read_text()
 mods=dict(re.findall(r'(MOD(?:end|run)_\w+)\s+EQU \$([0-9a-fA-F]+)',s))
-for name in ['engine','control']:
+for name in ['engine','control','bitmap_hud','frontend','frontdraw','recording','pose','effects']:
     assert int(mods['MODend_'+name],16)<0xf03f00,'GPU module overlaps stack'
-report={'rom_bytes':len(rom),'sha256':hashlib.sha256(rom).hexdigest(),'load_address':hex(addr),'loaded_bytes':size,'loaded_end':hex(addr+size),'scratch_start':'0x110000','triangle_arena_end':'0x14acc8','framebuffer_start':'0x1b4800','runtime_triangles':12206,'runtime_objects':m['objects'],'status':'PASS'}
+# Original HUD assets are present in the loaded program, not merely archived.
+hud=json.loads((R/'assets/hud.json').read_text())
+assert hashlib.sha256((R/hud['clip_source']).read_bytes()).hexdigest()==hud['clip_source_sha256']
+for layer in hud['layers']:
+    assert hashlib.sha256((R/layer['source']).read_bytes()).hexdigest()==layer['source_sha256']
+    data=(R/layer['native_file']).read_bytes()
+    assert hashlib.sha256(data).hexdigest()==layer['native_sha256']
+    assert payload[12:].count(data)==1,'HUD data absent or duplicated in native payload'
+    for record,color in struct.iter_unpack('>II',data):
+        off=record&0xffffff
+        assert off<384*50*4 and off%16<8 and off%2==0 and color<=65535
+front=json.loads((R/'assets/frontend.json').read_text())
+for path,digest in front['sources'].items():
+    assert hashlib.sha256((R/path).read_bytes()).hexdigest()==digest
+for path,digest in front['outputs'].items():
+    assert hashlib.sha256((R/'assets'/path).read_bytes()).hexdigest()==digest
+assert 0x14acc8<0x150000 and 0x150000+6144*64==0x1b0000<0x1b4800
+# New runtime effects are original-source conversions referenced by the program.
+fx=json.loads((R/'assets/effects.json').read_text())
+for sprite in fx['sprites']:
+    assert hashlib.sha256((R/sprite['source']).read_bytes()).hexdigest()==sprite['sha256']
+data=(R/'assets/effects.bin').read_bytes()
+assert hashlib.sha256(data).hexdigest()==fx['sha256'] and len(data)==3*16*16*4
+assert payload[12:].count(data)==1,'Native effect atlas missing/duplicated'
+assert 0x1b0000+6144*2==0x1b3000<0x1b4800
+assert 0x1800+16*32==0x1a00<0x2000
+report={'effect_pool':16,'replay_angles_end':'0x1b3000','recording_capacity':6144,'recording_end':'0x1b0000','hud_records':{l['layer']:l['records'] for l in hud['layers']},'rom_bytes':len(rom),'sha256':hashlib.sha256(rom).hexdigest(),'load_address':hex(addr),'loaded_bytes':size,'loaded_end':hex(addr+size),'scratch_start':'0x110000','triangle_arena_end':'0x14acc8','framebuffer_start':'0x1b4800','runtime_triangles':12206,'runtime_objects':m['objects'],'status':'PASS'}
 (R/'rom/verification.json').write_text(json.dumps(report,indent=2)+'\n')
 print(json.dumps(report,indent=2))

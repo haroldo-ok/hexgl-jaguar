@@ -1,0 +1,20 @@
+{
+  "rom_sha256": "b40795a1291661122543dccd4dfaf88abe0936d0fbee0e8f36b9ec01ad4572d7",
+  "baseline_rom_sha256": "4c8a579bd4676e5a7d6a1fb415aaa547ad13cfa459a452f779334654b5de0911",
+  "virtualjaguar_package": "2.1.3+final-1",
+  "m68k_binutils": "GNU assembler (GNU Binutils for Debian) 2.44",
+  "files_sha256": {
+    "src/control.js": "c9c0e33dc3cfcbf26b7aa1723f316d5735aeb54310fd933459946cd47916e584",
+    "src/game.h": "5bd02389ed962c83cc63888e8f86271a1970bacb938f2aabd54d82eaf6ebd258",
+    "src/race_hud.inc": "8a4b6638783cb7a5d33f36ace781434163665d528541a9af4fe8da0430d420c5",
+    "tests/e2e.py": "7fbdd8adf7bad8ef39fd97f2aadda0c748b67a3dd7e4a996c4369504953674c3",
+    "tests/gui_e2e.py": "9470375d34bb683909b5d887ce3612680dc8d7bbe9393ab14aee3c703d4c85fa",
+    "tests/vjrunner/vjrun.cpp": "f43d2c547d995f5476ebf30d7a805e274073d3389183d887275b63b61a933154",
+    "tools/prepare_engine.py": "47100ecdaa6557ac5868a88fb12dcbfc1c46efbeeebc6bd4c009de6462f88170",
+    "tools/verify.py": "159157463df5cac65b4d43d7602a6902a5d136d73b371fbf7a187ba0745140cb",
+    "tests/test_watchdogs.py": "4a35a45789e0d829e0f66786373f1abb7e63ce3ccefd4469fa17c4571234f93d",
+    "tools/race_flow_report.py": "8626afe62884eb6116e1d2f1536160ddf8a7dc4d096396348233b72621faf837",
+    "tools/bundle.py": "4d6cff90010502913d993dd5bb6a7f4d23d68e7cf32f1bc49e5c36e3940975b5"
+  },
+  "scope": "Historical race-flow milestone. Current ship/camera verification is in motion-environment.json and test-results/."
+}

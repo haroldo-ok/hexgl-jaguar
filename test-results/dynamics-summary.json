@@ -1,0 +1,98 @@
+{
+  "status": "PASS",
+  "rom_sha256": "bfe5591fa30c95baa290f2591253d1ff47e12639a92b37d7bc9980d8456f1faa",
+  "cases": {
+    "dynamics-drive-ntsc": {
+      "actual_vertices": 475,
+      "pitched_vertices": 350,
+      "hover_updates": 73,
+      "drifting_updates": 6,
+      "repulsion_updates": 64,
+      "fall_updates": 30,
+      "particle_integrations": 1058,
+      "observed_spawns": 90,
+      "drawn_frames": 137,
+      "maximum_pool": 16,
+      "source_sprite_matching_pixels": [
+        80,
+        4863,
+        9
+      ],
+      "exact_glow_pixels": 11,
+      "checks": [
+        "airbrake lateral force",
+        "contact recoil",
+        "bilinear hover",
+        "active-time fall/destruction",
+        "real ship/camera vertex and projection",
+        "original sprite pixels",
+        "bounded world-space spark/cloud emitters",
+        "lifetime integration",
+        "particle pause"
+      ],
+      "fall_integration_updates": 30,
+      "paused_fall_updates": 0,
+      "terminal_fall_fields": 90
+    },
+    "dynamics-route-ntsc": {
+      "actual_vertices": 802,
+      "pitched_vertices": 677,
+      "hover_updates": 677,
+      "drifting_updates": 0,
+      "repulsion_updates": 0,
+      "fall_updates": 0,
+      "checks": [
+        "source-map slopes",
+        "actual pitched GPU mesh and look-at camera",
+        "bilinear hover over varied track heights",
+        "bounded PAL/NTSC response"
+      ]
+    },
+    "dynamics-drive-pal": {
+      "actual_vertices": 484,
+      "pitched_vertices": 383,
+      "hover_updates": 61,
+      "drifting_updates": 6,
+      "repulsion_updates": 40,
+      "fall_updates": 25,
+      "particle_integrations": 678,
+      "observed_spawns": 42,
+      "drawn_frames": 113,
+      "maximum_pool": 16,
+      "source_sprite_matching_pixels": [
+        47,
+        5041,
+        9
+      ],
+      "exact_glow_pixels": 11,
+      "checks": [
+        "airbrake lateral force",
+        "contact recoil",
+        "bilinear hover",
+        "active-time fall/destruction",
+        "real ship/camera vertex and projection",
+        "original sprite pixels",
+        "bounded world-space spark/cloud emitters",
+        "lifetime integration",
+        "particle pause"
+      ],
+      "fall_integration_updates": 25,
+      "paused_fall_updates": 0,
+      "terminal_fall_fields": 75
+    },
+    "dynamics-route-pal": {
+      "actual_vertices": 929,
+      "pitched_vertices": 828,
+      "hover_updates": 827,
+      "drifting_updates": 0,
+      "repulsion_updates": 0,
+      "fall_updates": 0,
+      "checks": [
+        "source-map slopes",
+        "actual pitched GPU mesh and look-at camera",
+        "bilinear hover over varied track heights",
+        "bounded PAL/NTSC response"
+      ]
+    }
+  }
+}

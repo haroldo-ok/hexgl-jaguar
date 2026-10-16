@@ -1,0 +1,28 @@
+{
+  "sprites": [
+    {
+      "name": "spark",
+      "source": "vendor/HexGL/textures/particles/spark.png",
+      "sha256": "9f90354a518db007118cc76875a3e8d4fa570437b1608d317fa5071cb9bd7ace",
+      "offset": 0
+    },
+    {
+      "name": "cloud",
+      "source": "vendor/HexGL/textures/particles/cloud.png",
+      "sha256": "c8e56519bbfd3e42d0c1aff8249e43d2e5a2946f5109dcdfe3574d8219ca65b3",
+      "offset": 1024
+    },
+    {
+      "name": "glow",
+      "source": "vendor/HexGL/textures/ships/feisar/booster/boostersprite.jpg",
+      "sha256": "c811eff6d9ebf4a07f32c7ef31db72d7dd6ddb4b80e93e85cccc2046cc1f9016",
+      "offset": 2048
+    }
+  ],
+  "size": [
+    16,
+    16
+  ],
+  "format": "alpha8 in bits16..23, CrY16 in low bits; native ordered alpha coverage",
+  "sha256": "2d0bc6bb1ac4255f23b79e27bd6a0c3835799fa23ae8c8d779288c50878550a9"
+}

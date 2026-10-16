@@ -1,0 +1,46 @@
+{
+  "status": "PASS",
+  "rom_sha256": "4d6e3eac68416e200db164418d2b57d1a686cc6b3fbdd9e443f9f09ca59c68dd",
+  "source_archive_extracted": true,
+  "bundled_rom_deleted_before_build": true,
+  "assembler_and_emulator_built_from_source": true,
+  "byte_identical_rom": true,
+  "cases": {
+    "clean-motion-ntsc-direct": {
+      "status": "PASS",
+      "fields": 1100,
+      "checks": [
+        "native boot",
+        "countdown",
+        "visible HUD glyphs",
+        "nonblack world",
+        "audio",
+        "motion recurrence",
+        "actual mesh and camera inputs"
+      ],
+      "verified_updates": 164,
+      "height_filtered_updates": 124,
+      "left_bank_seen": true,
+      "right_bank_seen": true
+    },
+    "clean-motion-pal-bios": {
+      "status": "PASS",
+      "fields": 1100,
+      "checks": [
+        "native boot",
+        "countdown",
+        "visible HUD glyphs",
+        "nonblack world",
+        "audio",
+        "motion recurrence",
+        "actual mesh and camera inputs"
+      ],
+      "verified_updates": 216,
+      "height_filtered_updates": 174,
+      "left_bank_seen": true,
+      "right_bank_seen": true
+    }
+  },
+  "historical": true,
+  "historical_note": "Evidence for the previous ship/camera release, not the current bitmap-HUD ROM."
+}

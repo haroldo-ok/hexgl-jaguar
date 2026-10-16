@@ -1,0 +1,42 @@
+{
+  "clip_source": "vendor/HexGL/bkcore/hexgl/HUD.js",
+  "clip_source_sha256": "d534035779f49e3ee94542b800fe38d528efbba46dcc0eb661ff065afa57750f",
+  "dimensions": [
+    384,
+    50
+  ],
+  "placement": [
+    0,
+    0
+  ],
+  "alpha": "8x8 ordered coverage",
+  "layers": [
+    {
+      "layer": "bg",
+      "source": "vendor/HexGL/textures/hud/hud-bg.png",
+      "source_sha256": "f52649f88f5275485d677699f6195313721895874abbe0d33e8b3c6a866913ea",
+      "native_file": "assets/hud-bg.bin",
+      "native_sha256": "25c59434c90d3a9498190cccd40fde55dbb1b6be5b7e522898089a6703c6c7a5",
+      "records": 1241,
+      "bytes": 9928
+    },
+    {
+      "layer": "speed",
+      "source": "vendor/HexGL/textures/hud/hud-fg-speed.png",
+      "source_sha256": "c5eab0f5815d001acf26f87f80c9df0c873c55dcb622860cc8519d20fc7d801b",
+      "native_file": "assets/hud-speed.bin",
+      "native_sha256": "1a73220c0037164f1169cb93dcb565f6270706f2419e1befcb180af1cb0d9966",
+      "records": 1419,
+      "bytes": 11352
+    },
+    {
+      "layer": "shield",
+      "source": "vendor/HexGL/textures/hud/hud-fg-shield.png",
+      "source_sha256": "cf44acdbc864ce6634b973b5e91376cf0aee2f03d105395fce9b35cd56a39e44",
+      "native_file": "assets/hud-shield.bin",
+      "native_sha256": "6395dc01d9275b734ddcc492c4f3201c9f9456b52f8bd064042f9313db923477",
+      "records": 297,
+      "bytes": 2376
+    }
+  ]
+}

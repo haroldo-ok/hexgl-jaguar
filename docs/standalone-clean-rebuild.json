@@ -1,0 +1,135 @@
+{
+  "status": "PASS",
+  "rom_sha256": "024b965bb8da34470de2c8870c7259784f8605fdeb9a2b8ab4c4744bc336a8fe",
+  "method": "Separate source tree with no ROM/payload/host object products; make rom emulator exited 0; native ROM byte-identical.",
+  "cases": {
+    "ntsc": {
+      "boot": "direct",
+      "fields": 1100,
+      "recorded_samples": 156,
+      "bitmap_hud": {
+        "checks": [
+          "original three PNG layers in actual TOM output",
+          "HUD.js speed trapezoid and shield rectangle",
+          "native speed/shield digits",
+          "recent live game state"
+        ],
+        "captures": [
+          {
+            "capture": "frame_00180.png",
+            "speed": 0,
+            "shield": 100,
+            "pixels": 1735
+          },
+          {
+            "capture": "frame_00280.png",
+            "speed": 0,
+            "shield": 100,
+            "pixels": 1735
+          },
+          {
+            "capture": "frame_00380.png",
+            "speed": 0,
+            "shield": 100,
+            "pixels": 1735
+          },
+          {
+            "capture": "frame_00480.png",
+            "speed": 0,
+            "shield": 100,
+            "pixels": 1735
+          },
+          {
+            "capture": "frame_00580.png",
+            "speed": 28,
+            "shield": 100,
+            "pixels": 2793
+          },
+          {
+            "capture": "frame_00800.png",
+            "speed": 28,
+            "shield": 100,
+            "pixels": 2793
+          },
+          {
+            "capture": "final.png",
+            "speed": 28,
+            "shield": 100,
+            "pixels": 2793
+          }
+        ]
+      },
+      "motion": {
+        "verified_updates": 157,
+        "height_filtered_updates": 117,
+        "left_bank_seen": true,
+        "right_bank_seen": true
+      }
+    },
+    "pal": {
+      "boot": "bios",
+      "fields": 1100,
+      "recorded_samples": 212,
+      "bitmap_hud": {
+        "checks": [
+          "original three PNG layers in actual TOM output",
+          "HUD.js speed trapezoid and shield rectangle",
+          "native speed/shield digits",
+          "recent live game state"
+        ],
+        "captures": [
+          {
+            "capture": "frame_00180.png",
+            "speed": 0,
+            "shield": 100,
+            "pixels": 1735
+          },
+          {
+            "capture": "frame_00280.png",
+            "speed": 0,
+            "shield": 100,
+            "pixels": 1735
+          },
+          {
+            "capture": "frame_00380.png",
+            "speed": 0,
+            "shield": 100,
+            "pixels": 1735
+          },
+          {
+            "capture": "frame_00480.png",
+            "speed": 28,
+            "shield": 100,
+            "pixels": 2793
+          },
+          {
+            "capture": "frame_00580.png",
+            "speed": 28,
+            "shield": 100,
+            "pixels": 2793
+          },
+          {
+            "capture": "frame_00800.png",
+            "speed": 28,
+            "shield": 100,
+            "pixels": 2793
+          },
+          {
+            "capture": "final.png",
+            "speed": 28,
+            "shield": 100,
+            "pixels": 2793
+          }
+        ]
+      },
+      "motion": {
+        "verified_updates": 213,
+        "height_filtered_updates": 171,
+        "left_bank_seen": true,
+        "right_bank_seen": true
+      }
+    }
+  },
+  "historical": true,
+  "superseded_by": "dynamics-clean-rebuild.json"
+}

@@ -1,0 +1,61 @@
+{
+  "status": "PASS",
+  "rom_sha256": "bfe5591fa30c95baa290f2591253d1ff47e12639a92b37d7bc9980d8456f1faa",
+  "method": "Independent post-run checks of current-ROM recorded observations; original E2E invocations retained.",
+  "cases": {
+    "manual-ntsc": {
+      "fall_integration_updates": 30,
+      "paused_fall_updates": 49,
+      "terminal_fall_fields": 90
+    },
+    "manual-ntsc-direct": {
+      "fall_integration_updates": 30,
+      "paused_fall_updates": 49,
+      "terminal_fall_fields": 90
+    },
+    "manual-pal": {
+      "fall_integration_updates": 50,
+      "paused_fall_updates": 49,
+      "terminal_fall_fields": 75
+    },
+    "manual-pal-direct": {
+      "fall_integration_updates": 50,
+      "paused_fall_updates": 49,
+      "terminal_fall_fields": 75
+    },
+    "replay-ntsc": {
+      "recorded_pitch_pairs_verified": 88,
+      "samples": 88,
+      "interpolated_commits": 137,
+      "fractional_commits": 73,
+      "record_ticks": 326,
+      "checks": [
+        "real run samples",
+        "time interpolation",
+        "mesh positions and camera",
+        "wrapped heading",
+        "pause/resume",
+        "stable end",
+        "Option exit",
+        "no replay score writes"
+      ]
+    },
+    "replay-pal": {
+      "recorded_pitch_pairs_verified": 121,
+      "samples": 121,
+      "interpolated_commits": 147,
+      "fractional_commits": 92,
+      "record_ticks": 396,
+      "checks": [
+        "real run samples",
+        "time interpolation",
+        "mesh positions and camera",
+        "wrapped heading",
+        "pause/resume",
+        "stable end",
+        "Option exit",
+        "no replay score writes"
+      ]
+    }
+  }
+}

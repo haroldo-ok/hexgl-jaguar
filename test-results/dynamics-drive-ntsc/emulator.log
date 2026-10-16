@@ -1,0 +1,20 @@
+vjrun: Virtual Jaguar core v2.1.3 (built Oct 16 2026 03:48:40)
+vjrun: rom='/home/user/hexgl-jaguar/rom/hexgl.j64' fields=1600 video=NTSC
+vjrun: rom size = 6291456 bytes
+vjrun: wrote /home/user/hexgl-jaguar/test-results/dynamics-drive-ntsc/frame_00080.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/dynamics-drive-ntsc/frame_00180.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/dynamics-drive-ntsc/frame_00280.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/dynamics-drive-ntsc/frame_00380.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/dynamics-drive-ntsc/frame_00480.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/dynamics-drive-ntsc/frame_00575.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/dynamics-drive-ntsc/frame_00580.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/dynamics-drive-ntsc/frame_00620.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/dynamics-drive-ntsc/frame_00650.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/dynamics-drive-ntsc/frame_00665.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/dynamics-drive-ntsc/frame_00770.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/dynamics-drive-ntsc/frame_00800.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/dynamics-drive-ntsc/frame_00830.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/dynamics-drive-ntsc/frame_01200.png
+vjrun: wrote /home/user/hexgl-jaguar/test-results/dynamics-drive-ntsc/final.png
+vjrun: report = /home/user/hexgl-jaguar/test-results/dynamics-drive-ntsc/run_report.json
+vjrun: PASS - first live field 27, 128/1600 fields animated, worst black streak 27

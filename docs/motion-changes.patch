@@ -1,0 +1,821 @@
+--- a/src/control.js
++++ b/src/control.js
+@@ -326,6 +326,8 @@
+  store r0,(r14+36)
+  moveq #1,r0
+  store r0,(r14+40)
++ movei #motion_reset,r0
++ BL (r0)
+  movei #camera_update,r0
+  jump (r0)
+  nop
+@@ -366,6 +368,8 @@
+  nop
+ 
+ camera_update:
++ movei #motion_update,r0
++ BL (r0)
+  movei #GAME,r14
+  load (r14+16),r21
+  load (r14+20),r24
+@@ -387,6 +391,13 @@
+  storew r22,(r0)
+  addq #6,r0
+  storew r18,(r0)
++ addq #2,r0
++ movei #MOTION,r15
++ load (r15),r1
++ sharq #8,r1
++ movei #2044,r2
++ and r2,r1
++ storew r1,(r0)
+  movei #obj_booster+2,r0
+  storew r21,(r0)
+  addq #2,r0
+@@ -395,24 +406,44 @@
+  storew r22,(r0)
+  addq #6,r0
+  storew r18,(r0)
++ addq #2,r0
++ storew r1,(r0)
++ ; Native telemetry records the angles actually written to both objects.
++ move r1,r2
++ shlq #16,r2
++ or r1,r2
++ store r2,(r15+60)
+  movei #SinTab,r15
+  load (r15+r23),r0
+  move r0,r1
+  shrq #16,r1
+- movei #160,r2
++ movei #MOTION+4,r2
++ load (r2),r2
++ shrq #8,r2
++ movei #160,r3
++ add r3,r2
++ movei #MOTION,r15
++ store r2,(r15+44)
+  imult r2,r0
+  imult r2,r1
+  sharq #15,r0
+  sharq #15,r1
+  add r0,r21
+  sub r1,r22
+- addq #32,r24
+- addq #32,r24
++ load (r15+8),r24
++ sharq #8,r24
++ store r21,(r15+48)
++ store r24,(r15+52)
++ store r22,(r15+56)
+  movei #CAMERA_X,r15
+  store r21,(r15)
+  store r24,(r15+4)
+  store r22,(r15+8)
+  store r23,(r15+12)
++ movei #MOTION+64,r0
++ load (r0),r1
++ addq #1,r1
++ store r1,(r0)
+  ; HUD routines use the DRAM backing strings, never GPU-local LOADB.
+  movei #draw_race_hud,r0
+  BL (r0)
+@@ -455,6 +486,7 @@
+  jump (LR)
+  moveq #0,r4
+ 
++ include "motion.inc"
+  include "race_hud.inc"
+  align 8
+  ENDMODULE control
+--- a/src/game.h
++++ b/src/game.h
+@@ -1,6 +1,7 @@
+ ; Native fixed-point gameplay state. Coordinates Q24.8, angles 512 steps * 4.
+ GAME equ $1000
+ VBL_TICKS equ $1080
++MOTION equ $10a0 ; 17 words ending $10e3, separate from VBL/DSP counters
+ collision_map equ $a00000
+ height_map equ $a40000
+ replay_data equ $ac0000
+--- a/src/motion.inc
++++ b/src/motion.inc
+@@ -0,0 +1,195 @@
++; Native adaptation of BKcore ShipControls roll and CameraChase speed offset.
++; Upstream source is CC BY-NC 3.0; see NOTICE.md. Full quaternion/physics parity
++; is NOT implemented. Camera height filtering is an explicit native adaptation.
++;
++; MOTION words: roll Q8, pullback Q8, camera Y Q8, last heading, roll target Q8,
++; pullback target Q8, height target Q8, dt fields, alpha bank/pull/height,
++; effective distance, camera X/Y/Z, applied ship/booster roll (packed words),
++; committed pose sequence. Sequence increments only after all outputs are set.
++
++motion_reset:
++ movei #MOTION,r15
++ moveq #0,r0
++ move r15,r1
++ moveq #17,r2
++.clear
++ store r0,(r1)
++ addq #4,r1
++ subq #1,r2
++ jr ne,.clear
++ nop
++ load (r14+20),r0
++ movei #64*256,r1
++ add r1,r0
++ store r0,(r15+8)
++ store r0,(r15+24)
++ jump (LR)
++ nop
++
++motion_update:
++ PUSHLR
++ movei #GAME,r14
++ load (r14+8),r0
++ cmpq #1,r0
++ movei #motion_done,r1
++ jump ne,(r1)
++ nop
++ load (r14+52),r0
++ cmpq #0,r0
++ jump ne,(r1)
++ nop
++ ; Choose response coefficients by actual video mode and capped elapsed fields.
++ move r19,r0
++ subq #1,r0
++ moveq #12,r1
++ mult r1,r0
++ load (r14+80),r1
++ movei #60,r2
++ cmp r2,r1
++ jr eq,.ntsc
++ nop
++ addq #24,r0
++ addq #24,r0
++ addq #24,r0
++.ntsc
++ movei #motion_coefficients-MODrun_control+MODstart_control,r15
++ add r0,r15
++ load (r15),r8
++ load (r15+4),r9
++ load (r15+8),r10
++ movei #MOTION,r15
++ store r19,(r15+28)
++ store r8,(r15+32)
++ store r9,(r15+36)
++ store r10,(r15+40)
++ ; Left/right roll matches the upstream visual mesh roll sign.
++ moveq #0,r0
++ load (r14+76),r20
++ movei #196,r1 ; .6 rad, quantized to 49 of 512 angular steps
++ btst #JOY_B_BIT,r20
++ jr eq,.rollamount
++ nop
++ movei #332,r1 ; .6 * 1.7 rad airbrake bank, quantized to 83 steps
++.rollamount
++ btst #JOY_LEFT_BIT,r20
++ jr eq,.rightbank
++ nop
++ sub r1,r0
++.rightbank
++ btst #JOY_RIGHT_BIT,r20
++ jr eq,.banktarget
++ nop
++ add r1,r0
++.banktarget
++ load (r14+28),r12
++ load (r15+12),r13
++ store r12,(r15+12)
++ load (r14+56),r1
++ cmpq #0,r1
++ movei #.manualbank,r3
++ jump eq,(r3)
++ nop
++ ; Autopilot is a native feature: bank from shortest wrapped heading change.
++ sub r13,r12
++ movei #1024,r1
++ add r1,r12
++ movei #2047,r2
++ and r2,r12
++ sub r1,r12
++ neg r12
++ shlq #4,r12
++ move r12,r0
++ abs r0
++ div r19,r0
++ movei #196,r1
++ cmp r1,r0
++ jr mi,.autoclamp
++ nop
++ move r1,r0
++.autoclamp
++ cmpq #0,r12
++ jr pl,.manualbank
++ nop
++ neg r0
++.manualbank
++ shlq #8,r0
++ store r0,(r15+16)
++ load (r15),r1
++ move r8,r2
++ movei #smooth_component,r3
++ BL (r3)
++ store r0,(r15)
++ ; CameraChase speedOffsetMax=10 original units -> 40 native world units.
++ load (r14+32),r0
++ movei #40*256,r1
++ mult r1,r0
++ moveq #28,r1
++ div r1,r0
++ store r0,(r15+20)
++ load (r15+4),r1
++ move r9,r2
++ movei #smooth_component,r3
++ BL (r3)
++ store r0,(r15+4)
++ ; Follow height smoothly, but never allow the camera to sink into the road.
++ load (r14+20),r0
++ movei #64*256,r1
++ add r1,r0
++ store r0,(r15+24)
++ load (r15+8),r1
++ move r10,r2
++ movei #smooth_component,r3
++ BL (r3)
++ load (r14+20),r1
++ movei #24*256,r2
++ add r2,r1
++ cmp r1,r0
++ jr pl,.heightabove
++ nop
++ move r1,r0
++.heightabove
++ movei #56*256,r2
++ add r2,r1 ; upper bound: ship Y + 80
++ cmp r1,r0
++ jr mi,.heightbounded
++ nop
++ move r1,r0
++.heightbounded
++ store r0,(r15+8)
++motion_done:
++ POPLR
++
++; r0 target Q8, r1 old Q8, r2 alpha Q8 -> r0 new Q8, clobbers r3..r5.
++; Split the delta before Jaguar's 16-bit multiply; direct IMULT of Q8 bank
++; or height deltas would overflow/truncate. Round, then take a one-LSB step
++; if necessary so no positive residual can stick forever.
++smooth_component:
++ sub r1,r0
++ move r0,r4
++ move r0,r3
++ sharq #8,r0
++ imult r2,r0
++ shlq #24,r3
++ shrq #24,r3
++ mult r2,r3
++ movei #128,r5
++ add r5,r3
++ shrq #8,r3
++ add r3,r0
++ cmpq #0,r0
++ jr ne,.smoothdone
++ nop
++ cmpq #0,r4
++ jr eq,.smoothdone
++ nop
++ moveq #1,r0
++ cmpq #0,r4
++ jr pl,.smoothdone
++ nop
++ neg r0
++.smoothdone
++ add r1,r0
++ jump (LR)
++ nop
++
++ include "../assets/motion.inc"
+--- a/tools/motion.py
++++ b/tools/motion.py
+@@ -0,0 +1,19 @@
++#!/usr/bin/env python3
++"""Fixed-point response coefficients, not replacement artwork/geometry.
++Roll .08 and speed offset .30 are from upstream ShipControls/CameraChase.
++Height response .15 is an explicit native adaptation. Coefficients are Q0.8;
++compound per-60-Hz-step retention so PAL/NTSC have comparable response times.
++"""
++from pathlib import Path
++import json
++R=Path(__file__).resolve().parents[1]
++rates=[.08,.30,.15]
++rows=[];manifest={}
++for hz in [60,50]:
++    table=[]
++    for fields in range(1,7):
++        coefficients=[round(256*(1-(1-rate)**(fields*60/hz))) for rate in rates]
++        table.append(coefficients);rows.append(' dc.l '+','.join(map(str,coefficients)))
++    manifest[str(hz)]=table
++(R/'assets/motion.inc').write_text('; Q0.8 bank/pullback/height coefficients: NTSC then PAL, dt 1..6.\n align 4\nmotion_coefficients:\n'+'\n'.join(rows)+'\n')
++(R/'assets/motion.json').write_text(json.dumps({'rates_per_60hz_step':rates,'coefficients':manifest,'base_distance':160,'max_pullback':40,'bank_target':196,'airbrake_bank_target':332},indent=2)+'\n')
+--- a/assets/motion.inc
++++ b/assets/motion.inc
+@@ -0,0 +1,15 @@
++; Q0.8 bank/pullback/height coefficients: NTSC then PAL, dt 1..6.
++ align 4
++motion_coefficients:
++ dc.l 20,77,38
++ dc.l 39,131,71
++ dc.l 57,168,99
++ dc.l 73,195,122
++ dc.l 87,213,142
++ dc.l 101,226,159
++ dc.l 24,89,45
++ dc.l 46,147,83
++ dc.l 66,185,113
++ dc.l 84,210,139
++ dc.l 101,226,159
++ dc.l 116,236,177
+--- a/assets/motion.json
++++ b/assets/motion.json
+@@ -0,0 +1,77 @@
++{
++  "rates_per_60hz_step": [
++    0.08,
++    0.3,
++    0.15
++  ],
++  "coefficients": {
++    "60": [
++      [
++        20,
++        77,
++        38
++      ],
++      [
++        39,
++        131,
++        71
++      ],
++      [
++        57,
++        168,
++        99
++      ],
++      [
++        73,
++        195,
++        122
++      ],
++      [
++        87,
++        213,
++        142
++      ],
++      [
++        101,
++        226,
++        159
++      ]
++    ],
++    "50": [
++      [
++        24,
++        89,
++        45
++      ],
++      [
++        46,
++        147,
++        83
++      ],
++      [
++        66,
++        185,
++        113
++      ],
++      [
++        84,
++        210,
++        139
++      ],
++      [
++        101,
++        226,
++        159
++      ],
++      [
++        116,
++        236,
++        177
++      ]
++    ]
++  },
++  "base_distance": 160,
++  "max_pullback": 40,
++  "bank_target": 196,
++  "airbrake_bank_target": 332
++}
+--- a/tools/prepare_engine.py
++++ b/tools/prepare_engine.py
+@@ -67,4 +67,5 @@
+ s=s.replace('#$0FF0F0FF,r1','#$000088ff,r1')
+ a=s.index('\nlogo:\n');b=s.index('\n\talign 4\nASCII',a)
+ s=s[:a]+'\nlogo:\n\tdc.l 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0\n'+s[b:]
++s=s.replace('\n\tend\n', '\nmotion_ship_address:: EQU obj_ship\nmotion_booster_address:: EQU obj_booster\nmotion_camera_address:: EQU CAMERA_X\n\tend\n')
+ (R/'src/hexgl.js').write_text(s)
+--- a/tools/verify.py
++++ b/tools/verify.py
+@@ -36,6 +36,11 @@
+         assert hashlib.sha256(p.read_bytes()).hexdigest()==item['sha256']
+ assert sum(i['triangles'] for i in m['models'] if i['runtime'])==12206
+ assert len((R/'src/audio.bin').read_bytes())<8192
++# Camera smoothing splits signed Q8 deltas before 16-bit IMULT. Establish its
++# high-part range for every driveable height-map pixel, not just tested paths.
++road=(R/'assets/collision.bin').read_bytes()
++heights=[h[0] for i,h in enumerate(struct.iter_unpack('>H',(R/'assets/height.bin').read_bytes())) if road[i]]
++assert max(heights)-min(heights)+80<32768,'Camera height delta exceeds signed multiply range'
+ s=(R/'src/hexgl.equ').read_text()
+ mods=dict(re.findall(r'(MOD(?:end|run)_\w+)\s+EQU \$([0-9a-fA-F]+)',s))
+ for name in ['engine','control']:
+--- a/tests/vjrunner/vjrun.cpp
++++ b/tests/vjrunner/vjrun.cpp
+@@ -51,6 +51,7 @@
+ #define FB_HEIGHT 512
+ 
+ static uint32_t framebuffer[FB_PITCH * FB_HEIGHT];
++static unsigned shipAddress=0, boosterAddress=0, cameraAddress=0;
+ 
+ // ---------------------------------------------------------------------------
+ // tiny PNG writer (RGBA 8-bit)
+@@ -135,6 +136,7 @@
+     long     changed     = -1;  // pixels differing from previous field
+     uint32_t gpuPC       = 0;
+     uint32_t game[28] = {};
++    uint32_t motion[17] = {}, pose[10] = {};
+     char message[49] = {};
+     char times[6][10] = {};
+     uint32_t audioSamples = 0;
+@@ -204,6 +206,11 @@
+     st.dacWrites = dacWriteCount;
+     for(int i=0;i<28;i++) st.game[i]=GET32(jaguarMainRAM,0x1000+4*i);
+     st.audioSamples=GET32(jaguarMainRAM,0x1084);
++    for(int i=0;i<17;i++)st.motion[i]=GET32(jaguarMainRAM,0x10a0+4*i);
++    if(shipAddress && boosterAddress && cameraAddress){
++        for(int i=0;i<3;i++){st.pose[i]=GET16(jaguarMainRAM,shipAddress+10+2*i);st.pose[i+3]=GET16(jaguarMainRAM,boosterAddress+10+2*i);}
++        for(int i=0;i<4;i++)st.pose[i+6]=GET32(jaguarMainRAM,cameraAddress+4*i);
++    }
+     if(st.game[0]==0x48455847 && st.game[26]<0x100000)
+         for(int i=0;i<48;i++){char c=jaguarMainRAM[st.game[26]+i];if(!c)break;st.message[i]=c>=32 && c<127 && c!='\"' && c!='\\'?c:'?';}
+     const unsigned timeAddresses[]={0x1205,0x1213,0x1222,0x1243,0x1252,0x1261};
+@@ -321,6 +328,7 @@
+ int main(int argc, char **argv)
+ {
+     const char *romPath = nullptr;
++    const char *symbolsPath = nullptr;
+     int frames = 600;
+     std::string outDir = ".";
+     std::string inputSpec;
+@@ -338,6 +346,7 @@
+     for (int i = 1; i < argc; i++) {
+         std::string a = argv[i];
+         if (a == "--frames" && i + 1 < argc)          frames = atoi(argv[++i]);
++        else if (a == "--symbols" && i+1<argc) symbolsPath=argv[++i];
+         else if (a == "--pal")                        vjs.hardwareTypeNTSC = false;
+         else if (a == "--ntsc")                       vjs.hardwareTypeNTSC = true;
+         else if (a == "--out" && i + 1 < argc)        outDir = argv[++i];
+@@ -369,6 +378,19 @@
+ 
+     if (!romPath) { usage(argv[0]); return 2; }
+ 
++    if(symbolsPath){
++        FILE *symbols=fopen(symbolsPath,"r");
++        if(!symbols){fprintf(stderr,"Cannot read assembly symbols\n");return 2;}
++        char line[512],name[128];unsigned long long address;
++        while(fgets(line,sizeof(line),symbols)){
++            if(sscanf(line,"%127s EQU $%llx",name,&address)!=2)continue;
++            if(!strcmp(name,"motion_ship_address"))shipAddress=(unsigned)address;
++            if(!strcmp(name,"motion_booster_address"))boosterAddress=(unsigned)address;
++            if(!strcmp(name,"motion_camera_address"))cameraAddress=(unsigned)address;
++        }
++        fclose(symbols);
++        if(!shipAddress || !boosterAddress || !cameraAddress || shipAddress>0xffff0 || boosterAddress>0xffff0 || cameraAddress>0xffff0){fprintf(stderr,"Invalid renderer symbols\n");return 2;}
++    }
+     // ---- settings (the same defaults the GUI uses) -------------------------
+     memset(&vjs, 0, sizeof(vjs));
+     vjs.hardwareTypeNTSC     = true;
+@@ -535,6 +557,10 @@
+             for(int j=0;j<28;j++)fprintf(rf,"%d%s",(int32_t)s.game[j],j==27?"":",");
+             fprintf(rf,"],\"message\":\"%s\",\"times\":[",s.message);
+             for(int t=0;t<6;t++)fprintf(rf,"\"%s\"%s",s.times[t],t==5?"":",");
++            fprintf(rf,"],\"motion\":[");
++            for(int j=0;j<17;j++)fprintf(rf,"%d%s",(int32_t)s.motion[j],j==16?"":",");
++            fprintf(rf,"],\"pose\":[");
++            for(int j=0;j<10;j++)fprintf(rf,"%d%s",(int32_t)s.pose[j],j==9?"":",");
+             fprintf(rf,"]}%s\n",i+1<stats.size()?",":"");
+         }
+         fprintf(rf, "  ]\n}\n");
+--- a/tests/e2e.py
++++ b/tests/e2e.py
+@@ -6,6 +6,7 @@
+ """
+ from pathlib import Path
+ import argparse,json,subprocess,hashlib,time,sys
++import motion_checks
+ R=Path(__file__).resolve().parents[1]
+ MAGIC=0x48455847
+ def hz(standard): return 60 if standard=='ntsc' else 50
+@@ -16,7 +17,9 @@
+ 
+ def run(name,standard,frames,input,extra=(),expect_failure=False):
+     d=R/'test-results'/name;d.mkdir(parents=True,exist_ok=True)
+-    args=[str(R/'tests/vjrunner/vjrun'),'--frames',str(frames),'--'+standard,'--out',str(d),'--input',input,'--quiet','--dump-at','80,180,280,380,480,580,800,1200,2400,4800,8000,12000','--title','run',*extra,str(R/'rom/hexgl.j64')]
++    for old in d.glob('frame_*.png'):old.unlink()
++    (d/'run_report.json.gz').unlink(missing_ok=True)
++    args=[str(R/'tests/vjrunner/vjrun'),'--symbols',str(R/'src/hexgl.equ'),'--frames',str(frames),'--'+standard,'--out',str(d),'--input',input,'--quiet','--dump-at','80,180,280,380,480,580,800,1200,2400,4800,8000,12000','--title','run',*extra,str(R/'rom/hexgl.j64')]
+     (d/'run_report.json').unlink(missing_ok=True)
+     (d/'invocation.json').write_text(json.dumps({'args':args,'rom_sha256':hashlib.sha256((R/'rom/hexgl.j64').read_bytes()).hexdigest()},indent=2)+'\n')
+     t=time.time()
+@@ -129,7 +132,7 @@
+             assert gb[16]-ga[16]==gb[18]-ga[18],'Race timer drifts from video clock'
+ 
+ def manual(result):
+-    s=common(result);d=7*hz(result['video'].lower());countdown(result);timing(result);rendered_hud(result)
++    s=common(result);d=7*hz(result['video'].lower());countdown(result);timing(result);rendered_hud(result);motion_checks.verify_motion(result)
+     assert len({tuple(f['game'][4:7]) for f in s[d+110:d+175]})>8,'Throttle did not move ship'
+     assert max(f['game'][8] for f in s[d+110:d+175])>=20,'Throttle did not accelerate'
+     assert len({f['game'][7] for f in s[d+180:d+240]})>=3,'Steering did not change heading'
+@@ -145,6 +148,9 @@
+ 
+ def race(result):
+     s=common(result);go=countdown(result);timing(result)
++    motion=motion_checks.verify_motion(result)
++    assert motion['height_filtered_updates']>500,'Track height filtering was not exercised'
++    assert motion['left_bank_seen'] and motion['right_bank_seen'],'Autopilot did not bank both ways'
+     for start in range(go+60,len(s)-90,90):
+         w=s[start:start+90]
+         if not all(f['game'][2]==1 for f in w):continue
+@@ -166,7 +172,7 @@
+     assert 'FINAL LAP' in {f['message'].strip() for f in s},'Final-lap notification missing'
+     for i,value in enumerate(splits):assert milliseconds(tail[-1]['times'][3+i])==value*1000//g[20],'Displayed split mismatch'
+     assert milliseconds(tail[-1]['times'][2])==min(splits)*1000//g[20],'Displayed best lap mismatch'
+-    return dict(checks=['BIOS boot','countdown','nonblack world','heartbeat','audio','continuous world animation','checkpoints','boost','three laps','lap splits','best lap','frozen finish clock','finish results'],fields=len(s),updates=g[1],race_ticks=g[16],lap_ticks=splits,audio_samples=s[-1]['audio_samples'])
++    return dict(checks=['BIOS boot','countdown','nonblack world','heartbeat','audio','continuous world animation','checkpoints','boost','three laps','lap splits','best lap','frozen finish clock','finish results','bank filter','speed camera','terrain-height filtering','renderer pose'],motion_checks=motion,fields=len(s),updates=g[1],race_ticks=g[16],lap_ticks=splits,audio_samples=s[-1]['audio_samples'])
+ 
+ def main():
+     ap=argparse.ArgumentParser();ap.add_argument('--quick',action='store_true');a=ap.parse_args()
+@@ -181,6 +187,20 @@
+             if not a.quick:
+                 name='race-'+standard
+                 result['cases'][name]=race(run(name,standard,18000,'100:a+c,120:a', ['--stop-on-finish']))
++        for standard in ['ntsc','pal']:
++            h=hz(standard)
++            inputs,fields,t=motion_checks.bank_script(h)
++            frames={k:t+offset*h-8 for k,offset in [('left',1),('right',3),('airbrake',5),('paused',8)]}
++            trace=run('bank-'+standard,standard,fields,inputs,['--no-bios','--dump-max','20','--dump-at',','.join(map(str,frames.values()))])
++            common(trace)
++            case=motion_checks.bank_case(trace,t,h);case['capture_fields']=frames
++            result['cases']['bank-'+standard]=case
++            inputs,fields,go=motion_checks.speed_script(h)
++            trace=run('camera-speed-'+standard,standard,fields,inputs,['--no-bios'])
++            common(trace)
++            result['cases']['camera-speed-'+standard]=motion_checks.speed_case(trace,go,h)
++        left=[result['cases']['bank-'+s]['half_second_left_roll_q8'] for s in ['ntsc','pal']]
++        assert abs(left[0]-left[1])<2048,'Bank response differs excessively between PAL and NTSC'
+         for standard in ['ntsc','pal']:
+             name='countdown-pause-'+standard
+             trace=run(name,standard,1200,'100:a+c,150:pause,170:none,350:pause,370:a',['--no-bios'])
+--- a/tests/motion_checks.py
++++ b/tests/motion_checks.py
+@@ -0,0 +1,109 @@
++"""Independent numerical checks of native camera/bank state and renderer inputs.
++All end-to-end inputs enter through the normal controller; RAM is read-only.
++"""
++import math
++
++
++def smooth(old,target,alpha):
++    step=((target-old)*alpha+128)//256
++    if step==0 and target!=old:step=1 if target>old else -1
++    return old+step
++
++
++def committed(result):
++    last=None
++    for f in result['fields'][150:]:
++        seq=f['motion'][16]
++        if seq and seq!=last:
++            yield f
++            last=seq
++
++
++def verify_motion(result):
++    previous=None;updates=0;height_filtered=0;left=False;right=False
++    for f in committed(result):
++        g,m,p=f['game'],f['motion'],f['pose']
++        assert abs(m[0])<=332*256,'Unbounded ship bank'
++        assert 0<=m[1]<=40*256,'Unbounded camera pullback'
++        assert m[11]==160+(m[1]>>8),'Camera distance ignores filtered speed offset'
++        assert p[0]==p[3]==0,'Bank accidentally changed pitch'
++        assert p[1]==p[4]==(-g[7])&2044,'Object yaw does not follow native heading'
++        angle=(m[0]>>8)&2044
++        assert p[2]==p[5]==angle,'Ship/booster renderer roll differs from filter state'
++        assert (m[15]>>16)&0xffff==angle and m[15]&0xffff==angle
++        assert p[6:9]==m[12:15] and p[9]==g[7],'Renderer camera differs from computed pose'
++        heading=g[7]*2*math.pi/2048
++        assert abs(m[12]-((g[4]>>8)+math.sin(heading)*m[11]))<=2,'Camera X offset is wrong'
++        assert abs(m[14]-((g[6]>>8)-math.cos(heading)*m[11]))<=2,'Camera Z offset is wrong'
++        assert m[13]==m[2]>>8,'Renderer ignored smoothed height'
++        if g[2] in (0,4):
++            assert m[0]==m[1]==0,'Bank/camera drift during ready/countdown'
++        if previous and m[16]==previous['motion'][16]+1:
++            pm=previous['motion']
++            if g[2]==1 and not g[13]:
++                dt=m[7];h=g[20]
++                coefficients=[round(256*(1-(1-rate)**(dt*60/h))) for rate in (.08,.30,.15)]
++                assert m[8:11]==coefficients,'Wrong PAL/NTSC response coefficients'
++                assert m[0]==smooth(pm[0],m[4],m[8]),('Bank filter mismatch',f['f'],pm,m)
++                assert m[1]==smooth(pm[1],m[5],m[9]),'Speed-sensitive camera filter mismatch'
++                expected=max(g[5]+24*256,min(g[5]+80*256,smooth(pm[2],m[6],m[10])))
++                assert m[2]==expected,('Height filter/clamp mismatch',f['f'])
++                assert m[5]==g[8]*40*256//28,'Pullback target is not proportional to speed'
++                assert m[6]==g[5]+64*256,'Height target is wrong'
++                assert g[5]+24*256<=m[2]<=g[5]+80*256,'Camera crossed height safety envelope'
++                if m[2]!=m[6]:height_filtered+=1
++                left|=m[0]<-1024;right|=m[0]>1024
++                updates+=1
++            else:
++                assert m[:11]==pm[:11],'Motion filters advanced while paused/inactive'
++        previous=f
++    assert updates>0,'No active motion updates observed'
++    return {'verified_updates':updates,'height_filtered_updates':height_filtered,'left_bank_seen':left,'right_bank_seen':right}
++
++
++def bank_script(h):
++    t=100+8*h
++    events=[(100,'a'),(120,'none'),(t,'left'),(t+h,'none'),(t+2*h,'right'),(t+3*h,'none'),(t+4*h,'left+b'),(t+5*h,'none'),(t+6*h,'right+b'),(t+7*h,'pause'),(t+7*h+10,'none'),(t+8*h,'pause'),(t+8*h+10,'none'),(t+9*h,'option'),(t+9*h+10,'none')]
++    return ','.join(f'{f}:{keys}' for f,keys in events),t+10*h,t
++
++
++def bank_case(result,t,h):
++    evidence=verify_motion(result);s=result['fields']
++    def roll_at(n):return s[n]['motion'][0]
++    assert roll_at(t+h-8)<-190*256,'Left bank did not reach its target'
++    assert roll_at(t+3*h-8)>190*256,'Right bank did not reach its target'
++    assert roll_at(t+5*h-8)<-325*256,'Left airbrake did not increase bank'
++    assert roll_at(t+7*h-8)>325*256,'Right airbrake did not increase bank'
++    for n in [t+2*h-8,t+4*h-8,t+6*h-8]:assert abs(roll_at(n))<2048,'Ship did not return to within 1.5 degrees of level'
++    w=s[t+7*h+20:t+8*h-10]
++    assert w and all(f['game'][13]==1 for f in w)
++    assert len({tuple(f['motion'][:16]) for f in w})==1,'Bank or camera drifted during pause'
++    assert len({tuple(f['pose']) for f in w})==1,'Rendered pose changed during pause'
++    reset=s[t+9*h+20]
++    assert reset['game'][2]==0 and reset['motion'][:2]==[0,0],'Restart retained motion state'
++    assert reset['motion'][2]==reset['game'][5]+64*256,'Restart left camera at previous height'
++    live=s[t:t+7*h]
++    assert all(f['game'][8]==0 and f['game'][9]==100 for f in live),'Steering-only test unexpectedly moved/crashed'
++    assert evidence['left_bank_seen'] and evidence['right_bank_seen']
++    evidence['half_second_left_roll_q8']=roll_at(t+h//2)
++    evidence['checks']=['left/right bank','airbrake bank','return to level','pause freezes renderer pose','restart clears filters','actual ship and booster angles','fixed-point recurrence','PAL/NTSC coefficients']
++    evidence['fields']=len(s)
++    return evidence
++
++
++def speed_script(h):
++    go=100+7*h
++    return f'100:a,120:none,{go+h}:a,{go+2*h}:b,{go+3*h}:none',go+5*h,go
++
++
++def speed_case(result,go,h):
++    evidence=verify_motion(result);s=result['fields']
++    acceleration=s[go+h:go+2*h]
++    assert max(f['motion'][11] for f in acceleration)>=198,'Chase camera did not pull back at speed'
++    assert len({f['motion'][11] for f in acceleration})>10,'Pullback snapped instead of filtering'
++    assert max(f['game'][8] for f in acceleration)==28,'Speed target was not exercised'
++    assert s[-1]['game'][8]==0 and s[-1]['motion'][11]==160,'Camera failed to return after braking'
++    assert sum(f['world_changed']>100 for f in acceleration)>8,'Speed-camera test has no visible world animation'
++    evidence['checks']=['speed-dependent pullback','smooth camera distance','return after braking','rendered camera position','fixed-point recurrence']
++    evidence['fields']=len(s)
++    return evidence
+--- a/tests/test_motion.py
++++ b/tests/test_motion.py
+@@ -0,0 +1,58 @@
++"""Unit fixtures only; shipped E2E evidence comes from fresh Virtual Jaguar runs."""
++import copy, random, unittest
++from motion_checks import smooth, verify_motion
++
++
++def fixture():
++    fields=[]
++    for i in range(155):
++        g=[0]*28;g[0]=0x48455847;g[2]=1;g[5]=1548*256;g[20]=60
++        m=[0,0,1612*256,0,0,0,1612*256,3,57,168,99,160,0,1612,-159,0,i+1]
++        p=[0,0,0,0,0,0,0,1612,-159,0]
++        fields.append(dict(f=i,game=g,motion=m,pose=p))
++    return dict(fields=fields)
++
++
++class MotionMath(unittest.TestCase):
++    def test_constant_target_converges_without_sticking(self):
++        for target in [-84992,-50176,50176,84992,10240]:
++            old=0
++            for _ in range(300):old=smooth(old,target,57)
++            self.assertEqual(old,target)
++    def test_no_overshoot(self):
++        for old,target in [(-84992,84992),(84992,-84992),(0,10240),(800000,400000)]:
++            for alpha in [20,57,99,168,226]:
++                new=smooth(old,target,alpha)
++                self.assertLessEqual(min(old,target),new)
++                self.assertLessEqual(new,max(old,target))
++    def test_split_multiply_matches_wide_integer_reference(self):
++        rng=random.Random(42)
++        for _ in range(10000):
++            old=rng.randrange(-4190000,4190000);target=rng.randrange(-4190000,4190000);alpha=rng.randrange(1,256)
++            delta=target-old
++            self.assertTrue(-32768<=delta>>8<=32767)
++            step=(delta>>8)*alpha+(((delta&255)*alpha+128)>>8)
++            if step==0 and delta:step=1 if delta>0 else -1
++            self.assertEqual(old+step,smooth(old,target,alpha))
++    def test_coefficients_normalize_video_rate(self):
++        responses=[]
++        for hz in [50,60]:
++            state=0;alpha=round(256*(1-.92**(60/hz)))
++            for _ in range(hz//2):state=smooth(state,50176,alpha)
++            responses.append(state)
++        self.assertLess(abs(responses[0]-responses[1]),512)
++
++
++class MotionOracle(unittest.TestCase):
++    def test_healthy_fixture(self):self.assertGreater(verify_motion(fixture())['verified_updates'],0)
++    def test_wrong_actual_mesh_angle_rejected(self):
++        r=fixture();r['fields'][-1]['pose'][2]=4
++        with self.assertRaisesRegex(AssertionError,'renderer roll'):verify_motion(r)
++    def test_wrong_actual_camera_rejected(self):
++        r=fixture();r['fields'][-1]['pose'][7]+=1
++        with self.assertRaisesRegex(AssertionError,'Renderer camera differs'):verify_motion(r)
++    def test_wrong_filter_recurrence_rejected(self):
++        r=fixture();r['fields'][-1]['motion'][0]=256
++        with self.assertRaisesRegex(AssertionError,'Bank filter mismatch'):verify_motion(r)
++
++if __name__=='__main__':unittest.main()
+--- a/tools/motion_report.py
++++ b/tools/motion_report.py
+@@ -0,0 +1,48 @@
++#!/usr/bin/env python3
++"""Report only results from matching, fully executed emulator suites."""
++from pathlib import Path
++import base64, hashlib, html, json
++R=Path(__file__).resolve().parents[1]
++sha=hashlib.sha256((R/'rom/hexgl.j64').read_bytes()).hexdigest()
++core=json.loads((R/'test-results/summary.json').read_text())
++gui=json.loads((R/'test-results/gui/summary.json').read_text())
++assert all(x['status']=='PASS' and x['rom_sha256']==sha for x in [core,gui]),'Current ROM has not passed both complete suites'
++def image(path,caption):
++    b64=base64.b64encode(path.read_bytes()).decode()
++    return f'<figure><img src="data:image/png;base64,{b64}" alt="{html.escape(caption)}"><figcaption>{html.escape(caption)}</figcaption></figure>'
++def duration(ticks,hz):
++    ms=ticks*1000//hz
++    return f'{ms//60000:02d}:{ms//1000%60:02d}.{ms%1000:03d}'
++rows=''
++for video,hz in [('ntsc',60),('pal',50)]:
++    c=core['cases']['race-'+video]
++    rows+='<tr><td>'+video.upper()+'</td>'+''.join('<td>'+duration(t,hz)+'</td>' for t in [*c['lap_ticks'],c['race_ticks'],min(c['lap_ticks'])])+'</tr>'
++gui_path=R/'test-results/gui/no-bios-ntsc'
++gui_case=json.loads((gui_path/'result.json').read_text())
++picture=gui_path/'latest.png'
++for i,s in enumerate(gui_case['samples'],1):
++    p=gui_path/f'capture-{i:03d}.png'
++    if s['phase']=='throttle-autopilot' and p.exists():picture=p;break
++verdicts=''
++for group,summary in [('Desktop',gui),('Core',core)]:
++    for name,c in summary['cases'].items():
++        status=c.get('status','EXPECTED_FAILURE' if 'expected_failure_detected' in c else 'PASS')
++        desc=c.get('detected',c.get('expected_failure_detected',', '.join(c.get('checks',[]))))
++        verdicts+=f'<tr><td>{group}: {html.escape(name)}</td><td>{status}</td><td>{html.escape(desc)}</td></tr>'
++page=f'''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HexGL Jaguar — ship and camera milestone</title><style>
++*{{box-sizing:border-box}}body{{margin:0;background:#10191f;color:#e6eef3;font:16px/1.65 system-ui,sans-serif}}main{{max-width:1100px;margin:auto;padding:45px 24px}}h1{{font-size:48px;line-height:1.1;margin:18px 0}}h2{{margin:36px 0 14px}}.tag{{color:#71dfc5;font-size:12px;letter-spacing:2px}}.lead{{font-size:21px;color:#b9cbd6}}.notice{{background:#2b271f;border-left:3px solid #e9b657;padding:16px 20px}}.ok{{background:#18372f;padding:16px;color:#a5ebce}}.shots{{display:grid;grid-template-columns:1fr 1fr;gap:18px}}figure{{margin:0;background:#1b2a34}}img{{width:100%;display:block;image-rendering:pixelated}}figcaption{{padding:12px;font-size:13px}}table{{width:100%;border-collapse:collapse;font-size:13px}}th,td{{text-align:left;vertical-align:top;padding:10px;border-bottom:1px solid #354852}}.scroll{{overflow:auto}}code,pre{{font:13px/1.7 ui-monospace,monospace;overflow-wrap:anywhere;white-space:pre-wrap}}pre{{padding:18px;background:#1b2a34}}footer{{margin-top:36px;border-top:1px solid #354852;padding-top:18px;color:#a5b9c5;font-size:13px}}li{{margin:8px 0}}@media(max-width:650px){{.shots{{grid-template-columns:1fr}}h1{{font-size:36px}}td,th{{padding:8px 4px}}}}</style>
++<main><div class="tag">NATIVE JAGUAR DEVELOPMENT · SHIP AND CAMERA · 2026-10-15</div><h1>Bank into the turn.<br>Let the camera follow.</h1><p class="lead">The next native milestone adds steering bank, speed-sensitive camera distance and filtered terrain-height following—while retaining the race flow and regression gate.</p><div class="ok"><strong>Both complete emulator suites passed.</strong> Desktop and core reports match this ROM's SHA-256. Twenty-one watchdog, formatting and motion unit tests also passed.</div>
++<h2>New in this build</h2><ul><li><strong>Ship bank:</strong> filtered left/right roll on the original ship and attached booster; approximately 34° normal bank and 58° with B held while steering. Release returns toward level.</li><li><strong>Speed-sensitive chase:</strong> the existing 160-unit trail distance smoothly extends by up to 40 units at maximum speed, then returns when braking.</li><li><strong>Terrain-height filtering:</strong> the camera follows map height changes with a bounded filter rather than snapping to every sample. Safety limits keep it above the ship and within the tested framing.</li><li><strong>State handling:</strong> pause freezes the actual renderer pose, restart clears all motion state, and countdown/finish behavior remains intact.</li><li><strong>Independent checks:</strong> tests read the actual ship/booster angles and renderer camera, compare them with a fixed-point reference, and continue checking visible output.</li></ul>
++<h2>Actual emulator output</h2><div class="shots">{image(R/'test-results/bank-ntsc'/('frame_%05d.png'%core['cases']['bank-ntsc']['capture_fields']['left']),'Actual Virtual Jaguar output: steering bank')}{image(R/'test-results/bank-ntsc'/('frame_%05d.png'%core['cases']['bank-ntsc']['capture_fields']['airbrake']),'Actual Virtual Jaguar output: stronger airbrake bank')}</div><p>Images are actual emulator captures. The mesh rotation and camera follow run in Jaguar GPU assembly, not a host-side overlay. This is an adaptation of original roll and speed-offset behavior, not full quaternion/physics or CameraChase parity.</p>
++<h2>Motion checks</h2><p>The stationary steering tests isolate left/right bank, release, both airbrake directions, pause and restart. Acceleration/braking tests require intermediate camera distances rather than a snap. The complete races verify hundreds of filtered height updates, both bank directions and unchanged lap/result behavior.</p><p>PAL and NTSC use elapsed-field response coefficients. A committed-pose sequence prevents a partially updated frame from being mistaken for a completed pose. The numerical checks independently validate each filter recurrence and read the real mesh angles/camera addresses from assembler exports.</p><h2>Executed three-lap results</h2><p>These are separate automated races, not equivalent performance benchmarks: the existing waypoint autopilot advances per rendered update. The clocks themselves use actual video fields.</p><div class="scroll"><table><tr><th>Video</th><th>Lap 1</th><th>Lap 2</th><th>Lap 3</th><th>Total</th><th>Best</th></tr>{rows}</table></div><p>The tests require the three raw lap times to sum exactly to the total, verify the displayed splits and best lap, and observe 180 additional video fields after the finish.</p>
++<h2>Executed validation</h2><div class="scroll"><table><tr><th>Scenario</th><th>Verdict</th><th>Checks / detected fault</th></tr>{verdicts}</table></div><p>Countdown/results can legitimately be static. The watchdog now checks motion only during active movement, while retaining continuous brightness and heartbeat requirements in every phase. It still rejects deliberately frozen video even when game telemetry advances.</p>
++<h2>Build, test and play</h2><pre>make rom       # compile GPU, DSP and 68000 entry, package cartridge
++make test      # unit tests + full core and stock desktop regression suites
++make release   # only package after matching-ROM passes</pre><pre>virtualjaguar rom/hexgl.j64 --ntsc --gpu --dsp</pre><p>Stock keyboard defaults: <strong>L</strong> begin countdown/thrust, <strong>J</strong> optional autopilot, <strong>Z/C</strong> steering, <strong>K</strong> brake, <strong>P</strong> pause, <strong>O</strong> restart. BIOS-on and BIOS-off remain supported in the tested emulator.</p>
++<h2>Artifact</h2><p><code>rom/hexgl.j64 — 6,291,456 bytes<br>SHA-256: {sha}</code></p><p>Sources and behavior mapping: <code>docs/SHIP-AND-CAMERA.md</code>.<br>Evidence: <code>test-results/summary.json</code> and <code>test-results/gui/summary.json</code>.<br>Stock desktop executable: {html.escape(gui['emulator_version'])}.</p><div class="notice"><strong>Still an incomplete HexGL port.</strong> The camera retains native framing and yaw-only orientation; height smoothing is an explicit native adaptation. Lateral drift/repulsion, hover/fall dynamics, slope pitch, original look-at/up-vector and orbit behavior remain unfinished, as do bitmap HUD/menus, effects, recording/replay, leaderboards and EEPROM persistence. See docs/PARITY.md.</div><footer>Timing resolution is one video field; the three-digit millisecond display does not imply a millisecond hardware timer. Finite emulator tests cannot guarantee every configuration/input sequence. Physical hardware and remotely executed CI are not claimed. Upstream licensing notices remain in NOTICE.md.</footer></main></html>'''
++(R/'REPORT.html').write_text(page)
++md=f'# Ship and camera milestone: executed tests\n\nROM SHA-256: `{sha}`\n\nBoth full suites: **PASS**. Positive scenarios ran fresh.\n\n'
++for title,s in [('Stock desktop GUI',gui),('Virtual Jaguar Rx core',core)]:md+='## '+title+'\n\n```json\n'+json.dumps(s,indent=2)+'\n```\n\n'
++md+='21 unit tests: PASS (test-results/unit-tests.log). Physical hardware and remote CI untested.\n'
++(R/'docs/TEST-RESULTS.md').write_text(md)
++print(R/'REPORT.html')
+--- a/Makefile
++++ b/Makefile
+@@ -20,6 +20,7 @@
+ 
+ rom: toolchain
+ 	@test -f assets/models.inc || { echo 'Run make assets first'; exit 1; }
++	$(PYTHON) tools/motion.py
+ 	$(PYTHON) tools/prepare_engine.py
+ 	cd src && $(LYXASS) -d -o audio.bin audio.js
+ 	cd src && $(LYXASS) -sh hexgl.js

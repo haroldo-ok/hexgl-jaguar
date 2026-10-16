@@ -80,6 +80,8 @@ sample:
  jr eq,.crashcheck
  nop
  move r0,r25
+ jr cs,.crashcheck ; Counter reset or replay rewind is not a collision.
+ nop
  movei #crash_start,r23
 .crashcheck
  movei #crash_end,r1
@@ -93,6 +95,12 @@ sample:
  add r0,r10
 .crashskip
  load (r14+8),r0
+ cmpq #5,r0
+ jr ne,.live_phase
+ nop
+ movei #$1540,r0
+ load (r0),r0
+.live_phase
  cmp r26,r0
  jr eq,.destroycheck
  nop

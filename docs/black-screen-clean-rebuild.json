@@ -20,5 +20,6 @@
       "exit_code": 0
     }
   },
-  "status": "PASS"
+  "status": "PASS",
+  "scope": "Historical BIOS-off-fix build. Current milestone evidence is in race-flow-environment.json and test-results/."
 }

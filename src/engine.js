@@ -249,6 +249,29 @@ dz	reg 99
 
 	movei	#project_object,r0
 	BL	(r0)
+ ; Read-only proof of the first ship vertex actually transformed/projected.
+ movei #obj_ship,r0
+ cmp r0,curr_object
+ movei #.ship_logged,r0
+ jump ne,(r0)
+ nop
+ movei #PHYS+100,r14
+ movei #scratch_rotated+4,r0
+ load (r0),r1
+ store r1,(r14+4)
+ addq #4,r0
+ load (r0),r1
+ store r1,(r14+8)
+ movei #scratch_projected,r0
+ load (r0),r1
+ store r1,(r14+12)
+ addq #4,r0
+ load (r0),r1
+ store r1,(r14+16)
+ movei #MOTION+64,r0
+ load (r0),r0
+ store r0,(r14)
+.ship_logged
 
  IF GOURAUD = 1
 	movei	#USE_GOURAUD,r0

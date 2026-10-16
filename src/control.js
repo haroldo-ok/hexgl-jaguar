@@ -4,7 +4,7 @@
  include <js/symbols/joypad.js>
  MODULE control,MODend_irq
  PUSHLR
- JOYPAD1 99
+ ; Controller polling is performed once by the frontend overlay.
  movei #GAME,r14
  load (r14),r0
  cmpq #0,r0
@@ -44,6 +44,7 @@
  store r1,(r14+72)
  sub r2,r1
  move r1,r19
+ move r1,r18 ; Unclamped elapsed video fields for wall-clock timers.
  cmpq #6,r19
  jr mi,.dtok
  nop
@@ -61,23 +62,66 @@
  nop
  load (r14+8),r0
  cmpq #1,r0
- jr eq,.race
+ movei #race_active,r2
+ jump eq,(r2)
+ nop
+ cmpq #4,r0
+ movei #countdown_update,r2
+ jump eq,(r2)
  nop
  cmpq #0,r0
  jump ne,(r1)
  nop
+ movei #FRONT+12,r0
+ load (r0),r0
+ cmpq #0,r0
+ jump ne,(r1)
+ nop
  btst #JOY_A_BIT,r20
- jr ne,.start
- btst #JOY_UP_BIT,r20
  jump eq,(r1)
  nop
 .start
+ moveq #4,r0
+ store r0,(r14+8)
+ moveq #0,r0
+ store r0,(r14+12)
+ jump (r1)
+ nop
+countdown_update:
+ load (r14+12),r0
+ add r18,r0
+ store r0,(r14+12)
+ load (r14+80),r2
+ moveq #7,r3
+ mult r3,r2
+ cmp r2,r0
+ movei #camera_update,r1
+ jump mi,(r1)
+ nop
  moveq #1,r0
  store r0,(r14+8)
-.race
- load (r14+64),r0
- add r19,r0
+ moveq #0,r0
  store r0,(r14+64)
+ ; GO is time zero. Movement starts on the next update, not this one.
+ jump (r1)
+ nop
+race_active:
+ load (r14+64),r0
+ add r18,r0
+ store r0,(r14+64)
+ movei #PHYS+16,r0
+ load (r0),r0
+ cmpq #0,r0
+ jr eq,.notfalling
+ nop
+ movei #physics_fall,r0
+ BL (r0)
+ movei #camera_update,r0
+ jump (r0)
+ nop
+.notfalling
+ movei #physics_begin,r0
+ BL (r0)
  load (r14+56),r0
  cmpq #0,r0
  movei #run_autopilot,r1
@@ -166,6 +210,8 @@
  sharq #7,r1
  sub r0,r21
  add r1,r22
+ movei #physics_lateral,r0
+ BL (r0)
  move r21,r0
  move r22,r1
  movei #sample_map,r2
@@ -175,6 +221,8 @@
  movei #valid_move,r0
  jump ne,(r0)
  nop
+ movei #physics_contact,r0
+ BL (r0)
  load (r14+68),r0
  addq #1,r0
  store r0,(r14+68)
@@ -200,8 +248,10 @@
 valid_move:
  store r21,(r14+16)
  store r22,(r14+24)
- shlq #8,r4
- store r4,(r14+20)
+ move r3,r25
+ movei #physics_hover,r0
+ BL (r0)
+ move r25,r3
  cmpq #2,r3
  jr ne,.checkpoints
  nop
@@ -231,6 +281,26 @@ valid_move:
  cmpq #0,r3
  jump ne,(r2)
  nop
+ load (r14+64),r5
+ load (r14+84),r6
+ store r5,(r14+84)
+ sub r6,r5
+ load (r14+40),r0
+ move r0,r6
+ shlq #2,r6
+ movei #GAME+84,r7
+ add r6,r7
+ store r5,(r7)
+ load (r14+100),r6
+ cmpq #0,r6
+ jr eq,.bestlap
+ nop
+ cmp r6,r5
+ jr cc,.keepbest
+ nop
+.bestlap
+ store r5,(r14+100)
+.keepbest
  load (r14+40),r0
  addq #1,r0
  store r0,(r14+40)
@@ -249,7 +319,7 @@ reset_game:
  moveq #0,r0
  move r14,r1
  addq #4,r1
- moveq #19,r2
+ moveq #31,r2
 .clear
  store r0,(r1)
  addq #4,r1
@@ -262,10 +332,24 @@ reset_game:
  store r0,(r14+20)
  movei #-886*4*256,r0
  store r0,(r14+24)
+ movei #$f14003,r0
+ loadb (r0),r0
+ btst #4,r0
+ movei #50,r1
+ jr eq,.palclock
+ nop
+ movei #60,r1
+.palclock
+ store r1,(r14+80)
+ movei #VBL_TICKS,r0
+ load (r0),r0
+ store r0,(r14+72)
  movei #100,r0
  store r0,(r14+36)
  moveq #1,r0
  store r0,(r14+40)
+ movei #physics_reset,r0
+ BL (r0)
  movei #camera_update,r0
  jump (r0)
  nop
@@ -288,7 +372,7 @@ run_autopilot:
  load (r15+8),r3
  load (r15+12),r4
  store r1,(r14+16)
- store r2,(r14+20)
+ ; Height is followed by the native hover response, not waypoint snapping.
  store r3,(r14+24)
  store r4,(r14+28)
  addq #1,r0
@@ -306,93 +390,11 @@ run_autopilot:
  nop
 
 camera_update:
- movei #GAME,r14
- load (r14+16),r21
- load (r14+20),r24
- load (r14+24),r22
- load (r14+28),r23
- sharq #8,r21
- sharq #8,r24
- sharq #8,r22
- ; Match engine Y-axis Euler rotation to the camera heading.
- move r23,r18
- neg r18
- movei #2044,r0
- and r0,r18
- movei #obj_ship+2,r0
- storew r21,(r0)
- addq #2,r0
- storew r24,(r0)
- addq #2,r0
- storew r22,(r0)
- addq #6,r0
- storew r18,(r0)
- movei #obj_booster+2,r0
- storew r21,(r0)
- addq #2,r0
- storew r24,(r0)
- addq #2,r0
- storew r22,(r0)
- addq #6,r0
- storew r18,(r0)
- movei #SinTab,r15
- load (r15+r23),r0
- move r0,r1
- shrq #16,r1
- movei #160,r2
- imult r2,r0
- imult r2,r1
- sharq #15,r0
- sharq #15,r1
- add r0,r21
- sub r1,r22
- addq #32,r24
- addq #32,r24
- movei #CAMERA_X,r15
- store r21,(r15)
- store r24,(r15+4)
- store r22,(r15+8)
- store r23,(r15+12)
- ; Strings are read from the DRAM backing copy: GPU-local LOADB is word-wide.
- ; HUD is outside the 3D viewport, so failure checks inspect world pixels too.
- movei #PrintString_YX,r5
- movei #ready_text-MODrun_control+MODstart_control,r0
- load (r14+8),r1
- cmpq #0,r1
- movei #print_status,r2
- jump eq,(r2)
- nop
- movei #race_text-MODrun_control+MODstart_control,r0
- cmpq #1,r1
- movei #print_status,r2
- jump eq,(r2)
- nop
- movei #dead_text-MODrun_control+MODstart_control,r0
- cmpq #2,r1
- movei #print_status,r2
- jump eq,(r2)
- nop
- movei #finish_text-MODrun_control+MODstart_control,r0
-print_status:
- movei #1<<16,r1
- BL (r5)
- movei #GAME,r14
- load (r14+32),r0
- moveq #10,r1
- mult r1,r0
- movei #1<<16|12,r1
- movei #PrintDEC_YX,r2
- BL (r2)
- movei #GAME,r14
- load (r14+36),r0
- movei #1<<16|24,r1
- movei #PrintDEC_YX,r2
- BL (r2)
- movei #GAME,r14
- load (r14+40),r0
- movei #1<<16|37,r1
- movei #PrintDEC2_YX,r2
- BL (r2)
+ movei #PHYS+44,r0
+ load (r0),r1
+ addq #1,r1
+ store r1,(r0)
+ store r19,(r14+112)
  POPLR
 
 ; Q24.8 world x,z -> 512-square maps spanning [-3000,+3000] original units.
@@ -432,10 +434,7 @@ outside_map:
  jump (LR)
  moveq #0,r4
 
- align 4
-ready_text: dc.b "READY   SPD        SHIELD        LAP      ",0
-race_text: dc.b "RACING  SPD        SHIELD        LAP      ",0
-dead_text: dc.b "WRECKED SPD        SHIELD        LAP      ",0
-finish_text: dc.b "FINISH  SPD        SHIELD        LAP      ",0
+
+ include "dynamics.inc"
  align 8
  ENDMODULE control

@@ -18,6 +18,7 @@
 //
 
 #include <SDL.h>
+#include <sys/stat.h>
 
 #include <cstdio>
 #include <cstdlib>
@@ -51,6 +52,7 @@
 #define FB_HEIGHT 512
 
 static uint32_t framebuffer[FB_PITCH * FB_HEIGHT];
+static unsigned shipAddress=0, boosterAddress=0, cameraAddress=0;
 
 // ---------------------------------------------------------------------------
 // tiny PNG writer (RGBA 8-bit)
@@ -134,7 +136,13 @@ struct FrameStats
     uint64_t hash        = 0;   // FNV-1a over the visible picture
     long     changed     = -1;  // pixels differing from previous field
     uint32_t gpuPC       = 0;
-    uint32_t game[20] = {};
+    uint32_t game[28] = {};
+    uint32_t physics[32] = {}, effects[16] = {}, particles[128] = {};
+    uint32_t motion[17] = {}, pose[10] = {}, front[20] = {}, replay[20] = {};
+    char records[4][10] = {};
+    int32_t meshPositions[6] = {};
+    char message[49] = {};
+    char times[6][10] = {};
     uint32_t audioSamples = 0;
     long worldChanged = 0, worldLit = 0;
     long audioNonzero = 0;
@@ -174,7 +182,7 @@ static FrameStats analyseFrame(int frame)
             lumaSum += luma;
             if (luma > maxLuma) maxLuma = luma;
             if (px & 0xFFFFFF00) nonzero++;
-            if(x>w/4 && x<3*w/4 && y>110 && y<195){
+            if(x>w/4 && x<3*w/4 && y>110 && y<190){
                 if(luma>5)st.worldLit++;
                 if(g_prevPicture.size()==picture.size() && px!=g_prevPicture[(size_t)y*w+x]) st.worldChanged++;
             }
@@ -200,8 +208,24 @@ static FrameStats analyseFrame(int frame)
 
     st.gpuPC     = GPUGetPC();
     st.dacWrites = dacWriteCount;
-    for(int i=0;i<20;i++) st.game[i]=GET32(jaguarMainRAM,0x1000+4*i);
+    for(int i=0;i<28;i++) st.game[i]=GET32(jaguarMainRAM,0x1000+4*i);
     st.audioSamples=GET32(jaguarMainRAM,0x1084);
+    for(int i=0;i<128;i++)st.particles[i]=GET32(jaguarMainRAM,0x1800+4*i);
+    for(int i=0;i<16;i++)st.effects[i]=GET32(jaguarMainRAM,0x1700+4*i);
+    for(int i=0;i<32;i++)st.physics[i]=GET32(jaguarMainRAM,0x1600+4*i);
+    for(int i=0;i<17;i++)st.motion[i]=GET32(jaguarMainRAM,0x10a0+4*i);
+    for(int i=0;i<20;i++)st.front[i]=GET32(jaguarMainRAM,0x1300+4*i);
+    for(int t=0;t<4;t++)for(int i=0;i<9;i++){char c=jaguarMainRAM[0x1380+16*t+i];st.records[t][i]=c>=32 && c<127 && c!='"' && c!='\\'?c:'?';}
+    for(int i=0;i<20;i++)st.replay[i]=GET32(jaguarMainRAM,0x1500+4*i);
+    if(shipAddress && boosterAddress && cameraAddress){
+        for(int i=0;i<3;i++){st.pose[i]=GET16(jaguarMainRAM,shipAddress+10+2*i);st.pose[i+3]=GET16(jaguarMainRAM,boosterAddress+10+2*i);}
+        for(int i=0;i<3;i++){st.meshPositions[i]=(int16_t)GET16(jaguarMainRAM,shipAddress+2+2*i);st.meshPositions[i+3]=(int16_t)GET16(jaguarMainRAM,boosterAddress+2+2*i);}
+        for(int i=0;i<4;i++)st.pose[i+6]=GET32(jaguarMainRAM,cameraAddress+4*i);
+    }
+    if(st.game[0]==0x48455847 && st.game[26]<0x100000)
+        for(int i=0;i<48;i++){char c=jaguarMainRAM[st.game[26]+i];if(!c)break;st.message[i]=c>=32 && c<127 && c!='\"' && c!='\\'?c:'?';}
+    const unsigned timeAddresses[]={0x1205,0x1213,0x1222,0x1243,0x1252,0x1261};
+    for(int t=0;t<6;t++)for(int i=0;i<9;i++){char c=jaguarMainRAM[timeAddresses[t]+i];st.times[t][i]=c>=32 && c<127 && c!='\"' && c!='\\'?c:'?';}
 
     return st;
 }
@@ -315,8 +339,10 @@ static void usage(const char *argv0)
 int main(int argc, char **argv)
 {
     const char *romPath = nullptr;
+    const char *symbolsPath = nullptr;
     int frames = 600;
     std::string outDir = ".";
+    std::string eepromDir;
     std::string inputSpec;
     std::vector<int> dumpAt;
     int dumpEvery = 0;
@@ -324,6 +350,7 @@ int main(int argc, char **argv)
     int liveLimit = 45;
     std::string title = "rom";
     bool quiet = false;
+    bool detailedEffects = false;
     bool stopFinish = false;
     int haltGpuAt = -1, blankVideoAt = -1, freezeVideoAt = -1;
     bool useBIOS = true;
@@ -332,6 +359,8 @@ int main(int argc, char **argv)
     for (int i = 1; i < argc; i++) {
         std::string a = argv[i];
         if (a == "--frames" && i + 1 < argc)          frames = atoi(argv[++i]);
+        else if (a == "--eeprom-dir" && i+1<argc) eepromDir=argv[++i];
+        else if (a == "--symbols" && i+1<argc) symbolsPath=argv[++i];
         else if (a == "--pal")                        vjs.hardwareTypeNTSC = false;
         else if (a == "--ntsc")                       vjs.hardwareTypeNTSC = true;
         else if (a == "--out" && i + 1 < argc)        outDir = argv[++i];
@@ -355,6 +384,7 @@ int main(int argc, char **argv)
         else if (a == "--blank-video-at" && i+1<argc) blankVideoAt=atoi(argv[++i]);
         else if (a == "--freeze-video-at" && i+1<argc) freezeVideoAt=atoi(argv[++i]);
         else if (a == "--stop-on-finish") stopFinish = true;
+        else if (a == "--effects") detailedEffects = true;
         else if (a == "--quiet")                      quiet = true;
         else if (a == "-h" || a == "--help") { usage(argv[0]); return 0; }
         else if (a.size() && a[0] == '-') { fprintf(stderr, "vjrun: unknown option '%s'\n", a.c_str()); return 2; }
@@ -363,6 +393,19 @@ int main(int argc, char **argv)
 
     if (!romPath) { usage(argv[0]); return 2; }
 
+    if(symbolsPath){
+        FILE *symbols=fopen(symbolsPath,"r");
+        if(!symbols){fprintf(stderr,"Cannot read assembly symbols\n");return 2;}
+        char line[512],name[128];unsigned long long address;
+        while(fgets(line,sizeof(line),symbols)){
+            if(sscanf(line,"%127s EQU $%llx",name,&address)!=2)continue;
+            if(!strcmp(name,"motion_ship_address"))shipAddress=(unsigned)address;
+            if(!strcmp(name,"motion_booster_address"))boosterAddress=(unsigned)address;
+            if(!strcmp(name,"motion_camera_address"))cameraAddress=(unsigned)address;
+        }
+        fclose(symbols);
+        if(!shipAddress || !boosterAddress || !cameraAddress || shipAddress>0xffff0 || boosterAddress>0xffff0 || cameraAddress>0xffff0){fprintf(stderr,"Invalid renderer symbols\n");return 2;}
+    }
     // ---- settings (the same defaults the GUI uses) -------------------------
     memset(&vjs, 0, sizeof(vjs));
     vjs.hardwareTypeNTSC     = true;
@@ -382,7 +425,9 @@ int main(int argc, char **argv)
     vjs.allowWritesToROM     = false;
     vjs.nbrdisasmlines       = 0;
     vjs.nbrmemory1browserwindow = 0;
-    snprintf(vjs.EEPROMPath, MAX_PATH, "%s/eeprom.bin", outDir.c_str());
+    if(eepromDir.empty())eepromDir=outDir+"/eeprom";
+    mkdir(eepromDir.c_str(),0755);
+    snprintf(vjs.EEPROMPath, MAX_PATH, "%s/", eepromDir.c_str());
     snprintf(vjs.screenshotPath, MAX_PATH, "%s", outDir.c_str());
 
     // parse -pal again (it was parsed before memset above)
@@ -425,6 +470,9 @@ int main(int argc, char **argv)
     jaguarCartInserted = true;
     memcpy(jagMemSpace + 0x800000, rom.data(), (size_t)romSize);
 
+    // Same cartridge CRC and EEPROM initialization as the stock GUI loader.
+    jaguarMainROMCRC32 = crc32(0,rom.data(),(uInt)rom.size());
+    EepromInit();
     jaguarRunAddress = GET32(jagMemSpace, 0x800404);
     JaguarReset();
     SET32(jaguarMainRAM, 0, vjs.DRAM_size);
@@ -441,6 +489,7 @@ int main(int argc, char **argv)
     int worstLiveStreak = 0;
     int firstLiveFrame = -1;
     int lastLiveFrame = -1;
+    int finishedFields = 0;
     long changingFields = 0;
     long staticStreak = 0, worstStaticStreak = 0;
 
@@ -494,7 +543,8 @@ int main(int argc, char **argv)
             printf("vjrun: field %5d  nonzero=%6ld/%ld  avgLuma=%3d  changed=%8ld  gpuPC=%08X%s\n",
                    f, st.nonzero, st.pixels, st.avgLuma, st.changed, st.gpuPC,
                    live ? "" : "   <-- BLACK");
-        if(stopFinish && st.game[0]==0x48455847 && st.game[2]==3){ frames=f+1; break; }
+        if(st.game[0]==0x48455847 && st.game[2]==3) finishedFields++; else finishedFields=0;
+        if(stopFinish && finishedFields>=180){ frames=f+1; break; }
     }
 
     w=(int)TOMGetVideoModeWidth();
@@ -524,7 +574,29 @@ int main(int argc, char **argv)
             const FrameStats &s = stats[i];
             fprintf(rf, "    {\"f\":%d,\"nz\":%ld,\"luma\":%d,\"chg\":%ld,\"hash\":\"%016llX\",\"gpupc\":\"%08X\",\"world_changed\":%ld,\"world_lit\":%ld,\"audio_samples\":%u,\"audio_nonzero\":%ld,\"game\":[",
                     s.frame,s.nonzero,s.avgLuma,s.changed,(unsigned long long)s.hash,s.gpuPC,s.worldChanged,s.worldLit,s.audioSamples,s.audioNonzero);
-            for(int j=0;j<20;j++)fprintf(rf,"%d%s",(int32_t)s.game[j],j==19?"":",");
+            for(int j=0;j<28;j++)fprintf(rf,"%d%s",(int32_t)s.game[j],j==27?"":",");
+            fprintf(rf,"],\"message\":\"%s\",\"times\":[",s.message);
+            for(int t=0;t<6;t++)fprintf(rf,"\"%s\"%s",s.times[t],t==5?"":",");
+            fprintf(rf,"],\"motion\":[");
+            for(int j=0;j<17;j++)fprintf(rf,"%d%s",(int32_t)s.motion[j],j==16?"":",");
+            fprintf(rf,"],\"pose\":[");
+            for(int j=0;j<10;j++)fprintf(rf,"%d%s",(int32_t)s.pose[j],j==9?"":",");
+            fprintf(rf,"],\"effects\":[");
+            for(int j=0;j<16;j++)fprintf(rf,"%u%s",s.effects[j],j==15?"":",");
+            if(detailedEffects){
+                fprintf(rf,"],\"particles\":[");
+                for(int j=0;j<128;j++)fprintf(rf,"%d%s",(int32_t)s.particles[j],j==127?"":",");
+            }
+            fprintf(rf,"],\"physics\":[");
+            for(int j=0;j<32;j++)fprintf(rf,"%d%s",(int32_t)s.physics[j],j==31?"":",");
+            fprintf(rf,"],\"front\":[");
+            for(int j=0;j<20;j++)fprintf(rf,"%u%s",s.front[j],j==19?"":",");
+            fprintf(rf,"],\"records\":[");
+            for(int j=0;j<4;j++)fprintf(rf,"\"%s\"%s",s.records[j],j==3?"":",");
+            fprintf(rf,"],\"replay\":[");
+            for(int j=0;j<20;j++)fprintf(rf,"%u%s",s.replay[j],j==19?"":",");
+            fprintf(rf,"],\"mesh_positions\":[");
+            for(int j=0;j<6;j++)fprintf(rf,"%d%s",s.meshPositions[j],j==5?"":",");
             fprintf(rf,"]}%s\n",i+1<stats.size()?",":"");
         }
         fprintf(rf, "  ]\n}\n");
@@ -535,7 +607,7 @@ int main(int argc, char **argv)
     // ---- verdict -----------------------------------------------------------
     int rc = 0;
     bool nativeSeen = false;
-    int badWorld = 0, stalled = 0;
+    int badWorld = 0, stalled = 0, stalledMovingWorld = 0;
     uint32_t lastUpdate = 0;
     for(const auto &s : stats) {
         if(s.frame < 120) { if(s.game[0]==0x48455847) nativeSeen=true; continue; }
@@ -543,7 +615,9 @@ int main(int argc, char **argv)
         badWorld = s.worldLit < 1500 ? badWorld+1 : 0;
         stalled = s.game[1] == lastUpdate ? stalled+1 : 0;
         lastUpdate = s.game[1];
-        if(badWorld > 45 || stalled > 90) rc=1;
+        bool moving = (s.game[2]==1 || (s.game[2]==5 && s.replay[8]==0)) && s.game[13]==0 && s.game[8]>10;
+        stalledMovingWorld = moving && s.worldChanged<=100 ? stalledMovingWorld+1 : 0;
+        if(badWorld > 45 || stalled > 90 || stalledMovingWorld>90) rc=1;
     }
     if(!nativeSeen) rc=1;
     if(rc) printf("vjrun: FAIL - native-entry/world/heartbeat watchdog\n");
@@ -555,15 +629,20 @@ int main(int argc, char **argv)
             printf("vjrun: FAIL - picture went black for %d fields in a row (limit %d)\n", worstLiveStreak, liveLimit);
             rc = 1;
         }
-        if (changingFields < frames / 10) {
-            printf("vjrun: FAIL - picture is static: only %ld/%d fields changed\n", changingFields, frames);
-            rc = 1;
-        }
+        // Ready/countdown/pause/results are legitimately static. Continuous
+        // moving-world watchdog above replaces the old whole-run percentage.
         if (rc == 0)
             printf("vjrun: PASS - first live field %d, %ld/%d fields animated, worst black streak %d\n",
                    firstLiveFrame, changingFields, frames, worstLiveStreak);
     }
 
+    unsigned recordCount=GET32(jaguarMainRAM,0x1504);
+    if(GET32(jaguarMainRAM,0x1500)==0x5245504c && recordCount<=6144){
+        FILE *record=fopen((outDir+"/recording.bin").c_str(),"wb");
+        if(record){fwrite(jaguarMainRAM+0x150000,64,recordCount,record);fclose(record);}
+        record=fopen((outDir+"/recording-angles.bin").c_str(),"wb");
+        if(record){fwrite(jaguarMainRAM+0x1b0000,2,recordCount,record);fclose(record);}
+    }
     FILE *ram = fopen((outDir + "/ram.bin").c_str(), "wb");
     if(ram){fwrite(jaguarMainRAM,1,0x200000,ram);fclose(ram);}
     JaguarDone();

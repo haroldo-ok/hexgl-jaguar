@@ -62,7 +62,12 @@ def run_case(binary,rom,out,standard,boot,freeze=False):
                 ImageGrab.grab().save(out/'failure-desktop.png')
                 raise VisualFailure('no game window by startup deadline')
             command('windowfocus',win)
-            command('mousemove',0,0)
+            # Cursor parking is cosmetic, not a controller action. Some X11
+            # setups reject a redundant warp; record it without skipping any
+            # pixel/input assertions. Focus and all gameplay keys stay strict.
+            try:command('mousemove',0,0)
+            except subprocess.CalledProcessError:
+                result.setdefault('warnings',[]).append('X11 cursor parking failed; all image/input assertions retained')
             geo=dict(line.split('=',1) for line in command('getwindowgeometry','--shell',win).splitlines())
             x,y,w,h=[int(geo[k]) for k in ('X','Y','WIDTH','HEIGHT')]
             bbox=(x,y,x+w,y+h);result['window_bbox']=bbox
@@ -99,8 +104,24 @@ def run_case(binary,rom,out,standard,boot,freeze=False):
                     if moving and now-last_motion>3:raise VisualFailure('world frozen for 3 seconds during throttle')
                 if moving and changed<3:raise VisualFailure('insufficient world animation after controller input')
                 if paused and stable<3:raise VisualFailure('pause did not hold displayed world')
+            def await_countdown():
+                # Gameplay now intentionally remains still for seven emulated
+                # seconds. Keep checking real pixels; wait for actual world
+                # motion instead of treating a valid countdown as a freeze.
+                # The new menu legitimately changes to a stationary track.
+                # Establish its baseline before testing for premature motion.
+                time.sleep(.5);capture('countdown-entry')
+                start=time.monotonic();deadline=start+25
+                while time.monotonic()<deadline:
+                    time.sleep(.5);m=capture('countdown')
+                    if not visible(m):raise VisualFailure('world black during countdown')
+                    if (m['changed_fraction'] or 0)>.02:
+                        if time.monotonic()-start<4:raise VisualFailure('ship moved before countdown')
+                        return
+                raise VisualFailure('countdown never reached moving gameplay')
             observe('idle',2)
             key('keydown','l','j');time.sleep(.35);key('keyup','j') # Jaguar A + C, then held A
+            await_countdown()
             if freeze:
                 observe('moving-before-freeze',4,moving=True)
                 os.kill(p.pid,signal.SIGSTOP)
@@ -114,17 +135,25 @@ def run_case(binary,rom,out,standard,boot,freeze=False):
             key('keyup','l');key('keydown','o');time.sleep(.3);key('keyup','o')
             observe('restart-ready',2)
             key('keydown','l','j');time.sleep(.3);key('keyup','j')
+            await_countdown()
             observe('restart-moving',4,moving=True)
             key('keyup','l')
             result['status']='PASS'
         except VisualFailure as e:
             result['error']=str(e)
+        except subprocess.CalledProcessError:
+            # An intentionally corrupted entry may close its window while an
+            # X11 operation is in flight. Only an observed process exit counts
+            # as emulator failure; infrastructure errors still abort the suite.
+            if p and p.poll() is not None:result['error']='emulator exited while running'
+            else:raise
         finally:
             if p and p.poll() is None:
                 if freeze:os.kill(p.pid,signal.SIGCONT)
                 p.terminate()
                 try:p.wait(timeout=2)
                 except subprocess.TimeoutExpired:p.kill();p.wait()
+            result['emulator_exit_code']=p.returncode if p else None
             result['elapsed_seconds']=round(time.monotonic()-begin,2)
             (out/'result.json').write_text(json.dumps(result,indent=2)+'\n')
     print(out.name,result['status'],result.get('error',''),flush=True)
@@ -152,7 +181,7 @@ def main():
             with tempfile.TemporaryDirectory(prefix='vj-negative-') as temp:
                 badrom=Path(temp)/'broken-entry.j64';badrom.write_bytes(bad)
                 r=run_case(binary,badrom,out/'negative-old-entry','ntsc','no-bios')
-            assert r['status']=='FAIL' and r.get('error') in ('no game window by startup deadline','world black or untextured at startup deadline'),'old startup defect escaped detection'
+            assert r['status']=='FAIL' and r.get('error') in ('no game window by startup deadline','world black or untextured at startup deadline','emulator exited before presenting video','emulator exited while running'),'broken-entry fault was not rejected'
             summary['cases']['negative-old-entry']={'status':'EXPECTED_FAILURE','detected':r['error']}
             r=run_case(binary,rom,out/'negative-frozen-window','ntsc','no-bios',freeze=True)
             assert r['status']=='FAIL' and 'world frozen' in r.get('error',''),'frozen-window detector failed'

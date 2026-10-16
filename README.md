@@ -1,81 +1,104 @@
-# HexGL → Atari Jaguar — native, incomplete port
+# HexGL → Atari Jaguar
 
-**This is a playable native port-in-progress, not a complete conversion of HexGL.**
-It does not meet the request to convert *everything*. The implemented systems
-run on Jaguar GPU/DSP assembly and use original assets; omitted systems are
-listed below, not represented by empty functions or fake assets.
+A playable, **incomplete native port** of BKcore's HexGL using 42Bastian's
+`jag_3d_engine`. The target is a **standalone stock Jaguar ROM**: gameplay and
+rendering run on the console, with no host bridge or enhanced-emulator dependency.
+Online services are excluded; local cartridge records replace online scores.
 
-## Deliverables
+The port uses original assets and native GPU/DSP assembly, but it is **not a
+complete or visually equivalent conversion of HexGL**. Physical Jaguar hardware
+has not been tested. See [remaining work](#remaining-work-and-limitations).
 
-- `rom/hexgl.j64` — assembled **6 MiB** cartridge ROM, with retail-BIOS and BIOS-off entry paths.
-- `src/` — GPU renderer integration, fixed-point game control, DSP PCM mixer.
-  The `.js` extension follows the engine’s Jaguar-assembly convention; these
-  files are assembled by lyxass, not executed as JavaScript.
-- `tools/` — real-asset conversion, ROM packaging and memory-layout checks.
-- `tests/gui_e2e.py` — stock Virtual Jaguar desktop / OpenGL / keyboard E2E test.
-- `tests/e2e.py` — Virtual Jaguar Rx core end-to-end test orchestrator.
-- `test-results/gui/summary.json` — independent desktop-test verdicts and ROM hash.
-- `tests/vjrunner/` — headless front end linking the actual Virtual Jaguar cores.
-- `test-results/summary.json` — executed test verdicts, tied to the ROM SHA-256.
-- `test-results/*/run_report.json` — field-by-field pixels, native state and audio evidence.
-- `vendor/` — pinned upstream source; revisions in `dependencies.lock.json`.
-- `docs/PARITY.md` — implemented, changed and missing features.
+## Current release
 
-## Playing
+The latest integration adds substantial gameplay and rendering functionality:
 
-Load `rom/hexgl.j64` in Virtual Jaguar with GPU and DSP enabled. **Both BIOS-on
-and BIOS-off now work in the tested Virtual Jaguar versions.** The old build
-had no working BIOS-off entry; Virtual Jaguar defaults to BIOS-off, exposing a
-startup defect missed by the original BIOS-only harness. This build adds a
-68000 cartridge bootstrap at `$900000` while retaining the retail GPU loader.
-Select PAL or NTSC before power-on. Physical Jaguar hardware is untested.
+- **Airbrake drift:** B + Left/Right applies lateral movement as well as stronger
+  steering and banking.
+- **Contact response:** map-derived inward impulses persist and decay after an
+  impact, rather than relying only on position rejection.
+- **Hover and falling:** bilinear height-map following, smoothed descents, and
+  unsupported falls ending in destruction after 1.5 seconds of active video time.
+- **Ship pitch:** terrain grade drives the actual ship and booster transforms.
+- **Chase-camera pitch:** vertical look-at rotation affects rendered vertices and
+  normals, alongside speed-sensitive pullback and height filtering.
+- **Native effects:** original spark/cloud textures drive a bounded world-space
+  particle pool with lifetimes, fading and pause. The original booster glow sprite
+  follows the ship's stern and responds to speed/boost.
+- **Pitched replay:** actual-run recording now includes interpolated ship and
+  camera pitch without reducing the 6,144-sample capacity.
+
+These are hardware-adapted implementations, not claims of full source parity.
+[Implementation details](docs/DYNAMICS-AND-EFFECTS.md) describe the algorithms,
+source mapping, memory layout and explicit compromises.
+
+### Other implemented systems
+
+| System | Current implementation |
+| --- | --- |
+| Cityscape geometry | All 12,206 triangles from nine scene meshes, partitioned into 289 runtime objects |
+| Artwork and terrain | Original diffuse textures converted to 64² CrY; six skybox faces baked into a yaw-following panorama; original collision/height maps reduced from 2048² to 512² |
+| Racing | Acceleration, braking, steering, boost pads, shield damage, ordered checkpoints, three laps, destruction, finish and restart |
+| Race flow | Seven-second Get Ready / 3 / 2 / 1 / GO countdown; input lock before GO; PAL/NTSC video-clock timers, lap splits and best lap |
+| HUD | All three original speed/shield bitmap layers, live clipping and native numeric/timing readouts |
+| Menus | Original background/title artwork and Bebas Neue typography; Start, Controls, Local Records, Credits, Replay and results |
+| Replay | Actual native run samples with elapsed-field interpolation, pause, end hold and Option exit; not the supplied static upstream replay |
+| Saved records | Real serial EEPROM I/O, separate manual/autopilot records, two-slot journals, checksums, readback and bounded waits |
+| Audio | All five original Ogg tracks/effects converted without duration truncation to 7,990 Hz PCM8 mono; native DSP mixing through JERRY I2S |
+| Boot paths | Retail-BIOS GPU loader and a 68000 cartridge entry for BIOS-off loading |
+
+## Quick start
+
+Load [`rom/hexgl.j64`](rom/hexgl.j64) in Virtual Jaguar with **GPU and DSP enabled**.
+Choose PAL or NTSC before power-on. Both BIOS-on and BIOS-off entry paths passed
+in the tested emulator configurations.
 
 ```sh
 virtualjaguar rom/hexgl.j64 --ntsc --gpu --dsp
-# Explicit retail-BIOS path, also tested:
+# Explicit retail-BIOS entry:
 virtualjaguar rom/hexgl.j64 --ntsc --bios --gpu --dsp
 ```
 
-Stock Virtual Jaguar's default keyboard map: **L = A/thrust, J = C/autopilot,
-Z/C = left/right, K = brake, P = pause, O = restart**. Arrow keys are not its
-player-one defaults. See `docs/BLACK-SCREEN-FIX.md` for regression coverage.
+### Controls
 
-| Jaguar control | Action |
-|---|---|
-| A or Up | Start / accelerate |
-| Left / Right | Steer |
-| B | Brake; increases steering rate |
-| Down | Brake |
-| Pause | Pause/resume movement and race clock |
-| Option | Reset race and shield |
-| C | Toggle optional track-following autopilot |
+| Jaguar control | Action | Stock Virtual Jaguar keyboard default |
+| --- | --- | --- |
+| A | Confirm menu / begin countdown / accelerate after GO | L |
+| Up / Down | Navigate menus; thrust / brake during a race | S / X |
+| Left / Right | Steer | Z / C |
+| B | Brake; with a direction, stronger steering and lateral airbrake drift | K |
+| C | Toggle optional track-following autopilot | J |
+| Pause | Pause/resume gameplay and replay | P |
+| Option | Return to Start / reset race and shield | O |
 
-C can be enabled before pressing A. The autopilot follows a centerline extracted
-from the original collision image. It is a new test/demo feature, **not** the
-original replay. Normal manual driving has no autopilot assistance.
+**S/X navigate the menu and L confirms.** Arrow keys are not the stock
+player-one defaults; configured controller profiles may differ.
 
-The race uses ordered checkpoints 0 → 1 → 2 → 0 and ends after three laps.
-Off-road movement is rejected, speed drops, and shield damage can end the race.
-The display uses a native text HUD rather than HexGL's original bitmap HUD.
+Autopilot follows a centerline extracted from the original collision image. It
+is a native test/demo feature, **not** original HexGL replay. Its records are kept
+separate from manual records.
 
-## What actually runs
+### Replay and saves
 
-- All **12,206 triangles** from the nine Cityscape scene meshes are converted;
-  no replacement track or ship geometry is generated. World geometry is
-  partitioned into 289 objects, culled and rendered by the adapted engine.
-- Original diffuse textures are downsampled to 64×64 Jaguar CrY textures.
-- All six original skybox faces are converted to a rotating CrY panorama.
-- The original 2048² collision/height images become 512² native maps; height
-  decoding retains HexGL's unusual base-255 encoding.
-- Native fixed-point acceleration, braking, yaw steering, height following,
-  collision damage, boost pads, checkpoints, laps, pause, finish and restart.
-- All five original Ogg files are resampled **without duration truncation** to
-  7,990 Hz signed PCM8 mono. A DSP mixer streams music, wind, boost, crash and
-  destruction sounds from cartridge ROM, paced by JERRY's I2S latch.
+- Replay Last Run becomes available after a run produces samples. Option retains
+  that recording; starting a new countdown replaces it.
+- Replay holds up to **6,144 samples**, plus recorded pitch pairs, in RAM. A full
+  buffer retains a playable prefix. Power-off loses the recording.
+- Best times require an EEPROM-equipped cartridge/compatible flash cart, or an
+  emulator with writable EEPROM storage. EEPROM does not store the replay.
+- Virtual Jaguar identifies EEPROM files by ROM CRC, so a changed ROM build may
+  use a different emulator save file.
 
-## Build
+See [front end, replay and saves](docs/FRONTEND-REPLAY-SAVES.md).
 
-On Debian-like Linux, install system prerequisites:
+## Build from source
+
+The archive includes pinned upstream sources and converted assets. Revisions
+are recorded in [`dependencies.lock.json`](dependencies.lock.json). The `.js`
+files in `src/` follow the engine's **Jaguar assembly** naming convention: lyxass
+assembles them; they are not browser JavaScript.
+
+On Debian-like Linux, install the build and emulator-test prerequisites:
 
 ```sh
 sudo apt-get install build-essential pkg-config libsdl2-dev qtbase5-dev \
@@ -86,88 +109,145 @@ python3 -m venv .venv
 pip install -r requirements.txt
 ```
 
-With the supplied sources and converted assets:
+Use a Python version supported by the pinned packages in `requirements.txt`.
+From the extracted `hexgl-jaguar/` directory:
 
 ```sh
-make rom                   # builds lyxass, assembles GPU/DSP source, packages ROM
-make verify                # checks payload, sources, layout, capacity and hash
+make rom       # build assembler; assemble GPU/DSP/68000 code; package and verify
+make verify    # verify the assembled payload, ROM layout, assets and capacities
 ```
 
-To regenerate the assets from the pinned originals:
+To regenerate the asset groups from the supplied originals:
 
 ```sh
-make assets
-make rom
+python3 tools/convert.py   # geometry, diffuse textures, collision and height maps
+make assets               # sky, audio, route and supplied replay conversion
+make rom                  # also regenerates UI/HUD/effects art and response tables
 ```
 
-The platform's unchanged object-list binaries and encrypted GPU loader are
-supplied by the pinned `jag_3d_engine` / `new_bjl` repositories. They are boot and
-video metadata, not a substituted game executable. GPU game code and the DSP
-mixer are assembled from the delivered source. The assembler is built locally.
+`make assets` alone does **not** regenerate the mesh/terrain conversions; run
+`tools/convert.py` first when rebuilding those assets.
 
-The source archive includes dependencies. If using a source-only checkout
-without `vendor/`, run `python3 tools/fetch_dependencies.py` first.
+The encrypted GPU loader and object-list binaries come from the pinned engine
+and SDK. They are boot/video metadata, not a substituted game executable. Game
+integration and the DSP mixer are assembled from the delivered source. Generated
+host executables and object libraries are excluded from the archive and rebuilt
+locally. If using a checkout without `vendor/`, run
+`python3 tools/fetch_dependencies.py` before building.
 
-## End-to-end validation
+## Validation
+
+### Recorded results for the bundled ROM
+
+| Gate | Result |
+| --- | --- |
+| Unit tests | **53 passed** |
+| Core gameplay / boot / fault scenarios | **17 passed**, including expected fault rejections |
+| Stock desktop emulator scenarios | **7 passed**, including expected fault rejections |
+| Focused HUD scenarios | **2 passed** |
+| Front-end / replay / EEPROM scenarios | **10 passed** |
+| Dynamics / camera / effects scenarios | **4 passed** |
+| Separate clean rebuild | **Byte-identical ROM**, plus NTSC/PAL smoke checks |
+
+That is **40 end-to-end scenarios**, plus unit tests and the separate clean-build
+checks. These are recorded results for the ROM identified below, not a claim
+that documentation edits rerun the tests.
+
+The tests cover full PAL/NTSC races, fresh-process EEPROM loading, journal
+recovery, replay interpolation, original-art pixels, actual transformed/projected
+ship vertices, bilinear hover and particle integration. Additional post-run
+checks verify fall displacement/timing, pause during falling, and recorded pitch
+pairs against observed gameplay.
+
+The desktop gate launches the stock Qt/OpenGL emulator under Xvfb, supplies
+normal keyboard input and measures actual window pixels without reading game
+RAM. The headless harness links Virtual Jaguar Rx's real device cores and observes
+native state, TOM output and DSP audio. Halted-GPU, black-video, frozen-video and
+frozen-desktop controls must be rejected; a live heartbeat cannot excuse a
+black or frozen picture.
+
+- [Visual report](REPORT.html)
+- [Detailed results](docs/TEST-RESULTS.md)
+- [Clean-build proof](docs/dynamics-clean-rebuild.json)
+- [Additional observed-state checks](docs/dynamics-additional-checks.json)
+
+### Run the gates
 
 ```sh
-make test                  # compile ROM + unit tests + core E2E + stock desktop E2E
-make test-gui              # compile ROM + real Qt/OpenGL GUI test only
-make test-core             # compile ROM + detailed PAL/NTSC core tests
-make test-quick            # core startup/manual/fault checks; not a release gate
-make release               # full test gate, report, then source+ROM ZIP
+make test          # build, unit tests, all five emulator suites and post-run checks
+make test-core     # detailed core/HUD/dynamics/frontend tests; no desktop suite
+make test-gui      # stock Qt/OpenGL desktop tests
+make test-unit     # Python unit tests
+make test-clean    # isolated source rebuild and two emulator smoke checks
+make test-quick    # reduced core/manual/fault coverage; not a release gate
+make release       # full tests + clean rebuild + report + source/ROM ZIP
 ```
 
-The **desktop test** launches the unmodified installed `virtualjaguar` executable
-under Xvfb, with a clean HOME/config on every run. It uses the normal file loader,
-Qt input handling, asynchronous SDL audio and OpenGL presentation. It captures
-actual window pixels, excludes menus/HUD/status bar, and checks world brightness,
-contrast, color diversity and motion. It checks default settings, explicit
-BIOS-off/on, PAL/NTSC, start, pause/resume and restart. A recreated broken entry
-and an intentionally frozen emulator process must be rejected. The GUI test
-never reads or writes Jaguar RAM. `test-results/gui/` contains screenshots,
-metrics, commands, executable hash and verdicts.
+`make test` executes fresh emulator runs. The explicit post-run checker reads
+those observations; it does not replace emulator execution. Timeouts, crashes
+and nonzero positive-run exit codes fail the suite. Release packaging requires
+all five suites, clean-build proof and additional checks to match the exact ROM
+SHA-256. The supplied CI workflow is not evidence of an executed remote CI run.
 
-The **core test** independently links Virtual Jaguar Rx's real CPU/device cores,
-boots the production cartridge through both entry paths, supplies joystick input,
-and observes native telemetry, actual TOM output and DSP audio. Detailed tests
-cover throttle, steering, collision, destruction, restart, boost pads, ordered
-checkpoints, two complete three-lap races and randomized power-on RAM. Video
-checks include the final field; native heartbeat cannot excuse black or frozen
-output. Deliberately halted GPU, blank video with live gameplay, and frozen video
-with live gameplay must all fail the assertions. The core harness uses VJ's sound
-callback synchronously; the desktop test covers its normal asynchronous path.
+Complete per-field traces are retained as lossless `.json.gz` files. Screenshots
+are sampled after validation; retention manifests record removals. Finite tests
+cannot guarantee every input sequence or emulator/driver configuration.
 
-All positive runs are fresh. No saved trace reuse is permitted. Timeouts, emulator
-crashes and nonzero positive exit codes fail the suite. `tools/bundle.py` refuses
-to package a ROM unless BOTH full suites passed for its exact SHA-256.
-`.github/workflows/virtual-jaguar.yml` runs the same gate in CI (workflow supplied;
-remote CI execution is not claimed).
+## Repository and archive contents
 
-Tests detect and block the covered regressions; they cannot guarantee that every
-possible input sequence or emulator/driver configuration will never freeze.
-Physical hardware remains unverified. The GUI needs X11/Xvfb, Mesa OpenGL and the
-stock Virtual Jaguar package, not just the headless runner.
+| Path | Purpose |
+| --- | --- |
+| `rom/hexgl.j64` | Compiled 6 MiB cartridge ROM |
+| `rom/verification.json` | ROM identity, memory bounds and asset checks |
+| `src/` | Native gameplay, renderer, effects, menus, recording, EEPROM and audio code |
+| `assets/` | Converted original content, response tables and provenance manifests |
+| `tools/` | Conversion, build preparation, verification, reporting and packaging |
+| `tests/` | Unit tests, real-emulator harness, E2E runners and independent oracles |
+| `test-results/` | Executed verdicts, logs, compressed traces and retained captures |
+| `vendor/` | Pinned upstream code and original assets |
+| `docs/` | Implementation notes, parity boundaries and validation details |
+| `licenses/`, `NOTICE.md` | License texts, exceptions and attribution |
 
-## Main limitations
+The release ZIP extracts into `hexgl-jaguar/` and contains source, dependencies,
+converted assets, the compiled ROM and test evidence. Its companion `.sha256`
+file verifies the ZIP itself.
 
-Physics/camera behavior is not a line-for-line translation. No original bitmap
-HUD/menu flow, race-recording system, online ladder, particles, bloom, real-time
-shadows, normal/specular lighting, or full fall/repulsion behavior. Rendering is
-affine textured, with visible quantization and clipping artifacts. The unused
-Edge mesh is converted separately but is not a playable second track (nor is
-it wired into the upstream Cityscape launcher).
+**Bundled ROM:** 6,291,456 bytes (6 MiB).
 
-See `docs/PARITY.md` for the precise boundary between asset conversion and
-runtime support. Do not advertise this build as the requested complete port.
+```text
+SHA-256
+bfe5591fa30c95baa290f2591253d1ff47e12639a92b37d7bc9980d8456f1faa
+```
+
+## Remaining work and limitations
+
+- Fully source-equivalent angular/contact physics and cross-slope tilt.
+- Quaternion/up-vector camera behavior, camera roll, orbit modes and sky pitch.
+- Perspective-sized, depth-aware/additive particles and full velocity inheritance.
+  Current effects use 16² point sprites, a 16-slot pool and ordered alpha coverage.
+- Dynamic scene lighting, normal/specular response, shadows and bloom. The booster
+  glow sprite is **not** a substitute for these lighting systems.
+- Spatial/stereo audio and the original filter behavior.
+- Remaining browser-equivalent presentation, typography, transitions and settings.
+- Physical Jaguar timing and cartridge/EEPROM compatibility verification.
+
+Rendering is affine textured and has visible quantization and clipping artifacts.
+The unused Edge mesh is converted but is not a playable second track; the upstream
+Cityscape launcher did not wire it in either. Online services are excluded by the
+standalone-stock target, not represented by fake local networking functions.
+
+See [PARITY.md](docs/PARITY.md) and
+[STOCK-JAGUAR-SCOPE.md](docs/STOCK-JAGUAR-SCOPE.md) for the precise boundary between
+conversion, runtime support, adaptations and missing systems.
 
 ## Credits and licensing
 
-HexGL: Thibaut “BKcore” Despoulain and contributors; original model/texture and
-sound credits remain in `vendor/HexGL`. Renderer/SDK: 42Bastian. Emulator:
-Virtual Jaguar / Virtual Jaguar Rx contributors.
+- **HexGL:** Thibaut “BKcore” Despoulain and contributors; original model, texture
+  and audio credits remain in `vendor/HexGL`.
+- **Jaguar renderer and SDK:** 42Bastian.
+- **Emulator:** Virtual Jaguar / Virtual Jaguar Rx contributors.
 
-**Do not assume the entire bundle is MIT.** HexGL's top-level license and
-per-file CC BY-NC notices coexist; its README explicitly makes file-specific
-notices exceptions. Audio has separate credits/licenses. Emulator/harness
-licensing is separate from the game. See `NOTICE.md` and `licenses/`.
+**Do not assume the entire bundle is MIT.** HexGL's top-level license coexists
+with file-specific CC BY-NC 3.0 notices. Audio has separate licenses and credits;
+emulator/harness licensing is separate from the game. Preserve these exceptions
+when redistributing. See [NOTICE.md](NOTICE.md) and [`licenses/`](licenses/).

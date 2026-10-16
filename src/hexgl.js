@@ -173,6 +173,12 @@ init:
 //->	include "genmap.inc"
 	include "engine.js"
 	include "control.js"
+	include "pose.js"
+	include "effects.js"
+	include "bitmap_hud.js"
+	include "frontend.js"
+	include "frontdraw.js"
+	include "recording.js"
  IF LANDSCAPE <> 0
 	include	"plane_prep.js"
  ENDIF
@@ -479,10 +485,22 @@ main_loop:
 	subq	#1,r1
 	storew	r1,(r2)
 
+	MyINITMODULE frontend
+	MBL frontend
+	MyINITMODULE recording
+	MBL recording
 	MyINITMODULE control
 	MBL control
+	MyINITMODULE pose
+	MBL pose
 	MyINITMODULE engine
 	MBL	engine
+	MyINITMODULE effects
+	MBL effects
+	MyINITMODULE frontdraw
+	MBL frontdraw
+	MyINITMODULE bitmap_hud
+	MBL bitmap_hud
 
 //->	movei	#$00F00052,r0
 //->	loadw	(r0),r0
@@ -648,6 +666,11 @@ grass_tex_1:
 texture:
 
 	include "../assets/textures.inc"
+	include "../assets/hud.inc"
+	include "../assets/frontend.inc"
+ align 4
+effect_atlas:
+ incbin "../assets/effects.bin"
 	IF MOD = 1
 	align 8
 DSP_start:
@@ -690,4 +713,7 @@ pcm_end:
 ende:		equ *
 	echo "ENDE : %Hende"
 
+motion_ship_address:: EQU obj_ship
+motion_booster_address:: EQU obj_booster
+motion_camera_address:: EQU CAMERA_X
 	end

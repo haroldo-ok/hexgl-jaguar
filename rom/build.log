@@ -2,6 +2,13 @@ make -C vendor/lyxass
 make[1]: Entering directory '/home/user/hexgl-jaguar/vendor/lyxass'
 make[1]: Nothing to be done for 'all'.
 make[1]: Leaving directory '/home/user/hexgl-jaguar/vendor/lyxass'
+python3 tools/frontend.py
+Original front end converted; two backgrounds and actual Bebas Neue atlas
+python3 tools/hud.py
+Original HUD: 23656 bytes
+python3 tools/motion.py
+python3 tools/dynamics.py
+python3 tools/effects.py
 python3 tools/prepare_engine.py
 cd src && /home/user/hexgl-jaguar/vendor/lyxass/lyxass -d -o audio.bin audio.js
 cd src && /home/user/hexgl-jaguar/vendor/lyxass/lyxass -sh hexgl.js
@@ -12,21 +19,35 @@ screen0:   $1b4808
 memory end: $14acc8
 stacktop $f03ffc
 RSPC: $968
-Size (engine): $b50
-ENDE (engine): $f03be0
-drawHex:$3704 104 _0 $374c
-ENDE : $999e0
+Size (engine): $bc8
+ENDE (engine): $f03c58
+Size (bitmap HUD): $150
+ENDE (bitmap HUD): $f031e0
+ENDE (frontend): $f037e0
+ENDE (frontdraw): $f03868
+ENDE (recording): $f03440
+drawHex:$618c 104 _0 $61d4
+ENDE : $a3f60
 m68k-linux-gnu-as -m68000 src/cart_boot.S -o src/cart_boot.o
 m68k-linux-gnu-ld -Ttext=0x900000 --oformat=binary src/cart_boot.o -o src/cart_boot.bin
 python3 tools/package_rom.py
-/home/user/hexgl-jaguar/rom/hexgl.j64 6291456 bytes 4c8a579bd4676e5a7d6a1fb415aaa547ad13cfa459a452f779334654b5de0911
+/home/user/hexgl-jaguar/rom/hexgl.j64 6291456 bytes bfe5591fa30c95baa290f2591253d1ff47e12639a92b37d7bc9980d8456f1faa
 python3 tools/verify.py
 {
+  "effect_pool": 16,
+  "replay_angles_end": "0x1b3000",
+  "recording_capacity": 6144,
+  "recording_end": "0x1b0000",
+  "hud_records": {
+    "bg": 1241,
+    "speed": 1419,
+    "shield": 297
+  },
   "rom_bytes": 6291456,
-  "sha256": "4c8a579bd4676e5a7d6a1fb415aaa547ad13cfa459a452f779334654b5de0911",
+  "sha256": "bfe5591fa30c95baa290f2591253d1ff47e12639a92b37d7bc9980d8456f1faa",
   "load_address": "0x2000",
-  "loaded_bytes": 621024,
-  "loaded_end": "0x999e0",
+  "loaded_bytes": 663392,
+  "loaded_end": "0xa3f60",
   "scratch_start": "0x110000",
   "triangle_arena_end": "0x14acc8",
   "framebuffer_start": "0x1b4800",

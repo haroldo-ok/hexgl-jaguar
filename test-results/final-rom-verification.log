@@ -1,0 +1,22 @@
+{
+  "effect_pool": 16,
+  "replay_angles_end": "0x1b3000",
+  "recording_capacity": 6144,
+  "recording_end": "0x1b0000",
+  "hud_records": {
+    "bg": 1241,
+    "speed": 1419,
+    "shield": 297
+  },
+  "rom_bytes": 6291456,
+  "sha256": "bfe5591fa30c95baa290f2591253d1ff47e12639a92b37d7bc9980d8456f1faa",
+  "load_address": "0x2000",
+  "loaded_bytes": 663392,
+  "loaded_end": "0xa3f60",
+  "scratch_start": "0x110000",
+  "triangle_arena_end": "0x14acc8",
+  "framebuffer_start": "0x1b4800",
+  "runtime_triangles": 12206,
+  "runtime_objects": 289,
+  "status": "PASS"
+}

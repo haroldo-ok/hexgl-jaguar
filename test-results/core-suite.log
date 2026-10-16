@@ -1,167 +1,19 @@
-manual-ntsc exit 0 fields 1200 elapsed 21.0 s
-manual-ntsc-direct exit 0 fields 1200 elapsed 20.1 s
-race-ntsc exit 0 fields 12393 elapsed 224.4 s
-manual-pal exit 0 fields 1200 elapsed 20.6 s
-manual-pal-direct exit 0 fields 1200 elapsed 21.0 s
-race-pal exit 0 fields 10813 elapsed 218.5 s
-cold-boot-seed-7 exit 0 fields 600 elapsed 9.6 s
-cold-boot-seed-42 exit 0 fields 600 elapsed 9.7 s
-negative-frozen-gpu exit 1 fields 750 elapsed 7.9 s
-negative-black-video exit 1 fields 750 elapsed 12.8 s
-negative-frozen-video exit 0 fields 750 elapsed 12.7 s
-{
-  "rom_sha256": "4c8a579bd4676e5a7d6a1fb415aaa547ad13cfa459a452f779334654b5de0911",
-  "emulator": "Virtual Jaguar Rx 2.1.3 headless core harness",
-  "cases": {
-    "manual-ntsc": {
-      "checks": [
-        "BIOS boot",
-        "native entry",
-        "nonblack world",
-        "GPU heartbeat",
-        "DSP sample clock",
-        "audible PCM",
-        "throttle",
-        "steering",
-        "pause/resume",
-        "collision damage",
-        "destruction",
-        "restart"
-      ],
-      "fields": 1200,
-      "updates": 64,
-      "audio_samples": 157937
-    },
-    "manual-ntsc-direct": {
-      "checks": [
-        "BIOS boot",
-        "native entry",
-        "nonblack world",
-        "GPU heartbeat",
-        "DSP sample clock",
-        "audible PCM",
-        "throttle",
-        "steering",
-        "pause/resume",
-        "collision damage",
-        "destruction",
-        "restart"
-      ],
-      "fields": 1200,
-      "updates": 64,
-      "audio_samples": 156339
-    },
-    "race-ntsc": {
-      "checks": [
-        "BIOS boot",
-        "native entry",
-        "nonblack world",
-        "GPU heartbeat",
-        "DSP sample clock",
-        "audible PCM",
-        "continuous world animation",
-        "all checkpoints",
-        "boost pads",
-        "three laps",
-        "finish"
-      ],
-      "fields": 12393,
-      "updates": 3892,
-      "race_ticks": 12294,
-      "audio_samples": 1648482
-    },
-    "manual-pal": {
-      "checks": [
-        "BIOS boot",
-        "native entry",
-        "nonblack world",
-        "GPU heartbeat",
-        "DSP sample clock",
-        "audible PCM",
-        "throttle",
-        "steering",
-        "pause/resume",
-        "collision damage",
-        "destruction",
-        "restart"
-      ],
-      "fields": 1200,
-      "updates": 65,
-      "audio_samples": 189866
-    },
-    "manual-pal-direct": {
-      "checks": [
-        "BIOS boot",
-        "native entry",
-        "nonblack world",
-        "GPU heartbeat",
-        "DSP sample clock",
-        "audible PCM",
-        "throttle",
-        "steering",
-        "pause/resume",
-        "collision damage",
-        "destruction",
-        "restart"
-      ],
-      "fields": 1200,
-      "updates": 65,
-      "audio_samples": 188427
-    },
-    "race-pal": {
-      "checks": [
-        "BIOS boot",
-        "native entry",
-        "nonblack world",
-        "GPU heartbeat",
-        "DSP sample clock",
-        "audible PCM",
-        "continuous world animation",
-        "all checkpoints",
-        "boost pads",
-        "three laps",
-        "finish"
-      ],
-      "fields": 10813,
-      "updates": 3893,
-      "race_ticks": 10713,
-      "audio_samples": 1726207
-    },
-    "cold-boot-seed-7": {
-      "checks": [
-        "randomized power-on RAM",
-        "direct entry",
-        "nonblack world",
-        "heartbeat",
-        "world animation"
-      ],
-      "fields": 600
-    },
-    "cold-boot-seed-42": {
-      "checks": [
-        "randomized power-on RAM",
-        "direct entry",
-        "nonblack world",
-        "heartbeat",
-        "world animation"
-      ],
-      "fields": 600
-    },
-    "negative-frozen-gpu": {
-      "expected_failure_detected": "World viewport black (includes final field)",
-      "process_exit_code": 1,
-      "native_heartbeat_stopped": true
-    },
-    "negative-black-video": {
-      "expected_failure_detected": "Black-screen watchdog",
-      "process_exit_code": 1,
-      "native_heartbeat_stopped": false
-    },
-    "negative-frozen-video": {
-      "expected_failure_detected": "World framebuffer frozen at 420",
-      "process_exit_code": 0,
-      "native_heartbeat_stopped": false
-    }
-  },
-  "status": "PASS"
-}
+manual-ntsc exit 0 fields 2040 elapsed 84.0 s
+manual-ntsc-direct exit 0 fields 2040 elapsed 71.0 s
+race-ntsc exit 0 fields 14000 elapsed 295.2 s
+manual-pal exit 0 fields 1900 elapsed 40.9 s
+manual-pal-direct exit 0 fields 1900 elapsed 38.9 s
+race-pal exit 0 fields 12237 elapsed 261.0 s
+bank-ntsc exit 0 fields 1180 elapsed 21.9 s
+camera-speed-ntsc exit 0 fields 820 elapsed 14.9 s
+Traceback (most recent call last):
+  File "/home/user/hexgl-jaguar/tests/e2e.py", line 240, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/home/user/hexgl-jaguar/tests/e2e.py", line 209, in main
+    result['cases']['camera-speed-'+standard]=motion_checks.speed_case(trace,go,h)
+                                              ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/user/hexgl-jaguar/tests/motion_checks.py", line 103, in speed_case
+    assert len({f['motion'][11] for f in acceleration})>10,'Pullback snapped instead of filtering'
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Pullback snapped instead of filtering

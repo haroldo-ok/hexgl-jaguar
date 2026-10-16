@@ -1,0 +1,984 @@
+--- a/Makefile
++++ b/Makefile
+@@ -20,6 +20,7 @@
+ 
+ rom: toolchain
+ 	@test -f assets/models.inc || { echo 'Run make assets first'; exit 1; }
++	$(PYTHON) tools/hud.py
+ 	$(PYTHON) tools/motion.py
+ 	$(PYTHON) tools/prepare_engine.py
+ 	cd src && $(LYXASS) -d -o audio.bin audio.js
+@@ -38,10 +39,12 @@
+ # Release gate: compile current source, test assertions, real core, and stock GUI.
+ test: rom emulator test-unit
+ 	$(PYTHON) tests/e2e.py
++	$(PYTHON) tests/hud_e2e.py
+ 	xvfb-run -a -s '-screen 0 1024x768x24' $(PYTHON) tests/gui_e2e.py
+ 
+ test-core: rom emulator
+ 	$(PYTHON) tests/e2e.py
++	$(PYTHON) tests/hud_e2e.py
+ 
+ test-gui: rom
+ 	xvfb-run -a -s '-screen 0 1024x768x24' $(PYTHON) tests/gui_e2e.py
+--- a/README.md
++++ b/README.md
+@@ -5,7 +5,21 @@
+ run on Jaguar GPU/DSP assembly and use original assets; omitted systems are
+ listed below, not represented by empty functions or fake assets.
+ 
+-## Latest development milestone: ship and camera
++## Latest development milestone: original bitmap gauges
++
++- All three original speed/shield HUD PNG layers are now converted to 384×50
++  Jaguar CrY artwork, with source hashes and a reproducible converter.
++- The symmetric speed trapezoid and vertical shield clipping follow `HUD.js`,
++  driven by live native speed and collision damage; numeric readouts are native.
++- A top-overlay layout preserves the full camera view and unobstructed ship.
++  Alpha uses ordered coverage; the original web font/layout is not reproduced.
++- Timing/results remain in the working footer. Pixel-level emulator checks
++  compare the displayed gauges with an oracle derived from the source PNGs.
++
++See `docs/BITMAP-HUD.md` for conversion, adaptations and tests. This converts
++these three images, **not** the remaining menus, fonts, effects or full physics.
++
++## Previous milestone: ship and camera
+ 
+ - Smooth steering bank on the original ship and booster meshes, with stronger
+   bank when holding B while steering and a filtered return toward level.
+@@ -29,7 +43,7 @@
+ - Timing follows actual video fields at 50 Hz PAL / 60 Hz NTSC, independently of
+   capped physics steps or rendered frame count. It stops at destruction/finish.
+ - The final lap is announced; finish retains total/splits/best until Option.
+-- The bitmap HUD, browser menu/result flow, persistence, full physics/camera,
++- The browser menu/result flow, persistence, full physics/camera,
+   effects and replay remain unported. This is a further milestone, not full parity.
+ 
+ See `docs/RACE-FLOW.md` for source mapping, telemetry and test assertions.
+@@ -85,7 +99,7 @@
+ 
+ The race begins after a seven-second countdown and uses ordered checkpoints 0 → 1 → 2 → 0 and ends after three laps.
+ Off-road movement is rejected, speed drops, and shield damage can end the race.
+-The display uses a native text HUD rather than HexGL's original bitmap HUD.
++The display combines converted original bitmap gauges with a native timing/results footer.
+ 
+ ## What actually runs
+ 
+@@ -93,6 +107,7 @@
+   no replacement track or ship geometry is generated. World geometry is
+   partitioned into 289 objects, culled and rendered by the adapted engine.
+ - Original diffuse textures are downsampled to 64×64 Jaguar CrY textures.
++- All three original bitmap HUD layers are converted and drawn by Jaguar GPU code.
+ - All six original skybox faces are converted to a rotating CrY panorama.
+ - The original 2048² collision/height images become 512² native maps; height
+   decoding retains HexGL's unusual base-255 encoding.
+@@ -161,7 +176,9 @@
+ 
+ The **core test** independently links Virtual Jaguar Rx's real CPU/device cores,
+ boots the production cartridge through both entry paths, supplies joystick input,
+-and observes native telemetry, actual TOM output and DSP audio. Detailed tests
++and observes native telemetry, actual TOM output and DSP audio. Each positive run
++also checks actual bitmap-HUD pixels against the original art and recent live state,
++including partial/full/empty speed, damage, destruction and reset. Detailed tests
+ cover throttle, steering, collision, destruction, restart, boost pads, ordered
+ checkpoints, two complete three-lap races and randomized power-on RAM. New steering and
+ speed-camera scenarios verify filter recurrences, independent renderer inputs,
+@@ -177,7 +194,7 @@
+ 
+ All positive runs are fresh. No saved trace reuse is permitted. Timeouts, emulator
+ crashes and nonzero positive exit codes fail the suite. `tools/bundle.py` refuses
+-to package a ROM unless BOTH full suites passed for its exact SHA-256.
++to package a ROM unless the full core, stock GUI and focused live-HUD suites passed for its exact SHA-256.
+ `.github/workflows/virtual-jaguar.yml` runs the same gate in CI (workflow supplied;
+ remote CI execution is not claimed).
+ 
+@@ -188,9 +205,10 @@
+ 
+ ## Main limitations
+ 
+-Physics/camera behavior is not a line-for-line translation. No original bitmap
+-HUD/menu flow, race-recording system, online ladder, particles, bloom, real-time
+-shadows, normal/specular lighting, or full fall/repulsion behavior. Rendering is
++Physics/camera behavior is not a line-for-line translation. Original HUD artwork
++is adapted, but original menu/typography/result flow, race recording, the online
++ladder, particles, bloom, real-time
++shadows, normal/specular lighting and full fall/repulsion behavior remain missing. Rendering is
+ affine textured, with visible quantization and clipping artifacts. The unused
+ Edge mesh is converted separately but is not a playable second track (nor is
+ it wired into the upstream Cityscape launcher).
+--- a/NOTICE.md
++++ b/NOTICE.md
+@@ -14,7 +14,7 @@
+ 
+ Original credits identify Charnel for the HexMKI base model and Nobiax for
+ the track texture. Original filenames and source hashes are recorded in
+-assets/manifest.json and preserved in vendor/HexGL.
++assets/manifest.json (meshes) and assets/hud.json (HUD) and preserved in vendor/HexGL.
+ 
+ ## Audio
+ 
+@@ -44,7 +44,7 @@
+ its instrumentation are supplied under GPL-3.0-or-later as part of that host
+ program. No emulator code is linked into the Jaguar game ROM.
+ 
+-The CrY conversion lookup data in tools/convert.py is read from Virtual Jaguar's
++The CrY conversion lookup data in tools/cry.py is read from Virtual Jaguar's
+ cry2rgb.h; the corresponding source remains in the supplied vendor tree.
+ The offline converter tools are supplied under GPL-3.0-or-later.
+ 
+@@ -52,3 +52,7 @@
+ and 42Bastian upstream licenses/notices. This document is not a relicensing of
+ any upstream material. Commercial redistribution requires checking the
+ file-specific noncommercial notices and other upstream rights.
++
++HUD conversion: the three textures/hud PNGs and clipping in bkcore/hexgl/HUD.js
++are from the pinned BKcore source. HUD.js carries Thibaut Despoulain’s
++CC BY-NC 3.0 notice. Native adaptation does not remove that notice.
+--- /dev/null
++++ b/src/bitmap_hud.js
+@@ -0,0 +1,129 @@
++; Original BKcore HUD artwork, converted by tools/hud.py.
++; Clip geometry from HUD.js (CC BY-NC 3.0, Thibaut Despoulain).
++; Draw only into the completed BACK buffer; main loop publishes at next VBL.
++ MODULE bitmap_hud,MODend_irq
++ PUSHLR
++ ; Renderer may have launched its final blit asynchronously.
++ movei #BLIT_A1_BASE,r14
++.hudwait
++ load (r14+$38),r0
++ btst #0,r0
++ jr z,.hudwait
++ nop
++ movefa screen0.a,r3
++ movei #hud_bg_data,r0
++ movei #HUD_BG_COUNT,r1
++ moveq #0,r2
++ movei #hud_layer,r8
++ BL (r8)
++ movei #GAME+32,r4
++ load (r4),r2
++ movei #hud_speed_data,r0
++ movei #HUD_SPEED_COUNT,r1
++ BL (r8)
++ movei #GAME+36,r4
++ load (r4),r2
++ movei #hud_shield_data,r0
++ movei #HUD_SHIELD_COUNT,r1
++ BL (r8)
++ ; Same native numeric scale as the existing footer: speed * 10, shield %.
++ movei #GAME+32,r4
++ load (r4),r0
++ moveq #10,r1
++ mult r1,r0
++ movei #14*384*4+180/4*16,r9
++ add r3,r9
++ movei #hud_number,r8
++ BL (r8)
++ movei #GAME+36,r4
++ load (r4),r0
++ movei #25*384*4+180/4*16,r9
++ add r3,r9
++ BL (r8)
++ POPLR
++
++; r0 records, r1 count, r2 live threshold, r3 back buffer.
++; r8 stays as this routine's entry, r3 stays intact.
++hud_layer:
++ load (r0),r4
++ addq #4,r0
++ load (r0),r5
++ addq #4,r0
++ move r4,r6
++ shrq #24,r6
++ cmp r6,r2
++ jr cs,.skip
++ nop
++ shlq #8,r4
++ shrq #8,r4
++ add r3,r4
++ storew r5,(r4)
++.skip
++ subq #1,r1
++ jr ne,hud_layer
++ nop
++ jump (LR)
++ nop
++
++; Three 8x8 native digits. r9 aligned to four-pixel phrase, advance by 8 pixels.
++hud_number:
++ PUSHLR
++ move r0,r10
++ movei #100,r11
++ moveq #3,r12
++.digit
++ move r10,r0
++ div r11,r0
++ move r0,r1
++ mult r11,r1
++ sub r1,r10
++ shlq #3,r0
++ movei #ASCII+8+48*8,r4
++ add r0,r4
++ move r9,r5
++ moveq #8,r6
++.row
++ loadb (r4),r7
++ addq #1,r4
++ moveq #8,r13
++ move r5,r15
++.pixel
++ shlq #1,r7
++ moveq #0,r16
++ btst #8,r7
++ jr eq,.blank
++ nop
++ movei #$88ff,r16
++.blank
++ storew r16,(r15)
++ addq #2,r15
++ subq #1,r13
++ btst #1,r13
++ jr ne,.notphrase
++ btst #0,r13
++ jr ne,.notphrase
++ nop
++ addq #8,r15
++.notphrase
++ cmpq #0,r13
++ movei #.pixel,r17
++ jump ne,(r17)
++ nop
++ movei #384*4,r0
++ add r0,r5
++ subq #1,r6
++ movei #.row,r17
++ jump ne,(r17)
++ nop
++ addq #32,r9
++ moveq #10,r0
++ div r0,r11
++ subq #1,r12
++ movei #.digit,r17
++ jump ne,(r17)
++ nop
++ POPLR
++ align 8
++ ENDMODULE bitmap_hud
++ echo "Size (bitmap HUD): %HMODlen_bitmap_hud"
++ echo "ENDE (bitmap HUD): %HMODend_bitmap_hud"
+--- a/src/race_hud.inc
++++ b/src/race_hud.inc
+@@ -1,6 +1,6 @@
+ ; Native race-flow presentation derived from BKcore HexGL Gameplay.js.
+ ; Gameplay.js by Thibaut Despoulain: CC BY-NC 3.0; see NOTICE.md.
+-; Original bitmap HUD is still unported. Times are MM:SS.mmm at video-field precision.
++; Bitmap gauges are drawn separately by bitmap_hud.js. Times are MM:SS.mmm at video-field precision.
+ ; All strings below are read through their DRAM backing address.
+ 
+ MACRO HUDSTRING
+--- /dev/null
++++ b/tools/cry.py
+@@ -0,0 +1,23 @@
++"""Shared Jaguar CrY conversion using the emulator chroma DAC tables."""
++import pathlib,re
++import numpy as np
++ROOT=pathlib.Path(__file__).resolve().parents[1]
++# CrY conversion uses the actual VJ chroma DAC table, not an RGB565 assumption.
++txt=(ROOT/'vendor/virtualjaguar/src/cry2rgb.h').read_text()
++ch=[]
++for name in ('redcv','greencv','bluecv'):
++    part=txt.split(name+'[16][16] = {')[1].split('};')[0]
++    part=re.sub(r'//[^\n]*','',part)
++    ch.append(np.array([int(x) for x in re.findall(r'\d+',part)],dtype=np.float32))
++ch=np.stack(ch,axis=1)/255
++
++def cry(a):
++    rgb=np.asarray(a.convert('RGB'),dtype=np.float32).reshape(-1,3)
++    ans=[]
++    for block in np.array_split(rgb,max(1,len(rgb)//1024)):
++        y=np.clip(block@ch.T/(ch*ch).sum(axis=1),0,255)
++        err=((block[:,None,:]-y[:,:,None]*ch[None,:,:])**2).sum(axis=2)
++        k=err.argmin(axis=1); val=np.rint(y[np.arange(len(k)),k]).astype(np.uint16)
++        ans.append((k.astype(np.uint16)<<8)|val)
++    return np.concatenate(ans).astype('>u2').tobytes()
++
+--- a/tools/convert.py
++++ b/tools/convert.py
+@@ -33,24 +33,7 @@
+     assert i==len(f)
+     return out
+ 
+-# CrY conversion uses the actual VJ chroma DAC table, not an RGB565 assumption.
+-txt=(ROOT/'vendor/virtualjaguar/src/cry2rgb.h').read_text()
+-ch=[]
+-for name in ('redcv','greencv','bluecv'):
+-    part=txt.split(name+'[16][16] = {')[1].split('};')[0]
+-    part=re.sub(r'//[^\n]*','',part)
+-    ch.append(np.array([int(x) for x in re.findall(r'\d+',part)],dtype=np.float32))
+-ch=np.stack(ch,axis=1)/255
+-
+-def cry(a):
+-    rgb=np.asarray(a.convert('RGB'),dtype=np.float32).reshape(-1,3)
+-    ans=[]
+-    for block in np.array_split(rgb,max(1,len(rgb)//1024)):
+-        y=np.clip(block@ch.T/(ch*ch).sum(axis=1),0,255)
+-        err=((block[:,None,:]-y[:,:,None]*ch[None,:,:])**2).sum(axis=2)
+-        k=err.argmin(axis=1); val=np.rint(y[np.arange(len(k)),k]).astype(np.uint16)
+-        ans.append((k.astype(np.uint16)<<8)|val)
+-    return np.concatenate(ans).astype('>u2').tobytes()
++from cry import cry
+ 
+ models=[
+ ('ship','ships/feisar/feisar.js','ships/feisar/diffuse.jpg',0),
+--- /dev/null
++++ b/tools/hud.py
+@@ -0,0 +1,50 @@
++#!/usr/bin/env python3
++"""Convert the three actual HUD.png layers and HUD.js clipping to native CrY.
++Transparency is deterministic 8x8 ordered coverage, not a replacement bitmap.
++Records: big-endian (threshold<<24 | PITCH2 byte offset), CrY word in longword.
++"""
++from pathlib import Path
++import hashlib,json,math,struct
++import numpy as np
++from PIL import Image
++from cry import cry
++R=Path(__file__).resolve().parents[1]
++W,H=384,50
++
++def offset(x,y): return y*W*4+(x//4)*16+(x%4)*2
++
++def threshold(layer,x,y):
++    x+=.5;y+=.5
++    if layer=='bg':return 0
++    if layer=='speed':return max(0,math.ceil((abs(x-W/2)-(H-y))/(W/2.91)*28))
++    if abs(x-W/2)>W/18.3 or y>=W/34+W/14.3:return 255
++    return max(0,math.ceil((W/34+W/14.3-y)/(W/14.3)*100))
++
++def coverage():
++    b=np.array([[0,2],[3,1]])
++    for _ in range(2):b=np.block([[4*b,4*b+2],[4*b+3,4*b+1]])
++    return (b+.5)*255/64
++
++def main():
++    source_js=R/'vendor/HexGL/bkcore/hexgl/HUD.js'
++    manifest={'clip_source':str(source_js.relative_to(R)),'clip_source_sha256':hashlib.sha256(source_js.read_bytes()).hexdigest(),'dimensions':[W,H],'placement':[0,0],'alpha':'8x8 ordered coverage','layers':[]}
++    inc=['; Generated from the original three HexGL HUD PNGs.']
++    b=coverage()
++    for layer,filename in [('bg','hud-bg.png'),('speed','hud-fg-speed.png'),('shield','hud-fg-shield.png')]:
++        source=R/'vendor/HexGL/textures/hud'/filename
++        im=Image.open(source).convert('RGBA').resize((W,H),Image.Resampling.LANCZOS)
++        colors=np.frombuffer(cry(im),dtype='>u2').reshape(H,W)
++        alpha=np.asarray(im)[:,:,3]
++        records=[]
++        for y in range(H):
++            for x in range(W):
++                if alpha[y,x]>b[y%8,x%8]:
++                    t=min(255,threshold(layer,x,y))
++                    records.append(struct.pack('>II',t<<24|offset(x,y),int(colors[y,x])))
++        data=b''.join(records);dest=R/'assets'/f'hud-{layer}.bin';dest.write_bytes(data)
++        inc += [f'HUD_{layer.upper()}_COUNT equ {len(records)}', '\talign 8',f'hud_{layer}_data:',f'\tincbin "../assets/hud-{layer}.bin"']
++        manifest['layers'].append({'layer':layer,'source':str(source.relative_to(R)),'source_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),'native_file':str(dest.relative_to(R)),'native_sha256':hashlib.sha256(data).hexdigest(),'records':len(records),'bytes':len(data)})
++    (R/'assets/hud.inc').write_text('\n'.join(inc)+'\n')
++    (R/'assets/hud.json').write_text(json.dumps(manifest,indent=2)+'\n')
++    print('Original HUD:',sum(l['bytes'] for l in manifest['layers']),'bytes')
++if __name__=='__main__':main()
+--- a/tools/prepare_engine.py
++++ b/tools/prepare_engine.py
+@@ -68,4 +68,7 @@
+ a=s.index('\nlogo:\n');b=s.index('\n\talign 4\nASCII',a)
+ s=s[:a]+'\nlogo:\n\tdc.l 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0\n'+s[b:]
+ s=s.replace('\n\tend\n', '\nmotion_ship_address:: EQU obj_ship\nmotion_booster_address:: EQU obj_booster\nmotion_camera_address:: EQU CAMERA_X\n\tend\n')
++s=s.replace('\tinclude "control.js"','\tinclude "control.js"\n\tinclude "bitmap_hud.js"')
++s=s.replace('\tMBL\tengine','\tMBL\tengine\n\tMyINITMODULE bitmap_hud\n\tMBL bitmap_hud')
++s=s.replace('\tinclude "../assets/textures.inc"','\tinclude "../assets/textures.inc"\n\tinclude "../assets/hud.inc"')
+ (R/'src/hexgl.js').write_text(s)
+--- a/tools/verify.py
++++ b/tools/verify.py
+@@ -43,8 +43,19 @@
+ assert max(heights)-min(heights)+80<32768,'Camera height delta exceeds signed multiply range'
+ s=(R/'src/hexgl.equ').read_text()
+ mods=dict(re.findall(r'(MOD(?:end|run)_\w+)\s+EQU \$([0-9a-fA-F]+)',s))
+-for name in ['engine','control']:
++for name in ['engine','control','bitmap_hud']:
+     assert int(mods['MODend_'+name],16)<0xf03f00,'GPU module overlaps stack'
+-report={'rom_bytes':len(rom),'sha256':hashlib.sha256(rom).hexdigest(),'load_address':hex(addr),'loaded_bytes':size,'loaded_end':hex(addr+size),'scratch_start':'0x110000','triangle_arena_end':'0x14acc8','framebuffer_start':'0x1b4800','runtime_triangles':12206,'runtime_objects':m['objects'],'status':'PASS'}
++# Original HUD assets are present in the loaded program, not merely archived.
++hud=json.loads((R/'assets/hud.json').read_text())
++assert hashlib.sha256((R/hud['clip_source']).read_bytes()).hexdigest()==hud['clip_source_sha256']
++for layer in hud['layers']:
++    assert hashlib.sha256((R/layer['source']).read_bytes()).hexdigest()==layer['source_sha256']
++    data=(R/layer['native_file']).read_bytes()
++    assert hashlib.sha256(data).hexdigest()==layer['native_sha256']
++    assert payload[12:].count(data)==1,'HUD data absent or duplicated in native payload'
++    for record,color in struct.iter_unpack('>II',data):
++        off=record&0xffffff
++        assert off<384*50*4 and off%16<8 and off%2==0 and color<=65535
++report={'hud_records':{l['layer']:l['records'] for l in hud['layers']},'rom_bytes':len(rom),'sha256':hashlib.sha256(rom).hexdigest(),'load_address':hex(addr),'loaded_bytes':size,'loaded_end':hex(addr+size),'scratch_start':'0x110000','triangle_arena_end':'0x14acc8','framebuffer_start':'0x1b4800','runtime_triangles':12206,'runtime_objects':m['objects'],'status':'PASS'}
+ (R/'rom/verification.json').write_text(json.dumps(report,indent=2)+'\n')
+ print(json.dumps(report,indent=2))
+--- a/tools/bundle.py
++++ b/tools/bundle.py
+@@ -9,12 +9,32 @@
+ assert summary['status']=='PASS' and summary['rom_sha256']==romsha
+ gui=json.loads((R/'test-results/gui/summary.json').read_text())
+ assert gui['status']=='PASS' and gui['rom_sha256']==romsha,'Stock GUI regression gate has not passed for this ROM'
++hud=json.loads((R/'test-results/hud-summary.json').read_text())
++assert hud['status']=='PASS' and hud['rom_sha256']==romsha,'Focused live HUD gate has not passed'
+ # Keep complete per-field evidence, losslessly compressed, in the delivered tree.
+ # The tests always execute fresh and never consume these saved traces.
+ for trace in (R/'test-results').rglob('*_report.json'):
+     packed=gzip.compress(trace.read_bytes(),compresslevel=6,mtime=0)
+     trace.with_suffix(trace.suffix+'.gz').write_bytes(packed)
+     trace.unlink()
++# Retain endpoints of each static countdown segment in desktop evidence.
++# All measured sample metrics stay in result.json; no core/oracle images removed.
++retention=R/'test-results/gui/screenshot-retention.json'
++record=json.loads(retention.read_text()) if retention.exists() else {'policy':'First and last saved capture per contiguous desktop countdown segment; all moving/fault screenshots and complete metrics retained.','removed':[]}
++for result in (R/'test-results/gui').glob('*/result.json'):
++    samples=json.loads(result.read_text()).get('samples',[])
++    segment=[]
++    def trim(segment):
++        pictures=[result.parent/f'capture-{i+1:03d}.png' for i in segment]
++        pictures=[p for p in pictures if p.exists()]
++        for p in pictures[1:-1]:
++            record['removed'].append(str(p.relative_to(R/'test-results/gui')))
++            p.unlink()
++    for i,sample in enumerate(samples):
++        if sample['phase']=='countdown':segment.append(i)
++        elif segment:trim(segment);segment=[]
++    if segment:trim(segment)
++retention.write_text(json.dumps(record,indent=2)+'\n')
+ skipdirs={'.git','__pycache__','.venv','node_modules','obj','.cache'}
+ with zipfile.ZipFile(path,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=6) as z:
+     for p in sorted(R.rglob('*')):
+--- /dev/null
++++ b/tools/hud_report.py
+@@ -0,0 +1,54 @@
++#!/usr/bin/env python3
++"""Current bitmap-HUD milestone: only render matching-ROM executed evidence."""
++from pathlib import Path
++import base64,hashlib,html,json
++R=Path(__file__).resolve().parents[1]
++sha=hashlib.sha256((R/'rom/hexgl.j64').read_bytes()).hexdigest()
++core=json.loads((R/'test-results/summary.json').read_text())
++gui=json.loads((R/'test-results/gui/summary.json').read_text())
++hud=json.loads((R/'test-results/hud-summary.json').read_text())
++assert all(x['status']=='PASS' and x['rom_sha256']==sha for x in [core,gui,hud])
++unit=(R/'test-results/unit-tests.log').read_text();assert 'Ran 31 tests' in unit and '\nOK' in unit
++
++def image(path,caption):
++    b64=base64.b64encode(path.read_bytes()).decode()
++    return f'<figure><img src="data:image/png;base64,{b64}" alt="{html.escape(caption)}"><figcaption>{html.escape(caption)}</figcaption></figure>'
++
++c=hud['cases']['ntsc']['bitmap_hud']['captures']
++shots=''
++for item,caption in [(next(v for v in c if 0<v['speed']<28),'Partial speed'),(next(v for v in c if v['speed']==28),'Full speed'),(next(v for v in c if 0<v['shield']<100),'Collision damage'),(c[-1],'Reset: full shield, zero speed')]:
++    shots+=image(R/'test-results/hud-live-ntsc'/item['capture'],f"{caption} — speed {item['speed']*10:03d}, shield {item['shield']:03d}; {item['pixels']} exact pixels checked")
++rows=''
++for group,summary in [('Core',core),('Stock desktop',gui),('Live gauges',hud)]:
++    for name,c in summary['cases'].items():
++        status=c.get('status','EXPECTED FAILURE DETECTED' if 'expected_failure_detected' in c else 'PASS')
++        desc=c.get('detected',c.get('expected_failure_detected',', '.join(c.get('checks',[]))))
++        rows+=f'<tr><td>{group}: {html.escape(name)}</td><td>{html.escape(status)}</td><td>{html.escape(desc)}</td></tr>'
++count=sum(len(c['captures']) for c in core['bitmap_hud'].values())+sum(len(c['bitmap_hud']['captures']) for c in hud['cases'].values())
++page=f'''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HexGL Jaguar — original bitmap gauges</title>
++<style>*{{box-sizing:border-box}}body{{margin:0;background:#10191f;color:#e6eef3;font:16px/1.65 system-ui,sans-serif}}main{{max-width:1100px;margin:auto;padding:44px 24px}}h1{{font-size:48px;line-height:1.1}}h2{{margin-top:36px}}.tag{{color:#80dfb9;letter-spacing:2px;font-size:12px}}.lead{{font-size:21px;color:#bdcdd9}}.ok,.notice{{padding:18px 22px;background:#18372f;border-left:3px solid #80dfb9}}.notice{{background:#30291d;border-color:#deb15e}}.shots{{display:grid;grid-template-columns:1fr 1fr;gap:18px}}figure{{margin:0;background:#1c2b35}}img{{width:100%;display:block;image-rendering:pixelated}}figcaption{{padding:12px;font-size:13px}}table{{width:100%;border-collapse:collapse;font-size:13px}}td,th{{text-align:left;vertical-align:top;padding:10px;border-bottom:1px solid #344955}}.scroll{{overflow:auto}}code,pre{{font:13px/1.6 ui-monospace,monospace;overflow-wrap:anywhere;white-space:pre-wrap}}pre{{padding:16px;background:#1c2b35}}footer{{border-top:1px solid #344955;margin-top:36px;padding-top:18px;color:#b0bdc8;font-size:13px}}@media(max-width:650px){{.shots{{grid-template-columns:1fr}}h1{{font-size:36px}}}}</style>
++<main><div class="tag">NATIVE ATARI JAGUAR · BITMAP HUD MILESTONE · 2026-10-15</div>
++<h1>Original artwork.<br>Live native gauges.</h1>
++<p class="lead">HexGL’s three speed/shield PNG layers now render on the Jaguar GPU, driven by actual gameplay state—not a host overlay or prerecorded animation.</p>
++<div class="ok"><strong>Current ROM passed all release gates:</strong> {len(core['cases'])} core scenarios, {len(gui['cases'])} stock-desktop scenarios, two focused live-gauge runs and 31 unit tests. Expected fault injections were rejected. {count} actual framebuffer captures passed the source-art pixel oracle.</div>
++<h2>What changed</h2><ul><li>Original background, speed and shield artwork converted from 1920×250 RGBA to 384×50 CrY with deterministic alpha coverage.</li><li>Original HUD.js speed trapezoid and shield rectangle, tied to native base speed and shield damage.</li><li>Native numeric readouts with contrast backing; shrinking fills, empty shield on destruction and full shield after reset verified.</li><li>A top-overlay layout keeps the entire existing world view and ship unobstructed. The timing/results footer and camera behavior remain intact.</li><li>A separately loaded GPU module draws into the completed back buffer before VBL publication.</li></ul>
++<h2>Actual Virtual Jaguar output</h2><div class="shots">{shots}</div><p>These are real TOM framebuffer captures. The native artwork is deliberately placed at the top rather than over the ship at the bottom. The web font and original complete screen layout are not reproduced.</p>
++<h2>What the pixel tests prove</h2><p>An independent oracle reads the original PNGs, applies the source clipping geometry, converts through the actual CrY DAC and compares every expected art pixel plus the full digit cells. It allows bounded back-buffer latency against recent live game states. Both PAL and NTSC show empty, intermediate and full speed; full, damaged and empty shield; and reset restoration.</p><p>The lower-world brightness/motion watchdog excludes both HUD areas. Animated gauges cannot excuse a black or frozen track. Deliberately frozen/blank video with continuing native gameplay is still rejected.</p>
++<h2>Regression coverage</h2><div class="scroll"><table><tr><th>Scenario</th><th>Verdict</th><th>Checks / detected failure</th></tr>{rows}</table></div>
++<p>The retained suite verifies countdown/pause, both cartridge entry paths, collision/destruction/restart, audio, two complete three-lap races and their visible results, bank/camera filter recurrence, and independent renderer pose. Desktop tests use the unmodified installed executable: {html.escape(gui['emulator_version'])}.</p>
++<h2>Conversion limits</h2><div class="notice"><strong>Still an incomplete port.</strong> Alpha is 8×8 ordered coverage, so transparent edges are stippled rather than smoothly blended. The digits use the native font; the layout is adapted. Original menus/typography/result-screen composition, full hover/drift/fall physics, effects, recording/replay and persistence remain unfinished. This milestone converts the three HUD images—not everything in HexGL.</div>
++<h2>Build and play</h2><pre>make rom      # regenerate HUD, assemble GPU/DSP/68000, package cartridge
++make test     # unit + core + live HUD + stock GUI tests
++make release  # matching-ROM gates, report and source/ROM archive
++virtualjaguar rom/hexgl.j64 --ntsc --gpu --dsp</pre>
++<p>Default stock keys: L = begin/thrust, J = autopilot, Z/C = steer, K = brake, P = pause, O = reset.</p>
++<h2>Delivered artifact</h2><pre>rom/hexgl.j64 — 6,291,456 bytes
++SHA-256: {sha}</pre><p>Implementation/adaptations: <code>docs/BITMAP-HUD.md</code><br>Source hashes: <code>assets/hud.json</code><br>Executed evidence: <code>test-results/summary.json</code>, <code>test-results/hud-summary.json</code>, <code>test-results/gui/summary.json</code>.</p>
++<footer>Finite local emulator testing does not prove all inputs/configurations or physical hardware. Physical Jaguar, automated Windows 2.1.2 and remote CI testing are not claimed. Original licensing exceptions and attribution are retained in NOTICE.md.</footer></main></html>'''
++(R/'REPORT.html').write_text(page)
++md=f'# Original bitmap gauges: executed tests\n\nROM SHA-256: `{sha}`\n\nAll three matching-ROM suites: **PASS**. 31 unit tests: **PASS**.\n\n{count} real framebuffer captures passed the original-art oracle.\n\n'
++for title,summary in [('Focused live gauges',hud),('Virtual Jaguar Rx core',core),('Stock desktop GUI',gui)]:
++    md+='## '+title+'\n\n```json\n'+json.dumps(summary,indent=2)+'\n```\n\n'
++md+='Physical hardware, automated Windows 2.1.2 and remote CI remain untested.\n'
++(R/'docs/TEST-RESULTS.md').write_text(md)
++print(R/'REPORT.html')
+--- a/tools/motion_report.py
++++ b/tools/motion_report.py
+@@ -1,48 +1,5 @@
+ #!/usr/bin/env python3
+-"""Report only results from matching, fully executed emulator suites."""
++"""Compatibility entry point: report the current verified milestone."""
++import runpy
+ from pathlib import Path
+-import base64, hashlib, html, json
+-R=Path(__file__).resolve().parents[1]
+-sha=hashlib.sha256((R/'rom/hexgl.j64').read_bytes()).hexdigest()
+-core=json.loads((R/'test-results/summary.json').read_text())
+-gui=json.loads((R/'test-results/gui/summary.json').read_text())
+-assert all(x['status']=='PASS' and x['rom_sha256']==sha for x in [core,gui]),'Current ROM has not passed both complete suites'
+-def image(path,caption):
+-    b64=base64.b64encode(path.read_bytes()).decode()
+-    return f'<figure><img src="data:image/png;base64,{b64}" alt="{html.escape(caption)}"><figcaption>{html.escape(caption)}</figcaption></figure>'
+-def duration(ticks,hz):
+-    ms=ticks*1000//hz
+-    return f'{ms//60000:02d}:{ms//1000%60:02d}.{ms%1000:03d}'
+-rows=''
+-for video,hz in [('ntsc',60),('pal',50)]:
+-    c=core['cases']['race-'+video]
+-    rows+='<tr><td>'+video.upper()+'</td>'+''.join('<td>'+duration(t,hz)+'</td>' for t in [*c['lap_ticks'],c['race_ticks'],min(c['lap_ticks'])])+'</tr>'
+-gui_path=R/'test-results/gui/no-bios-ntsc'
+-gui_case=json.loads((gui_path/'result.json').read_text())
+-picture=gui_path/'latest.png'
+-for i,s in enumerate(gui_case['samples'],1):
+-    p=gui_path/f'capture-{i:03d}.png'
+-    if s['phase']=='throttle-autopilot' and p.exists():picture=p;break
+-verdicts=''
+-for group,summary in [('Desktop',gui),('Core',core)]:
+-    for name,c in summary['cases'].items():
+-        status=c.get('status','EXPECTED_FAILURE' if 'expected_failure_detected' in c else 'PASS')
+-        desc=c.get('detected',c.get('expected_failure_detected',', '.join(c.get('checks',[]))))
+-        verdicts+=f'<tr><td>{group}: {html.escape(name)}</td><td>{status}</td><td>{html.escape(desc)}</td></tr>'
+-page=f'''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HexGL Jaguar — ship and camera milestone</title><style>
+-*{{box-sizing:border-box}}body{{margin:0;background:#10191f;color:#e6eef3;font:16px/1.65 system-ui,sans-serif}}main{{max-width:1100px;margin:auto;padding:45px 24px}}h1{{font-size:48px;line-height:1.1;margin:18px 0}}h2{{margin:36px 0 14px}}.tag{{color:#71dfc5;font-size:12px;letter-spacing:2px}}.lead{{font-size:21px;color:#b9cbd6}}.notice{{background:#2b271f;border-left:3px solid #e9b657;padding:16px 20px}}.ok{{background:#18372f;padding:16px;color:#a5ebce}}.shots{{display:grid;grid-template-columns:1fr 1fr;gap:18px}}figure{{margin:0;background:#1b2a34}}img{{width:100%;display:block;image-rendering:pixelated}}figcaption{{padding:12px;font-size:13px}}table{{width:100%;border-collapse:collapse;font-size:13px}}th,td{{text-align:left;vertical-align:top;padding:10px;border-bottom:1px solid #354852}}.scroll{{overflow:auto}}code,pre{{font:13px/1.7 ui-monospace,monospace;overflow-wrap:anywhere;white-space:pre-wrap}}pre{{padding:18px;background:#1b2a34}}footer{{margin-top:36px;border-top:1px solid #354852;padding-top:18px;color:#a5b9c5;font-size:13px}}li{{margin:8px 0}}@media(max-width:650px){{.shots{{grid-template-columns:1fr}}h1{{font-size:36px}}td,th{{padding:8px 4px}}}}</style>
+-<main><div class="tag">NATIVE JAGUAR DEVELOPMENT · SHIP AND CAMERA · 2026-10-15</div><h1>Bank into the turn.<br>Let the camera follow.</h1><p class="lead">The next native milestone adds steering bank, speed-sensitive camera distance and filtered terrain-height following—while retaining the race flow and regression gate.</p><div class="ok"><strong>Both complete emulator suites passed.</strong> Desktop and core reports match this ROM's SHA-256. Twenty-one watchdog, formatting and motion unit tests also passed.</div>
+-<h2>New in this build</h2><ul><li><strong>Ship bank:</strong> filtered left/right roll on the original ship and attached booster; approximately 34° normal bank and 58° with B held while steering. Release returns toward level.</li><li><strong>Speed-sensitive chase:</strong> the existing 160-unit trail distance smoothly extends by up to 40 units at maximum speed, then returns when braking.</li><li><strong>Terrain-height filtering:</strong> the camera follows map height changes with a bounded filter rather than snapping to every sample. Safety limits keep it above the ship and within the tested framing.</li><li><strong>State handling:</strong> pause freezes the actual renderer pose, restart clears all motion state, and countdown/finish behavior remains intact.</li><li><strong>Independent checks:</strong> tests read the actual ship/booster angles and renderer camera, compare them with a fixed-point reference, and continue checking visible output.</li></ul>
+-<h2>Actual emulator output</h2><div class="shots">{image(R/'test-results/bank-ntsc'/('frame_%05d.png'%core['cases']['bank-ntsc']['capture_fields']['left']),'Actual Virtual Jaguar output: steering bank')}{image(R/'test-results/bank-ntsc'/('frame_%05d.png'%core['cases']['bank-ntsc']['capture_fields']['airbrake']),'Actual Virtual Jaguar output: stronger airbrake bank')}</div><p>Images are actual emulator captures. The mesh rotation and camera follow run in Jaguar GPU assembly, not a host-side overlay. This is an adaptation of original roll and speed-offset behavior, not full quaternion/physics or CameraChase parity.</p>
+-<h2>Motion checks</h2><p>The stationary steering tests isolate left/right bank, release, both airbrake directions, pause and restart. Acceleration/braking tests require intermediate camera distances rather than a snap. The complete races verify hundreds of filtered height updates, both bank directions and unchanged lap/result behavior.</p><p>PAL and NTSC use elapsed-field response coefficients. A committed-pose sequence prevents a partially updated frame from being mistaken for a completed pose. The numerical checks independently validate each filter recurrence and read the real mesh angles/camera addresses from assembler exports.</p><h2>Executed three-lap results</h2><p>These are separate automated races, not equivalent performance benchmarks: the existing waypoint autopilot advances per rendered update. The clocks themselves use actual video fields.</p><div class="scroll"><table><tr><th>Video</th><th>Lap 1</th><th>Lap 2</th><th>Lap 3</th><th>Total</th><th>Best</th></tr>{rows}</table></div><p>The tests require the three raw lap times to sum exactly to the total, verify the displayed splits and best lap, and observe 180 additional video fields after the finish.</p>
+-<h2>Executed validation</h2><div class="scroll"><table><tr><th>Scenario</th><th>Verdict</th><th>Checks / detected fault</th></tr>{verdicts}</table></div><p>Countdown/results can legitimately be static. The watchdog now checks motion only during active movement, while retaining continuous brightness and heartbeat requirements in every phase. It still rejects deliberately frozen video even when game telemetry advances.</p>
+-<h2>Build, test and play</h2><pre>make rom       # compile GPU, DSP and 68000 entry, package cartridge
+-make test      # unit tests + full core and stock desktop regression suites
+-make release   # only package after matching-ROM passes</pre><pre>virtualjaguar rom/hexgl.j64 --ntsc --gpu --dsp</pre><p>Stock keyboard defaults: <strong>L</strong> begin countdown/thrust, <strong>J</strong> optional autopilot, <strong>Z/C</strong> steering, <strong>K</strong> brake, <strong>P</strong> pause, <strong>O</strong> restart. BIOS-on and BIOS-off remain supported in the tested emulator.</p>
+-<h2>Artifact</h2><p><code>rom/hexgl.j64 — 6,291,456 bytes<br>SHA-256: {sha}</code></p><p>Sources and behavior mapping: <code>docs/SHIP-AND-CAMERA.md</code>.<br>Evidence: <code>test-results/summary.json</code> and <code>test-results/gui/summary.json</code>.<br>Stock desktop executable: {html.escape(gui['emulator_version'])}.</p><div class="notice"><strong>Still an incomplete HexGL port.</strong> The camera retains native framing and yaw-only orientation; height smoothing is an explicit native adaptation. Lateral drift/repulsion, hover/fall dynamics, slope pitch, original look-at/up-vector and orbit behavior remain unfinished, as do bitmap HUD/menus, effects, recording/replay, leaderboards and EEPROM persistence. See docs/PARITY.md.</div><footer>Timing resolution is one video field; the three-digit millisecond display does not imply a millisecond hardware timer. Finite emulator tests cannot guarantee every configuration/input sequence. Physical hardware and remotely executed CI are not claimed. Upstream licensing notices remain in NOTICE.md.</footer></main></html>'''
+-(R/'REPORT.html').write_text(page)
+-md=f'# Ship and camera milestone: executed tests\n\nROM SHA-256: `{sha}`\n\nBoth full suites: **PASS**. Positive scenarios ran fresh.\n\n'
+-for title,s in [('Stock desktop GUI',gui),('Virtual Jaguar Rx core',core)]:md+='## '+title+'\n\n```json\n'+json.dumps(s,indent=2)+'\n```\n\n'
+-md+='21 unit tests: PASS (test-results/unit-tests.log). Physical hardware and remote CI untested.\n'
+-(R/'docs/TEST-RESULTS.md').write_text(md)
+-print(R/'REPORT.html')
++runpy.run_path(str(Path(__file__).with_name("hud_report.py")),run_name="__main__")
+--- a/tools/report.py
++++ b/tools/report.py
+@@ -1,5 +1,5 @@
+ #!/usr/bin/env python3
+-"""Compatibility entry point for the latest executed development report."""
++"""Compatibility entry point: report the current verified milestone."""
++import runpy
+ from pathlib import Path
+-import runpy
+-runpy.run_path(str(Path(__file__).with_name('motion_report.py')),run_name='__main__')
++runpy.run_path(str(Path(__file__).with_name("hud_report.py")),run_name="__main__")
+--- a/tools/black_screen_report.py
++++ b/tools/black_screen_report.py
+@@ -1,5 +1,5 @@
+ #!/usr/bin/env python3
+-"""Compatibility entry point for the latest executed development report."""
++"""Compatibility entry point: report the current verified milestone."""
++import runpy
+ from pathlib import Path
+-import runpy
+-runpy.run_path(str(Path(__file__).with_name('motion_report.py')),run_name='__main__')
++runpy.run_path(str(Path(__file__).with_name("hud_report.py")),run_name="__main__")
+--- a/tools/race_flow_report.py
++++ b/tools/race_flow_report.py
+@@ -1,5 +1,5 @@
+ #!/usr/bin/env python3
+-"""Compatibility entry point for the latest executed development report."""
++"""Compatibility entry point: report the current verified milestone."""
++import runpy
+ from pathlib import Path
+-import runpy
+-runpy.run_path(str(Path(__file__).with_name('motion_report.py')),run_name='__main__')
++runpy.run_path(str(Path(__file__).with_name("hud_report.py")),run_name="__main__")
+--- a/tests/e2e.py
++++ b/tests/e2e.py
+@@ -6,7 +6,8 @@
+ """
+ from pathlib import Path
+ import argparse,json,subprocess,hashlib,time,sys
+-import motion_checks
++import motion_checks,hud_checks
++HUD_EVIDENCE={}
+ R=Path(__file__).resolve().parents[1]
+ MAGIC=0x48455847
+ def hz(standard): return 60 if standard=='ntsc' else 50
+@@ -35,6 +36,9 @@
+     result['output_dir']=str(d)
+     result['process_exit_code']=c.returncode
+     result['boot_mode']='direct' if '--no-bios' in extra else 'bios'
++    if not expect_failure:
++        result['bitmap_hud']=hud_checks.verify(result)
++        HUD_EVIDENCE[name]=result['bitmap_hud']
+     return result
+ 
+ def common(result):
+@@ -176,7 +180,7 @@
+ 
+ def main():
+     ap=argparse.ArgumentParser();ap.add_argument('--quick',action='store_true');a=ap.parse_args()
+-    result={'rom_sha256':hashlib.sha256((R/'rom/hexgl.j64').read_bytes()).hexdigest(),'emulator':'Virtual Jaguar Rx 2.1.3 headless core harness','cases':{},'status':'FAIL'}
++    result={'rom_sha256':hashlib.sha256((R/'rom/hexgl.j64').read_bytes()).hexdigest(),'emulator':'Virtual Jaguar Rx 2.1.3 headless core harness','cases':{},'bitmap_hud':HUD_EVIDENCE,'status':'FAIL'}
+     out=R/'test-results';out.mkdir(exist_ok=True)
+     try:
+         for standard in ['ntsc','pal']:
+@@ -196,7 +200,10 @@
+             case=motion_checks.bank_case(trace,t,h);case['capture_fields']=frames
+             result['cases']['bank-'+standard]=case
+             inputs,fields,go=motion_checks.speed_script(h)
+-            trace=run('camera-speed-'+standard,standard,fields,inputs,['--no-bios'])
++            captures=[180,280,*range(go+h,go+h+32,2),go+2*h-4,go+2*h+12,go+3*h+20]
++            trace=run('camera-speed-'+standard,standard,fields,inputs,['--no-bios','--dump-max','32','--dump-at',','.join(map(str,captures))])
++            speeds={c['speed'] for c in trace['bitmap_hud']['captures']}
++            assert {0,28}.issubset(speeds) and any(0<x<28 for x in speeds),'HUD did not visibly exercise empty, partial and full speed'
+             common(trace)
+             result['cases']['camera-speed-'+standard]=motion_checks.speed_case(trace,go,h)
+         left=[result['cases']['bank-'+s]['half_second_left_roll_q8'] for s in ['ntsc','pal']]
+--- /dev/null
++++ b/tests/hud_checks.py
+@@ -0,0 +1,79 @@
++"""Framebuffer oracle from original PNGs and HUD.js geometry, not native records.
++Checks actual TOM pixels; only recent controller-driven states may match a capture.
++The completed back buffer normally appears a few fields after GAME is updated.
++"""
++from pathlib import Path
++from functools import lru_cache
++import sys,re
++import numpy as np
++from PIL import Image
++R=Path(__file__).resolve().parents[1]
++sys.path.insert(0,str(R/'tools'))
++from cry import cry
++
++@lru_cache(None)
++def palette():
++    text=(R/'vendor/virtualjaguar/src/cry2rgb.h').read_text();channels=[]
++    for name in ('redcv','greencv','bluecv'):
++        part=text.split(name+'[16][16] = {')[1].split('};')[0]
++        channels.append([int(x) for x in re.findall(r'\d+',re.sub(r'//[^\n]*','',part))])
++    return np.array(channels).T
++
++@lru_cache(None)
++def layers():
++    dac=palette()
++    # Independent bit-interleaved Bayer rank, equivalent to the coverage matrix.
++    ranks=np.zeros((50,384),int)
++    for y in range(50):
++        for x in range(384):
++            ranks[y,x]=sum((2*(((x>>i)&1)^((y>>i)&1))+((y>>i)&1))<<(2*(2-i)) for i in range(3))
++    result=[]
++    for name in ['hud-bg','hud-fg-speed','hud-fg-shield']:
++        im=Image.open(R/'vendor/HexGL/textures/hud'/f'{name}.png').convert('RGBA').resize((384,50),Image.Resampling.LANCZOS)
++        c=np.frombuffer(cry(im),dtype='>u2').reshape(50,384).astype(int)
++        rgb=(dac[c>>8]*(c&255)[:,:,None])>>8
++        coverage=np.asarray(im)[:,:,3]>(ranks+.5)*255/64
++        result.append((rgb.astype(np.uint8),coverage))
++    return result
++
++@lru_cache(None)
++def expected(speed,shield):
++    yy,xx=np.mgrid[:50,:384];x=xx+.5;y=yy+.5
++    masks=[np.ones((50,384),bool), abs(x-192)<=384/2.91*(speed/28)+50-y,
++           (abs(x-192)<=384/18.3)&(y>=384/34+384/14.3*(1-shield/100))&(y<384/34+384/14.3)]
++    image=np.zeros((50,384,3),np.uint8);mask=np.zeros((50,384),bool)
++    for (rgb,coverage),clip in zip(layers(),masks):
++        m=coverage&clip;image[m]=rgb[m];mask|=m
++    font=(R/'vendor/new_bjl/font/light8x8.fnt').read_bytes()
++    for value,row in [(speed*10,14),(shield,25)]:
++        text=f'{value:03d}'
++        for i,c in enumerate(text):
++            bits=np.unpackbits(np.frombuffer(font[8+ord(c)*8:8+(ord(c)+1)*8],np.uint8)).reshape(8,8)
++            image[row:row+8,180+i*8:188+i*8]=bits[:,:,None]*((palette()[0x88]*255)>>8)
++            mask[row:row+8,180+i*8:188+i*8]=True
++    return image,mask
++
++def check_pixels(image,speed,shield,standard):
++    expected_rgb,mask=expected(speed,shield)
++    y,x=np.where(mask);dx,dy=(17,8) if standard=='ntsc' else (18,-4)
++    assert np.all(y+dy>=0),'Artwork clipped by video standard'
++    observed=np.asarray(image.convert('RGB'))[y+dy,x+dx]
++    matches=np.all(observed==expected_rgb[y,x],axis=1)
++    assert matches.all(),f'HUD pixel mismatch at speed {speed}, shield {shield}: {int((~matches).sum())}/{len(matches)}'
++    return len(matches)
++
++def verify(result):
++    d=Path(result['output_dir']);s=result['fields'];standard=result['video'].lower();matches=[]
++    captures=sorted(d.glob('frame_*.png'))+[d/'final.png']
++    for path in captures:
++        n=len(s)-1 if path.name=='final.png' else int(path.stem.split('_')[1])
++        if n<150:continue
++        candidates={(f['game'][8],f['game'][9]) for f in s[max(0,n-12):n+1]}
++        im=Image.open(path);failures=[]
++        for speed,shield in candidates:
++            try:count=check_pixels(im,speed,shield,standard)
++            except AssertionError as e:failures.append(str(e));continue
++            matches.append({'capture':path.name,'speed':speed,'shield':shield,'pixels':count});break
++        else:raise AssertionError(path.name+': no recently committed state matches original-art oracle; '+str(failures))
++    assert len(matches)>=3,'Not enough actual captures checked'
++    return {'checks':['original three PNG layers in actual TOM output','HUD.js speed trapezoid and shield rectangle','native speed/shield digits','recent live game state'], 'captures':matches}
+--- /dev/null
++++ b/tests/hud_e2e.py
+@@ -0,0 +1,24 @@
++#!/usr/bin/env python3
++"""Focused controller-only gauge sweep: speed, damage, destruction and reset."""
++import json,hashlib
++from e2e import R,run,common
++
++def main():
++    summary={'status':'FAIL','rom_sha256':hashlib.sha256((R/'rom/hexgl.j64').read_bytes()).hexdigest(),'cases':{}}
++    try:
++        for standard,h in [('ntsc',60),('pal',50)]:
++            go=100+7*h
++            inputs=f'100:a,{go+90}:a+left,{go+340}:option,{go+350}:none'
++            captures=[180,280,*[go+i for i in [6,10,14,18,26,60,94,112,132,152,172,192,212,232,252,300,330,360]]]
++            result=run('hud-live-'+standard,standard,go+380,inputs,['--no-bios','--dump-max','32','--dump-at',','.join(map(str,captures))])
++            common(result);c=result['bitmap_hud']['captures']
++            speeds={v['speed'] for v in c};shields={v['shield'] for v in c}
++            assert {0,28}.issubset(speeds) and any(0<v<28 for v in speeds),'Missing actual partial/full/zero speed'
++            assert {0,100}.issubset(shields) and any(0<v<100 for v in shields),'Missing actual partial/full/empty shield'
++            assert any(f['game'][2]==2 for f in result['fields']),'No destruction'
++            assert result['fields'][-1]['game'][2]==0 and c[-1]['shield']==100 and c[-1]['speed']==0,'Restart did not restore visible gauges'
++            summary['cases'][standard]={'checks':['throttle/collision speed levels','collision shield loss','empty shield on destruction','full shield after reset','actual source-art pixel equality'],'speeds_seen':sorted(speeds),'shields_seen':sorted(shields),'fields':len(result['fields']),'bitmap_hud':result['bitmap_hud']}
++        summary['status']='PASS'
++    finally:(R/'test-results/hud-summary.json').write_text(json.dumps(summary,indent=2)+'\n')
++    print(json.dumps(summary,indent=2))
++if __name__=='__main__':main()
+--- /dev/null
++++ b/tests/test_hud.py
+@@ -0,0 +1,59 @@
++"""Independent geometry/coverage and watchdog negative checks for real HUD art."""
++import unittest,sys,struct,json,hashlib,re
++from pathlib import Path
++import numpy as np
++from PIL import Image
++R=Path(__file__).resolve().parents[1]
++sys.path.insert(0,str(R/'tools'))
++import hud
++import hud_checks as oracle
++class HUDTests(unittest.TestCase):
++    def test_original_provenance(self):
++        m=json.loads((R/'assets/hud.json').read_text());self.assertEqual(len(m['layers']),3)
++        text=(R/m['clip_source']).read_text()
++        self.assertEqual(hashlib.sha256((R/m['clip_source']).read_bytes()).hexdigest(),m['clip_source_sha256'])
++        for name,value in [('speedBarRatio',2.91),('shieldBarWRatio',18.3),('shieldBarHRatio',14.3),('shieldBarYRatio',34)]:
++            self.assertEqual(float(re.search(r'this\.'+name+r'\s*=\s*([0-9.]+)',text).group(1)),value)
++        for l in m['layers']:
++            self.assertEqual(hashlib.sha256((R/l['source']).read_bytes()).hexdigest(),l['source_sha256'])
++            data=(R/l['native_file']).read_bytes()
++            self.assertEqual(hashlib.sha256(data).hexdigest(),l['native_sha256'])
++            self.assertEqual(len(data),l['records']*8)
++    def test_pitch_two_addressing(self):
++        offsets={hud.offset(x,y) for y in range(50) for x in range(384)}
++        self.assertEqual(len(offsets),384*50)
++        self.assertTrue(all(x%2==0 and x%16<8 and x<384*50*4 for x in offsets))
++    def test_coverage_from_png(self):
++        for layer,(_,mask) in zip(['bg','speed','shield'],oracle.layers()):
++            actual=np.zeros_like(mask)
++            for metadata,c in struct.iter_unpack('>II',(R/f'assets/hud-{layer}.bin').read_bytes()):
++                p=metadata&0xffffff;y=p//1536;x=p%1536//16*4+p%16//2
++                actual[y,x]=True;self.assertLessEqual(c,65535)
++            self.assertTrue(np.array_equal(actual,mask))
++    def test_all_speed_clip_levels(self):
++        yy,xx=np.mgrid[:50,:384];required=np.array([[hud.threshold('speed',x,y) for x in range(384)] for y in range(50)])
++        for speed in range(29):
++            expected=np.abs(xx+.5-192)<=384/2.91*(speed/28)+50-(yy+.5)
++            self.assertTrue(np.array_equal(required<=speed,expected))
++    def test_all_shield_clip_levels(self):
++        yy,xx=np.mgrid[:50,:384];required=np.array([[hud.threshold('shield',x,y) for x in range(384)] for y in range(50)])
++        for shield in range(101):
++            expected=(abs(xx+.5-192)<=384/18.3)&(yy+.5>=384/34+384/14.3*(1-shield/100))&(yy+.5<384/34+384/14.3)
++            self.assertTrue(np.array_equal(required<=shield,expected))
++    def picture(self,speed,shield):
++        pixels,mask=oracle.expected(speed,shield);a=np.zeros((240,434,3),np.uint8);a[8:58,17:401]=pixels
++        return Image.fromarray(a)
++    def test_pixels_accept_reference(self):
++        self.assertGreater(oracle.check_pixels(self.picture(17,64),17,64,'ntsc'),1500)
++    def test_pixels_reject_stuck_speed(self):
++        with self.assertRaises(AssertionError):oracle.check_pixels(self.picture(28,100),0,100,'ntsc')
++    def test_pixels_reject_stuck_shield(self):
++        with self.assertRaises(AssertionError):oracle.check_pixels(self.picture(0,100),0,0,'ntsc')
++    def test_pixels_reject_black(self):
++        with self.assertRaises(AssertionError):oracle.check_pixels(Image.new('RGB',(434,240)),0,100,'ntsc')
++    def test_world_watchdog_excludes_both_huds(self):
++        # Native top overlay ends at screenshot y57; footer begins y194 or206.
++        source=(R/'tests/vjrunner/vjrun.cpp').read_text()
++        self.assertIn('y>110 && y<190',source)
++        self.assertLess(8+50,110)
++if __name__=='__main__':unittest.main()
+--- a/tests/gui_e2e.py
++++ b/tests/gui_e2e.py
+@@ -62,7 +62,12 @@
+                 ImageGrab.grab().save(out/'failure-desktop.png')
+                 raise VisualFailure('no game window by startup deadline')
+             command('windowfocus',win)
+-            command('mousemove',0,0)
++            # Cursor parking is cosmetic, not a controller action. Some X11
++            # setups reject a redundant warp; record it without skipping any
++            # pixel/input assertions. Focus and all gameplay keys stay strict.
++            try:command('mousemove',0,0)
++            except subprocess.CalledProcessError:
++                result.setdefault('warnings',[]).append('X11 cursor parking failed; all image/input assertions retained')
+             geo=dict(line.split('=',1) for line in command('getwindowgeometry','--shell',win).splitlines())
+             x,y,w,h=[int(geo[k]) for k in ('X','Y','WIDTH','HEIGHT')]
+             bbox=(x,y,x+w,y+h);result['window_bbox']=bbox
+@@ -133,6 +138,12 @@
+             result['status']='PASS'
+         except VisualFailure as e:
+             result['error']=str(e)
++        except subprocess.CalledProcessError:
++            # An intentionally corrupted entry may close its window while an
++            # X11 operation is in flight. Only an observed process exit counts
++            # as emulator failure; infrastructure errors still abort the suite.
++            if p and p.poll() is not None:result['error']='emulator exited while running'
++            else:raise
+         finally:
+             if p and p.poll() is None:
+                 if freeze:os.kill(p.pid,signal.SIGCONT)
+--- a/tests/vjrunner/vjrun.cpp
++++ b/tests/vjrunner/vjrun.cpp
+@@ -178,7 +178,7 @@
+             lumaSum += luma;
+             if (luma > maxLuma) maxLuma = luma;
+             if (px & 0xFFFFFF00) nonzero++;
+-            if(x>w/4 && x<3*w/4 && y>110 && y<195){
++            if(x>w/4 && x<3*w/4 && y>110 && y<190){
+                 if(luma>5)st.worldLit++;
+                 if(g_prevPicture.size()==picture.size() && px!=g_prevPicture[(size_t)y*w+x]) st.worldChanged++;
+             }
+--- a/docs/PARITY.md
++++ b/docs/PARITY.md
+@@ -29,7 +29,8 @@
+ | Pause / restart | Runtime | Jaguar Pause / Option |
+ | Music and all four SFX | Adapted | Complete durations converted to signed PCM8 mono at 7,990 Hz; DSP mixing and triggers |
+ | Original spatial/audio filtering | Missing | No panning, WebAudio graph or original filter behavior |
+-| Original bitmap HUD and menu artwork | Missing | Native text display is a replacement UI, not a conversion of those images |
++| Original bitmap HUD layers | Adapted | All three original PNGs converted to 384×50 CrY, ordered alpha coverage, original speed/shield clipping; live native gauges. Moved to top to preserve ship framing; native numeric font and contrast backing |
++| Browser menus, original typography/result-screen artwork | Missing | Native footer/messages are not conversions of these interfaces |
+ | Timer and lap splits | Adapted | PAL/NTSC-normalized elapsed time, current lap, three completed lap times and session best; MM:SS.mmm text HUD; pause and finish freeze the clock |
+ | Particles / booster light / sparks | Missing | No fake particle substitute is counted as converted |
+ | Bloom, shadows, normal/specular maps | Missing | Renderer is not a shader-equivalent translation |
+@@ -43,7 +44,7 @@
+ ## Important distinction
+ 
+ All Cityscape **mesh triangles** being converted does not mean all HexGL assets
+-and behavior are converted. The original HTML/CSS menus, HUD art, shader system,
++and behavior are converted. The original HTML/CSS menus, typography, shader system,
+ effects, browser services and several gameplay details remain unported.
+ This is why the build is explicitly labeled incomplete.
+ 
+@@ -57,7 +58,7 @@
+ - Triangle arena: capacity 8,192; bounded insertion prevents overwriting other
+   RAM if a view exceeds capacity. Overflow drops additional triangles rather
+   than writing outside the arena.
+-- Program/static data load at `0x2000`, end `0x9a220` for the tested build.
++- Program/static data load at `0x2000`, end `0xa0020` for the tested build.
+ - Scratch begins `0x110000`; arena ends `0x14acc8`; video begins `0x1b4800`.
+ - Collision, height, routes, audio and sky stream from cartridge ROM.
+ - GPU code overlays and DSP code are independently assembled with lyxass.
+--- /dev/null
++++ b/docs/BITMAP-HUD.md
+@@ -0,0 +1,99 @@
++# Original bitmap gauges: native HUD milestone
++
++This milestone converts **three specific original images**, not every remaining
++HexGL interface or asset. It does not complete the port.
++
++## Original sources → native output
++
++Pinned `BKcore/HexGL` revision remains in `dependencies.lock.json`.
++
++| Source, under `vendor/HexGL/` | Native output | Runtime use |
++|---|---|---|
++| `textures/hud/hud-bg.png` | `assets/hud-bg.bin` | background/outline |
++| `textures/hud/hud-fg-speed.png` | `assets/hud-speed.bin` | symmetric speed fill |
++| `textures/hud/hud-fg-shield.png` | `assets/hud-shield.bin` | shield fill |
++| `bkcore/hexgl/HUD.js` | clipping thresholds in each record | original trapezoid and vertical rectangle |
++
++`assets/hud.json` records source and native SHA-256 values, dimensions, placement,
++coverage method and record counts. No substitute artwork is generated. The
++original 1920×250 PNGs are downsampled to 384×50 using Lanczos; transparent
++pixels are represented by absence of writes. CrY conversion uses the same
++actual chroma DAC tables as the existing textures. Its implementation is now
++shared in `tools/cry.py`, without importing/re-running mesh conversion.
++
++Alpha becomes **deterministic 8×8 ordered coverage**, not full RGBA blending.
++This makes edge/transparent regions visibly stippled at native resolution.
++Color and fine honeycomb detail are quantized; this is not lossless image fidelity.
++The runtime record streams total 23,656 bytes (2,957 eight-byte records).
++
++## Clipping and live values
++
++For native width W=384, height H=50, pixel centers (x,y):
++
++- Speed: include pixels where `abs(x-W/2) <= (W/2.91)*speedRatio + H-y`.
++- Shield: horizontal half-width `W/18.3`, full-height `W/14.3`, lower edge
++  `W/34 + W/14.3`; the upper edge moves upward with shieldRatio.
++- Native speedRatio = base speed / 28; shieldRatio = shield / 100.
++- Digits show base speed × 10 and shield percent, matching the native footer.
++  These are the existing native units, not a claim of browser-physics speed
++  calibration. Extra movement from a boost pad does not raise base speed or
++  expand this gauge beyond full, consistent with the current native telemetry.
++
++Thresholds are precomputed at pixel centers; runtime compares the actual game
++state, not an animation timer. The shield gauge drains with collision damage,
++reaches empty on destruction and refills on Option reset. Speed responds to
++throttle/braking. Paused/finished state retains its corresponding values.
++
++## Screen and scheduling adaptations
++
++- The artwork sits at the **top**, instead of HexGL's bottom, to avoid covering
++  the ship at 384×200. Camera framing, projection, sky and physics are unchanged.
++- Original bitmap proportions remain 384×50. The leading transparent rows mean
++  all drawn pixels also fit the tested PAL output, whose world begins at y=-4.
++- Center digits use the existing native 8×8 font, with black cell backgrounds
++  for legibility against bright sky. This is **not** original font conversion.
++- Original browser HUD visibility/message-only transitions, original menus,
++  typography and full result-screen composition are still not implemented.
++- The existing text timing/results footer remains readable and unchanged.
++- `src/bitmap_hud.js` is a separate GPU overlay at the same safe overlay base
++  used by control/engine. It waits for the final blit, draws only into the back
++  buffer, and returns before the main loop permits the next VBL publication.
++- PITCH2 address calculation respects interleaved four-pixel phrases. No writes
++  are made into the other framebuffer's phrases. The next scene clear removes
++  old gauge pixels, so shrinking fills do not accumulate stale fragments.
++
++## Validation
++
++`tests/hud_checks.py` builds expected RGB pixels from the original PNGs,
++independently expressed clipping inequalities and DAC conversion. It does not
++use the compiled record streams as its visual oracle. Every positive full-core
++scenario compares actual TOM screenshots (including the final frame) against
++live states from at most the preceding 12 video fields, allowing back-buffer
++presentation latency. It checks every expected art pixel plus both complete
++24×8 digit cells, normally 1,500–2,800 exact RGB pixels per capture.
++
++Acceleration/braking scenarios must show zero, intermediate and full speed.
++Manual driving also exercises shield loss, destruction and reset. Existing
++countdown, timer glyphs, full races, bank/camera recurrence and independent
++renderer-pose tests are retained. The lower-world watchdog ROI is y=111..189,
++excluding both the top bitmap overlay and the PAL/NTSC text footer; a moving
++HUD cannot rescue a black or frozen track.
++
++Ten new unit tests cover source provenance, PITCH2 bounds, source alpha coverage,
++all 29 speed and 101 shield levels, valid reference pixels, and intentionally
++wrong/black/stuck gauge images. These synthetic negative fixtures are unit
++checks, **not** emulator screenshots. All positive E2E evidence is freshly
++captured from actual emulator execution. Stock GUI tests remain independent
++black-box startup/input/rendering regressions, not the exact HUD pixel oracle.
++
++Desktop screenshot retention keeps the endpoints of each static countdown
++segment; moving/fault images and all per-sample metrics remain. See
++`test-results/gui/screenshot-retention.json`. Core oracle images are not pruned.
++
++Current executed results are in `docs/TEST-RESULTS.md`, `test-results/summary.json`
++and `test-results/gui/summary.json`. Historical motion/race-flow records retain
++their old ROM hashes and must not be mistaken for current evidence.
++
++Physical hardware, automated Windows Virtual Jaguar 2.1.2 and remote CI remain
++unverified. Full physics, original menu/fonts/effects, replay and persistence
++remain unfinished. See `docs/PARITY.md` and `NOTICE.md`.
