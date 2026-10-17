@@ -1,5 +1,5 @@
 {
-  "rom_sha256": "bfe5591fa30c95baa290f2591253d1ff47e12639a92b37d7bc9980d8456f1faa",
+  "rom_sha256": "fc99ae03d093ec1483cf814d18f484bfa5adf154d42081d37a9350710c93e1a8",
   "emulator": "Virtual Jaguar Rx 2.1.3 headless core harness",
   "cases": {
     "manual-ntsc": {
@@ -21,7 +21,7 @@
         "restart"
       ],
       "fields": 2040,
-      "updates": 64,
+      "updates": 49,
       "audio_samples": 269798
     },
     "manual-ntsc-direct": {
@@ -43,8 +43,8 @@
         "restart"
       ],
       "fields": 2040,
-      "updates": 63,
-      "audio_samples": 268067
+      "updates": 49,
+      "audio_samples": 267667
     },
     "race-ntsc": {
       "checks": [
@@ -68,19 +68,19 @@
       ],
       "motion_checks": {
         "verified_updates": 3864,
-        "height_filtered_updates": 2901,
+        "height_filtered_updates": 2892,
         "left_bank_seen": true,
         "right_bank_seen": true
       },
-      "fields": 14000,
-      "updates": 4061,
-      "race_ticks": 13298,
+      "fields": 15222,
+      "updates": 4026,
+      "race_ticks": 14520,
       "lap_ticks": [
-        4465,
-        4417,
-        4416
+        4872,
+        4824,
+        4824
       ],
-      "audio_samples": 1862483
+      "audio_samples": 2025213
     },
     "manual-pal": {
       "checks": [
@@ -124,7 +124,7 @@
       ],
       "fields": 1900,
       "updates": 66,
-      "audio_samples": 299981
+      "audio_samples": 299661
     },
     "race-pal": {
       "checks": [
@@ -148,26 +148,26 @@
       ],
       "motion_checks": {
         "verified_updates": 3864,
-        "height_filtered_updates": 2907,
+        "height_filtered_updates": 2880,
         "left_bank_seen": true,
         "right_bank_seen": true
       },
-      "fields": 12237,
-      "updates": 4055,
-      "race_ticks": 11604,
+      "fields": 13162,
+      "updates": 4054,
+      "race_ticks": 12531,
       "lap_ticks": [
-        3892,
-        3856,
-        3856
+        4205,
+        4163,
+        4163
       ],
-      "audio_samples": 1953789
+      "audio_samples": 2101622
     },
     "bank-ntsc": {
-      "verified_updates": 153,
+      "verified_updates": 135,
       "height_filtered_updates": 0,
       "left_bank_seen": true,
       "right_bank_seen": true,
-      "half_second_left_roll_q8": -45390,
+      "half_second_left_roll_q8": -46755,
       "checks": [
         "left/right bank",
         "airbrake bank",
@@ -187,7 +187,7 @@
       }
     },
     "camera-speed-ntsc": {
-      "verified_updates": 76,
+      "verified_updates": 75,
       "height_filtered_updates": 0,
       "left_bank_seen": false,
       "right_bank_seen": false,
@@ -201,11 +201,11 @@
       "fields": 820
     },
     "bank-pal": {
-      "verified_updates": 149,
+      "verified_updates": 144,
       "height_filtered_updates": 0,
       "left_bank_seen": true,
       "right_bank_seen": true,
-      "half_second_left_roll_q8": -46748,
+      "half_second_left_roll_q8": -47074,
       "checks": [
         "left/right bank",
         "airbrake bank",
@@ -225,7 +225,7 @@
       }
     },
     "camera-speed-pal": {
-      "verified_updates": 83,
+      "verified_updates": 68,
       "height_filtered_updates": 0,
       "left_bank_seen": false,
       "right_bank_seen": false,
@@ -336,8 +336,8 @@
         {
           "capture": "frame_00800.png",
           "speed": 0,
-          "shield": 88,
-          "pixels": 1718
+          "shield": 78,
+          "pixels": 1706
         },
         {
           "capture": "frame_01200.png",
@@ -394,8 +394,8 @@
         {
           "capture": "frame_00800.png",
           "speed": 0,
-          "shield": 88,
-          "pixels": 1718
+          "shield": 78,
+          "pixels": 1706
         },
         {
           "capture": "frame_01200.png",
@@ -521,21 +521,21 @@
         },
         {
           "capture": "frame_00480.png",
-          "speed": 21,
+          "speed": 24,
           "shield": 100,
-          "pixels": 2527
+          "pixels": 2652
         },
         {
           "capture": "frame_00580.png",
           "speed": 0,
-          "shield": 97,
-          "pixels": 1735
+          "shield": 86,
+          "pixels": 1718
         },
         {
           "capture": "frame_00800.png",
           "speed": 0,
-          "shield": 0,
-          "pixels": 1538
+          "shield": 56,
+          "pixels": 1660
         },
         {
           "capture": "frame_01200.png",
@@ -579,21 +579,21 @@
         },
         {
           "capture": "frame_00480.png",
-          "speed": 24,
+          "speed": 21,
           "shield": 100,
-          "pixels": 2652
+          "pixels": 2527
         },
         {
           "capture": "frame_00580.png",
           "speed": 0,
-          "shield": 97,
-          "pixels": 1735
+          "shield": 92,
+          "pixels": 1733
         },
         {
           "capture": "frame_00800.png",
           "speed": 0,
-          "shield": 0,
-          "pixels": 1538
+          "shield": 56,
+          "pixels": 1660
         },
         {
           "capture": "frame_01200.png",
@@ -903,9 +903,9 @@
         },
         {
           "capture": "frame_00652.png",
-          "speed": 10,
+          "speed": 4,
           "shield": 100,
-          "pixels": 2105
+          "pixels": 1867
         },
         {
           "capture": "frame_00720.png",
@@ -1067,63 +1067,63 @@
         },
         {
           "capture": "frame_00510.png",
-          "speed": 9,
+          "speed": 6,
           "shield": 100,
-          "pixels": 2065
+          "pixels": 1949
         },
         {
           "capture": "frame_00512.png",
-          "speed": 9,
+          "speed": 10,
           "shield": 100,
-          "pixels": 2065
+          "pixels": 2105
         },
         {
           "capture": "frame_00514.png",
-          "speed": 12,
+          "speed": 13,
           "shield": 100,
-          "pixels": 2181
+          "pixels": 2222
         },
         {
           "capture": "frame_00516.png",
-          "speed": 15,
+          "speed": 13,
           "shield": 100,
-          "pixels": 2294
+          "pixels": 2222
         },
         {
           "capture": "frame_00518.png",
-          "speed": 15,
+          "speed": 16,
           "shield": 100,
-          "pixels": 2294
+          "pixels": 2335
         },
         {
           "capture": "frame_00520.png",
-          "speed": 18,
+          "speed": 16,
           "shield": 100,
-          "pixels": 2411
+          "pixels": 2335
         },
         {
           "capture": "frame_00522.png",
-          "speed": 21,
+          "speed": 19,
           "shield": 100,
-          "pixels": 2527
+          "pixels": 2454
         },
         {
           "capture": "frame_00524.png",
-          "speed": 21,
+          "speed": 19,
           "shield": 100,
-          "pixels": 2527
+          "pixels": 2454
         },
         {
           "capture": "frame_00526.png",
-          "speed": 24,
+          "speed": 23,
           "shield": 100,
-          "pixels": 2652
+          "pixels": 2609
         },
         {
           "capture": "frame_00528.png",
-          "speed": 27,
+          "speed": 23,
           "shield": 100,
-          "pixels": 2765
+          "pixels": 2609
         },
         {
           "capture": "frame_00530.png",
@@ -1139,9 +1139,9 @@
         },
         {
           "capture": "frame_00562.png",
-          "speed": 1,
+          "speed": 10,
           "shield": 100,
-          "pixels": 1751
+          "pixels": 2105
         },
         {
           "capture": "frame_00580.png",

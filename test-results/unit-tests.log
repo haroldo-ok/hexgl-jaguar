@@ -1,4 +1,5 @@
-python3 -m unittest discover -s tests -p 'test_*.py' -v
+test_active_fall_hold_is_counted (test_dynamics.ActiveFallingPauseOracle.test_active_fall_hold_is_counted) ... ok
+test_destroyed_pause_is_not_falling_proof (test_dynamics.ActiveFallingPauseOracle.test_destroyed_pause_is_not_falling_proof) ... ok
 test_corrupt_projected_pixel_rejected (test_dynamics.DynamicsOracle.test_corrupt_projected_pixel_rejected) ... ok
 test_exact_vertex (test_dynamics.DynamicsOracle.test_exact_vertex) ... ok
 test_missing_camera_pitch_rejected (test_dynamics.DynamicsOracle.test_missing_camera_pitch_rejected) ... ok
@@ -6,6 +7,8 @@ test_missing_ship_pitch_rejected (test_dynamics.DynamicsOracle.test_missing_ship
 test_original_start_height (test_dynamics.DynamicsOracle.test_original_start_height) ... ok
 test_signed_vertex_word (test_dynamics.DynamicsOracle.test_signed_vertex_word) ... ok
 test_slope_table (test_dynamics.DynamicsOracle.test_slope_table) ... ok
+test_all_video_step_products (test_dynamics.FallMultiplyRange.test_all_video_step_products) ... ok
+test_old_multiply_order_is_not_equivalent (test_dynamics.FallMultiplyRange.test_old_multiply_order_is_not_equivalent) ... ok
 test_integration_error_rejected (test_dynamics.ParticleOracle.test_integration_error_rejected) ... ok
 test_pause_motion_rejected (test_dynamics.ParticleOracle.test_pause_motion_rejected) ... ok
 test_pointer_in_lifetime_rejected (test_dynamics.ParticleOracle.test_pointer_in_lifetime_rejected) ... ok
@@ -31,6 +34,28 @@ test_pixels_reject_black (test_hud.HUDTests.test_pixels_reject_black) ... ok
 test_pixels_reject_stuck_shield (test_hud.HUDTests.test_pixels_reject_stuck_shield) ... ok
 test_pixels_reject_stuck_speed (test_hud.HUDTests.test_pixels_reject_stuck_speed) ... ok
 test_world_watchdog_excludes_both_huds (test_hud.HUDTests.test_world_watchdog_excludes_both_huds) ... ok
+test_all_original_material_maps (test_materials.NativeMaterials.test_all_original_material_maps) ... ok
+test_atlas_layout (test_materials.NativeMaterials.test_atlas_layout) ... ok
+test_compiled_face_shadow_inputs (test_materials.NativeMaterials.test_compiled_face_shadow_inputs) ... ok
+test_no_opaque_texture_holes (test_materials.NativeMaterials.test_no_opaque_texture_holes) ... ok
+test_sky_covers_pitch_without_duplicate_width (test_materials.NativeMaterials.test_sky_covers_pitch_without_duplicate_width) ... ok
+test_speed_pad_is_source_constant (test_materials.NativeMaterials.test_speed_pad_is_source_constant) ... ok
+test_static_shadows_are_geometry_bound (test_materials.NativeMaterials.test_static_shadows_are_geometry_bound) ... ok
+test_view_dependent_materials (test_materials.NativeMaterials.test_view_dependent_materials) ... ok
+test_corrupt_face_luminance_rejected (test_materials.RuntimeMaterialOracle.test_corrupt_face_luminance_rejected) ... ok
+test_diffuse_table_substitution_rejected (test_materials.RuntimeMaterialOracle.test_diffuse_table_substitution_rejected) ... ok
+test_real_face_arithmetic (test_materials.RuntimeMaterialOracle.test_real_face_arithmetic) ... ok
+test_sprite_only_light_rejected (test_materials.RuntimeMaterialOracle.test_sprite_only_light_rejected) ... ok
+test_wrong_bank_stride_rejected (test_materials.RuntimeMaterialOracle.test_wrong_bank_stride_rejected) ... ok
+test_yaw_only_sky_rejected (test_materials.RuntimeMaterialOracle.test_yaw_only_sky_rejected) ... ok
+test_bad_gain_rejected (test_materials.StereoOracle.test_bad_gain_rejected) ... ok
+test_center (test_materials.StereoOracle.test_center) ... ok
+test_mono_substitution_rejected (test_materials.StereoOracle.test_mono_substitution_rejected) ... ok
+test_negative_sample (test_materials.StereoOracle.test_negative_sample) ... ok
+test_pan (test_materials.StereoOracle.test_pan) ... ok
+test_partial_dsp_write (test_materials.StereoOracle.test_partial_dsp_write) ... ok
+test_reversed_channels_rejected (test_materials.StereoOracle.test_reversed_channels_rejected) ... ok
+test_saturation (test_materials.StereoOracle.test_saturation) ... ok
 test_coefficients_normalize_video_rate (test_motion.MotionMath.test_coefficients_normalize_video_rate) ... ok
 test_constant_target_converges_without_sticking (test_motion.MotionMath.test_constant_target_converges_without_sticking) ... ok
 test_no_overshoot (test_motion.MotionMath.test_no_overshoot) ... ok
@@ -39,6 +64,26 @@ test_healthy_fixture (test_motion.MotionOracle.test_healthy_fixture) ... ok
 test_wrong_actual_camera_rejected (test_motion.MotionOracle.test_wrong_actual_camera_rejected) ... ok
 test_wrong_actual_mesh_angle_rejected (test_motion.MotionOracle.test_wrong_actual_mesh_angle_rejected) ... ok
 test_wrong_filter_recurrence_rejected (test_motion.MotionOracle.test_wrong_filter_recurrence_rejected) ... ok
+test_actual_barycentric_depth (test_native_fx_audio.DepthProof.test_actual_barycentric_depth) ... ok
+test_bad_weights_rejected (test_native_fx_audio.DepthProof.test_bad_weights_rejected) ... ok
+test_bad_z_rejected (test_native_fx_audio.DepthProof.test_bad_z_rejected) ... ok
+test_odd_commit_ignored (test_native_fx_audio.DepthProof.test_odd_commit_ignored) ... ok
+test_decode_table_actual_dac (test_native_fx_audio.RGBShader.test_decode_table_actual_dac) ... ok
+test_packed_alpha_not_part_of_chroma (test_native_fx_audio.RGBShader.test_packed_alpha_not_part_of_chroma) ... ok
+test_rgb555_nearest_chroma_and_intensity (test_native_fx_audio.RGBShader.test_rgb555_nearest_chroma_and_intensity) ... ok
+test_zero_alpha_over_quantizes_destination_only (test_native_fx_audio.RGBShader.test_zero_alpha_over_quantizes_destination_only) ... ok
+test_collapsed_center_rejected (test_native_fx_audio.SourceStereoOracle.test_collapsed_center_rejected) ... ok
+test_independent_center_channels (test_native_fx_audio.SourceStereoOracle.test_independent_center_channels) ... ok
+test_exact_source_and_output (test_native_fx_audio.SpritePixelProof.test_exact_source_and_output) ... ok
+test_fixed_size_substitution_rejected (test_native_fx_audio.SpritePixelProof.test_fixed_size_substitution_rejected) ... ok
+test_framebuffer_address_rejected (test_native_fx_audio.SpritePixelProof.test_framebuffer_address_rejected) ... ok
+test_odd_pixel_commit_ignored (test_native_fx_audio.SpritePixelProof.test_odd_pixel_commit_ignored) ... ok
+test_wrong_composite_rejected (test_native_fx_audio.SpritePixelProof.test_wrong_composite_rejected) ... ok
+test_wrong_source_texel_rejected (test_native_fx_audio.SpritePixelProof.test_wrong_source_texel_rejected) ... ok
+test_actual_source_stereo_complete_duration_and_quality (test_native_fx_audio.StereoADPCM.test_actual_source_stereo_complete_duration_and_quality) ... ok
+test_known_signed_nibbles (test_native_fx_audio.StereoADPCM.test_known_signed_nibbles) ... ok
+test_saturation_and_index_bounds (test_native_fx_audio.StereoADPCM.test_saturation_and_index_bounds) ... ok
+test_stock_cartridge_audio_slot (test_native_fx_audio.StereoADPCM.test_stock_cartridge_audio_slot) ... ok
 test_animated_video_cannot_hide_dead_heartbeat (test_watchdogs.CoreWatchdog.test_animated_video_cannot_hide_dead_heartbeat) ... ok
 test_black_tail_including_last_field (test_watchdogs.CoreWatchdog.test_black_tail_including_last_field) ... ok
 test_boot_logo_not_native_game (test_watchdogs.CoreWatchdog.test_boot_logo_not_native_game) ... ok
@@ -54,6 +99,6 @@ test_finish_can_be_static_but_not_dead (test_watchdogs.RaceFlow.test_finish_can_
 test_millisecond_format (test_watchdogs.RaceFlow.test_millisecond_format) ... ok
 
 ----------------------------------------------------------------------
-Ran 53 tests in 1.743s
+Ran 99 tests in 2.952s
 
 OK

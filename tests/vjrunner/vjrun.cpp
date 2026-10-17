@@ -144,6 +144,8 @@ struct FrameStats
     char message[49] = {};
     char times[6][10] = {};
     uint32_t audioSamples = 0;
+    uint32_t audioState[10] = {}, materialState[12] = {}, fxAux[32] = {}, fxDepth[32] = {};
+    long stereoDifferent = 0;
     long worldChanged = 0, worldLit = 0;
     long audioNonzero = 0;
     uint32_t dacWrites   = 0;
@@ -209,7 +211,11 @@ static FrameStats analyseFrame(int frame)
     st.gpuPC     = GPUGetPC();
     st.dacWrites = dacWriteCount;
     for(int i=0;i<28;i++) st.game[i]=GET32(jaguarMainRAM,0x1000+4*i);
+    for(int i=0;i<32;i++)st.fxAux[i]=GET32(jaguarMainRAM,0x1b00+4*i);
+    for(int i=0;i<32;i++)st.fxDepth[i]=GET32(jaguarMainRAM,0x1c00+4*i);
     st.audioSamples=GET32(jaguarMainRAM,0x1084);
+    for(int i=0;i<10;i++)st.audioState[i]=GET32(jaguarMainRAM,0x1a00+4*i);
+    for(int i=0;i<12;i++)st.materialState[i]=GET32(jaguarMainRAM,0x1a40+4*i);
     for(int i=0;i<128;i++)st.particles[i]=GET32(jaguarMainRAM,0x1800+4*i);
     for(int i=0;i<16;i++)st.effects[i]=GET32(jaguarMainRAM,0x1700+4*i);
     for(int i=0;i<32;i++)st.physics[i]=GET32(jaguarMainRAM,0x1600+4*i);
@@ -511,6 +517,11 @@ int main(int argc, char **argv)
         if(blankVideoAt >= 0 && f >= blankVideoAt) memset(framebuffer,0,sizeof(framebuffer));
         FrameStats st = analyseFrame(f);
         for(int i=0;i<(vjs.hardwareTypeNTSC?3200:3840);i++)if(pcm[i])st.audioNonzero++;
+        for(int i=0;i<(vjs.hardwareTypeNTSC?3200:3840);i+=4){
+            int16_t left,right;
+            memcpy(&left,pcm+i,2);memcpy(&right,pcm+i+2,2);
+            if(left!=right)st.stereoDifferent++;
+        }
         stats.push_back(st);
 
         // "live" = there is something visible: either a decent number of lit
@@ -581,13 +592,21 @@ int main(int argc, char **argv)
             for(int j=0;j<17;j++)fprintf(rf,"%d%s",(int32_t)s.motion[j],j==16?"":",");
             fprintf(rf,"],\"pose\":[");
             for(int j=0;j<10;j++)fprintf(rf,"%d%s",(int32_t)s.pose[j],j==9?"":",");
+            fprintf(rf,"],\"fx_aux\":[");
+            for(int j=0;j<32;j++)fprintf(rf,"%d%s",(int32_t)s.fxAux[j],j==31?"":",");
+            fprintf(rf,"],\"fx_depth\":[");
+            for(int j=0;j<32;j++)fprintf(rf,"%d%s",(int32_t)s.fxDepth[j],j==31?"":",");
             fprintf(rf,"],\"effects\":[");
             for(int j=0;j<16;j++)fprintf(rf,"%u%s",s.effects[j],j==15?"":",");
             if(detailedEffects){
                 fprintf(rf,"],\"particles\":[");
                 for(int j=0;j<128;j++)fprintf(rf,"%d%s",(int32_t)s.particles[j],j==127?"":",");
             }
-            fprintf(rf,"],\"physics\":[");
+            fprintf(rf,"],\"audio_state\":[");
+            for(int j=0;j<10;j++)fprintf(rf,"%d%s",(int32_t)s.audioState[j],j==9?"":",");
+            fprintf(rf,"],\"material_state\":[");
+            for(int j=0;j<12;j++)fprintf(rf,"%u%s",s.materialState[j],j==11?"":",");
+            fprintf(rf,"],\"stereo_different\":%ld,\"physics\":[",s.stereoDifferent);
             for(int j=0;j<32;j++)fprintf(rf,"%d%s",(int32_t)s.physics[j],j==31?"":",");
             fprintf(rf,"],\"front\":[");
             for(int j=0;j<20;j++)fprintf(rf,"%u%s",s.front[j],j==19?"":",");

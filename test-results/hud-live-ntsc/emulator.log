@@ -1,4 +1,4 @@
-vjrun: Virtual Jaguar core v2.1.3 (built Oct 16 2026 03:48:40)
+vjrun: Virtual Jaguar core v2.1.3 (built Oct 16 2026 16:49:19)
 vjrun: rom='/home/user/hexgl-jaguar/rom/hexgl.j64' fields=900 video=NTSC
 vjrun: rom size = 6291456 bytes
 vjrun: wrote /home/user/hexgl-jaguar/test-results/hud-live-ntsc/frame_00080.png
@@ -27,4 +27,4 @@ vjrun: wrote /home/user/hexgl-jaguar/test-results/hud-live-ntsc/frame_00850.png
 vjrun: wrote /home/user/hexgl-jaguar/test-results/hud-live-ntsc/frame_00880.png
 vjrun: wrote /home/user/hexgl-jaguar/test-results/hud-live-ntsc/final.png
 vjrun: report = /home/user/hexgl-jaguar/test-results/hud-live-ntsc/run_report.json
-vjrun: PASS - first live field 27, 71/900 fields animated, worst black streak 27
+vjrun: PASS - first live field 30, 68/900 fields animated, worst black streak 30

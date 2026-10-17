@@ -21,8 +21,8 @@
     "coverage": "monochrome 128 threshold"
   },
   "rom_offsets": {
-    "front-main.cry": "0x590000",
-    "front-bg.cry": "0x5b5800"
+    "front-main.cry": "0x192000",
+    "front-bg.cry": "0x1b7800"
   },
   "adaptations": [
     "native two-column layout",

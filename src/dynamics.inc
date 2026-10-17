@@ -252,11 +252,11 @@ physics_fall:
  moveq #0,r0
  store r0,(r14+36)
 .drop
- movei #80*256,r0
- imult r19,r0
+ ; Keep BOTH 16-bit multiply operands bounded even at dt=6.
+ movei #80*60,r0
+ mult r19,r0
+ shlq #8,r0
  load (r14+80),r1
- movei #60,r2
- mult r2,r0
  div r1,r0
  load (r14+20),r1
  sub r0,r1

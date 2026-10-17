@@ -5,7 +5,7 @@ LYXASS := $(ROOT)/vendor/lyxass/lyxass
 VJ := $(ROOT)/vendor/virtualjaguar
 PYTHON ?= python3
 export BJL_ROOT
-.PHONY: all rom assets toolchain emulator test test-core test-gui test-unit test-quick test-clean release verify clean
+.PHONY: all rom assets toolchain emulator test test-core test-gui test-unit test-quick test-clean test-materials test-fall release verify clean
 all: rom
 
 toolchain:
@@ -13,6 +13,8 @@ toolchain:
 
 # Every asset comes from the pinned original repositories, no generated substitute meshes.
 assets:
+	OPENBLAS_NUM_THREADS=1 $(PYTHON) tools/materials.py
+	$(PYTHON) tools/convert.py
 	$(PYTHON) tools/sky.py
 	$(PYTHON) tools/audio.py
 	$(PYTHON) tools/route.py
@@ -25,6 +27,8 @@ rom: toolchain
 	$(PYTHON) tools/motion.py
 	$(PYTHON) tools/dynamics.py
 	$(PYTHON) tools/effects.py
+	$(PYTHON) tools/colors.py
+	$(PYTHON) tools/write_audio_mixer.py
 	$(PYTHON) tools/prepare_engine.py
 	cd src && $(LYXASS) -d -o audio.bin audio.js
 	cd src && $(LYXASS) -sh hexgl.js
@@ -44,22 +48,42 @@ test: rom emulator test-unit
 	$(PYTHON) tests/e2e.py
 	$(PYTHON) tests/hud_e2e.py
 	$(PYTHON) tests/dynamics_e2e.py
+	$(PYTHON) tests/native_fx_probe.py
+	$(PYTHON) tests/material_e2e.py
+	$(PYTHON) tests/original_audio_e2e.py
+	$(PYTHON) tests/fall_e2e.py
 	$(PYTHON) tests/frontend_e2e.py
 	$(PYTHON) tools/check_recorded_dynamics.py
+	$(PYTHON) tools/check_recorded_materials.py
+	$(PYTHON) tools/check_recorded_particles_audio.py
 	xvfb-run -a -s '-screen 0 1024x768x24' $(PYTHON) tests/gui_e2e.py
 
 test-core: rom emulator
 	$(PYTHON) tests/e2e.py
 	$(PYTHON) tests/hud_e2e.py
 	$(PYTHON) tests/dynamics_e2e.py
+	$(PYTHON) tests/native_fx_probe.py
+	$(PYTHON) tests/material_e2e.py
+	$(PYTHON) tests/original_audio_e2e.py
+	$(PYTHON) tests/fall_e2e.py
 	$(PYTHON) tests/frontend_e2e.py
 	$(PYTHON) tools/check_recorded_dynamics.py
+	$(PYTHON) tools/check_recorded_materials.py
+	$(PYTHON) tools/check_recorded_particles_audio.py
+
+test-materials: rom emulator
+	$(PYTHON) tests/material_e2e.py
+	$(PYTHON) tests/original_audio_e2e.py
+
+test-fall: rom emulator
+	$(PYTHON) tests/fall_e2e.py
 
 test-gui: rom
 	xvfb-run -a -s '-screen 0 1024x768x24' $(PYTHON) tests/gui_e2e.py
 
 test-unit:
-	$(PYTHON) -m unittest discover -s tests -p 'test_*.py' -v
+	@mkdir -p test-results
+	set -o pipefail; $(PYTHON) -m unittest discover -s tests -p 'test_*.py' -v 2>&1 | tee test-results/unit-tests.log
 
 test-clean: rom
 	$(PYTHON) tools/clean_rebuild.py

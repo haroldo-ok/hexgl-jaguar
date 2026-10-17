@@ -27,8 +27,9 @@ The original audio/LICENSE is copied to licenses/audio.txt. It credits:
 - destroyed: beman87, CC Attribution 3.0, adjusted by Licson.
 - Ogg conversion: baleboy.
 
-Native conversion here changes sample rate, channel count and quantization,
-not duration. There are no newly generated replacement sound effects.
+Native conversion changes sample rate and quantization/compression (stereo IMA4),
+not duration or original channel content. Original mono content, if present, is
+carried equally in both output channels. There are no newly generated replacement sound effects.
 
 ## Jaguar rendering and SDK
 

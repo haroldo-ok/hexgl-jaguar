@@ -19,6 +19,8 @@ for name in ['obl0_50.bin','obl1_50.bin','obl0_60.bin','obl1_60.bin']:
 s=(R/'vendor/jag_3d_engine/polygon.js').read_text()
 s=s.replace('GOURAUD\t\tset 1','GOURAUD\t\tset 0').replace('LANDSCAPE\tset 1','LANDSCAPE\tset 0')
 s=s.replace('CAM_X\t\tequ -60','CAM_X\t\tequ -9072').replace('CAM_Y\t\tequ 30','CAM_Y\t\tequ 1628').replace('CAM_Z\t\tequ 2500\t;2418','CAM_Z\t\tequ -3704').replace('CAM_ANGLE\tequ 228','CAM_ANGLE\tequ 0')
+# Renderer normals use negative cross products; light points opposite the source sun.
+s=s.replace('#139,r0','#225,r0').replace('#-105,r1','#-68,r1').replace('#-157,r2','#-101,r2')
 a=s.index('\tRSSET object_data');b=s.index('mem_end\tEQU RSADDR',a)
 s=s[:a]+'''\tinclude "../assets/limits.inc"
 \tRSSET object_data
@@ -82,4 +84,5 @@ s=s.replace('\tMBL control','\tMBL control\n\tMyINITMODULE pose\n\tMBL pose')
 s=s.replace('\tinclude "pose.js"','\tinclude "pose.js"\n\tinclude "effects.js"')
 s=s.replace('\tMBL\tengine','\tMBL\tengine\n\tMyINITMODULE effects\n\tMBL effects')
 s=s.replace('\tinclude "../assets/frontend.inc"','\tinclude "../assets/frontend.inc"\n align 4\neffect_atlas:\n incbin "../assets/effects.bin"')
+s=s.replace('effect_atlas:\n incbin "../assets/effects.bin"','effect_atlas:\n incbin "../assets/effects.bin"\n align 4\ncolor_decode:\n incbin "../assets/color-decode.bin"\ncolor_encode:\n incbin "../assets/color-encode.bin"')
 (R/'src/hexgl.js').write_text(s)

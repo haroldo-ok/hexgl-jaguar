@@ -94,7 +94,8 @@ check_faces_visible::
 .pt2
 	add	min_z,tmp3
 	move	x0,y0
-	jr	mi,.skip
+	movei #.skip,tmp3
+	jump	mi,(tmp3)
 	bset	#31,tmp0	; set "invisible" flag
 
 	sharq	#16,min_z
@@ -113,8 +114,18 @@ check_faces_visible::
 
 	subq	#4,n_ptr
 	sharq	#31,tmp0
+ ; Upstream start banner is double-sided (material index 8).
+ move f_ptr,tmp1
+ addq #1,tmp1
+ load (tmp1),tmp1
+ loadw (tmp1),tmp1
+ cmpq #8,tmp1
+ jr ne,.skip
+ nop
+ moveq #0,tmp0
 .skip
 	addqt	#8,n_ptr
+	cmpq #0,tmp0
 	jump	mi,(NO_LUM)
 	store	tmp0,(v_ptr)	; > 0 => visible
 
@@ -126,13 +137,17 @@ check_faces_visible::
 	loadb	(f_ptr),tmp0		; get base luminance
  ENDIF
 	addqt	#1,v_ptr		; skip vis-flag
+ movei #160,tmp1
+ cmp tmp1,tmp0
+ jr mi,.gouraud
+ nop
 
 	imultn	l_x,n_x
 	imacn	l_y,n_y
 	imacn	l_z,n_z
 	resmac	tmp1
 
-	sharq	#8,tmp1
+	sharq	#10,tmp1
 	sat8	tmp1
 	add	tmp1,tmp0
 	sat8	tmp0
@@ -141,6 +156,48 @@ check_faces_visible::
 	addq	#ambient,tmp0
 	sat8	tmp0
  ENDIF
+ ; Local booster illumination affects real scene faces, not only its sprite.
+ movei #MATERIAL_STATE+20,tmp1
+ load (tmp1),tmp2
+ sub tmp2,x0
+ abs x0
+ addq #4,tmp1
+ load (tmp1),tmp2
+ shlq #16,y0
+ sharq #16,y0
+ sub tmp2,y0
+ abs y0
+ add y0,x0
+ addq #4,tmp1
+ load (tmp1),tmp2
+ sub tmp2,min_z
+ abs min_z
+ add min_z,x0
+ movei #240,tmp3
+ sub x0,tmp3
+ movei #.point_done,n_x
+ jump mi,(n_x)
+ nop
+ addq #4,tmp1
+ load (tmp1),tmp2
+ mult tmp2,tmp3
+ shrq #8,tmp3
+ cmpq #0,tmp3
+ jump eq,(n_x)
+ nop
+ addq #4,tmp1
+ store tmp0,(tmp1)
+ addq #4,tmp1
+ store tmp3,(tmp1)
+ add tmp3,tmp0
+ sat8 tmp0
+ addq #4,tmp1
+ store tmp0,(tmp1)
+ movei #MATERIAL_STATE+8,tmp1
+ load (tmp1),tmp2
+ addq #1,tmp2
+ store tmp2,(tmp1)
+.point_done
 	storeb	tmp0,(v_ptr)
 
 	addq	#1,v_ptr

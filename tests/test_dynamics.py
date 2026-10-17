@@ -53,3 +53,30 @@ class ParticleOracle(unittest.TestCase):
  def test_pause_motion_rejected(self):
   t=self.fixture();t['fields'][176]['particles'][0]+=1
   with self.assertRaises(AssertionError):dc.verify_particles(t)
+
+class FallMultiplyRange(unittest.TestCase):
+ def test_all_video_step_products(self):
+  for hz in [50,60]:
+   for dt in range(1,7):
+    # Model Jaguar MULT's two unsigned low-16 operands explicitly.
+    native=(((80*60)&65535)*(dt&65535)<<8)//hz
+    self.assertEqual(native,80*256*dt*60//hz)
+ def test_old_multiply_order_is_not_equivalent(self):
+  self.assertNotEqual(((80*256*4)&65535)*60//60,80*256*4)
+
+class ActiveFallingPauseOracle(unittest.TestCase):
+ def fixture(self,pause_while_active):
+  result={'fields':[{'physics':[0]*32,'motion':[0]*17,'game':[0]*28} for _ in range(150)]}
+  fall=0;height=0;clock=0
+  for i in range(160):
+   active=fall<90
+   paused=10<=i<45 if pause_while_active else i>=100
+   if active and not paused:fall+=1;height-=80*256
+   clock+=not paused
+   g=[0]*28;q=[0]*32;m=[0]*17
+   g[2]=1 if fall<90 else 2;g[5]=height;g[13]=int(paused);g[18]=clock;g[20]=60
+   q[4]=1;q[5]=fall;q[11]=i+1;m[16]=i+1
+   result['fields'].append({'f':150+i,'game':g,'physics':q,'motion':m})
+  return result
+ def test_active_fall_hold_is_counted(self):self.assertGreater(dc.verify_fall(self.fixture(True))['paused_fall_updates'],20)
+ def test_destroyed_pause_is_not_falling_proof(self):self.assertEqual(dc.verify_fall(self.fixture(False))['paused_fall_updates'],0)

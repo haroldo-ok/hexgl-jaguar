@@ -104,6 +104,8 @@ pose_camera:
  load (r0),r1
  addq #1,r1
  store r1,(r0)
+ movei #pose_light,r0
+ BL (r0)
  ; HUD routines use the DRAM backing strings, never GPU-local LOADB.
  movei #draw_race_hud,r0
  BL (r0)
@@ -153,6 +155,69 @@ pose_pitch:
  store r0,(r15+48)
 .done
  POPLR
+
+ ; Booster point light in camera space. Chase camera and stern share heading.
+ ; Manhattan falloff is the stock-hardware approximation to radius 60*4.
+pose_light:
+ movei #GAME,r14
+ movei #MOTION,r15
+ load (r14+20),r0
+ sharq #8,r0
+ load (r15+52),r1
+ sub r1,r0
+ addq #3,r0
+ load (r15+44),r1
+ subq #16,r1
+ movei #PHYS+48,r2
+ load (r2),r2
+ sharq #8,r2
+ movei #2044,r3
+ and r3,r2
+ movei #SinTab,r3
+ add r2,r3
+ load (r3),r2
+ move r2,r3
+ shrq #16,r3
+ imultn r3,r0
+ imacn r2,r1
+ resmac r4
+ neg r0
+ imultn r3,r1
+ imacn r2,r0
+ resmac r5
+ sharq #15,r4
+ sharq #15,r5
+ movei #MATERIAL_STATE+20,r15
+ moveq #0,r0
+ store r0,(r15)
+ store r4,(r15+4)
+ store r5,(r15+8)
+ movei #32,r1
+ load (r14+76),r2
+ btst #JOY_A_BIT,r2
+ jr ne,.thrust
+ nop
+ btst #JOY_UP_BIT,r2
+ jr eq,.strength
+ nop
+.thrust
+ shlq #1,r1
+.strength
+ load (r14+8),r2
+ cmpq #5,r2
+ jr ne,.live
+ nop
+ movei #REPLAY+64,r2
+ load (r2),r2
+.live
+ cmpq #2,r2
+ jr ne,.enabled
+ nop
+ moveq #0,r1
+.enabled
+ store r1,(r15+12)
+ jump (LR)
+ nop
 
  include "motion.inc"
  include "race_hud.inc"

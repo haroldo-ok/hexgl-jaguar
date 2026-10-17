@@ -1,8 +1,8 @@
-hud-live-ntsc exit 0 fields 900 elapsed 15.6 s
-hud-live-pal exit 0 fields 830 elapsed 15.9 s
+hud-live-ntsc exit 0 fields 900 elapsed 9.4 s
+hud-live-pal exit 0 fields 830 elapsed 11.7 s
 {
   "status": "PASS",
-  "rom_sha256": "bfe5591fa30c95baa290f2591253d1ff47e12639a92b37d7bc9980d8456f1faa",
+  "rom_sha256": "6cfeac35d45f9713150dff96c86c72219f66a4ec9013c161a6f225ec136d5c2a",
   "cases": {
     "ntsc": {
       "checks": [
@@ -21,6 +21,7 @@ hud-live-pal exit 0 fields 830 elapsed 15.9 s
       ],
       "shields_seen": [
         0,
+        93,
         97,
         100
       ],
@@ -101,39 +102,39 @@ hud-live-pal exit 0 fields 830 elapsed 15.9 s
           },
           {
             "capture": "frame_00632.png",
-            "speed": 28,
-            "shield": 100,
-            "pixels": 2793
+            "speed": 0,
+            "shield": 97,
+            "pixels": 1735
           },
           {
             "capture": "frame_00652.png",
             "speed": 0,
-            "shield": 97,
-            "pixels": 1735
+            "shield": 93,
+            "pixels": 1733
           },
           {
             "capture": "frame_00672.png",
             "speed": 0,
-            "shield": 97,
-            "pixels": 1735
+            "shield": 93,
+            "pixels": 1733
           },
           {
             "capture": "frame_00692.png",
             "speed": 0,
-            "shield": 97,
-            "pixels": 1735
+            "shield": 93,
+            "pixels": 1733
           },
           {
             "capture": "frame_00712.png",
             "speed": 0,
-            "shield": 97,
-            "pixels": 1735
+            "shield": 93,
+            "pixels": 1733
           },
           {
             "capture": "frame_00732.png",
             "speed": 0,
-            "shield": 0,
-            "pixels": 1538
+            "shield": 93,
+            "pixels": 1733
           },
           {
             "capture": "frame_00752.png",
@@ -192,9 +193,9 @@ hud-live-pal exit 0 fields 830 elapsed 15.9 s
         0,
         3,
         6,
-        12,
+        9,
         18,
-        24,
+        21,
         28
       ],
       "shields_seen": [
@@ -249,9 +250,9 @@ hud-live-pal exit 0 fields 830 elapsed 15.9 s
           },
           {
             "capture": "frame_00468.png",
-            "speed": 12,
+            "speed": 9,
             "shield": 100,
-            "pixels": 2181
+            "pixels": 2065
           },
           {
             "capture": "frame_00476.png",
@@ -261,9 +262,9 @@ hud-live-pal exit 0 fields 830 elapsed 15.9 s
           },
           {
             "capture": "frame_00480.png",
-            "speed": 24,
+            "speed": 21,
             "shield": 100,
-            "pixels": 2652
+            "pixels": 2527
           },
           {
             "capture": "frame_00510.png",

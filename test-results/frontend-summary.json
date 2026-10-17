@@ -1,5 +1,5 @@
 {
-  "rom_sha256": "bfe5591fa30c95baa290f2591253d1ff47e12639a92b37d7bc9980d8456f1faa",
+  "rom_sha256": "fc99ae03d093ec1483cf814d18f484bfa5adf154d42081d37a9350710c93e1a8",
   "status": "PASS",
   "cases": {
     "menu-ntsc": {
@@ -14,10 +14,11 @@
       "source_font_pixels": 1586
     },
     "replay-ntsc": {
-      "samples": 88,
-      "interpolated_commits": 137,
-      "fractional_commits": 73,
-      "record_ticks": 326,
+      "recorded_pitch_pairs_verified": 64,
+      "samples": 64,
+      "interpolated_commits": 156,
+      "fractional_commits": 19,
+      "record_ticks": 231,
       "checks": [
         "real run samples",
         "time interpolation",
@@ -28,8 +29,7 @@
         "Option exit",
         "no replay score writes"
       ],
-      "recording_input": "manual throttle and steering",
-      "recorded_pitch_pairs_verified": 88
+      "recording_input": "manual throttle and steering"
     },
     "menu-pal": {
       "checks": [
@@ -43,9 +43,10 @@
       "source_font_pixels": 1586
     },
     "replay-pal": {
-      "samples": 121,
-      "interpolated_commits": 147,
-      "fractional_commits": 92,
+      "recorded_pitch_pairs_verified": 107,
+      "samples": 107,
+      "interpolated_commits": 140,
+      "fractional_commits": 26,
       "record_ticks": 396,
       "checks": [
         "real run samples",
@@ -57,8 +58,7 @@
         "Option exit",
         "no replay score writes"
       ],
-      "recording_input": "autopilot",
-      "recorded_pitch_pairs_verified": 121
+      "recording_input": "autopilot"
     },
     "save-ntsc": {
       "checks": [
@@ -72,11 +72,11 @@
       ],
       "record": {
         "generation": 1,
-        "total_ms": 221633,
-        "lap_ms": 73600,
+        "total_ms": 242000,
+        "lap_ms": 80400,
         "slot": 16
       },
-      "eeprom_sha256": "fd84697b1a224a578ceceedf6262f4d6e6666b7c3d08eed53261c69b1cb28b20"
+      "eeprom_sha256": "e758a3b00ae6f4e61c351649e0a2eca72c72d028f1fa49f4f24ba2f339c705ae"
     },
     "save-pal": {
       "checks": [
@@ -90,11 +90,11 @@
       ],
       "record": {
         "generation": 1,
-        "total_ms": 232080,
-        "lap_ms": 77120,
+        "total_ms": 250620,
+        "lap_ms": 83260,
         "slot": 16
       },
-      "eeprom_sha256": "02d23b6b60ed1cb3e4ebabd3cd60f25fc6e098679fcf5db81f1f8ab30b3405d9"
+      "eeprom_sha256": "f66cd2cdfd6511bb561d4521d668274095a958d2b760d162ea379ad71a5cab94"
     },
     "journal-torn": {
       "checks": [
@@ -103,7 +103,7 @@
         "no repair writes"
       ],
       "fixture": "torn",
-      "loaded_total_ms": 221633,
+      "loaded_total_ms": 242000,
       "generation": 1
     },
     "journal-checksum": {
@@ -113,7 +113,7 @@
         "no repair writes"
       ],
       "fixture": "checksum",
-      "loaded_total_ms": 221633,
+      "loaded_total_ms": 242000,
       "generation": 1
     },
     "journal-wrap": {
@@ -123,7 +123,7 @@
         "no repair writes"
       ],
       "fixture": "wrap",
-      "loaded_total_ms": 221633,
+      "loaded_total_ms": 242000,
       "generation": 0
     },
     "journal-invalid": {

@@ -32,11 +32,11 @@ ENDM
 frontdraw_menu:
  movei #FRONT+8,r0
  load (r0),r0
- movei #$d90000,r1
+ movei #$992000,r1
  cmpq #0,r0
  jr eq,.background
  nop
- movei #$db5800,r1
+ movei #$9b7800,r1
 .background
  movei #BLIT_A1_BASE,r14
 .wait

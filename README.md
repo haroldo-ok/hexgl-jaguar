@@ -11,7 +11,54 @@ has not been tested. See [remaining work](#remaining-work-and-limitations).
 
 ## Current release
 
-The latest integration adds substantial gameplay and rendering functionality:
+**Release snapshot: 17 October 2026.** Standalone stock-Jaguar target; 6 MiB
+cartridge ROM, native GPU/DSP/68000 code, and no host networking bridge.
+
+| Release item | Recorded status |
+| --- | --- |
+| Build | Compiled ROM; structure and memory checks passed |
+| Validation | 99 unit tests and 48 end-to-end scenarios passed |
+| Native depth fixtures | 12 passed in a separately labeled diagnostic ROM |
+| Reproducibility | Clean source/asset rebuild produced a byte-identical ROM; NTSC/PAL boot checks passed |
+| Completion | Incomplete port; physical Jaguar hardware untested |
+
+Quick links: [Build](#build-from-source) · [Controls](#quick-start) ·
+[Validation](#validation) · [Visual report](REPORT.html) ·
+[Remaining work](#remaining-work-and-limitations) · [Licensing](NOTICE.md).
+
+The latest integration adds **perspective particles, real RGB composition and
+original-channel stereo ADPCM**:
+
+- Per-texel clipped perspective sizing, additive sparks/glow and alpha-over clouds.
+- Approximately 0.7 ship-motion inheritance in newly emitted particle velocity.
+- Conservative center-depth queries against actual submitted triangle vertex Z;
+  separately executed native GPU fixtures validate rejection boundaries.
+- Complete-duration original left/right channels, independently decoded on the
+  DSP from a stereo IMA4 bank that fits the existing one-MiB cartridge slot.
+- Stronger read-only source-texel, RGB, actual-framebuffer and DSP-source oracles.
+
+See [particles and original stereo](docs/PARTICLES-AND-ORIGINAL-STEREO.md) for
+algorithms, compromises, memory layout, evidence and remaining gaps.
+
+Retained material/lighting, camera-sky and spatial-audio systems:
+
+- **Original normal/specular/environment maps:** eight directional lookup banks
+  consumed by the native renderer; source highlights and scraper sky reflections.
+- **Static sun shadows:** actual scene-triangle ray tests baked into face luminance.
+- **Booster scene light:** thrust-sensitive local illumination on rendered faces,
+  separate from the existing glow sprite.
+- **Material behavior:** ordered-alpha transparent booster texels, a double-sided
+  start banner, and the source blue speed-pad material.
+- **Pitched sky:** a taller six-face-source panorama follows real camera pitch/yaw
+  with native seam-wrap blits, including during replay.
+- **Spatial stereo:** the DSP sends distinct saturating left/right samples to
+  JERRY for wind/boost/collisions while music/destruction remain centered.
+- **Fall arithmetic fix:** correct displacement at every capped 1..6-field step.
+
+These are documented hardware adaptations, not per-fragment shader or WebAudio
+equivalence. See [materials, sky and stereo](docs/MATERIALS-SKY-AND-STEREO.md).
+
+The previous integration added:
 
 - **Airbrake drift:** B + Left/Right applies lateral movement as well as stronger
   steering and banking.
@@ -37,14 +84,14 @@ source mapping, memory layout and explicit compromises.
 | System | Current implementation |
 | --- | --- |
 | Cityscape geometry | All 12,206 triangles from nine scene meshes, partitioned into 289 runtime objects |
-| Artwork and terrain | Original diffuse textures converted to 64² CrY; six skybox faces baked into a yaw-following panorama; original collision/height maps reduced from 2048² to 512² |
+| Artwork and terrain | Original diffuse textures converted to 64² CrY; six skybox faces baked into a pitch/yaw-following panorama; original collision/height maps reduced from 2048² to 512² |
 | Racing | Acceleration, braking, steering, boost pads, shield damage, ordered checkpoints, three laps, destruction, finish and restart |
 | Race flow | Seven-second Get Ready / 3 / 2 / 1 / GO countdown; input lock before GO; PAL/NTSC video-clock timers, lap splits and best lap |
 | HUD | All three original speed/shield bitmap layers, live clipping and native numeric/timing readouts |
 | Menus | Original background/title artwork and Bebas Neue typography; Start, Controls, Local Records, Credits, Replay and results |
 | Replay | Actual native run samples with elapsed-field interpolation, pause, end hold and Option exit; not the supplied static upstream replay |
 | Saved records | Real serial EEPROM I/O, separate manual/autopilot records, two-slot journals, checksums, readback and bounded waits |
-| Audio | All five original Ogg tracks/effects converted without duration truncation to 7,990 Hz PCM8 mono; native DSP mixing through JERRY I2S |
+| Audio | All five original Ogg tracks/effects converted without duration truncation to 7,990 Hz original-channel stereo IMA4; independent native left/right centered/spatial buses through JERRY I2S |
 | Boot paths | Retail-BIOS GPU loader and a 68000 cartridge entry for BIOS-off loading |
 
 ## Quick start
@@ -76,7 +123,9 @@ player-one defaults; configured controller profiles may differ.
 
 Autopilot follows a centerline extracted from the original collision image. It
 is a native test/demo feature, **not** original HexGL replay. Its records are kept
-separate from manual records.
+separate from manual records. The assisted waypoint path does not run the full
+manual integrator: its boost latch currently remains set between pads. It is
+not evidence of source-equivalent boost kinetics.
 
 ### Replay and saves
 
@@ -120,13 +169,14 @@ make verify    # verify the assembled payload, ROM layout, assets and capacities
 To regenerate the asset groups from the supplied originals:
 
 ```sh
-python3 tools/convert.py   # geometry, diffuse textures, collision and height maps
-make assets               # sky, audio, route and supplied replay conversion
+make assets               # original material/shadow/geometry/terrain/sky/audio/route conversion
 make rom                  # also regenerates UI/HUD/effects art and response tables
 ```
 
-`make assets` alone does **not** regenerate the mesh/terrain conversions; run
-`tools/convert.py` first when rebuilding those assets.
+`make assets` now runs `tools/materials.py` before `tools/convert.py`, so the
+regenerated geometry includes fresh source-bound static shadow results. Individual
+converter tools remain available for focused development; keep that dependency
+order when changing geometry. It requires FFmpeg for original audio conversion.
 
 The encrypted GPU loader and object-list binaries come from the pinned engine
 and SDK. They are boot/video metadata, not a substituted game executable. Game
@@ -141,21 +191,29 @@ locally. If using a checkout without `vendor/`, run
 
 | Gate | Result |
 | --- | --- |
-| Unit tests | **53 passed** |
+| Unit tests | **99 passed** |
 | Core gameplay / boot / fault scenarios | **17 passed**, including expected fault rejections |
 | Stock desktop emulator scenarios | **7 passed**, including expected fault rejections |
 | Focused HUD scenarios | **2 passed** |
 | Front-end / replay / EEPROM scenarios | **10 passed** |
 | Dynamics / camera / effects scenarios | **4 passed** |
+| Materials / sky / stereo scenarios | **2 passed** |
+| Dedicated falling / pause scenarios | **4 passed** |
+| Original stereo / audio-event scenarios | **2 passed** |
+| Separate native GPU depth fixtures | **12 passed**, including three actual rejection cases |
 | Separate clean rebuild | **Byte-identical ROM**, plus NTSC/PAL smoke checks |
 
-That is **40 end-to-end scenarios**, plus unit tests and the separate clean-build
-checks. These are recorded results for the ROM identified below, not a claim
+That is **48 end-to-end scenarios**, plus 12 separate native GPU depth fixtures,
+unit tests and the separate clean-build checks. These are recorded results for the ROM identified below, not a claim
 that documentation edits rerun the tests.
 
 The tests cover full PAL/NTSC races, fresh-process EEPROM loading, journal
 recovery, replay interpolation, original-art pixels, actual transformed/projected
-ship vertices, bilinear hover and particle integration. Additional post-run
+ship vertices, bilinear hover and particle integration. New tests additionally verify source texel addressing, perspective sizes, RGB blends,
+actual composed framebuffer pixels, native triangle reciprocal depth, source DSP
+samples, actual stereo PCM, runtime material
+bank addresses, scene-face light arithmetic and thousands of exact camera-pitched
+sky pixels. Additional post-run
 checks verify fall displacement/timing, pause during falling, and recorded pitch
 pairs against observed gameplay.
 
@@ -170,14 +228,19 @@ black or frozen picture.
 - [Detailed results](docs/TEST-RESULTS.md)
 - [Clean-build proof](docs/dynamics-clean-rebuild.json)
 - [Additional observed-state checks](docs/dynamics-additional-checks.json)
+- [Native GPU depth-fixture results](test-results/native-fx-probe/summary.json)
+- [Original stereo and audio-event results](test-results/original-audio-summary.json)
+- [Recorded one-shot/stereo checks](docs/particles-audio-additional-checks.json)
 
 ### Run the gates
 
 ```sh
-make test          # build, unit tests, all five emulator suites and post-run checks
+make test          # build, unit tests, all eight emulator suites and post-run checks
 make test-core     # detailed core/HUD/dynamics/frontend tests; no desktop suite
 make test-gui      # stock Qt/OpenGL desktop tests
 make test-unit     # Python unit tests
+make test-materials # focused NTSC/PAL material/sky/stereo gate
+make test-fall     # dedicated fall/pause, both boot paths and video standards
 make test-clean    # isolated source rebuild and two emulator smoke checks
 make test-quick    # reduced core/manual/fault coverage; not a release gate
 make release       # full tests + clean rebuild + report + source/ROM ZIP
@@ -186,7 +249,7 @@ make release       # full tests + clean rebuild + report + source/ROM ZIP
 `make test` executes fresh emulator runs. The explicit post-run checker reads
 those observations; it does not replace emulator execution. Timeouts, crashes
 and nonzero positive-run exit codes fail the suite. Release packaging requires
-all five suites, clean-build proof and additional checks to match the exact ROM
+all eight suites, native depth fixtures, clean-build proof and additional checks to match the exact ROM
 SHA-256. The supplied CI workflow is not evidence of an executed remote CI run.
 
 Complete per-field traces are retained as lossless `.json.gz` files. Screenshots
@@ -210,24 +273,38 @@ cannot guarantee every input sequence or emulator/driver configuration.
 
 The release ZIP extracts into `hexgl-jaguar/` and contains source, dependencies,
 converted assets, the compiled ROM and test evidence. Its companion `.sha256`
-file verifies the ZIP itself.
+file verifies the ZIP itself. Extract it before building; generated host
+executables and object libraries are intentionally omitted. The source archive
+includes the original assets, license notices, conversion tools and native test
+fixtures, not just the assembled game.
+
+To check the downloaded archive on Linux:
+
+```sh
+sha256sum -c HexGL-Jaguar-source-and-ROM.sha256
+```
 
 **Bundled ROM:** 6,291,456 bytes (6 MiB).
 
 ```text
 SHA-256
-bfe5591fa30c95baa290f2591253d1ff47e12639a92b37d7bc9980d8456f1faa
+fc99ae03d093ec1483cf814d18f484bfa5adf154d42081d37a9350710c93e1a8
 ```
 
 ## Remaining work and limitations
 
 - Fully source-equivalent angular/contact physics and cross-slope tilt.
-- Quaternion/up-vector camera behavior, camera roll, orbit modes and sky pitch.
-- Perspective-sized, depth-aware/additive particles and full velocity inheritance.
-  Current effects use 16² point sprites, a 16-slot pool and ordered alpha coverage.
-- Dynamic scene lighting, normal/specular response, shadows and bloom. The booster
-  glow sprite is **not** a substitute for these lighting systems.
-- Spatial/stereo audio and the original filter behavior.
+- Quaternion/up-vector camera behavior, camera roll and orbit modes. Sky pitch
+  is now implemented through a cylindrical panorama crop, not a rotated cubemap.
+- Full source emitter/random-color/lifetime fidelity and per-pixel depth behavior.
+  Native perspective sizing, RGB additive/alpha-over and 0.7 velocity inheritance
+  now run; center-only depth is an adaptation, not source-default depth semantics.
+- Full tangent-basis/per-fragment normal/specular response, moving ship shadows,
+  colored local lighting and bloom. Source-map lookup banks, static centroid shadows
+  and monochrome booster face lighting now run; they do not imply shader parity.
+- WebAudio-equivalent spatial/HRTF audio and full gain/trigger fidelity.
+  Original-channel stereo is now preserved via lossy IMA4; native balance is not
+  HRTF. The original source defines no audio filters; the previous filter gap was an audit error, not an omitted source system.
 - Remaining browser-equivalent presentation, typography, transitions and settings.
 - Physical Jaguar timing and cartridge/EEPROM compatibility verification.
 

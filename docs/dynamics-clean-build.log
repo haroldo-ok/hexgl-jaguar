@@ -1,3 +1,16 @@
+OPENBLAS_NUM_THREADS=1 python3 tools/materials.py
+Static sun visibility: 7435 / 10290 receiver centroids occluded
+Material banks: 589824 bytes, 26 source maps
+python3 tools/convert.py
+Converted 289 objects; scratch maxima 832 1676 triangles 18622
+python3 tools/sky.py
+Sky: 2097152 bytes; six source faces used
+python3 tools/audio.py
+Full-duration source stereo: 1045933 bytes, end 0xbff5ad
+python3 tools/route.py
+Autopilot: 1285 waypoints derived from the collision image
+python3 tools/replay.py
+5625 replay records; 1 unique positions
 make -C vendor/lyxass
 make[1]: Entering directory '/home/user/.cache/dynamics-clean/hexgl-jaguar/vendor/lyxass'
 gcc -MD -c -Wall -O2 -fomit-frame-pointer  lyxass.c -o lyxass.o
@@ -37,6 +50,8 @@ Original HUD: 23656 bytes
 python3 tools/motion.py
 python3 tools/dynamics.py
 python3 tools/effects.py
+python3 tools/colors.py
+python3 tools/write_audio_mixer.py
 python3 tools/prepare_engine.py
 cd src && /home/user/.cache/dynamics-clean/hexgl-jaguar/vendor/lyxass/lyxass -d -o audio.bin audio.js
 cd src && /home/user/.cache/dynamics-clean/hexgl-jaguar/vendor/lyxass/lyxass -sh hexgl.js
@@ -47,21 +62,27 @@ screen0:   $1b4808
 memory end: $14acc8
 stacktop $f03ffc
 RSPC: $968
-Size (engine): $bc8
-ENDE (engine): $f03c58
+Size (engine): $d70
+ENDE (engine): $f03e00
 Size (bitmap HUD): $150
 ENDE (bitmap HUD): $f031e0
 ENDE (frontend): $f037e0
 ENDE (frontdraw): $f03868
 ENDE (recording): $f03440
-drawHex:$618c 104 _0 $61d4
-ENDE : $a3f60
+drawHex:$685c 104 _0 $68a4
+ENDE : $b4e40
 m68k-linux-gnu-as -m68000 src/cart_boot.S -o src/cart_boot.o
 m68k-linux-gnu-ld -Ttext=0x900000 --oformat=binary src/cart_boot.o -o src/cart_boot.bin
 python3 tools/package_rom.py
-/home/user/.cache/dynamics-clean/hexgl-jaguar/rom/hexgl.j64 6291456 bytes bfe5591fa30c95baa290f2591253d1ff47e12639a92b37d7bc9980d8456f1faa
+/home/user/.cache/dynamics-clean/hexgl-jaguar/rom/hexgl.j64 6291456 bytes fc99ae03d093ec1483cf814d18f484bfa5adf154d42081d37a9350710c93e1a8
 python3 tools/verify.py
 {
+  "material_banks": 8,
+  "material_rom_offset": "0x102000",
+  "sky_dimensions": [
+    2048,
+    512
+  ],
   "effect_pool": 16,
   "replay_angles_end": "0x1b3000",
   "recording_capacity": 6144,
@@ -72,10 +93,10 @@ python3 tools/verify.py
     "shield": 297
   },
   "rom_bytes": 6291456,
-  "sha256": "bfe5591fa30c95baa290f2591253d1ff47e12639a92b37d7bc9980d8456f1faa",
+  "sha256": "fc99ae03d093ec1483cf814d18f484bfa5adf154d42081d37a9350710c93e1a8",
   "load_address": "0x2000",
-  "loaded_bytes": 663392,
-  "loaded_end": "0xa3f60",
+  "loaded_bytes": 732736,
+  "loaded_end": "0xb4e40",
   "scratch_start": "0x110000",
   "triangle_arena_end": "0x14acc8",
   "framebuffer_start": "0x1b4800",

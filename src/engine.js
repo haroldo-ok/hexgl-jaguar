@@ -47,7 +47,78 @@ engine::
 blitter		reg 14
 screen_ptr	reg 99
 
+sky_x reg 99
+sky_y reg 99
+sky_width reg 99
 CLS::
+ ; Native view-bank selection. No host rendering; atlas lives in cartridge ROM.
+ movei #CAMERA_ANGLE_Y,tmp0
+ load (tmp0),tmp1
+ move tmp1,tmp2
+ shrq #8,tmp2
+ moveq #7,tmp0
+ and tmp0,tmp2
+ movei #MATERIAL_STATE,blitter
+ store tmp2,(blitter+4)
+ moveq #0,tmp0
+ store tmp0,(blitter+8)
+ moveq #9,tmp0
+ mult tmp2,tmp0
+ shlq #13,tmp0
+ movei #$902000,tmp3
+ add tmp3,tmp0
+ store tmp0,(blitter)
+ neg tmp1
+ movei #2047,tmp2
+ and tmp2,tmp1
+ move tmp1,sky_x
+ ; Vertical sky crop follows the actual chase-camera pitch, including replay.
+ movei #PHYS+48,tmp0
+ load (tmp0),tmp0
+ sharq #8,tmp0
+ movei #2044,tmp1
+ and tmp1,tmp0
+ movei #SinTab,tmp1
+ add tmp0,tmp1
+ load (tmp1),tmp0
+ move tmp0,tmp1
+ shrq #16,tmp1
+ shlq #16,tmp0
+ sharq #16,tmp0
+ movei #176,tmp2
+ imult tmp2,tmp0
+ move tmp0,tmp2
+ abs tmp0
+ div tmp1,tmp0
+ cmpq #0,tmp2
+ jr pl,.sky_positive
+ nop
+ neg tmp0
+.sky_positive
+ movei #156,tmp1
+ add tmp1,tmp0
+ cmpq #0,tmp0
+ jr pl,.sky_top
+ nop
+ moveq #0,tmp0
+.sky_top
+ movei #312,tmp1
+ cmp tmp1,tmp0
+ jr mi,.sky_bottom
+ nop
+ move tmp1,tmp0
+.sky_bottom
+ move tmp0,sky_y
+ movei #MATERIAL_STATE+16,tmp1
+ store sky_y,(tmp1)
+ movei #2048,sky_width
+ sub sky_x,sky_width
+ movei #max_x,tmp0
+ cmp tmp0,sky_width
+ jr mi,.sky_width
+ nop
+ move tmp0,sky_width
+.sky_width
  movei #BLIT_A1_BASE,blitter
  WAITBLITTER
  moveq #0,tmp0
@@ -59,23 +130,50 @@ CLS::
  store tmp0,(blitter+_BLIT_A1_FLAGS)
  movei #$c00000,tmp0
  store tmp0,(blitter+_BLIT_A2_BASE)
- movei #BLIT_PITCH1|BLIT_PIXEL16|$6000|BLIT_XADDPIX,tmp0
+ movei #BLIT_PITCH1|BLIT_PIXEL16|BLIT_WID2048|BLIT_XADDPIX,tmp0
  store tmp0,(blitter+_BLIT_A2_FLAGS)
- movei #CAMERA_ANGLE_Y,tmp0
- load (tmp0),tmp1
- neg tmp1
- movei #2047,tmp2
- and tmp2,tmp1
+ move sky_y,tmp1
+ shlq #16,tmp1
+ or sky_x,tmp1
  store tmp1,(blitter+_BLIT_A2_PIXEL)
- movei #(1<<16)|((-max_x)&$ffff),tmp0
+ move sky_width,tmp0
+ neg tmp0
+ shlq #16,tmp0
+ shrq #16,tmp0
+ bset #16,tmp0
  store tmp0,(blitter+_BLIT_A1_STEP)
  store tmp0,(blitter+_BLIT_A2_STEP)
- movei #max_y<<16|max_x,tmp0
+ movei #max_y<<16,tmp0
+ or sky_width,tmp0
  store tmp0,(blitter+_BLIT_COUNT)
  movei #BLIT_SRCEN|BLIT_LFU_REPLACE|BLIT_UPDA1|BLIT_UPDA2,tmp0
  store tmp0,(blitter+_BLIT_CMD)
  WAITBLITTER
- UNREG blitter,screen_ptr
+ movei #max_x,tmp2
+ sub sky_width,tmp2
+ movei #.sky_done,tmp1
+ jump eq,(tmp1)
+ nop
+ ; Split only when the viewport crosses the panorama seam.
+ store sky_width,(blitter+_BLIT_A1_PIXEL)
+ move sky_y,tmp1
+ shlq #16,tmp1
+ store tmp1,(blitter+_BLIT_A2_PIXEL)
+ move tmp2,tmp0
+ neg tmp0
+ shlq #16,tmp0
+ shrq #16,tmp0
+ bset #16,tmp0
+ store tmp0,(blitter+_BLIT_A1_STEP)
+ store tmp0,(blitter+_BLIT_A2_STEP)
+ movei #max_y<<16,tmp0
+ or tmp2,tmp0
+ store tmp0,(blitter+_BLIT_COUNT)
+ movei #BLIT_SRCEN|BLIT_LFU_REPLACE|BLIT_UPDA1|BLIT_UPDA2,tmp0
+ store tmp0,(blitter+_BLIT_CMD)
+ WAITBLITTER
+.sky_done
+ UNREG blitter,screen_ptr,sky_x,sky_y,sky_width
 
 
 	movei	#CAMERA_X,r15

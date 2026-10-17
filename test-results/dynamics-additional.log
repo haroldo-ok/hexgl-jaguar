@@ -1,34 +1,34 @@
 {
   "status": "PASS",
-  "rom_sha256": "bfe5591fa30c95baa290f2591253d1ff47e12639a92b37d7bc9980d8456f1faa",
+  "rom_sha256": "6cfeac35d45f9713150dff96c86c72219f66a4ec9013c161a6f225ec136d5c2a",
   "method": "Independent post-run checks of current-ROM recorded observations; original E2E invocations retained.",
   "cases": {
-    "manual-ntsc": {
+    "fall-pause-ntsc-direct": {
       "fall_integration_updates": 30,
       "paused_fall_updates": 49,
-      "terminal_fall_fields": 90
+      "terminal_fall_fields": 91
     },
-    "manual-ntsc-direct": {
+    "fall-pause-ntsc-bios": {
       "fall_integration_updates": 30,
       "paused_fall_updates": 49,
-      "terminal_fall_fields": 90
+      "terminal_fall_fields": 91
     },
-    "manual-pal": {
-      "fall_integration_updates": 50,
+    "fall-pause-pal-direct": {
+      "fall_integration_updates": 25,
       "paused_fall_updates": 49,
       "terminal_fall_fields": 75
     },
-    "manual-pal-direct": {
-      "fall_integration_updates": 50,
+    "fall-pause-pal-bios": {
+      "fall_integration_updates": 25,
       "paused_fall_updates": 49,
       "terminal_fall_fields": 75
     },
     "replay-ntsc": {
-      "recorded_pitch_pairs_verified": 88,
-      "samples": 88,
-      "interpolated_commits": 137,
-      "fractional_commits": 73,
-      "record_ticks": 326,
+      "recorded_pitch_pairs_verified": 66,
+      "samples": 66,
+      "interpolated_commits": 158,
+      "fractional_commits": 58,
+      "record_ticks": 231,
       "checks": [
         "real run samples",
         "time interpolation",
@@ -41,10 +41,10 @@
       ]
     },
     "replay-pal": {
-      "recorded_pitch_pairs_verified": 121,
-      "samples": 121,
-      "interpolated_commits": 147,
-      "fractional_commits": 92,
+      "recorded_pitch_pairs_verified": 109,
+      "samples": 109,
+      "interpolated_commits": 141,
+      "fractional_commits": 28,
       "record_ticks": 396,
       "checks": [
         "real run samples",

@@ -14,4 +14,4 @@ for name,path in [('spark','particles/spark.png'),('cloud','particles/cloud.png'
  for v,al in zip(values,alpha.flat):data.extend(struct.pack('>I',(int(al)<<16)|v))
  items.append({'name':name,'source':str(p.relative_to(R)),'sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'offset':len(data)-1024})
 (R/'assets/effects.bin').write_bytes(data)
-(R/'assets/effects.json').write_text(json.dumps({'sprites':items,'size':[16,16],'format':'alpha8 in bits16..23, CrY16 in low bits; native ordered alpha coverage','sha256':hashlib.sha256(data).hexdigest()},indent=2)+'\n')
+(R/'assets/effects.json').write_text(json.dumps({'sprites':items,'size':[16,16],'format':'alpha8 in bits16..23, CrY16 in low bits; native perspective-resampled RGB additive/alpha-over composition','sha256':hashlib.sha256(data).hexdigest()},indent=2)+'\n')

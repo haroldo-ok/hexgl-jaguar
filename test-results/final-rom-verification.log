@@ -1,4 +1,10 @@
 {
+  "material_banks": 8,
+  "material_rom_offset": "0x102000",
+  "sky_dimensions": [
+    2048,
+    512
+  ],
   "effect_pool": 16,
   "replay_angles_end": "0x1b3000",
   "recording_capacity": 6144,
@@ -9,10 +15,10 @@
     "shield": 297
   },
   "rom_bytes": 6291456,
-  "sha256": "bfe5591fa30c95baa290f2591253d1ff47e12639a92b37d7bc9980d8456f1faa",
+  "sha256": "6cfeac35d45f9713150dff96c86c72219f66a4ec9013c161a6f225ec136d5c2a",
   "load_address": "0x2000",
-  "loaded_bytes": 663392,
-  "loaded_end": "0xa3f60",
+  "loaded_bytes": 664032,
+  "loaded_end": "0xa41e0",
   "scratch_start": "0x110000",
   "triangle_arena_end": "0x14acc8",
   "framebuffer_start": "0x1b4800",

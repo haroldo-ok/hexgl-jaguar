@@ -1,6 +1,6 @@
 {
   "status": "PASS",
-  "rom_sha256": "bfe5591fa30c95baa290f2591253d1ff47e12639a92b37d7bc9980d8456f1faa",
+  "rom_sha256": "fc99ae03d093ec1483cf814d18f484bfa5adf154d42081d37a9350710c93e1a8",
   "cases": {
     "ntsc": {
       "checks": [
@@ -19,7 +19,7 @@
       ],
       "shields_seen": [
         0,
-        97,
+        90,
         100
       ],
       "fields": 900,
@@ -106,32 +106,32 @@
           {
             "capture": "frame_00652.png",
             "speed": 0,
-            "shield": 97,
-            "pixels": 1735
+            "shield": 90,
+            "pixels": 1727
           },
           {
             "capture": "frame_00672.png",
             "speed": 0,
-            "shield": 97,
-            "pixels": 1735
+            "shield": 90,
+            "pixels": 1727
           },
           {
             "capture": "frame_00692.png",
             "speed": 0,
-            "shield": 97,
-            "pixels": 1735
+            "shield": 90,
+            "pixels": 1727
           },
           {
             "capture": "frame_00712.png",
             "speed": 0,
-            "shield": 97,
-            "pixels": 1735
+            "shield": 90,
+            "pixels": 1727
           },
           {
             "capture": "frame_00732.png",
             "speed": 0,
-            "shield": 0,
-            "pixels": 1538
+            "shield": 90,
+            "pixels": 1727
           },
           {
             "capture": "frame_00752.png",
@@ -192,7 +192,7 @@
         6,
         12,
         18,
-        24,
+        21,
         28
       ],
       "shields_seen": [
@@ -259,9 +259,9 @@
           },
           {
             "capture": "frame_00480.png",
-            "speed": 24,
+            "speed": 21,
             "shield": 100,
-            "pixels": 2652
+            "pixels": 2527
           },
           {
             "capture": "frame_00510.png",

@@ -14,12 +14,12 @@ def ignore(path,names):
 shutil.copytree(main,clean,ignore=ignore)
 (clean/'rom').mkdir(exist_ok=True)
 log=main/'docs/dynamics-clean-build.log'
-with log.open('w') as f:subprocess.run(['make','rom','emulator'],cwd=clean,stdout=f,stderr=subprocess.STDOUT,check=True)
+with log.open('w') as f:subprocess.run(['make','assets','rom','emulator'],cwd=clean,stdout=f,stderr=subprocess.STDOUT,check=True)
 sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 assert sha(clean/'rom/hexgl.j64')==sha(main/'rom/hexgl.j64')
 sys.path.insert(0,str(clean/'tests'))
 import e2e,motion_checks,dynamics_checks
-record={'status':'PASS','rom_sha256':sha(main/'rom/hexgl.j64'),'method':'Separate source tree; removed ROM, GPU payload and generated native host build products. Fresh make rom emulator, byte-identical ROM.','cases':{}}
+record={'status':'PASS','rom_sha256':sha(main/'rom/hexgl.j64'),'method':'Separate source tree; removed ROM, GPU payload and generated native host build products. Fresh make assets rom emulator (including original material/geometry/sky/audio conversions), byte-identical ROM.','cases':{}}
 for standard,extra in [('ntsc',['--no-bios']),('pal',[])]:
  t=e2e.run('clean-'+standard,standard,1200,'100:a+c,120:a',extra)
  e2e.common(t);e2e.countdown(t);e2e.rendered_hud(t)

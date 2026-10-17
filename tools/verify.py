@@ -23,8 +23,11 @@ assert rom[len(loader):len(loader)+len(payload)]==payload
 assert payload[:4]==b'BS94'
 addr,size=struct.unpack('>II',payload[4:12]);assert addr==0x2000
 assert len(payload)==size+12
-assert addr+size<=0x110000,'Program overlaps renderer scratch space'
-layout=[('collision.bin',0x200000),('height.bin',0x240000),('replay.bin',0x2c0000),('route.bin',0x2d8000),('audio.bin',0x300000),('sky.bin',0x400000),('front-main.cry',0x590000),('front-bg.cry',0x5b5800)]
+assert addr+size<0xe0000,'Program overlaps submitted-triangle vertex depth records'
+assert 0xe0000+8192*12==0xf8000
+# addobj preserves one candidate before its capacity rejection; reserve its guard.
+assert 0xf8000+12<0x110000
+layout=[('materials.bin',0x102000),('front-main.cry',0x192000),('front-bg.cry',0x1b7800),('collision.bin',0x200000),('height.bin',0x240000),('replay.bin',0x2c0000),('route.bin',0x2d8000),('audio.bin',0x300000),('sky.bin',0x400000)]
 for i,(name,offset) in enumerate(layout):
     b=(R/'assets'/name).read_bytes();assert rom[offset:offset+len(b)]==b
     end=layout[i+1][1] if i+1<len(layout) else len(rom)
@@ -71,6 +74,14 @@ assert hashlib.sha256(data).hexdigest()==fx['sha256'] and len(data)==3*16*16*4
 assert payload[12:].count(data)==1,'Native effect atlas missing/duplicated'
 assert 0x1b0000+6144*2==0x1b3000<0x1b4800
 assert 0x1800+16*32==0x1a00<0x2000
-report={'effect_pool':16,'replay_angles_end':'0x1b3000','recording_capacity':6144,'recording_end':'0x1b0000','hud_records':{l['layer']:l['records'] for l in hud['layers']},'rom_bytes':len(rom),'sha256':hashlib.sha256(rom).hexdigest(),'load_address':hex(addr),'loaded_bytes':size,'loaded_end':hex(addr+size),'scratch_start':'0x110000','triangle_arena_end':'0x14acc8','framebuffer_start':'0x1b4800','runtime_triangles':12206,'runtime_objects':m['objects'],'status':'PASS'}
+# Material lookup is actually in the ROM used by renderer native texture pointers.
+mat=json.loads((R/'assets/materials.json').read_text())
+data=(R/'assets/materials.bin').read_bytes()
+assert len(data)==8*9*8192 and hashlib.sha256(data).hexdigest()==mat['sha256']
+for p,digest in mat['sources'].items():assert hashlib.sha256((R/p).read_bytes()).hexdigest()==digest
+for p,digest in mat['shadows']['sources'].items():assert hashlib.sha256((R/p).read_bytes()).hexdigest()==digest
+assert len((R/'assets/sky.bin').read_bytes())==2048*512*2
+assert 0x1a40+12*4<0x2000 and 0x1a00+6*4<=0x1a40
+report={'material_banks':8,'material_rom_offset':'0x102000','sky_dimensions':[2048,512],'effect_pool':16,'replay_angles_end':'0x1b3000','recording_capacity':6144,'recording_end':'0x1b0000','hud_records':{l['layer']:l['records'] for l in hud['layers']},'rom_bytes':len(rom),'sha256':hashlib.sha256(rom).hexdigest(),'load_address':hex(addr),'loaded_bytes':size,'loaded_end':hex(addr+size),'scratch_start':'0x110000','triangle_arena_end':'0x14acc8','framebuffer_start':'0x1b4800','runtime_triangles':12206,'runtime_objects':m['objects'],'status':'PASS'}
 (R/'rom/verification.json').write_text(json.dumps(report,indent=2)+'\n')
 print(json.dumps(report,indent=2))

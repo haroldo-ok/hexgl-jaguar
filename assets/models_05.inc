@@ -17,29 +17,29 @@
 	dc.l track_166_uv+352
 	dc.w 22,26,29,128
 	dc.l track_166_uv+368
-	dc.w 30,27,9,128
+	dc.w 30,27,9,160
 	dc.l track_166_uv+384
-	dc.w 31,30,8,128
+	dc.w 31,30,8,160
 	dc.l track_166_uv+400
-	dc.w 32,33,30,128
+	dc.w 32,33,30,160
 	dc.l track_166_uv+416
-	dc.w 30,31,32,128
+	dc.w 30,31,32,160
 	dc.l track_166_uv+432
-	dc.w 33,28,27,128
+	dc.w 33,28,27,160
 	dc.l track_166_uv+448
-	dc.w 27,30,33,128
+	dc.w 27,30,33,160
 	dc.l track_166_uv+464
-	dc.w 34,31,7,128
+	dc.w 34,31,7,160
 	dc.l track_166_uv+480
-	dc.w 12,34,10,128
+	dc.w 12,34,10,160
 	dc.l track_166_uv+496
 	dc.w 16,35,34,128
 	dc.l track_166_uv+512
-	dc.w 34,12,16,128
+	dc.w 34,12,16,160
 	dc.l track_166_uv+528
-	dc.w 35,32,31,128
+	dc.w 35,32,31,160
 	dc.l track_166_uv+544
-	dc.w 31,34,35,128
+	dc.w 31,34,35,160
 	dc.l track_166_uv+560
 	dc.w 16,15,36,128
 	dc.l track_166_uv+576
@@ -49,13 +49,13 @@
 	dc.l track_166_uv+608
 	dc.w 38,36,15,128
 	dc.l track_166_uv+624
-	dc.w 14,20,39,128
+	dc.w 14,20,39,160
 	dc.l track_166_uv+640
-	dc.w 39,38,14,128
+	dc.w 39,38,14,160
 	dc.l track_166_uv+656
-	dc.w 20,19,40,128
+	dc.w 20,19,40,160
 	dc.l track_166_uv+672
-	dc.w 40,39,20,128
+	dc.w 40,39,20,160
 	dc.l track_166_uv+688
 	dc.w 19,24,41,128
 	dc.l track_166_uv+704
@@ -73,21 +73,21 @@
 	dc.l track_166_uv+800
 	dc.w 44,43,29,128
 	dc.l track_166_uv+816
-	dc.w 28,33,45,128
+	dc.w 28,33,45,160
 	dc.l track_166_uv+832
-	dc.w 45,44,28,128
+	dc.w 45,44,28,160
 	dc.l track_166_uv+848
-	dc.w 33,32,46,128
+	dc.w 33,32,46,160
 	dc.l track_166_uv+864
-	dc.w 46,45,33,128
+	dc.w 46,45,33,160
 	dc.l track_166_uv+880
-	dc.w 32,35,47,128
+	dc.w 32,35,47,160
 	dc.l track_166_uv+896
-	dc.w 47,46,32,128
+	dc.w 47,46,32,160
 	dc.l track_166_uv+912
-	dc.w 35,16,37,128
+	dc.w 35,16,37,160
 	dc.l track_166_uv+928
-	dc.w 37,47,35,128
+	dc.w 37,47,35,160
 	dc.l track_166_uv+944
 track_166_normals:
 	dc.l 60
@@ -271,13 +271,13 @@ track_167_faces:
 	dc.l track_167_uv+32
 	dc.w 1,0,4,128
 	dc.l track_167_uv+48
-	dc.w 8,9,6,128
+	dc.w 8,9,6,160
 	dc.l track_167_uv+64
-	dc.w 6,7,8,128
+	dc.w 6,7,8,160
 	dc.l track_167_uv+80
-	dc.w 9,3,2,128
+	dc.w 9,3,2,160
 	dc.l track_167_uv+96
-	dc.w 2,6,9,128
+	dc.w 2,6,9,160
 	dc.l track_167_uv+112
 	dc.w 12,13,10,128
 	dc.l track_167_uv+128
@@ -295,21 +295,21 @@ track_167_faces:
 	dc.l track_167_uv+224
 	dc.w 11,14,17,128
 	dc.l track_167_uv+240
-	dc.w 20,21,18,128
+	dc.w 20,21,18,160
 	dc.l track_167_uv+256
-	dc.w 18,19,20,128
+	dc.w 18,19,20,160
 	dc.l track_167_uv+272
-	dc.w 21,16,15,128
+	dc.w 21,16,15,160
 	dc.l track_167_uv+288
-	dc.w 15,18,21,128
+	dc.w 15,18,21,160
 	dc.l track_167_uv+304
-	dc.w 5,23,22,128
+	dc.w 5,23,22,160
 	dc.l track_167_uv+320
-	dc.w 22,1,5,128
+	dc.w 22,1,5,160
 	dc.l track_167_uv+336
-	dc.w 23,20,19,128
+	dc.w 23,20,19,160
 	dc.l track_167_uv+352
-	dc.w 19,22,23,128
+	dc.w 19,22,23,160
 	dc.l track_167_uv+368
 	dc.w 5,4,24,128
 	dc.l track_167_uv+384
@@ -319,13 +319,13 @@ track_167_faces:
 	dc.l track_167_uv+416
 	dc.w 26,24,4,128
 	dc.l track_167_uv+432
-	dc.w 3,9,27,128
+	dc.w 3,9,27,160
 	dc.l track_167_uv+448
-	dc.w 27,26,3,128
+	dc.w 27,26,3,160
 	dc.l track_167_uv+464
-	dc.w 9,8,28,128
+	dc.w 9,8,28,160
 	dc.l track_167_uv+480
-	dc.w 28,27,9,128
+	dc.w 28,27,9,160
 	dc.l track_167_uv+496
 	dc.w 8,13,29,128
 	dc.l track_167_uv+512
@@ -347,25 +347,25 @@ track_167_faces:
 	dc.l track_167_uv+640
 	dc.w 34,33,17,128
 	dc.l track_167_uv+656
-	dc.w 16,21,35,128
+	dc.w 16,21,35,160
 	dc.l track_167_uv+672
-	dc.w 35,34,16,128
+	dc.w 35,34,16,160
 	dc.l track_167_uv+688
-	dc.w 21,20,36,128
+	dc.w 21,20,36,160
 	dc.l track_167_uv+704
-	dc.w 36,35,21,128
+	dc.w 36,35,21,160
 	dc.l track_167_uv+720
-	dc.w 35,36,37,128
+	dc.w 35,36,37,160
 	dc.l track_167_uv+736
-	dc.w 20,23,38,128
+	dc.w 20,23,38,160
 	dc.l track_167_uv+752
-	dc.w 38,36,20,128
+	dc.w 38,36,20,160
 	dc.l track_167_uv+768
-	dc.w 23,5,25,128
+	dc.w 23,5,25,160
 	dc.l track_167_uv+784
-	dc.w 25,38,23,128
+	dc.w 25,38,23,160
 	dc.l track_167_uv+800
-	dc.w 36,38,39,128
+	dc.w 36,38,39,160
 	dc.l track_167_uv+816
 track_167_normals:
 	dc.l 52
@@ -576,7 +576,7 @@ track_169_faces:
 	dc.l track_169_uv+80
 	dc.w 11,6,5,128
 	dc.l track_169_uv+96
-	dc.w 5,8,11,128
+	dc.w 5,8,11,160
 	dc.l track_169_uv+112
 	dc.w 12,10,9,128
 	dc.l track_169_uv+128
@@ -1209,13 +1209,13 @@ track_173_faces:
 	dc.l track_173_uv+96
 	dc.w 19,18,4,128
 	dc.l track_173_uv+112
-	dc.w 20,21,18,128
+	dc.w 20,21,18,160
 	dc.l track_173_uv+128
-	dc.w 18,19,20,128
+	dc.w 18,19,20,160
 	dc.l track_173_uv+144
-	dc.w 21,15,14,128
+	dc.w 21,15,14,160
 	dc.l track_173_uv+160
-	dc.w 14,18,21,128
+	dc.w 14,18,21,160
 	dc.l track_173_uv+176
 	dc.w 3,6,22,128
 	dc.l track_173_uv+192
@@ -1257,11 +1257,11 @@ track_173_faces:
 	dc.l track_173_uv+480
 	dc.w 31,30,10,128
 	dc.l track_173_uv+496
-	dc.w 32,33,30,128
+	dc.w 32,33,30,160
 	dc.l track_173_uv+512
 	dc.w 30,31,32,128
 	dc.l track_173_uv+528
-	dc.w 33,28,27,128
+	dc.w 33,28,27,160
 	dc.l track_173_uv+544
 	dc.w 27,30,33,128
 	dc.l track_173_uv+560
@@ -1273,25 +1273,25 @@ track_173_faces:
 	dc.l track_173_uv+608
 	dc.w 13,34,11,128
 	dc.l track_173_uv+624
-	dc.w 17,35,34,128
+	dc.w 17,35,34,160
 	dc.l track_173_uv+640
-	dc.w 34,13,17,128
+	dc.w 34,13,17,160
 	dc.l track_173_uv+656
-	dc.w 35,32,31,128
+	dc.w 35,32,31,160
 	dc.l track_173_uv+672
-	dc.w 31,34,35,128
+	dc.w 31,34,35,160
 	dc.l track_173_uv+688
 	dc.w 17,16,36,128
 	dc.l track_173_uv+704
 	dc.w 16,15,38,128
 	dc.l track_173_uv+720
-	dc.w 15,21,39,128
+	dc.w 15,21,39,160
 	dc.l track_173_uv+736
-	dc.w 21,20,40,128
+	dc.w 21,20,40,160
 	dc.l track_173_uv+752
 	dc.w 20,25,41,128
 	dc.l track_173_uv+768
-	dc.w 35,17,37,128
+	dc.w 35,17,37,160
 	dc.l track_173_uv+784
 track_173_normals:
 	dc.l 50
@@ -1448,9 +1448,9 @@ track_174_faces:
 	dc.l track_174_uv+0
 	dc.w 14,12,1,128
 	dc.l track_174_uv+16
-	dc.w 16,14,0,128
+	dc.w 16,14,0,160
 	dc.l track_174_uv+32
-	dc.w 17,16,4,128
+	dc.w 17,16,4,160
 	dc.l track_174_uv+48
 	dc.w 18,17,3,128
 	dc.l track_174_uv+64
@@ -1480,33 +1480,33 @@ track_174_faces:
 	dc.l track_174_uv+256
 	dc.w 19,22,25,128
 	dc.l track_174_uv+272
-	dc.w 7,10,26,128
+	dc.w 7,10,26,160
 	dc.l track_174_uv+288
-	dc.w 26,23,7,128
+	dc.w 26,23,7,160
 	dc.l track_174_uv+304
-	dc.w 10,9,27,128
+	dc.w 10,9,27,160
 	dc.l track_174_uv+320
-	dc.w 27,26,10,128
+	dc.w 27,26,10,160
 	dc.l track_174_uv+336
-	dc.w 28,29,26,128
+	dc.w 28,29,26,160
 	dc.l track_174_uv+352
-	dc.w 26,27,28,128
+	dc.w 26,27,28,160
 	dc.l track_174_uv+368
-	dc.w 29,24,23,128
+	dc.w 29,24,23,160
 	dc.l track_174_uv+384
-	dc.w 23,26,29,128
+	dc.w 23,26,29,160
 	dc.l track_174_uv+400
-	dc.w 9,11,30,128
+	dc.w 9,11,30,160
 	dc.l track_174_uv+416
-	dc.w 30,27,9,128
+	dc.w 30,27,9,160
 	dc.l track_174_uv+432
-	dc.w 13,30,11,128
+	dc.w 13,30,11,160
 	dc.l track_174_uv+448
-	dc.w 30,13,15,128
+	dc.w 30,13,15,160
 	dc.l track_174_uv+464
-	dc.w 31,28,27,128
+	dc.w 31,28,27,160
 	dc.l track_174_uv+480
-	dc.w 27,30,31,128
+	dc.w 27,30,31,160
 	dc.l track_174_uv+496
 	dc.w 21,20,32,128
 	dc.l track_174_uv+512
@@ -1514,9 +1514,9 @@ track_174_faces:
 	dc.l track_174_uv+528
 	dc.w 25,24,34,128
 	dc.l track_174_uv+544
-	dc.w 24,29,35,128
+	dc.w 24,29,35,160
 	dc.l track_174_uv+560
-	dc.w 29,28,36,128
+	dc.w 29,28,36,160
 	dc.l track_174_uv+576
 track_174_normals:
 	dc.l 37
@@ -1635,31 +1635,31 @@ track_175_faces:
 	dc.l track_175_uv+32
 	dc.w 1,0,4,128
 	dc.l track_175_uv+48
-	dc.w 8,9,6,128
+	dc.w 8,9,6,160
 	dc.l track_175_uv+64
-	dc.w 6,7,8,128
+	dc.w 6,7,8,160
 	dc.l track_175_uv+80
-	dc.w 9,3,2,128
+	dc.w 9,3,2,160
 	dc.l track_175_uv+96
-	dc.w 2,6,9,128
+	dc.w 2,6,9,160
 	dc.l track_175_uv+112
 	dc.w 10,8,7,128
 	dc.l track_175_uv+128
-	dc.w 5,13,12,128
+	dc.w 5,13,12,160
 	dc.l track_175_uv+144
 	dc.w 5,4,14,128
 	dc.l track_175_uv+160
 	dc.w 4,3,16,128
 	dc.l track_175_uv+176
-	dc.w 3,9,17,128
+	dc.w 3,9,17,160
 	dc.l track_175_uv+192
-	dc.w 9,8,18,128
+	dc.w 9,8,18,160
 	dc.l track_175_uv+208
 	dc.w 8,10,19,128
 	dc.l track_175_uv+224
-	dc.w 11,13,20,128
+	dc.w 11,13,20,160
 	dc.l track_175_uv+240
-	dc.w 13,5,15,128
+	dc.w 13,5,15,160
 	dc.l track_175_uv+256
 track_175_normals:
 	dc.l 17
@@ -1765,13 +1765,13 @@ track_176_faces:
 	dc.l track_176_uv+64
 	dc.w 9,8,12,128
 	dc.l track_176_uv+80
-	dc.w 14,10,0,128
+	dc.w 14,10,0,160
 	dc.l track_176_uv+96
-	dc.w 15,14,4,128
+	dc.w 15,14,4,160
 	dc.l track_176_uv+112
 	dc.w 16,17,14,128
 	dc.l track_176_uv+128
-	dc.w 14,15,16,128
+	dc.w 14,15,16,160
 	dc.l track_176_uv+144
 	dc.w 17,11,10,128
 	dc.l track_176_uv+160
@@ -1805,9 +1805,9 @@ track_176_faces:
 	dc.l track_176_uv+384
 	dc.w 23,26,29,128
 	dc.l track_176_uv+400
-	dc.w 30,27,6,128
+	dc.w 30,27,6,160
 	dc.l track_176_uv+416
-	dc.w 9,30,7,128
+	dc.w 9,30,7,160
 	dc.l track_176_uv+432
 	dc.w 13,31,30,128
 	dc.l track_176_uv+448
@@ -1821,7 +1821,7 @@ track_176_faces:
 	dc.l track_176_uv+512
 	dc.w 12,11,34,128
 	dc.l track_176_uv+528
-	dc.w 11,17,35,128
+	dc.w 11,17,35,160
 	dc.l track_176_uv+544
 	dc.w 17,16,36,128
 	dc.l track_176_uv+560
@@ -1833,13 +1833,13 @@ track_176_faces:
 	dc.l track_176_uv+608
 	dc.w 25,24,40,128
 	dc.l track_176_uv+624
-	dc.w 24,29,41,128
+	dc.w 24,29,41,160
 	dc.l track_176_uv+640
-	dc.w 29,28,42,128
+	dc.w 29,28,42,160
 	dc.l track_176_uv+656
-	dc.w 28,31,43,128
+	dc.w 28,31,43,160
 	dc.l track_176_uv+672
-	dc.w 31,13,33,128
+	dc.w 31,13,33,160
 	dc.l track_176_uv+688
 track_176_normals:
 	dc.l 44
@@ -1956,9 +1956,9 @@ track_177_faces:
 	dc.l track_177_uv+0
 	dc.w 6,5,2,128
 	dc.l track_177_uv+16
-	dc.w 7,6,1,128
+	dc.w 7,6,1,160
 	dc.l track_177_uv+32
-	dc.w 8,7,3,128
+	dc.w 8,7,3,160
 	dc.l track_177_uv+48
 track_177_normals:
 	dc.l 4
@@ -2042,9 +2042,9 @@ track_178_faces:
 	dc.l track_178_uv+64
 	dc.w 13,12,16,128
 	dc.l track_178_uv+80
-	dc.w 18,14,0,128
+	dc.w 18,14,0,160
 	dc.l track_178_uv+96
-	dc.w 19,18,4,128
+	dc.w 19,18,4,160
 	dc.l track_178_uv+112
 	dc.w 20,21,18,128
 	dc.l track_178_uv+128
@@ -2078,29 +2078,29 @@ track_178_faces:
 	dc.l track_178_uv+352
 	dc.w 23,26,29,128
 	dc.l track_178_uv+368
-	dc.w 30,27,7,128
+	dc.w 30,27,7,160
 	dc.l track_178_uv+384
-	dc.w 31,30,10,128
+	dc.w 31,30,10,160
 	dc.l track_178_uv+400
-	dc.w 32,33,30,128
+	dc.w 32,33,30,160
 	dc.l track_178_uv+416
-	dc.w 30,31,32,128
+	dc.w 30,31,32,160
 	dc.l track_178_uv+432
-	dc.w 33,28,27,128
+	dc.w 33,28,27,160
 	dc.l track_178_uv+448
-	dc.w 27,30,33,128
+	dc.w 27,30,33,160
 	dc.l track_178_uv+464
-	dc.w 34,31,9,128
+	dc.w 34,31,9,160
 	dc.l track_178_uv+480
-	dc.w 13,34,11,128
+	dc.w 13,34,11,160
 	dc.l track_178_uv+496
 	dc.w 17,35,34,128
 	dc.l track_178_uv+512
 	dc.w 34,13,17,128
 	dc.l track_178_uv+528
-	dc.w 35,32,31,128
+	dc.w 35,32,31,160
 	dc.l track_178_uv+544
-	dc.w 31,34,35,128
+	dc.w 31,34,35,160
 	dc.l track_178_uv+560
 	dc.w 17,16,36,128
 	dc.l track_178_uv+576
@@ -3345,13 +3345,13 @@ track_185_faces:
 	dc.l track_185_uv+336
 	dc.w 27,26,8,128
 	dc.l track_185_uv+352
-	dc.w 28,29,26,128
+	dc.w 28,29,26,160
 	dc.l track_185_uv+368
-	dc.w 26,27,28,128
+	dc.w 26,27,28,160
 	dc.l track_185_uv+384
-	dc.w 29,24,23,128
+	dc.w 29,24,23,160
 	dc.l track_185_uv+400
-	dc.w 23,26,29,128
+	dc.w 23,26,29,160
 	dc.l track_185_uv+416
 	dc.w 7,10,30,128
 	dc.l track_185_uv+432
@@ -3375,21 +3375,21 @@ track_185_faces:
 	dc.l track_185_uv+576
 	dc.w 13,34,11,128
 	dc.l track_185_uv+592
-	dc.w 17,35,34,128
+	dc.w 17,35,34,160
 	dc.l track_185_uv+608
 	dc.w 34,13,17,128
 	dc.l track_185_uv+624
-	dc.w 35,32,31,128
+	dc.w 35,32,31,160
 	dc.l track_185_uv+640
-	dc.w 31,34,35,128
+	dc.w 31,34,35,160
 	dc.l track_185_uv+656
-	dc.w 17,16,36,128
+	dc.w 17,16,36,160
 	dc.l track_185_uv+672
-	dc.w 36,37,17,128
+	dc.w 36,37,17,160
 	dc.l track_185_uv+688
-	dc.w 16,15,38,128
+	dc.w 16,15,38,160
 	dc.l track_185_uv+704
-	dc.w 38,36,16,128
+	dc.w 38,36,16,160
 	dc.l track_185_uv+720
 	dc.w 15,21,39,128
 	dc.l track_185_uv+736
@@ -3407,13 +3407,13 @@ track_185_faces:
 	dc.l track_185_uv+832
 	dc.w 42,41,25,128
 	dc.l track_185_uv+848
-	dc.w 24,29,43,128
+	dc.w 24,29,43,160
 	dc.l track_185_uv+864
-	dc.w 43,42,24,128
+	dc.w 43,42,24,160
 	dc.l track_185_uv+880
-	dc.w 29,28,44,128
+	dc.w 29,28,44,160
 	dc.l track_185_uv+896
-	dc.w 44,43,29,128
+	dc.w 44,43,29,160
 	dc.l track_185_uv+912
 	dc.w 28,33,45,128
 	dc.l track_185_uv+928
@@ -3423,13 +3423,13 @@ track_185_faces:
 	dc.l track_185_uv+960
 	dc.w 46,45,33,128
 	dc.l track_185_uv+976
-	dc.w 32,35,47,128
+	dc.w 32,35,47,160
 	dc.l track_185_uv+992
-	dc.w 47,46,32,128
+	dc.w 47,46,32,160
 	dc.l track_185_uv+1008
-	dc.w 35,17,37,128
+	dc.w 35,17,37,160
 	dc.l track_185_uv+1024
-	dc.w 37,47,35,128
+	dc.w 37,47,35,160
 	dc.l track_185_uv+1040
 track_185_normals:
 	dc.l 66
@@ -3599,13 +3599,13 @@ track_186_points:
 	_PT -137,48,-245
 track_186_faces:
 	dc.l 23
-	dc.w 3,4,0,128
+	dc.w 3,4,0,160
 	dc.l track_186_uv+0
-	dc.w 0,2,3,128
+	dc.w 0,2,3,160
 	dc.l track_186_uv+16
-	dc.w 4,5,1,128
+	dc.w 4,5,1,160
 	dc.l track_186_uv+32
-	dc.w 1,0,4,128
+	dc.w 1,0,4,160
 	dc.l track_186_uv+48
 	dc.w 8,9,6,128
 	dc.l track_186_uv+64
@@ -3617,17 +3617,17 @@ track_186_faces:
 	dc.l track_186_uv+112
 	dc.w 10,8,7,128
 	dc.l track_186_uv+128
-	dc.w 5,4,12,128
+	dc.w 5,4,12,160
 	dc.l track_186_uv+144
-	dc.w 12,13,5,128
+	dc.w 12,13,5,160
 	dc.l track_186_uv+160
-	dc.w 4,3,14,128
+	dc.w 4,3,14,160
 	dc.l track_186_uv+176
-	dc.w 14,12,4,128
+	dc.w 14,12,4,160
 	dc.l track_186_uv+192
-	dc.w 12,14,15,128
+	dc.w 12,14,15,160
 	dc.l track_186_uv+208
-	dc.w 13,12,16,128
+	dc.w 13,12,16,160
 	dc.l track_186_uv+224
 	dc.w 3,9,17,128
 	dc.l track_186_uv+240
@@ -3643,7 +3643,7 @@ track_186_faces:
 	dc.l track_186_uv+320
 	dc.w 21,18,8,128
 	dc.l track_186_uv+336
-	dc.w 11,5,13,128
+	dc.w 11,5,13,160
 	dc.l track_186_uv+352
 track_186_normals:
 	dc.l 23
@@ -3746,13 +3746,13 @@ track_187_faces:
 	dc.l track_187_uv+16
 	dc.w 2,4,7,128
 	dc.l track_187_uv+32
-	dc.w 10,11,8,128
+	dc.w 10,11,8,160
 	dc.l track_187_uv+48
-	dc.w 8,9,10,128
+	dc.w 8,9,10,160
 	dc.l track_187_uv+64
-	dc.w 11,6,5,128
+	dc.w 11,6,5,160
 	dc.l track_187_uv+80
-	dc.w 5,8,11,128
+	dc.w 5,8,11,160
 	dc.l track_187_uv+96
 	dc.w 14,15,12,128
 	dc.l track_187_uv+112
@@ -3762,13 +3762,13 @@ track_187_faces:
 	dc.l track_187_uv+144
 	dc.w 9,12,15,128
 	dc.l track_187_uv+160
-	dc.w 1,17,16,128
+	dc.w 1,17,16,160
 	dc.l track_187_uv+176
-	dc.w 16,0,1,128
+	dc.w 16,0,1,160
 	dc.l track_187_uv+192
 	dc.w 17,14,13,128
 	dc.l track_187_uv+208
-	dc.w 13,16,17,128
+	dc.w 13,16,17,160
 	dc.l track_187_uv+224
 	dc.w 3,7,21,128
 	dc.l track_187_uv+240
@@ -3780,17 +3780,17 @@ track_187_faces:
 	dc.l track_187_uv+288
 	dc.w 20,21,24,128
 	dc.l track_187_uv+304
-	dc.w 6,11,25,128
+	dc.w 6,11,25,160
 	dc.l track_187_uv+320
-	dc.w 25,22,6,128
+	dc.w 25,22,6,160
 	dc.l track_187_uv+336
-	dc.w 11,10,26,128
+	dc.w 11,10,26,160
 	dc.l track_187_uv+352
-	dc.w 26,25,11,128
+	dc.w 26,25,11,160
 	dc.l track_187_uv+368
-	dc.w 25,26,27,128
+	dc.w 25,26,27,160
 	dc.l track_187_uv+384
-	dc.w 22,25,28,128
+	dc.w 22,25,28,160
 	dc.l track_187_uv+400
 	dc.w 10,15,29,128
 	dc.l track_187_uv+416
@@ -3804,15 +3804,15 @@ track_187_faces:
 	dc.l track_187_uv+480
 	dc.w 26,29,32,128
 	dc.l track_187_uv+496
-	dc.w 14,17,33,128
+	dc.w 14,17,33,160
 	dc.l track_187_uv+512
 	dc.w 33,30,14,128
 	dc.l track_187_uv+528
-	dc.w 18,33,17,128
+	dc.w 18,33,17,160
 	dc.l track_187_uv+544
-	dc.w 33,18,19,128
+	dc.w 33,18,19,160
 	dc.l track_187_uv+560
-	dc.w 30,33,34,128
+	dc.w 30,33,34,160
 	dc.l track_187_uv+576
 track_187_normals:
 	dc.l 37
@@ -3913,9 +3913,9 @@ track_188_points:
 	_PT -73,55,-490
 track_188_faces:
 	dc.l 6
-	dc.w 3,4,0,128
+	dc.w 3,4,0,160
 	dc.l track_188_uv+0
-	dc.w 4,5,1,128
+	dc.w 4,5,1,160
 	dc.l track_188_uv+16
 	dc.w 7,8,6,128
 	dc.l track_188_uv+32
@@ -3999,33 +3999,33 @@ track_189_faces:
 	dc.l track_189_uv+0
 	dc.w 9,4,3,128
 	dc.l track_189_uv+16
-	dc.w 12,13,10,128
+	dc.w 12,13,10,160
 	dc.l track_189_uv+32
-	dc.w 13,8,7,128
+	dc.w 13,8,7,160
 	dc.l track_189_uv+48
 	dc.w 16,17,14,128
 	dc.l track_189_uv+64
 	dc.w 17,12,11,128
 	dc.l track_189_uv+80
-	dc.w 2,19,18,128
+	dc.w 2,19,18,160
 	dc.l track_189_uv+96
 	dc.w 19,16,15,128
 	dc.l track_189_uv+112
-	dc.w 2,1,20,128
+	dc.w 2,1,20,160
 	dc.l track_189_uv+128
-	dc.w 20,21,2,128
+	dc.w 20,21,2,160
 	dc.l track_189_uv+144
-	dc.w 1,0,22,128
+	dc.w 1,0,22,160
 	dc.l track_189_uv+160
-	dc.w 22,20,1,128
+	dc.w 22,20,1,160
 	dc.l track_189_uv+176
-	dc.w 23,24,20,128
+	dc.w 23,24,20,160
 	dc.l track_189_uv+192
-	dc.w 20,22,23,128
+	dc.w 20,22,23,160
 	dc.l track_189_uv+208
-	dc.w 24,25,21,128
+	dc.w 24,25,21,160
 	dc.l track_189_uv+224
-	dc.w 21,20,24,128
+	dc.w 21,20,24,160
 	dc.l track_189_uv+240
 	dc.w 26,22,0,128
 	dc.l track_189_uv+256
@@ -4055,21 +4055,21 @@ track_189_faces:
 	dc.l track_189_uv+448
 	dc.w 27,30,33,128
 	dc.l track_189_uv+464
-	dc.w 8,13,34,128
+	dc.w 8,13,34,160
 	dc.l track_189_uv+480
-	dc.w 34,31,8,128
+	dc.w 34,31,8,160
 	dc.l track_189_uv+496
-	dc.w 13,12,35,128
+	dc.w 13,12,35,160
 	dc.l track_189_uv+512
-	dc.w 35,34,13,128
+	dc.w 35,34,13,160
 	dc.l track_189_uv+528
-	dc.w 36,37,34,128
+	dc.w 36,37,34,160
 	dc.l track_189_uv+544
-	dc.w 34,35,36,128
+	dc.w 34,35,36,160
 	dc.l track_189_uv+560
-	dc.w 37,32,31,128
+	dc.w 37,32,31,160
 	dc.l track_189_uv+576
-	dc.w 31,34,37,128
+	dc.w 31,34,37,160
 	dc.l track_189_uv+592
 	dc.w 12,17,38,128
 	dc.l track_189_uv+608
@@ -4087,21 +4087,21 @@ track_189_faces:
 	dc.l track_189_uv+704
 	dc.w 35,38,41,128
 	dc.l track_189_uv+720
-	dc.w 16,19,42,128
+	dc.w 16,19,42,160
 	dc.l track_189_uv+736
 	dc.w 42,39,16,128
 	dc.l track_189_uv+752
-	dc.w 19,2,21,128
+	dc.w 19,2,21,160
 	dc.l track_189_uv+768
-	dc.w 21,42,19,128
+	dc.w 21,42,19,160
 	dc.l track_189_uv+784
-	dc.w 25,43,42,128
+	dc.w 25,43,42,160
 	dc.l track_189_uv+800
-	dc.w 42,21,25,128
+	dc.w 42,21,25,160
 	dc.l track_189_uv+816
 	dc.w 43,40,39,128
 	dc.l track_189_uv+832
-	dc.w 39,42,43,128
+	dc.w 39,42,43,160
 	dc.l track_189_uv+848
 track_189_normals:
 	dc.l 54
@@ -4274,21 +4274,21 @@ track_190_points:
 	_PT -483,75,-672
 track_190_faces:
 	dc.l 73
-	dc.w 2,1,12,128
+	dc.w 2,1,12,160
 	dc.l track_190_uv+0
-	dc.w 12,13,2,128
+	dc.w 12,13,2,160
 	dc.l track_190_uv+16
-	dc.w 1,0,14,128
+	dc.w 1,0,14,160
 	dc.l track_190_uv+32
-	dc.w 14,12,1,128
+	dc.w 14,12,1,160
 	dc.l track_190_uv+48
-	dc.w 15,16,12,128
+	dc.w 15,16,12,160
 	dc.l track_190_uv+64
-	dc.w 12,14,15,128
+	dc.w 12,14,15,160
 	dc.l track_190_uv+80
-	dc.w 16,17,13,128
+	dc.w 16,17,13,160
 	dc.l track_190_uv+96
-	dc.w 13,12,16,128
+	dc.w 13,12,16,160
 	dc.l track_190_uv+112
 	dc.w 0,4,18,128
 	dc.l track_190_uv+128
@@ -4322,21 +4322,21 @@ track_190_faces:
 	dc.l track_190_uv+352
 	dc.w 19,22,25,128
 	dc.l track_190_uv+368
-	dc.w 5,8,26,128
+	dc.w 5,8,26,160
 	dc.l track_190_uv+384
-	dc.w 26,23,5,128
+	dc.w 26,23,5,160
 	dc.l track_190_uv+400
-	dc.w 8,7,27,128
+	dc.w 8,7,27,160
 	dc.l track_190_uv+416
-	dc.w 27,26,8,128
+	dc.w 27,26,8,160
 	dc.l track_190_uv+432
-	dc.w 28,29,26,128
+	dc.w 28,29,26,160
 	dc.l track_190_uv+448
-	dc.w 26,27,28,128
+	dc.w 26,27,28,160
 	dc.l track_190_uv+464
-	dc.w 29,24,23,128
+	dc.w 29,24,23,160
 	dc.l track_190_uv+480
-	dc.w 23,26,29,128
+	dc.w 23,26,29,160
 	dc.l track_190_uv+496
 	dc.w 7,10,30,128
 	dc.l track_190_uv+512
@@ -4354,21 +4354,21 @@ track_190_faces:
 	dc.l track_190_uv+608
 	dc.w 27,30,33,128
 	dc.l track_190_uv+624
-	dc.w 9,11,34,128
+	dc.w 9,11,34,160
 	dc.l track_190_uv+640
 	dc.w 34,31,9,128
 	dc.l track_190_uv+656
-	dc.w 11,2,13,128
+	dc.w 11,2,13,160
 	dc.l track_190_uv+672
-	dc.w 13,34,11,128
+	dc.w 13,34,11,160
 	dc.l track_190_uv+688
-	dc.w 17,35,34,128
+	dc.w 17,35,34,160
 	dc.l track_190_uv+704
-	dc.w 34,13,17,128
+	dc.w 34,13,17,160
 	dc.l track_190_uv+720
 	dc.w 35,32,31,128
 	dc.l track_190_uv+736
-	dc.w 31,34,35,128
+	dc.w 31,34,35,160
 	dc.l track_190_uv+752
 	dc.w 17,16,36,128
 	dc.l track_190_uv+768
@@ -6653,13 +6653,13 @@ base_0_faces:
 	dc.l base_0_uv+64
 	dc.w 5,4,0,128
 	dc.l base_0_uv+80
-	dc.w 3,2,6,128
+	dc.w 3,2,6,160
 	dc.l base_0_uv+96
 	dc.w 6,5,3,128
 	dc.l base_0_uv+112
 	dc.w 2,1,7,128
 	dc.l base_0_uv+128
-	dc.w 7,6,2,128
+	dc.w 7,6,2,160
 	dc.l base_0_uv+144
 	dc.w 1,0,4,128
 	dc.l base_0_uv+160
@@ -6752,7 +6752,7 @@ base_2_faces:
 	dc.l 7
 	dc.w 2,3,0,128
 	dc.l base_2_uv+0
-	dc.w 4,5,6,128
+	dc.w 4,5,6,160
 	dc.l base_2_uv+16
 	dc.w 0,3,5,128
 	dc.l base_2_uv+32
@@ -6804,17 +6804,17 @@ base_3_faces:
 	dc.l base_3_uv+0
 	dc.w 2,3,0,128
 	dc.l base_3_uv+16
-	dc.w 4,5,6,128
+	dc.w 4,5,6,160
 	dc.l base_3_uv+32
 	dc.w 6,7,4,128
 	dc.l base_3_uv+48
-	dc.w 0,3,5,128
+	dc.w 0,3,5,160
 	dc.l base_3_uv+64
-	dc.w 5,4,0,128
+	dc.w 5,4,0,160
 	dc.l base_3_uv+80
 	dc.w 3,2,6,128
 	dc.l base_3_uv+96
-	dc.w 6,5,3,128
+	dc.w 6,5,3,160
 	dc.l base_3_uv+112
 	dc.w 2,1,7,128
 	dc.l base_3_uv+128
@@ -7051,7 +7051,7 @@ base_7_faces:
 	dc.l base_7_uv+96
 	dc.w 6,5,3,128
 	dc.l base_7_uv+112
-	dc.w 2,1,7,128
+	dc.w 2,1,7,160
 	dc.l base_7_uv+128
 	dc.w 7,6,2,128
 	dc.l base_7_uv+144
@@ -7075,7 +7075,7 @@ base_7_faces:
 	dc.l base_7_uv+288
 	dc.w 14,13,11,128
 	dc.l base_7_uv+304
-	dc.w 10,9,15,128
+	dc.w 10,9,15,160
 	dc.l base_7_uv+320
 	dc.w 15,14,10,128
 	dc.l base_7_uv+336
@@ -7169,13 +7169,13 @@ base_8_faces:
 	dc.l base_8_uv+96
 	dc.w 6,5,3,128
 	dc.l base_8_uv+112
-	dc.w 2,1,7,128
+	dc.w 2,1,7,160
 	dc.l base_8_uv+128
-	dc.w 7,6,2,128
+	dc.w 7,6,2,160
 	dc.l base_8_uv+144
 	dc.w 1,0,4,128
 	dc.l base_8_uv+160
-	dc.w 4,7,1,128
+	dc.w 4,7,1,160
 	dc.l base_8_uv+176
 base_8_normals:
 	dc.l 12
@@ -7231,13 +7231,13 @@ base_9_faces:
 	dc.l base_9_uv+32
 	dc.w 6,7,4,128
 	dc.l base_9_uv+48
-	dc.w 0,3,5,128
+	dc.w 0,3,5,160
 	dc.l base_9_uv+64
-	dc.w 5,4,0,128
+	dc.w 5,4,0,160
 	dc.l base_9_uv+80
-	dc.w 3,2,6,128
+	dc.w 3,2,6,160
 	dc.l base_9_uv+96
-	dc.w 6,5,3,128
+	dc.w 6,5,3,160
 	dc.l base_9_uv+112
 	dc.w 2,1,7,128
 	dc.l base_9_uv+128
@@ -7303,7 +7303,7 @@ base_10_faces:
 	dc.l base_10_uv+48
 	dc.w 0,3,5,128
 	dc.l base_10_uv+64
-	dc.w 5,4,0,128
+	dc.w 5,4,0,160
 	dc.l base_10_uv+80
 	dc.w 3,2,6,128
 	dc.l base_10_uv+96
@@ -7608,13 +7608,13 @@ base_15_faces:
 	dc.l base_15_uv+96
 	dc.w 6,5,3,128
 	dc.l base_15_uv+112
-	dc.w 2,1,7,128
+	dc.w 2,1,7,160
 	dc.l base_15_uv+128
 	dc.w 7,6,2,128
 	dc.l base_15_uv+144
 	dc.w 1,0,4,128
 	dc.l base_15_uv+160
-	dc.w 4,7,1,128
+	dc.w 4,7,1,160
 	dc.l base_15_uv+176
 base_15_normals:
 	dc.l 12
@@ -7670,29 +7670,29 @@ speed_0_points:
 	_PT 15,0,-25
 speed_0_faces:
 	dc.l 12
-	dc.w 0,1,2,128
+	dc.w 0,1,2,160
 	dc.l speed_0_uv+0
-	dc.w 2,3,0,128
+	dc.w 2,3,0,160
 	dc.l speed_0_uv+16
-	dc.w 1,4,5,128
+	dc.w 1,4,5,160
 	dc.l speed_0_uv+32
-	dc.w 5,2,1,128
+	dc.w 5,2,1,160
 	dc.l speed_0_uv+48
-	dc.w 4,6,7,128
+	dc.w 4,6,7,160
 	dc.l speed_0_uv+64
-	dc.w 7,5,4,128
+	dc.w 7,5,4,160
 	dc.l speed_0_uv+80
-	dc.w 6,8,9,128
+	dc.w 6,8,9,160
 	dc.l speed_0_uv+96
-	dc.w 9,7,6,128
+	dc.w 9,7,6,160
 	dc.l speed_0_uv+112
-	dc.w 8,10,11,128
+	dc.w 8,10,11,160
 	dc.l speed_0_uv+128
-	dc.w 11,9,8,128
+	dc.w 11,9,8,160
 	dc.l speed_0_uv+144
-	dc.w 12,13,14,128
+	dc.w 12,13,14,160
 	dc.l speed_0_uv+160
-	dc.w 14,15,12,128
+	dc.w 14,15,12,160
 	dc.l speed_0_uv+176
 speed_0_normals:
 	dc.l 12
@@ -7748,23 +7748,23 @@ speed_1_points:
 	_PT -25,-5,-16
 speed_1_faces:
 	dc.l 9
-	dc.w 0,1,2,128
+	dc.w 0,1,2,160
 	dc.l speed_1_uv+0
-	dc.w 2,3,0,128
+	dc.w 2,3,0,160
 	dc.l speed_1_uv+16
-	dc.w 1,4,5,128
+	dc.w 1,4,5,160
 	dc.l speed_1_uv+32
-	dc.w 4,6,7,128
+	dc.w 4,6,7,160
 	dc.l speed_1_uv+48
-	dc.w 6,8,9,128
+	dc.w 6,8,9,160
 	dc.l speed_1_uv+64
-	dc.w 8,10,11,128
+	dc.w 8,10,11,160
 	dc.l speed_1_uv+80
-	dc.w 11,9,8,128
+	dc.w 11,9,8,160
 	dc.l speed_1_uv+96
-	dc.w 12,13,14,128
+	dc.w 12,13,14,160
 	dc.l speed_1_uv+112
-	dc.w 14,15,12,128
+	dc.w 14,15,12,160
 	dc.l speed_1_uv+128
 speed_1_normals:
 	dc.l 9
@@ -7805,11 +7805,11 @@ speed_2_points:
 	_PT 11,-2,43
 speed_2_faces:
 	dc.l 3
-	dc.w 3,1,0,128
+	dc.w 3,1,0,160
 	dc.l speed_2_uv+0
-	dc.w 5,3,2,128
+	dc.w 5,3,2,160
 	dc.l speed_2_uv+16
-	dc.w 6,5,4,128
+	dc.w 6,5,4,160
 	dc.l speed_2_uv+32
 speed_2_normals:
 	dc.l 3
@@ -7847,29 +7847,29 @@ speed_3_points:
 	_PT -28,2,-10
 speed_3_faces:
 	dc.l 12
-	dc.w 0,1,2,128
+	dc.w 0,1,2,160
 	dc.l speed_3_uv+0
-	dc.w 2,3,0,128
+	dc.w 2,3,0,160
 	dc.l speed_3_uv+16
-	dc.w 1,4,5,128
+	dc.w 1,4,5,160
 	dc.l speed_3_uv+32
-	dc.w 5,2,1,128
+	dc.w 5,2,1,160
 	dc.l speed_3_uv+48
-	dc.w 4,6,7,128
+	dc.w 4,6,7,160
 	dc.l speed_3_uv+64
-	dc.w 7,5,4,128
+	dc.w 7,5,4,160
 	dc.l speed_3_uv+80
-	dc.w 6,8,9,128
+	dc.w 6,8,9,160
 	dc.l speed_3_uv+96
-	dc.w 9,7,6,128
+	dc.w 9,7,6,160
 	dc.l speed_3_uv+112
-	dc.w 8,10,11,128
+	dc.w 8,10,11,160
 	dc.l speed_3_uv+128
-	dc.w 11,9,8,128
+	dc.w 11,9,8,160
 	dc.l speed_3_uv+144
-	dc.w 12,13,14,128
+	dc.w 12,13,14,160
 	dc.l speed_3_uv+160
-	dc.w 14,15,12,128
+	dc.w 14,15,12,160
 	dc.l speed_3_uv+176
 speed_3_normals:
 	dc.l 12
@@ -7913,9 +7913,9 @@ speed_4_points:
 	_PT 5,4,21
 speed_4_faces:
 	dc.l 2
-	dc.w 0,1,2,128
+	dc.w 0,1,2,160
 	dc.l speed_4_uv+0
-	dc.w 2,3,0,128
+	dc.w 2,3,0,160
 	dc.l speed_4_uv+16
 speed_4_normals:
 	dc.l 2
@@ -7949,25 +7949,25 @@ speed_5_points:
 	_PT 29,-1,-19
 speed_5_faces:
 	dc.l 10
-	dc.w 0,2,3,128
+	dc.w 0,2,3,160
 	dc.l speed_5_uv+0
-	dc.w 3,1,0,128
+	dc.w 3,1,0,160
 	dc.l speed_5_uv+16
-	dc.w 2,4,5,128
+	dc.w 2,4,5,160
 	dc.l speed_5_uv+32
-	dc.w 5,3,2,128
+	dc.w 5,3,2,160
 	dc.l speed_5_uv+48
-	dc.w 4,6,7,128
+	dc.w 4,6,7,160
 	dc.l speed_5_uv+64
-	dc.w 7,5,4,128
+	dc.w 7,5,4,160
 	dc.l speed_5_uv+80
-	dc.w 6,8,9,128
+	dc.w 6,8,9,160
 	dc.l speed_5_uv+96
-	dc.w 9,7,6,128
+	dc.w 9,7,6,160
 	dc.l speed_5_uv+112
-	dc.w 10,11,12,128
+	dc.w 10,11,12,160
 	dc.l speed_5_uv+128
-	dc.w 12,13,10,128
+	dc.w 12,13,10,160
 	dc.l speed_5_uv+144
 speed_5_normals:
 	dc.l 10
@@ -8019,29 +8019,29 @@ speed_6_points:
 	_PT -22,0,-19
 speed_6_faces:
 	dc.l 12
-	dc.w 0,1,2,128
+	dc.w 0,1,2,160
 	dc.l speed_6_uv+0
-	dc.w 2,3,0,128
+	dc.w 2,3,0,160
 	dc.l speed_6_uv+16
-	dc.w 1,4,5,128
+	dc.w 1,4,5,160
 	dc.l speed_6_uv+32
-	dc.w 5,2,1,128
+	dc.w 5,2,1,160
 	dc.l speed_6_uv+48
-	dc.w 4,6,7,128
+	dc.w 4,6,7,160
 	dc.l speed_6_uv+64
-	dc.w 7,5,4,128
+	dc.w 7,5,4,160
 	dc.l speed_6_uv+80
-	dc.w 6,8,9,128
+	dc.w 6,8,9,160
 	dc.l speed_6_uv+96
-	dc.w 9,7,6,128
+	dc.w 9,7,6,160
 	dc.l speed_6_uv+112
-	dc.w 8,10,11,128
+	dc.w 8,10,11,160
 	dc.l speed_6_uv+128
-	dc.w 11,9,8,128
+	dc.w 11,9,8,160
 	dc.l speed_6_uv+144
-	dc.w 12,13,14,128
+	dc.w 12,13,14,160
 	dc.l speed_6_uv+160
-	dc.w 14,15,12,128
+	dc.w 14,15,12,160
 	dc.l speed_6_uv+176
 speed_6_normals:
 	dc.l 12
@@ -8113,53 +8113,53 @@ speed_7_points:
 	_PT -1,-2,94
 speed_7_faces:
 	dc.l 24
-	dc.w 0,1,2,128
+	dc.w 0,1,2,160
 	dc.l speed_7_uv+0
-	dc.w 2,3,0,128
+	dc.w 2,3,0,160
 	dc.l speed_7_uv+16
-	dc.w 1,4,5,128
+	dc.w 1,4,5,160
 	dc.l speed_7_uv+32
-	dc.w 5,2,1,128
+	dc.w 5,2,1,160
 	dc.l speed_7_uv+48
-	dc.w 4,6,7,128
+	dc.w 4,6,7,160
 	dc.l speed_7_uv+64
-	dc.w 7,5,4,128
+	dc.w 7,5,4,160
 	dc.l speed_7_uv+80
-	dc.w 6,8,9,128
+	dc.w 6,8,9,160
 	dc.l speed_7_uv+96
-	dc.w 9,7,6,128
+	dc.w 9,7,6,160
 	dc.l speed_7_uv+112
-	dc.w 8,10,11,128
+	dc.w 8,10,11,160
 	dc.l speed_7_uv+128
-	dc.w 11,9,8,128
+	dc.w 11,9,8,160
 	dc.l speed_7_uv+144
-	dc.w 12,13,14,128
+	dc.w 12,13,14,160
 	dc.l speed_7_uv+160
-	dc.w 14,15,12,128
+	dc.w 14,15,12,160
 	dc.l speed_7_uv+176
-	dc.w 16,17,18,128
+	dc.w 16,17,18,160
 	dc.l speed_7_uv+192
-	dc.w 18,19,16,128
+	dc.w 18,19,16,160
 	dc.l speed_7_uv+208
-	dc.w 17,20,21,128
+	dc.w 17,20,21,160
 	dc.l speed_7_uv+224
-	dc.w 21,18,17,128
+	dc.w 21,18,17,160
 	dc.l speed_7_uv+240
-	dc.w 20,22,23,128
+	dc.w 20,22,23,160
 	dc.l speed_7_uv+256
-	dc.w 23,21,20,128
+	dc.w 23,21,20,160
 	dc.l speed_7_uv+272
-	dc.w 22,24,25,128
+	dc.w 22,24,25,160
 	dc.l speed_7_uv+288
-	dc.w 25,23,22,128
+	dc.w 25,23,22,160
 	dc.l speed_7_uv+304
-	dc.w 24,26,27,128
+	dc.w 24,26,27,160
 	dc.l speed_7_uv+320
-	dc.w 27,25,24,128
+	dc.w 27,25,24,160
 	dc.l speed_7_uv+336
-	dc.w 28,29,30,128
+	dc.w 28,29,30,160
 	dc.l speed_7_uv+352
-	dc.w 30,31,28,128
+	dc.w 30,31,28,160
 	dc.l speed_7_uv+368
 speed_7_normals:
 	dc.l 24
@@ -8239,29 +8239,29 @@ speed_8_points:
 	_PT 23,0,18
 speed_8_faces:
 	dc.l 12
-	dc.w 0,1,2,128
+	dc.w 0,1,2,160
 	dc.l speed_8_uv+0
-	dc.w 2,3,0,128
+	dc.w 2,3,0,160
 	dc.l speed_8_uv+16
-	dc.w 1,4,5,128
+	dc.w 1,4,5,160
 	dc.l speed_8_uv+32
-	dc.w 5,2,1,128
+	dc.w 5,2,1,160
 	dc.l speed_8_uv+48
-	dc.w 4,6,7,128
+	dc.w 4,6,7,160
 	dc.l speed_8_uv+64
-	dc.w 7,5,4,128
+	dc.w 7,5,4,160
 	dc.l speed_8_uv+80
-	dc.w 6,8,9,128
+	dc.w 6,8,9,160
 	dc.l speed_8_uv+96
-	dc.w 9,7,6,128
+	dc.w 9,7,6,160
 	dc.l speed_8_uv+112
-	dc.w 8,10,11,128
+	dc.w 8,10,11,160
 	dc.l speed_8_uv+128
-	dc.w 11,9,8,128
+	dc.w 11,9,8,160
 	dc.l speed_8_uv+144
-	dc.w 12,13,14,128
+	dc.w 12,13,14,160
 	dc.l speed_8_uv+160
-	dc.w 14,15,12,128
+	dc.w 14,15,12,160
 	dc.l speed_8_uv+176
 speed_8_normals:
 	dc.l 12
@@ -8317,29 +8317,29 @@ speed_9_points:
 	_PT -17,4,-24
 speed_9_faces:
 	dc.l 12
-	dc.w 0,1,2,128
+	dc.w 0,1,2,160
 	dc.l speed_9_uv+0
-	dc.w 2,3,0,128
+	dc.w 2,3,0,160
 	dc.l speed_9_uv+16
-	dc.w 1,4,5,128
+	dc.w 1,4,5,160
 	dc.l speed_9_uv+32
-	dc.w 5,2,1,128
+	dc.w 5,2,1,160
 	dc.l speed_9_uv+48
-	dc.w 4,6,7,128
+	dc.w 4,6,7,160
 	dc.l speed_9_uv+64
-	dc.w 7,5,4,128
+	dc.w 7,5,4,160
 	dc.l speed_9_uv+80
-	dc.w 6,8,9,128
+	dc.w 6,8,9,160
 	dc.l speed_9_uv+96
-	dc.w 9,7,6,128
+	dc.w 9,7,6,160
 	dc.l speed_9_uv+112
-	dc.w 8,10,11,128
+	dc.w 8,10,11,160
 	dc.l speed_9_uv+128
-	dc.w 11,9,8,128
+	dc.w 11,9,8,160
 	dc.l speed_9_uv+144
-	dc.w 12,13,14,128
+	dc.w 12,13,14,160
 	dc.l speed_9_uv+160
-	dc.w 14,15,12,128
+	dc.w 14,15,12,160
 	dc.l speed_9_uv+176
 speed_9_normals:
 	dc.l 12
@@ -8395,29 +8395,29 @@ speed_10_points:
 	_PT -17,5,-24
 speed_10_faces:
 	dc.l 12
-	dc.w 0,1,2,128
+	dc.w 0,1,2,160
 	dc.l speed_10_uv+0
-	dc.w 2,3,0,128
+	dc.w 2,3,0,160
 	dc.l speed_10_uv+16
-	dc.w 1,4,5,128
+	dc.w 1,4,5,160
 	dc.l speed_10_uv+32
-	dc.w 5,2,1,128
+	dc.w 5,2,1,160
 	dc.l speed_10_uv+48
-	dc.w 4,6,7,128
+	dc.w 4,6,7,160
 	dc.l speed_10_uv+64
-	dc.w 7,5,4,128
+	dc.w 7,5,4,160
 	dc.l speed_10_uv+80
-	dc.w 6,8,9,128
+	dc.w 6,8,9,160
 	dc.l speed_10_uv+96
-	dc.w 9,7,6,128
+	dc.w 9,7,6,160
 	dc.l speed_10_uv+112
-	dc.w 8,10,11,128
+	dc.w 8,10,11,160
 	dc.l speed_10_uv+128
-	dc.w 11,9,8,128
+	dc.w 11,9,8,160
 	dc.l speed_10_uv+144
-	dc.w 12,13,14,128
+	dc.w 12,13,14,160
 	dc.l speed_10_uv+160
-	dc.w 14,15,12,128
+	dc.w 14,15,12,160
 	dc.l speed_10_uv+176
 speed_10_normals:
 	dc.l 12
@@ -8473,29 +8473,29 @@ speed_11_points:
 	_PT -27,12,-5
 speed_11_faces:
 	dc.l 12
-	dc.w 0,1,2,128
+	dc.w 0,1,2,160
 	dc.l speed_11_uv+0
-	dc.w 2,3,0,128
+	dc.w 2,3,0,160
 	dc.l speed_11_uv+16
-	dc.w 1,4,5,128
+	dc.w 1,4,5,160
 	dc.l speed_11_uv+32
-	dc.w 5,2,1,128
+	dc.w 5,2,1,160
 	dc.l speed_11_uv+48
-	dc.w 4,6,7,128
+	dc.w 4,6,7,160
 	dc.l speed_11_uv+64
-	dc.w 7,5,4,128
+	dc.w 7,5,4,160
 	dc.l speed_11_uv+80
-	dc.w 6,8,9,128
+	dc.w 6,8,9,160
 	dc.l speed_11_uv+96
-	dc.w 9,7,6,128
+	dc.w 9,7,6,160
 	dc.l speed_11_uv+112
-	dc.w 8,10,11,128
+	dc.w 8,10,11,160
 	dc.l speed_11_uv+128
-	dc.w 11,9,8,128
+	dc.w 11,9,8,160
 	dc.l speed_11_uv+144
-	dc.w 12,13,14,128
+	dc.w 12,13,14,160
 	dc.l speed_11_uv+160
-	dc.w 14,15,12,128
+	dc.w 14,15,12,160
 	dc.l speed_11_uv+176
 speed_11_normals:
 	dc.l 12
@@ -8546,23 +8546,23 @@ speed_12_points:
 	_PT 12,0,-64
 speed_12_faces:
 	dc.l 9
-	dc.w 0,1,2,128
+	dc.w 0,1,2,160
 	dc.l speed_12_uv+0
-	dc.w 2,3,0,128
+	dc.w 2,3,0,160
 	dc.l speed_12_uv+16
-	dc.w 1,4,5,128
+	dc.w 1,4,5,160
 	dc.l speed_12_uv+32
-	dc.w 5,2,1,128
+	dc.w 5,2,1,160
 	dc.l speed_12_uv+48
-	dc.w 4,6,7,128
+	dc.w 4,6,7,160
 	dc.l speed_12_uv+64
-	dc.w 7,5,4,128
+	dc.w 7,5,4,160
 	dc.l speed_12_uv+80
-	dc.w 6,8,9,128
+	dc.w 6,8,9,160
 	dc.l speed_12_uv+96
-	dc.w 9,7,6,128
+	dc.w 9,7,6,160
 	dc.l speed_12_uv+112
-	dc.w 10,9,8,128
+	dc.w 10,9,8,160
 	dc.l speed_12_uv+128
 speed_12_normals:
 	dc.l 9
@@ -8603,11 +8603,11 @@ speed_13_points:
 	_PT -9,1,33
 speed_13_faces:
 	dc.l 3
-	dc.w 0,1,2,128
+	dc.w 0,1,2,160
 	dc.l speed_13_uv+0
-	dc.w 3,4,5,128
+	dc.w 3,4,5,160
 	dc.l speed_13_uv+16
-	dc.w 5,6,3,128
+	dc.w 5,6,3,160
 	dc.l speed_13_uv+32
 speed_13_normals:
 	dc.l 3
@@ -8645,29 +8645,29 @@ speed_14_points:
 	_PT 23,-5,18
 speed_14_faces:
 	dc.l 12
-	dc.w 0,1,2,128
+	dc.w 0,1,2,160
 	dc.l speed_14_uv+0
-	dc.w 2,3,0,128
+	dc.w 2,3,0,160
 	dc.l speed_14_uv+16
-	dc.w 1,4,5,128
+	dc.w 1,4,5,160
 	dc.l speed_14_uv+32
-	dc.w 5,2,1,128
+	dc.w 5,2,1,160
 	dc.l speed_14_uv+48
-	dc.w 4,6,7,128
+	dc.w 4,6,7,160
 	dc.l speed_14_uv+64
-	dc.w 7,5,4,128
+	dc.w 7,5,4,160
 	dc.l speed_14_uv+80
-	dc.w 6,8,9,128
+	dc.w 6,8,9,160
 	dc.l speed_14_uv+96
-	dc.w 9,7,6,128
+	dc.w 9,7,6,160
 	dc.l speed_14_uv+112
-	dc.w 8,10,11,128
+	dc.w 8,10,11,160
 	dc.l speed_14_uv+128
-	dc.w 11,9,8,128
+	dc.w 11,9,8,160
 	dc.l speed_14_uv+144
-	dc.w 12,13,14,128
+	dc.w 12,13,14,160
 	dc.l speed_14_uv+160
-	dc.w 14,15,12,128
+	dc.w 14,15,12,160
 	dc.l speed_14_uv+176
 speed_14_normals:
 	dc.l 12
@@ -8723,29 +8723,29 @@ speed_15_points:
 	_PT 27,0,13
 speed_15_faces:
 	dc.l 12
-	dc.w 0,1,2,128
+	dc.w 0,1,2,160
 	dc.l speed_15_uv+0
-	dc.w 2,3,0,128
+	dc.w 2,3,0,160
 	dc.l speed_15_uv+16
-	dc.w 1,4,5,128
+	dc.w 1,4,5,160
 	dc.l speed_15_uv+32
-	dc.w 5,2,1,128
+	dc.w 5,2,1,160
 	dc.l speed_15_uv+48
-	dc.w 4,6,7,128
+	dc.w 4,6,7,160
 	dc.l speed_15_uv+64
-	dc.w 7,5,4,128
+	dc.w 7,5,4,160
 	dc.l speed_15_uv+80
-	dc.w 6,8,9,128
+	dc.w 6,8,9,160
 	dc.l speed_15_uv+96
-	dc.w 9,7,6,128
+	dc.w 9,7,6,160
 	dc.l speed_15_uv+112
-	dc.w 8,10,11,128
+	dc.w 8,10,11,160
 	dc.l speed_15_uv+128
-	dc.w 11,9,8,128
+	dc.w 11,9,8,160
 	dc.l speed_15_uv+144
-	dc.w 12,13,14,128
+	dc.w 12,13,14,160
 	dc.l speed_15_uv+160
-	dc.w 14,15,12,128
+	dc.w 14,15,12,160
 	dc.l speed_15_uv+176
 speed_15_normals:
 	dc.l 12
@@ -8801,17 +8801,17 @@ scrapers1_0_faces:
 	dc.l 7
 	dc.w 0,1,2,128
 	dc.l scrapers1_0_uv+0
-	dc.w 4,5,3,128
+	dc.w 4,5,3,160
 	dc.l scrapers1_0_uv+16
-	dc.w 6,10,1,128
+	dc.w 6,10,1,160
 	dc.l scrapers1_0_uv+32
-	dc.w 7,11,10,128
+	dc.w 7,11,10,160
 	dc.l scrapers1_0_uv+48
-	dc.w 8,12,11,128
+	dc.w 8,12,11,160
 	dc.l scrapers1_0_uv+64
-	dc.w 9,13,12,128
+	dc.w 9,13,12,160
 	dc.l scrapers1_0_uv+80
-	dc.w 3,5,13,128
+	dc.w 3,5,13,160
 	dc.l scrapers1_0_uv+96
 scrapers1_0_normals:
 	dc.l 7
@@ -8861,7 +8861,7 @@ scrapers1_1_faces:
 	dc.l 12
 	dc.w 1,2,0,128
 	dc.l scrapers1_1_uv+0
-	dc.w 3,4,5,128
+	dc.w 3,4,5,160
 	dc.l scrapers1_1_uv+16
 	dc.w 0,2,6,128
 	dc.l scrapers1_1_uv+32
@@ -9023,25 +9023,25 @@ scrapers1_4_points:
 	_PT -668,2888,616
 scrapers1_4_faces:
 	dc.l 10
-	dc.w 1,0,8,128
+	dc.w 1,0,8,160
 	dc.l scrapers1_4_uv+0
-	dc.w 8,4,1,128
+	dc.w 8,4,1,160
 	dc.l scrapers1_4_uv+16
-	dc.w 4,8,9,128
+	dc.w 4,8,9,160
 	dc.l scrapers1_4_uv+32
-	dc.w 9,5,4,128
+	dc.w 9,5,4,160
 	dc.l scrapers1_4_uv+48
-	dc.w 5,9,10,128
+	dc.w 5,9,10,160
 	dc.l scrapers1_4_uv+64
-	dc.w 10,6,5,128
+	dc.w 10,6,5,160
 	dc.l scrapers1_4_uv+80
 	dc.w 6,10,11,128
 	dc.l scrapers1_4_uv+96
-	dc.w 11,7,6,128
+	dc.w 11,7,6,160
 	dc.l scrapers1_4_uv+112
-	dc.w 7,11,3,128
+	dc.w 7,11,3,160
 	dc.l scrapers1_4_uv+128
-	dc.w 3,2,7,128
+	dc.w 3,2,7,160
 	dc.l scrapers1_4_uv+144
 scrapers1_4_normals:
 	dc.l 10
@@ -9088,15 +9088,15 @@ scrapers1_5_points:
 	_PT -672,3325,-729
 scrapers1_5_faces:
 	dc.l 5
-	dc.w 1,0,3,128
+	dc.w 1,0,3,160
 	dc.l scrapers1_5_uv+0
-	dc.w 7,3,4,128
+	dc.w 7,3,4,160
 	dc.l scrapers1_5_uv+16
-	dc.w 8,4,5,128
+	dc.w 8,4,5,160
 	dc.l scrapers1_5_uv+32
-	dc.w 9,5,6,128
+	dc.w 9,5,6,160
 	dc.l scrapers1_5_uv+48
-	dc.w 10,6,2,128
+	dc.w 10,6,2,160
 	dc.l scrapers1_5_uv+64
 scrapers1_5_normals:
 	dc.l 5
@@ -9138,7 +9138,7 @@ scrapers1_6_faces:
 	dc.l 7
 	dc.w 0,1,2,128
 	dc.l scrapers1_6_uv+0
-	dc.w 4,5,3,128
+	dc.w 4,5,3,160
 	dc.l scrapers1_6_uv+16
 	dc.w 1,0,6,128
 	dc.l scrapers1_6_uv+32
@@ -9194,7 +9194,7 @@ scrapers1_7_faces:
 	dc.l 12
 	dc.w 1,2,0,128
 	dc.l scrapers1_7_uv+0
-	dc.w 3,4,5,128
+	dc.w 3,4,5,160
 	dc.l scrapers1_7_uv+16
 	dc.w 0,2,6,128
 	dc.l scrapers1_7_uv+32
@@ -9463,7 +9463,7 @@ scrapers1_12_faces:
 	dc.l 2
 	dc.w 0,1,2,128
 	dc.l scrapers1_12_uv+0
-	dc.w 4,5,3,128
+	dc.w 4,5,3,160
 	dc.l scrapers1_12_uv+16
 scrapers1_12_normals:
 	dc.l 2
@@ -9491,7 +9491,7 @@ scrapers1_13_faces:
 	dc.l 2
 	dc.w 1,2,0,128
 	dc.l scrapers1_13_uv+0
-	dc.w 3,4,5,128
+	dc.w 3,4,5,160
 	dc.l scrapers1_13_uv+16
 scrapers1_13_normals:
 	dc.l 2
@@ -9528,9 +9528,9 @@ scrapers1_14_faces:
 	dc.l scrapers1_14_uv+16
 	dc.w 6,5,7,128
 	dc.l scrapers1_14_uv+32
-	dc.w 8,7,9,128
+	dc.w 8,7,9,160
 	dc.l scrapers1_14_uv+48
-	dc.w 10,9,2,128
+	dc.w 10,9,2,160
 	dc.l scrapers1_14_uv+64
 scrapers1_14_normals:
 	dc.l 5
@@ -9573,9 +9573,9 @@ scrapers1_15_faces:
 	dc.l scrapers1_15_uv+16
 	dc.w 7,8,6,128
 	dc.l scrapers1_15_uv+32
-	dc.w 9,10,8,128
+	dc.w 9,10,8,160
 	dc.l scrapers1_15_uv+48
-	dc.w 2,1,10,128
+	dc.w 2,1,10,160
 	dc.l scrapers1_15_uv+64
 scrapers1_15_normals:
 	dc.l 5
@@ -9792,15 +9792,15 @@ scrapers1_20_points:
 	_PT 0,5979,-1783
 scrapers1_20_faces:
 	dc.l 5
-	dc.w 1,0,3,128
+	dc.w 1,0,3,160
 	dc.l scrapers1_20_uv+0
-	dc.w 7,3,4,128
+	dc.w 7,3,4,160
 	dc.l scrapers1_20_uv+16
-	dc.w 8,4,5,128
+	dc.w 8,4,5,160
 	dc.l scrapers1_20_uv+32
-	dc.w 9,5,6,128
+	dc.w 9,5,6,160
 	dc.l scrapers1_20_uv+48
-	dc.w 10,6,2,128
+	dc.w 10,6,2,160
 	dc.l scrapers1_20_uv+64
 scrapers1_20_normals:
 	dc.l 5
@@ -9837,15 +9837,15 @@ scrapers1_21_points:
 	_PT 0,4406,-1486
 scrapers1_21_faces:
 	dc.l 5
-	dc.w 3,7,0,128
+	dc.w 3,7,0,160
 	dc.l scrapers1_21_uv+0
-	dc.w 4,8,7,128
+	dc.w 4,8,7,160
 	dc.l scrapers1_21_uv+16
 	dc.w 5,9,8,128
 	dc.l scrapers1_21_uv+32
-	dc.w 6,10,9,128
+	dc.w 6,10,9,160
 	dc.l scrapers1_21_uv+48
-	dc.w 1,2,10,128
+	dc.w 1,2,10,160
 	dc.l scrapers1_21_uv+64
 scrapers1_21_normals:
 	dc.l 5
@@ -9887,7 +9887,7 @@ scrapers1_22_faces:
 	dc.l 12
 	dc.w 0,1,2,128
 	dc.l scrapers1_22_uv+0
-	dc.w 4,5,3,128
+	dc.w 4,5,3,160
 	dc.l scrapers1_22_uv+16
 	dc.w 2,1,10,128
 	dc.l scrapers1_22_uv+32
@@ -9963,7 +9963,7 @@ scrapers1_23_faces:
 	dc.l 7
 	dc.w 1,2,0,128
 	dc.l scrapers1_23_uv+0
-	dc.w 3,4,5,128
+	dc.w 3,4,5,160
 	dc.l scrapers1_23_uv+16
 	dc.w 10,6,2,128
 	dc.l scrapers1_23_uv+32

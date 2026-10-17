@@ -77,7 +77,8 @@ Synthetic unit fixtures are not presented as game execution evidence.
 
 `make test` rebuilds the ROM before running all layers. `make release` then
 creates the report and bundle. Packaging requires current-ROM SHA-256 matches
-and PASS from both full E2E suites. CI configuration is included; local execution
+and PASS from all seven current emulator suites, clean-rebuild proof and additional
+recorded-observation checks. CI configuration is included; local execution
 results are in `test-results/`, not claimed as remotely executed CI.
 
 This prevents the reproduced startup defect from passing the supplied release

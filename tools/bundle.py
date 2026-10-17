@@ -6,6 +6,12 @@ R=Path(__file__).resolve().parents[1]
 path=R.parent/'HexGL-Jaguar-source-and-ROM.zip'
 summary=json.loads((R/'test-results/summary.json').read_text())
 romsha=hashlib.sha256((R/'rom/hexgl.j64').read_bytes()).hexdigest()
+pa=json.loads((R/'docs/particles-audio-additional-checks.json').read_text())
+assert pa['status']=='PASS' and pa['rom_sha256']==romsha
+probe=json.loads((R/'test-results/native-fx-probe/summary.json').read_text())
+assert probe['status']=='PASS' and probe['rom_sha256']==romsha
+assert probe['production_depth_source_sha256']==hashlib.sha256((R/'src/fx_depth.inc').read_bytes()).hexdigest()
+
 assert summary['status']=='PASS' and summary['rom_sha256']==romsha
 gui=json.loads((R/'test-results/gui/summary.json').read_text())
 assert gui['status']=='PASS' and gui['rom_sha256']==romsha,'Stock GUI regression gate has not passed for this ROM'
@@ -15,10 +21,18 @@ front=json.loads((R/'test-results/frontend-summary.json').read_text())
 assert front['status']=='PASS' and front['rom_sha256']==romsha,'Frontend/replay/persistence gate has not passed'
 dynamics=json.loads((R/'test-results/dynamics-summary.json').read_text())
 assert dynamics['status']=='PASS' and dynamics['rom_sha256']==romsha,'Dynamics/effects gate has not passed'
+original_audio=json.loads((R/'test-results/original-audio-summary.json').read_text())
+assert original_audio['status']=='PASS' and original_audio['rom_sha256']==romsha,'Original-channel audio/event gate is not current'
+materials=json.loads((R/'test-results/material-summary.json').read_text())
+assert materials['status']=='PASS' and materials['rom_sha256']==romsha,'Native materials/stereo gate has not passed'
+fall=json.loads((R/'test-results/fall-summary.json').read_text())
+assert fall['status']=='PASS' and fall['rom_sha256']==romsha,'Dedicated fall/pause gate has not passed'
 clean=json.loads((R/'docs/dynamics-clean-rebuild.json').read_text())
 assert clean['status']=='PASS' and clean['rom_sha256']==romsha,'Clean rebuild proof is not current'
 extra=json.loads((R/'docs/dynamics-additional-checks.json').read_text())
 assert extra['status']=='PASS' and extra['rom_sha256']==romsha,'Additional observed-state checks are not current'
+extra_materials=json.loads((R/'docs/materials-additional-checks.json').read_text())
+assert extra_materials['status']=='PASS' and extra_materials['rom_sha256']==romsha,'Recorded material-bank proof is not current'
 # Keep complete per-field evidence, losslessly compressed, in the delivered tree.
 # The tests always execute fresh and never consume these saved traces.
 for trace in (R/'test-results').rglob('*_report.json'):
@@ -31,26 +45,21 @@ retention=R/'test-results/gui/screenshot-retention.json'
 record=json.loads(retention.read_text()) if retention.exists() else {'policy':'First and last saved capture per contiguous desktop countdown segment; all moving/fault screenshots and complete metrics retained.','removed':[]}
 if record.get('rom_sha256')!=romsha:record['removed']=[]
 record['rom_sha256']=romsha
-record['policy']='Desktop moving/countdown phases retain first/last saved screenshots; other static phases retain the last saved screenshot. Complete metrics and every negative-control screenshot retained.'
+record['policy']='Desktop retains the last saved capture of idle, countdown, throttle-autopilot, pause and restart-moving phases. Complete measured metrics and every negative-control screenshot retained.'
 for result in (R/'test-results/gui').glob('*/result.json'):
     if result.parent.name.startswith('negative-'):continue
     samples=json.loads(result.read_text()).get('samples',[])
-    segment=[];phase=None
-    def trim(segment,phase):
-        pictures=[result.parent/f'capture-{i+1:03d}.png' for i in segment]
-        pictures=[p for p in pictures if p.exists()]
-        if not pictures:return
-        keep={pictures[-1]}
-        if phase in {'countdown','throttle-autopilot','resume','restart-moving'}:keep.add(pictures[0])
-        for p in pictures:
-            if p not in keep:
-                record['removed'].append({'path':str(p.relative_to(R/'test-results/gui')),'sha256':hashlib.sha256(p.read_bytes()).hexdigest()})
-                p.unlink()
+    by_phase={}
     for i,sample in enumerate(samples):
-        if phase!=sample['phase']:
-            trim(segment,phase);segment=[];phase=sample['phase']
-        segment.append(i)
-    trim(segment,phase)
+        picture=result.parent/f'capture-{i+1:03d}.png'
+        if picture.exists() and sample['phase'] in {'idle','countdown','throttle-autopilot','pause','restart-moving'}:
+            by_phase[sample['phase']]=picture
+    keep=set(by_phase.values())
+    if not keep:continue
+    for p in result.parent.glob('capture-*.png'):
+        if p not in keep:
+            record['removed'].append({'path':str(p.relative_to(R/'test-results/gui')),'sha256':hashlib.sha256(p.read_bytes()).hexdigest()})
+            p.unlink()
 retention.write_text(json.dumps(record,indent=2)+'\n')
 # Sample old core screenshots without discarding any per-field trace or verdict.
 # Keep countdown glyphs, final frame, bank examples, and representative gauge states.
@@ -72,6 +81,19 @@ for name,case in evidence.items():
             pruned['removed'].append({'path':str(image.relative_to(R/'test-results')),'sha256':hashlib.sha256(image.read_bytes()).hexdigest()})
             image.unlink()
 core_retention.write_text(json.dumps(pruned,indent=2)+'\n')
+# Calibration probes and static EEPROM fixtures retain final imagery plus every
+# complete trace, invocation and metric; these are not claimed as moving scenes.
+static_path=R/'test-results/static-screenshot-retention.json'
+static_record=json.loads(static_path.read_text()) if static_path.exists() else {}
+if static_record.get('rom_sha256')!=romsha:static_record={'rom_sha256':romsha,'removed':[]}
+static_record['policy']='Calibration probes, journal fixtures and fresh-process save-reboot runs retain final.png. Every field trace, invocation, metric and original verdict is retained. All actual fall/pause and material/sky/stereo captures retained.'
+for directory in (R/'test-results').iterdir():
+    if not directory.is_dir():continue
+    if not (directory.name.endswith('-probe') or directory.name.startswith(('journal-','save-reboot-'))):continue
+    for p in directory.glob('frame_*.png'):
+        static_record['removed'].append({'path':str(p.relative_to(R/'test-results')),'sha256':hashlib.sha256(p.read_bytes()).hexdigest()})
+        p.unlink()
+static_path.write_text(json.dumps(static_record,indent=2)+'\n')
 skipdirs={'.git','__pycache__','.venv','node_modules','obj','.cache'}
 with zipfile.ZipFile(path,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=6) as z:
     for p in sorted(R.rglob('*')):

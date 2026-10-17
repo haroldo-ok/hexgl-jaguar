@@ -402,9 +402,9 @@ pal:
 	movei	#CAM_ANGLE*4,r0
 	store	r0,(r15+CAMERA_ANGLE_Y-CAMERA_X); camera angle
 
-	movei	#139,r0
-	movei	#-105,r1
-	movei	#-157,r2
+	movei	#225,r0
+	movei	#-68,r1
+	movei	#-101,r2
 	store	r0,(r15+LIGHT_X-CAMERA_X)
 	store	r1,(r15+LIGHT_Y-CAMERA_X)
 	store	r2,(r15+LIGHT_Z-CAMERA_X)
@@ -671,6 +671,11 @@ texture:
  align 4
 effect_atlas:
  incbin "../assets/effects.bin"
+ align 4
+color_decode:
+ incbin "../assets/color-decode.bin"
+color_encode:
+ incbin "../assets/color-encode.bin"
 	IF MOD = 1
 	align 8
 DSP_start:

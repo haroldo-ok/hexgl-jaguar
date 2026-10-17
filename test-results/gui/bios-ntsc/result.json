@@ -1,6 +1,6 @@
 {
   "status": "PASS",
-  "rom_sha256": "bfe5591fa30c95baa290f2591253d1ff47e12639a92b37d7bc9980d8456f1faa",
+  "rom_sha256": "fc99ae03d093ec1483cf814d18f484bfa5adf154d42081d37a9350710c93e1a8",
   "video": "ntsc",
   "boot": "bios",
   "samples": [
@@ -9,7 +9,7 @@
       "contrast": 0.0,
       "colors": 1,
       "changed_fraction": null,
-      "seconds": 0.424,
+      "seconds": 0.767,
       "phase": "boot"
     },
     {
@@ -17,7 +17,7 @@
       "contrast": 58.462102585615376,
       "colors": 205,
       "changed_fraction": 1.0,
-      "seconds": 1.076,
+      "seconds": 1.424,
       "phase": "boot"
     },
     {
@@ -25,7 +25,7 @@
       "contrast": 58.462102585615376,
       "colors": 205,
       "changed_fraction": 0.0,
-      "seconds": 1.694,
+      "seconds": 2.121,
       "phase": "idle"
     },
     {
@@ -33,7 +33,7 @@
       "contrast": 58.462102585615376,
       "colors": 205,
       "changed_fraction": 0.0,
-      "seconds": 2.331,
+      "seconds": 2.863,
       "phase": "idle"
     },
     {
@@ -41,327 +41,335 @@
       "contrast": 58.462102585615376,
       "colors": 205,
       "changed_fraction": 0.0,
-      "seconds": 3.001,
+      "seconds": 3.621,
       "phase": "idle"
     },
     {
-      "lit_fraction": 1.0,
-      "contrast": 58.462102585615376,
-      "colors": 205,
-      "changed_fraction": 0.0,
-      "seconds": 3.658,
-      "phase": "idle"
-    },
-    {
-      "lit_fraction": 0.9984294564174155,
-      "contrast": 39.3747305043516,
-      "colors": 261,
-      "changed_fraction": 0.9978710409213856,
-      "seconds": 4.753,
+      "lit_fraction": 0.9920425791815722,
+      "contrast": 49.76069252766708,
+      "colors": 244,
+      "changed_fraction": 0.9902975307564785,
+      "seconds": 4.712,
       "phase": "countdown-entry"
     },
     {
-      "lit_fraction": 0.9984294564174155,
-      "contrast": 39.3747305043516,
-      "colors": 261,
+      "lit_fraction": 0.9920425791815722,
+      "contrast": 49.76069252766708,
+      "colors": 244,
       "changed_fraction": 0.0,
-      "seconds": 5.479,
+      "seconds": 5.382,
       "phase": "countdown"
     },
     {
-      "lit_fraction": 0.9984294564174155,
-      "contrast": 39.3747305043516,
-      "colors": 261,
+      "lit_fraction": 0.9920425791815722,
+      "contrast": 49.76069252766708,
+      "colors": 244,
       "changed_fraction": 0.0,
-      "seconds": 6.181,
+      "seconds": 6.083,
       "phase": "countdown"
     },
     {
-      "lit_fraction": 0.9984294564174155,
-      "contrast": 39.3747305043516,
-      "colors": 261,
+      "lit_fraction": 0.9920425791815722,
+      "contrast": 49.76069252766708,
+      "colors": 244,
       "changed_fraction": 0.0,
-      "seconds": 6.85,
+      "seconds": 6.771,
       "phase": "countdown"
     },
     {
-      "lit_fraction": 0.9984294564174155,
-      "contrast": 39.3747305043516,
-      "colors": 261,
+      "lit_fraction": 0.9920425791815722,
+      "contrast": 49.76069252766708,
+      "colors": 244,
       "changed_fraction": 0.0,
-      "seconds": 7.46,
+      "seconds": 7.454,
       "phase": "countdown"
     },
     {
-      "lit_fraction": 0.9984294564174155,
-      "contrast": 39.3747305043516,
-      "colors": 261,
+      "lit_fraction": 0.9920425791815722,
+      "contrast": 49.76069252766708,
+      "colors": 244,
       "changed_fraction": 0.0,
-      "seconds": 8.07,
+      "seconds": 8.147,
       "phase": "countdown"
     },
     {
-      "lit_fraction": 0.9984294564174155,
-      "contrast": 39.3747305043516,
-      "colors": 261,
+      "lit_fraction": 0.9920425791815722,
+      "contrast": 49.76069252766708,
+      "colors": 244,
       "changed_fraction": 0.0,
-      "seconds": 8.737,
+      "seconds": 8.799,
       "phase": "countdown"
     },
     {
-      "lit_fraction": 0.9984294564174155,
-      "contrast": 39.3747305043516,
-      "colors": 261,
+      "lit_fraction": 0.9920425791815722,
+      "contrast": 49.76069252766708,
+      "colors": 244,
       "changed_fraction": 0.0,
-      "seconds": 9.381,
+      "seconds": 9.515,
       "phase": "countdown"
     },
     {
-      "lit_fraction": 0.9984294564174155,
-      "contrast": 39.3747305043516,
-      "colors": 261,
+      "lit_fraction": 0.9920425791815722,
+      "contrast": 49.76069252766708,
+      "colors": 244,
       "changed_fraction": 0.0,
-      "seconds": 10.018,
+      "seconds": 10.168,
       "phase": "countdown"
     },
     {
-      "lit_fraction": 0.9984294564174155,
-      "contrast": 39.3747305043516,
-      "colors": 261,
+      "lit_fraction": 0.9920425791815722,
+      "contrast": 49.76069252766708,
+      "colors": 244,
       "changed_fraction": 0.0,
-      "seconds": 10.655,
+      "seconds": 10.807,
       "phase": "countdown"
     },
     {
-      "lit_fraction": 0.9984294564174155,
-      "contrast": 39.3747305043516,
-      "colors": 261,
+      "lit_fraction": 0.9920425791815722,
+      "contrast": 49.76069252766708,
+      "colors": 244,
       "changed_fraction": 0.0,
-      "seconds": 11.278,
+      "seconds": 11.477,
       "phase": "countdown"
     },
     {
-      "lit_fraction": 0.9984294564174155,
-      "contrast": 39.3747305043516,
-      "colors": 261,
+      "lit_fraction": 0.9920425791815722,
+      "contrast": 49.76069252766708,
+      "colors": 244,
       "changed_fraction": 0.0,
-      "seconds": 11.905,
+      "seconds": 12.173,
       "phase": "countdown"
     },
     {
-      "lit_fraction": 0.9999301980629962,
-      "contrast": 24.41271723406637,
-      "colors": 159,
-      "changed_fraction": 0.9881162202251113,
-      "seconds": 12.57,
+      "lit_fraction": 0.9920425791815722,
+      "contrast": 49.76069252766708,
+      "colors": 244,
+      "changed_fraction": 0.0,
+      "seconds": 12.835,
       "phase": "countdown"
     },
     {
-      "lit_fraction": 0.9967891108978274,
-      "contrast": 30.856256980922222,
-      "colors": 171,
-      "changed_fraction": 0.96427885873833,
-      "seconds": 13.191,
+      "lit_fraction": 0.9920425791815722,
+      "contrast": 49.76069252766708,
+      "colors": 244,
+      "changed_fraction": 0.0,
+      "seconds": 13.517,
+      "phase": "countdown"
+    },
+    {
+      "lit_fraction": 0.9920425791815722,
+      "contrast": 49.76069252766708,
+      "colors": 244,
+      "changed_fraction": 0.0,
+      "seconds": 14.166,
+      "phase": "countdown"
+    },
+    {
+      "lit_fraction": 0.9920425791815722,
+      "contrast": 49.76069252766708,
+      "colors": 244,
+      "changed_fraction": 0.0,
+      "seconds": 14.875,
+      "phase": "countdown"
+    },
+    {
+      "lit_fraction": 0.99944158450397,
+      "contrast": 22.421387112195323,
+      "colors": 122,
+      "changed_fraction": 0.8746182706570107,
+      "seconds": 15.542,
+      "phase": "countdown"
+    },
+    {
+      "lit_fraction": 0.9996509903149813,
+      "contrast": 24.112915213219022,
+      "colors": 127,
+      "changed_fraction": 0.7178256696623331,
+      "seconds": 16.179,
       "phase": "throttle-autopilot"
     },
     {
-      "lit_fraction": 0.9999301980629962,
-      "contrast": 19.165061750630727,
-      "colors": 112,
-      "changed_fraction": 0.9289241776459297,
-      "seconds": 13.845,
+      "lit_fraction": 0.9855859000087253,
+      "contrast": 31.48033791048192,
+      "colors": 150,
+      "changed_fraction": 0.9623593054707268,
+      "seconds": 16.864,
       "phase": "throttle-autopilot"
     },
     {
-      "lit_fraction": 0.9992321786929588,
-      "contrast": 24.706784302909842,
-      "colors": 173,
-      "changed_fraction": 0.8563127126777768,
-      "seconds": 14.479,
-      "phase": "throttle-autopilot"
-    },
-    {
-      "lit_fraction": 0.9998952970944943,
-      "contrast": 26.235785804879104,
-      "colors": 157,
-      "changed_fraction": 0.9880289678038565,
-      "seconds": 15.085,
-      "phase": "throttle-autopilot"
-    },
-    {
-      "lit_fraction": 0.9999301980629962,
-      "contrast": 33.78229855412306,
-      "colors": 177,
-      "changed_fraction": 0.997190472035599,
-      "seconds": 15.721,
-      "phase": "throttle-autopilot"
-    },
-    {
-      "lit_fraction": 0.9998603961259925,
-      "contrast": 30.356606775551782,
-      "colors": 230,
-      "changed_fraction": 0.8770613384521421,
-      "seconds": 16.375,
-      "phase": "throttle-autopilot"
-    },
-    {
-      "lit_fraction": 0.9998603961259925,
-      "contrast": 29.14754671824968,
-      "colors": 164,
-      "changed_fraction": 0.892557368466975,
-      "seconds": 17.037,
-      "phase": "throttle-autopilot"
-    },
-    {
-      "lit_fraction": 0.9998952970944943,
-      "contrast": 34.83774710185118,
-      "colors": 152,
-      "changed_fraction": 0.9787802111508594,
-      "seconds": 17.676,
-      "phase": "throttle-autopilot"
-    },
-    {
-      "lit_fraction": 0.9999301980629962,
-      "contrast": 33.333671032915696,
-      "colors": 174,
-      "changed_fraction": 0.9553442108018497,
-      "seconds": 18.31,
-      "phase": "throttle-autopilot"
-    },
-    {
-      "lit_fraction": 0.9999301980629962,
-      "contrast": 33.885624630602734,
-      "colors": 162,
-      "changed_fraction": 0.9253817293429892,
-      "seconds": 18.949,
-      "phase": "throttle-autopilot"
-    },
-    {
-      "lit_fraction": 0.9986388622284268,
-      "contrast": 38.9772918974581,
-      "colors": 206,
-      "changed_fraction": 0.9657272489311578,
-      "seconds": 19.556,
+      "lit_fraction": 0.9940668353546811,
+      "contrast": 29.52149327478993,
+      "colors": 151,
+      "changed_fraction": 0.8564174155832824,
+      "seconds": 17.564,
       "phase": "throttle-autopilot"
     },
     {
       "lit_fraction": 0.9993019806299624,
-      "contrast": 32.60495403321985,
-      "colors": 220,
-      "changed_fraction": 0.9484163685542274,
-      "seconds": 20.201,
+      "contrast": 26.808852433028466,
+      "colors": 164,
+      "changed_fraction": 0.9318209580315854,
+      "seconds": 18.222,
       "phase": "throttle-autopilot"
     },
     {
-      "lit_fraction": 0.9995811883779775,
-      "contrast": 34.79211551386579,
-      "colors": 255,
-      "changed_fraction": 0.992426489835093,
-      "seconds": 20.833,
+      "lit_fraction": 0.9992147282087078,
+      "contrast": 25.586754699497398,
+      "colors": 149,
+      "changed_fraction": 0.8842509379635285,
+      "seconds": 18.909,
       "phase": "throttle-autopilot"
     },
     {
-      "lit_fraction": 0.9964575516970596,
-      "contrast": 38.7535172156952,
-      "colors": 258,
-      "changed_fraction": 0.9493412442195271,
-      "seconds": 21.808,
+      "lit_fraction": 0.9977314370473781,
+      "contrast": 31.294992793736018,
+      "colors": 162,
+      "changed_fraction": 0.9716255126079749,
+      "seconds": 19.555,
+      "phase": "throttle-autopilot"
+    },
+    {
+      "lit_fraction": 1.0,
+      "contrast": 27.547615134660525,
+      "colors": 125,
+      "changed_fraction": 0.9671581886397348,
+      "seconds": 20.27,
+      "phase": "throttle-autopilot"
+    },
+    {
+      "lit_fraction": 1.0,
+      "contrast": 39.64663309240623,
+      "colors": 208,
+      "changed_fraction": 0.9875578047290813,
+      "seconds": 20.92,
+      "phase": "throttle-autopilot"
+    },
+    {
+      "lit_fraction": 1.0,
+      "contrast": 35.55409448845232,
+      "colors": 132,
+      "changed_fraction": 0.9769653607887618,
+      "seconds": 21.559,
+      "phase": "throttle-autopilot"
+    },
+    {
+      "lit_fraction": 0.9999650990314981,
+      "contrast": 33.40150449691807,
+      "colors": 161,
+      "changed_fraction": 0.989878719134456,
+      "seconds": 22.19,
+      "phase": "throttle-autopilot"
+    },
+    {
+      "lit_fraction": 1.0,
+      "contrast": 27.07615170480597,
+      "colors": 102,
+      "changed_fraction": 0.9927231480673588,
+      "seconds": 22.9,
+      "phase": "throttle-autopilot"
+    },
+    {
+      "lit_fraction": 1.0,
+      "contrast": 34.798021051305184,
+      "colors": 136,
+      "changed_fraction": 0.978064741296571,
+      "seconds": 23.568,
+      "phase": "throttle-autopilot"
+    },
+    {
+      "lit_fraction": 1.0,
+      "contrast": 32.050506315686725,
+      "colors": 163,
+      "changed_fraction": 0.9805252595759533,
+      "seconds": 24.485,
       "phase": "pause"
     },
     {
-      "lit_fraction": 0.9964575516970596,
-      "contrast": 38.7535172156952,
-      "colors": 258,
+      "lit_fraction": 1.0,
+      "contrast": 32.050506315686725,
+      "colors": 163,
       "changed_fraction": 0.0,
-      "seconds": 22.448,
+      "seconds": 25.175,
       "phase": "pause"
     },
     {
-      "lit_fraction": 0.9964575516970596,
-      "contrast": 38.7535172156952,
-      "colors": 258,
+      "lit_fraction": 1.0,
+      "contrast": 32.050506315686725,
+      "colors": 163,
       "changed_fraction": 0.0,
-      "seconds": 23.091,
+      "seconds": 25.839,
       "phase": "pause"
     },
     {
-      "lit_fraction": 0.9964575516970596,
-      "contrast": 38.7535172156952,
-      "colors": 258,
+      "lit_fraction": 1.0,
+      "contrast": 32.050506315686725,
+      "colors": 163,
       "changed_fraction": 0.0,
-      "seconds": 23.72,
+      "seconds": 26.493,
       "phase": "pause"
     },
     {
-      "lit_fraction": 0.9964575516970596,
-      "contrast": 38.7535172156952,
-      "colors": 258,
+      "lit_fraction": 1.0,
+      "contrast": 32.050506315686725,
+      "colors": 163,
       "changed_fraction": 0.0,
-      "seconds": 24.393,
+      "seconds": 27.113,
       "phase": "pause"
     },
     {
-      "lit_fraction": 0.9981153477008987,
-      "contrast": 37.11998595527535,
-      "colors": 255,
-      "changed_fraction": 0.9782217956548295,
-      "seconds": 25.293,
+      "lit_fraction": 0.999162376755955,
+      "contrast": 32.241370570952526,
+      "colors": 183,
+      "changed_fraction": 0.9820958031585376,
+      "seconds": 28.117,
       "phase": "resume"
     },
     {
-      "lit_fraction": 0.9990925748189512,
-      "contrast": 30.14242656726889,
-      "colors": 198,
-      "changed_fraction": 0.9858302067882384,
-      "seconds": 25.935,
+      "lit_fraction": 0.9887967891108979,
+      "contrast": 32.493818912014824,
+      "colors": 156,
+      "changed_fraction": 0.9542448302940406,
+      "seconds": 28.849,
       "phase": "resume"
     },
     {
-      "lit_fraction": 0.9995986388622284,
-      "contrast": 33.98238787350235,
-      "colors": 196,
-      "changed_fraction": 0.989599511386441,
-      "seconds": 26.567,
+      "lit_fraction": 0.9989006194921909,
+      "contrast": 32.989491695729775,
+      "colors": 206,
+      "changed_fraction": 0.9545589390105576,
+      "seconds": 29.508,
       "phase": "resume"
     },
     {
-      "lit_fraction": 0.9990576738504493,
-      "contrast": 40.94663331575025,
-      "colors": 173,
-      "changed_fraction": 0.9650292295611204,
-      "seconds": 27.23,
+      "lit_fraction": 0.9456242910740773,
+      "contrast": 33.02679432670642,
+      "colors": 126,
+      "changed_fraction": 0.9943983945554489,
+      "seconds": 30.168,
       "phase": "resume"
     },
     {
-      "lit_fraction": 0.9998603961259925,
-      "contrast": 26.493541812702276,
-      "colors": 170,
-      "changed_fraction": 0.8265421865456767,
-      "seconds": 27.836,
+      "lit_fraction": 0.9751854113951662,
+      "contrast": 28.05734387288481,
+      "colors": 147,
+      "changed_fraction": 0.902678649332519,
+      "seconds": 30.805,
       "phase": "resume"
     },
     {
-      "lit_fraction": 0.9999301980629962,
-      "contrast": 31.959917748477483,
-      "colors": 193,
-      "changed_fraction": 0.9129046331035686,
-      "seconds": 28.472,
-      "phase": "resume"
-    },
-    {
-      "lit_fraction": 0.9999301980629962,
-      "contrast": 27.788330083197764,
-      "colors": 211,
-      "changed_fraction": 0.9053311229386616,
-      "seconds": 29.127,
+      "lit_fraction": 0.9762324404502225,
+      "contrast": 38.20568609324362,
+      "colors": 168,
+      "changed_fraction": 0.9131838408515837,
+      "seconds": 31.495,
       "phase": "resume"
     },
     {
       "lit_fraction": 1.0,
       "contrast": 58.462102585615376,
       "colors": 205,
-      "changed_fraction": 0.9919902277288195,
-      "seconds": 30.2,
+      "changed_fraction": 0.9972428234883518,
+      "seconds": 32.541,
       "phase": "restart-ready"
     },
     {
@@ -369,7 +377,7 @@
       "contrast": 58.462102585615376,
       "colors": 205,
       "changed_fraction": 0.0,
-      "seconds": 30.825,
+      "seconds": 33.277,
       "phase": "restart-ready"
     },
     {
@@ -377,183 +385,199 @@
       "contrast": 58.462102585615376,
       "colors": 205,
       "changed_fraction": 0.0,
-      "seconds": 31.469,
+      "seconds": 33.962,
       "phase": "restart-ready"
     },
     {
-      "lit_fraction": 1.0,
-      "contrast": 58.462102585615376,
-      "colors": 205,
-      "changed_fraction": 0.0,
-      "seconds": 32.125,
-      "phase": "restart-ready"
-    },
-    {
-      "lit_fraction": 0.9984294564174155,
-      "contrast": 39.3747305043516,
-      "colors": 261,
-      "changed_fraction": 0.9978710409213856,
-      "seconds": 33.228,
+      "lit_fraction": 0.9920425791815722,
+      "contrast": 49.76069252766708,
+      "colors": 244,
+      "changed_fraction": 0.9902975307564785,
+      "seconds": 35.054,
       "phase": "countdown-entry"
     },
     {
-      "lit_fraction": 0.9984294564174155,
-      "contrast": 39.3747305043516,
-      "colors": 261,
+      "lit_fraction": 0.9920425791815722,
+      "contrast": 49.76069252766708,
+      "colors": 244,
       "changed_fraction": 0.0,
-      "seconds": 33.903,
+      "seconds": 35.752,
       "phase": "countdown"
     },
     {
-      "lit_fraction": 0.9984294564174155,
-      "contrast": 39.3747305043516,
-      "colors": 261,
+      "lit_fraction": 0.9920425791815722,
+      "contrast": 49.76069252766708,
+      "colors": 244,
       "changed_fraction": 0.0,
-      "seconds": 34.624,
+      "seconds": 36.471,
       "phase": "countdown"
     },
     {
-      "lit_fraction": 0.9984294564174155,
-      "contrast": 39.3747305043516,
-      "colors": 261,
+      "lit_fraction": 0.9920425791815722,
+      "contrast": 49.76069252766708,
+      "colors": 244,
       "changed_fraction": 0.0,
-      "seconds": 35.302,
+      "seconds": 37.132,
       "phase": "countdown"
     },
     {
-      "lit_fraction": 0.9984294564174155,
-      "contrast": 39.3747305043516,
-      "colors": 261,
+      "lit_fraction": 0.9920425791815722,
+      "contrast": 49.76069252766708,
+      "colors": 244,
       "changed_fraction": 0.0,
-      "seconds": 35.983,
+      "seconds": 37.833,
       "phase": "countdown"
     },
     {
-      "lit_fraction": 0.9984294564174155,
-      "contrast": 39.3747305043516,
-      "colors": 261,
+      "lit_fraction": 0.9920425791815722,
+      "contrast": 49.76069252766708,
+      "colors": 244,
       "changed_fraction": 0.0,
-      "seconds": 36.625,
+      "seconds": 38.5,
       "phase": "countdown"
     },
     {
-      "lit_fraction": 0.9984294564174155,
-      "contrast": 39.3747305043516,
-      "colors": 261,
+      "lit_fraction": 0.9920425791815722,
+      "contrast": 49.76069252766708,
+      "colors": 244,
       "changed_fraction": 0.0,
-      "seconds": 37.271,
+      "seconds": 39.138,
       "phase": "countdown"
     },
     {
-      "lit_fraction": 0.9984294564174155,
-      "contrast": 39.3747305043516,
-      "colors": 261,
+      "lit_fraction": 0.9920425791815722,
+      "contrast": 49.76069252766708,
+      "colors": 244,
       "changed_fraction": 0.0,
-      "seconds": 37.941,
+      "seconds": 39.799,
       "phase": "countdown"
     },
     {
-      "lit_fraction": 0.9984294564174155,
-      "contrast": 39.3747305043516,
-      "colors": 261,
+      "lit_fraction": 0.9920425791815722,
+      "contrast": 49.76069252766708,
+      "colors": 244,
       "changed_fraction": 0.0,
-      "seconds": 38.632,
+      "seconds": 40.494,
       "phase": "countdown"
     },
     {
-      "lit_fraction": 0.9984294564174155,
-      "contrast": 39.3747305043516,
-      "colors": 261,
+      "lit_fraction": 0.9920425791815722,
+      "contrast": 49.76069252766708,
+      "colors": 244,
       "changed_fraction": 0.0,
-      "seconds": 39.268,
+      "seconds": 41.172,
       "phase": "countdown"
     },
     {
-      "lit_fraction": 0.9984294564174155,
-      "contrast": 39.3747305043516,
-      "colors": 261,
+      "lit_fraction": 0.9920425791815722,
+      "contrast": 49.76069252766708,
+      "colors": 244,
       "changed_fraction": 0.0,
-      "seconds": 39.889,
+      "seconds": 41.825,
       "phase": "countdown"
     },
     {
-      "lit_fraction": 0.9984294564174155,
-      "contrast": 39.3747305043516,
-      "colors": 261,
+      "lit_fraction": 0.9920425791815722,
+      "contrast": 49.76069252766708,
+      "colors": 244,
       "changed_fraction": 0.0,
-      "seconds": 40.518,
+      "seconds": 42.483,
       "phase": "countdown"
     },
     {
-      "lit_fraction": 0.9984294564174155,
-      "contrast": 39.3747305043516,
-      "colors": 261,
+      "lit_fraction": 0.9920425791815722,
+      "contrast": 49.76069252766708,
+      "colors": 244,
       "changed_fraction": 0.0,
-      "seconds": 41.175,
+      "seconds": 43.233,
       "phase": "countdown"
     },
     {
-      "lit_fraction": 0.9995811883779775,
-      "contrast": 27.38646823906379,
-      "colors": 155,
-      "changed_fraction": 0.9708925922694355,
-      "seconds": 41.809,
+      "lit_fraction": 0.9920425791815722,
+      "contrast": 49.76069252766708,
+      "colors": 244,
+      "changed_fraction": 0.0,
+      "seconds": 43.955,
       "phase": "countdown"
     },
     {
-      "lit_fraction": 0.9861792164732571,
-      "contrast": 30.56161921799064,
-      "colors": 157,
-      "changed_fraction": 0.9312799930198064,
-      "seconds": 42.42,
+      "lit_fraction": 0.9920425791815722,
+      "contrast": 49.76069252766708,
+      "colors": 244,
+      "changed_fraction": 0.0,
+      "seconds": 44.699,
+      "phase": "countdown"
+    },
+    {
+      "lit_fraction": 0.9920425791815722,
+      "contrast": 49.76069252766708,
+      "colors": 244,
+      "changed_fraction": 0.0,
+      "seconds": 45.436,
+      "phase": "countdown"
+    },
+    {
+      "lit_fraction": 0.9920425791815722,
+      "contrast": 49.76069252766708,
+      "colors": 244,
+      "changed_fraction": 0.0,
+      "seconds": 46.205,
+      "phase": "countdown"
+    },
+    {
+      "lit_fraction": 0.9887269871738941,
+      "contrast": 33.291148943658335,
+      "colors": 158,
+      "changed_fraction": 0.9340022685629527,
+      "seconds": 46.885,
+      "phase": "countdown"
+    },
+    {
+      "lit_fraction": 0.9934735188901492,
+      "contrast": 32.58650236709737,
+      "colors": 163,
+      "changed_fraction": 0.9037431288718262,
+      "seconds": 47.535,
       "phase": "restart-moving"
     },
     {
-      "lit_fraction": 0.9999301980629962,
-      "contrast": 21.90637521176743,
-      "colors": 123,
-      "changed_fraction": 0.9162202251112468,
-      "seconds": 43.066,
+      "lit_fraction": 0.9727772445685368,
+      "contrast": 29.112679044713722,
+      "colors": 133,
+      "changed_fraction": 0.9145100776546549,
+      "seconds": 48.286,
       "phase": "restart-moving"
     },
     {
-      "lit_fraction": 0.9998603961259925,
-      "contrast": 32.445863356407784,
-      "colors": 157,
-      "changed_fraction": 0.9775586772532938,
-      "seconds": 43.698,
+      "lit_fraction": 0.9940668353546811,
+      "contrast": 29.52149327478993,
+      "colors": 151,
+      "changed_fraction": 0.7600383910653521,
+      "seconds": 49.021,
       "phase": "restart-moving"
     },
     {
-      "lit_fraction": 0.9999301980629962,
-      "contrast": 32.54196884637522,
-      "colors": 165,
-      "changed_fraction": 0.987610156181834,
-      "seconds": 44.331,
+      "lit_fraction": 1.0,
+      "contrast": 21.28907113703812,
+      "colors": 96,
+      "changed_fraction": 0.8982811273012826,
+      "seconds": 49.708,
       "phase": "restart-moving"
     },
     {
-      "lit_fraction": 0.9999301980629962,
-      "contrast": 32.52175867926574,
-      "colors": 179,
-      "changed_fraction": 0.9809091702294739,
-      "seconds": 44.972,
+      "lit_fraction": 0.9786755082453538,
+      "contrast": 30.9874330689894,
+      "colors": 152,
+      "changed_fraction": 0.9483465666172236,
+      "seconds": 50.388,
       "phase": "restart-moving"
     },
     {
-      "lit_fraction": 0.9998603961259925,
-      "contrast": 37.392205819881916,
-      "colors": 261,
-      "changed_fraction": 0.955553616612861,
-      "seconds": 45.614,
-      "phase": "restart-moving"
-    },
-    {
-      "lit_fraction": 0.9998603961259925,
-      "contrast": 23.55984850705763,
-      "colors": 100,
-      "changed_fraction": 0.9716604135764767,
-      "seconds": 46.265,
+      "lit_fraction": 0.9996160893464794,
+      "contrast": 29.006119686173317,
+      "colors": 172,
+      "changed_fraction": 0.9520809702469244,
+      "seconds": 51.056,
       "phase": "restart-moving"
     }
   ],
@@ -573,5 +597,5 @@
     761
   ],
   "emulator_exit_code": -9,
-  "elapsed_seconds": 48.32
+  "elapsed_seconds": 53.22
 }

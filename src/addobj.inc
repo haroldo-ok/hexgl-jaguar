@@ -169,6 +169,18 @@ no_gouraud:
 	load	(y2),z2
 	addq	#4,y2
 	load	(y0),y0
+ ; Preserve actual camera-space vertex depths before forming the sort bucket.
+ move tri_array,tmp2
+ movei #tri_array_ram+4,tmp3
+ sub tmp3,tmp2
+ shrq #1,tmp2
+ movei #TRI_DEPTH,tmp3
+ add tmp3,tmp2
+ store z0,(tmp2)
+ addq #4,tmp2
+ store z1,(tmp2)
+ addq #4,tmp2
+ store z2,(tmp2)
 	add	z1,z0
 	load	(y1),y1
 	add	z2,z0

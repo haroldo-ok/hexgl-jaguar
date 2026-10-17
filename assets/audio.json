@@ -1,42 +1,72 @@
 [
   {
     "name": "bg",
-    "bytes": 759329,
+    "bytes": 762297,
+    "frames": 759329,
     "rom_address": "0xb00000",
     "sample_rate": 7990,
-    "format": "signed PCM8 mono",
-    "truncated": false
+    "channels": 2,
+    "block_frames": 2048,
+    "format": "interleaved stereo IMA4 with big-endian predictor/index block headers",
+    "truncated": false,
+    "source_sha256": "63aa572885b9b00cacedcb2a30be5a6722472ee41c4e6d36b48f628ab13c793f",
+    "sha256": "c1eeb4ced20c2e83982f62072bcbe22b08270ab9ded91491a4db2f2f1027f53c",
+    "snr_db": 36.41
   },
   {
     "name": "wind",
-    "bytes": 196138,
-    "rom_address": "0xbb9621",
+    "bytes": 196906,
+    "frames": 196138,
+    "rom_address": "0xbba1c0",
     "sample_rate": 7990,
-    "format": "signed PCM8 mono",
-    "truncated": false
+    "channels": 2,
+    "block_frames": 2048,
+    "format": "interleaved stereo IMA4 with big-endian predictor/index block headers",
+    "truncated": false,
+    "source_sha256": "7502fba01bd10d5a1b58e5f8cc5f67e2f1f96a7a148b01c582fe292dea68ec28",
+    "sha256": "1ec52cb8a2aefe0a7bbbc6454e841de53711227676bb069bfa0c53ea1308efca",
+    "snr_db": 30.75
   },
   {
     "name": "boost",
-    "bytes": 12721,
-    "rom_address": "0xbe944b",
+    "bytes": 12777,
+    "frames": 12721,
+    "rom_address": "0xbea2f0",
     "sample_rate": 7990,
-    "format": "signed PCM8 mono",
-    "truncated": false
+    "channels": 2,
+    "block_frames": 2048,
+    "format": "interleaved stereo IMA4 with big-endian predictor/index block headers",
+    "truncated": false,
+    "source_sha256": "c66da128697a4a2c0202777c5d8661e3b5c7b7e84fc544624af29cfed9861ac3",
+    "sha256": "193d4a3409deade1202f6c09739ec0e112b86486239eedfbb722e1c6972eb9f8",
+    "snr_db": 22.44
   },
   {
     "name": "crash",
-    "bytes": 3954,
-    "rom_address": "0xbec5fc",
+    "bytes": 3970,
+    "frames": 3954,
+    "rom_address": "0xbed4e0",
     "sample_rate": 7990,
-    "format": "signed PCM8 mono",
-    "truncated": false
+    "channels": 2,
+    "block_frames": 2048,
+    "format": "interleaved stereo IMA4 with big-endian predictor/index block headers",
+    "truncated": false,
+    "source_sha256": "ed32078e8d37b0710a134baa011e2549e1ec6b3455c891f4af6bacb451bef2d0",
+    "sha256": "ecdb54c2b9247531a7d6951fc21d4a283c0b5de22f04d31503093e753c98eeec",
+    "snr_db": 22.78
   },
   {
     "name": "destroyed",
-    "bytes": 69677,
-    "rom_address": "0xbed56e",
+    "bytes": 69957,
+    "frames": 69677,
+    "rom_address": "0xbee468",
     "sample_rate": 7990,
-    "format": "signed PCM8 mono",
-    "truncated": false
+    "channels": 2,
+    "block_frames": 2048,
+    "format": "interleaved stereo IMA4 with big-endian predictor/index block headers",
+    "truncated": false,
+    "source_sha256": "1c8f9fa046dd44cb253b5013153ffdd413f2661910fae6e6831aa4c9da146d89",
+    "sha256": "47678daedaa553cfc0c0f811d0f1f45f716a122028cc539dbeff513cb1f26fbe",
+    "snr_db": 31.24
   }
 ]

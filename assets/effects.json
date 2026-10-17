@@ -23,6 +23,6 @@
     16,
     16
   ],
-  "format": "alpha8 in bits16..23, CrY16 in low bits; native ordered alpha coverage",
+  "format": "alpha8 in bits16..23, CrY16 in low bits; native perspective-resampled RGB additive/alpha-over composition",
   "sha256": "2d0bc6bb1ac4255f23b79e27bd6a0c3835799fa23ae8c8d779288c50878550a9"
 }

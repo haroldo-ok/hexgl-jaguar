@@ -41,3 +41,11 @@ REPLAY_ANGLES equ $1b0000 ; 6144 pairs of signed pitch steps, ends $1b3000
 
 FX equ $1700
 FX_POOL equ $1800 ; 16 * 32 bytes, ends $1a00 below code entry
+
+AUDIO_STATE equ $1a00 ; 10 DSP words: seqlock,L,R,pan,centerL,spaceL,centerR,spaceR,bgPtr,boostPtr
+ADPCM_STATE equ $1a80 ; five 24-byte native decoder states, end $1af8
+MATERIAL_STATE equ $1a40 ; atlas pointer, bank, draw count, last texture pointer
+
+FX_AUX equ $1b00 ; inherited velocity, projection and actual pixel blend proof
+FX_DEPTH equ $1c00 ; read-only submitted-triangle depth query diagnostics
+TRI_DEPTH equ $e0000 ; 8192 records x 3 actual vertex Z words, ends $f8000, plus 12-byte overflow guard for the first rejected face

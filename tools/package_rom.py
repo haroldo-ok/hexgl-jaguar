@@ -8,7 +8,7 @@ rom=bytearray(b'\xff'*(6*1024*1024))
 loader=(R/'vendor/jag_3d_engine/loader/sbl.XXX').read_bytes()
 rom[:len(loader)]=loader
 rom[len(loader):len(loader)+len(program)]=program
-for name,offset in [('collision.bin',0x200000),('height.bin',0x240000),('replay.bin',0x2c0000),('route.bin',0x2d8000),('audio.bin',0x300000),('sky.bin',0x400000),('front-main.cry',0x590000),('front-bg.cry',0x5b5800)]:
+for name,offset in [('materials.bin',0x102000),('front-main.cry',0x192000),('front-bg.cry',0x1b7800),('collision.bin',0x200000),('height.bin',0x240000),('replay.bin',0x2c0000),('route.bin',0x2d8000),('audio.bin',0x300000),('sky.bin',0x400000)]:
  b=(R/'assets'/name).read_bytes();rom[offset:offset+len(b)]=b
 boot=(R/'src/cart_boot.bin').read_bytes()
 assert len(loader)+len(program)<0x100000 and len(boot)<0x1000

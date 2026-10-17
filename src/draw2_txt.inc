@@ -6,7 +6,7 @@ TXT_FP		equ 8
 TXT_SIZE	equ 64
 
 CLIP_TEXTURE	EQU BLIT_CLIP_A1*0
-TRANS_ENABLE	EQU BLIT_DCOMPEN*0
+TRANS_ENABLE	EQU BLIT_DCOMPEN
 
 tri_array	reg 15!
 blitter		reg 14
@@ -121,7 +121,7 @@ triangle:
  endif
 
  if TRANS_ENABLE <> 0
-	movei	#$42424242,tmp0
+	movei	#0,tmp0
 	store	tmp0,(blitter+_BLIT_PATD)
 	store	tmp0,(blitter+_BLIT_PATD+4)
  ENDIF
@@ -136,9 +136,12 @@ triangle:
 	moveta	tmp3,luminance.a
 
 	load	(tmp2),tmp0
-	movei	#texture,tmp1
+	movei	#MATERIAL_STATE,tmp1
+	load	(tmp1),tmp1
 	shrq	#16-13,tmp0
 	add	tmp0,tmp1
+	movei	#MATERIAL_STATE+12,tmp0
+	store	tmp1,(tmp0)
 	addq	#4,tmp2
 	load	(tmp2),u0
 	addq	#4,tmp2
@@ -589,7 +592,6 @@ hline:
 	store	tmp1,(blitter+_BLIT_IINC)
 
 	movei	#TRANS_ENABLE|CLIP_TEXTURE|BLIT_SRCEN|BLIT_LFU_REPLACE|BLIT_DSTA2|BLIT_SRCSHADE|BLIT_GOURZ,tmp3
-	movei	#BLIT_SRCEN|BLIT_LFU_REPLACE|BLIT_DSTA2|BLIT_SRCSHADE|BLIT_GOURZ,tmp3
 	store	tmp0,(blitter+_BLIT_COUNT)
 
 	jump	(LR2)

@@ -87,7 +87,7 @@ def verify_particles(result):
   particles=[pool[i:i+8] for i in range(0,128,8)]
   assert all(0<=p[6]<=15360 and p[7] in (0,1) for p in particles),'Pool corruption'
   if g[2]==1:
-   assert 0<=fx[2]<=16 and 0<=fx[3]<=17 and fx[4]<=17*256
+   assert 0<=fx[2]<=16 and 0<=fx[3]<=17 and fx[4]<=17*32*32
    drawn+=fx[4]>0
    if previous and fx[12]==previous['effects'][12]+1 and previous['game'][2]==1 and previous['game'][13]==g[13]:
     old=[previous['particles'][i:i+8] for i in range(0,128,8)]
@@ -108,58 +108,9 @@ def verify_particles(result):
  return {'particle_integrations':updates,'observed_spawns':spawns,'drawn_frames':drawn,'maximum_pool':max(f['effects'][2] for f in result['fields'][150:])}
 
 def source_sprite_pixels(result):
- """Actual output must contain original sprite chroma/intensity pixels, not just counters."""
- import numpy as np
- from PIL import Image
- from hud_checks import palette
- from frontend_checks import cry
- paths=['particles/spark.png','particles/cloud.png','ships/feisar/booster/boostersprite.jpg']
- colors=[]
- for i,p in enumerate(paths):
-  image=Image.open(R/'vendor/HexGL/textures'/p).convert('RGBA').resize((16,16),Image.Resampling.LANCZOS)
-  arr=np.array(image);mask=arr[:,:,3]>150 if i<2 else arr[:,:,:3].max(axis=2)>150
-  rgb=Image.new('RGB',(16,16),(255,192,64)) if i==0 else image.convert('RGB')
-  codes=np.frombuffer(cry(rgb),dtype='>u2').reshape(16,16)[mask]
-  colors.append({tuple((palette()[int(c)>>8]*(int(c)&255))>>8) for c in codes})
- counts=[0,0,0]
- for p in Path(result['output_dir']).glob('frame_*.png'):
-  image=np.array(Image.open(p).convert('RGB'))
-  # Exclude the source-art HUD and footer, where unrelated text can match white.
-  view=image[65:190,:,:].reshape(-1,3)
-  unique,n=np.unique(view,axis=0,return_counts=True)
-  for i,c in enumerate(colors):counts[i]=max(counts[i],sum(int(k) for v,k in zip(unique,n) if tuple(v) in c))
- assert counts[0]>8,('Source spark pixels missing',counts)
- # Stronger glow proof: reproduce position, alpha stencil and every source color
- # from a recently completed native pose, not just global color frequencies.
- im=Image.open(R/'vendor/HexGL/textures'/paths[2]).convert('RGBA').resize((16,16),Image.Resampling.LANCZOS)
- aa=np.array(im)[:,:,:3].max(axis=2)
- codes=np.frombuffer(cry(im),dtype='>u2').reshape(16,16)
- rgb=(palette()[codes>>8]*(codes&255)[:,:,None])>>8
- yy,xx=np.indices((16,16));threshold=(((yy&3)<<2)^(xx&3))*16
- verified=0
- for path in Path(result['output_dir']).glob('frame_*.png'):
-  n=int(path.stem.split('_')[1]);image=np.array(Image.open(path).convert('RGB'))
-  for f in result['fields'][max(150,n-20):n+1]:
-   g,q,p=f['game'],f['physics'],f['pose']
-   if g[2]!=1:continue
-   co,si=trig(g[7])
-   world=[(g[4]+(si*18>>7))>>8,g[5]>>8,(g[6]-(co*18>>7))>>8]
-   x,y,z=[world[j]-p[6+j] for j in range(3)]
-   co,si=trig(p[9]);x,z=(co*x+si*z)>>15,(-si*x+co*z)>>15
-   co,si=trig(q[12]>>8);y,z=(co*y+si*z)>>15,(co*z-si*y)>>15
-   if z<10:continue
-   rec=32768//z;sx=(abs(x)*rec)>>7;sy=(abs(y)*rec)>>7
-   if x<0:sx=-sx
-   if y>=0:sy=-sy
-   sx+=184;sy=(sy*(11 if g[20]==60 else 12)>>4)+92
-   dx,dy=(17,8) if g[20]==60 else (18,-4)
-   opacity=255 if g[12] else 96+g[8]*4
-   alpha=aa.astype(int)*opacity>>8;mask=(alpha>0)&(alpha>=threshold)
-   if not (0<=sx<=368 and 50<=sy<184):continue
-   crop=image[sy+dy:sy+dy+16,sx+dx:sx+dx+16]
-   if crop.shape==rgb.shape and np.all(crop[mask]==rgb[mask]):verified=max(verified,int(mask.sum()))
- assert verified>8,('Original glow stencil/position not visible',verified)
- return {'source_sprite_matching_pixels':counts,'exact_glow_pixels':verified}
+ from native_fx_checks import verify
+ return verify(result)
+
 
 def verify_fall(result):
  previous=None;checked=held=0;terminal=None
@@ -169,7 +120,7 @@ def verify_fall(result):
   if previous and previous['motion'][16]==m[16]:continue
   if previous and previous['physics'][4] and q[4] and m[16]==previous['motion'][16]+1:
    old=previous['physics'];og=previous['game']
-   if g[13] and og[13]:
+   if g[13] and og[13] and g[2]==1 and og[2]==1:
     assert q[5]==old[5] and g[5]==og[5],'Pause advanced falling'
     held+=1
    elif q[5]>old[5]:

@@ -51,18 +51,22 @@ Drift/height/pitch/contact response rates and fall timing account for PAL/NTSC;
 existing base acceleration, yaw increments and forward motion remain the prior
 field-based approximation, not a complete replacement of the source integrator.
 
-Particle art is 16² CrY with stable ordered alpha coverage. Point-sprite size is
-fixed in pixels, rather than a perspective-scaled WebGL billboard. Sparks use the
-source yellow tint. The pool, emission rate and randomness are hardware-limited;
-full source velocity inheritance, depth occlusion and additive blending are not
-reproduced. The glow is a sprite, **not dynamic scene lighting or bloom**. Particle
-trajectories are regenerated from collision events in replay, not individually
-recorded. No untouched source asset is counted as a runtime effect.
+Particle art is 16² CrY, now resampled with perspective sizing and clipped
+per-texel RGB additive/alpha-over composition. New velocity includes approximately
+.7 of the ship's measured motion. Actual submitted triangle depths support a
+conservative center query; glow bypasses it. These are documented native policies,
+not literal WebGL shader/default-depth behavior. The 16-slot pool, source-yellow
+spark tint, emission rate, lifetime/fade and deterministic randomness remain
+hardware adaptations. Glow is **not bloom**. Particle trajectories regenerate
+from collision events in replay rather than being individually recorded.
+See [PARTICLES-AND-ORIGINAL-STEREO.md](PARTICLES-AND-ORIGINAL-STEREO.md) for exact
+formulas, RGB requantization, depth fixtures and compromises.
 
 Camera pitch is implemented; quaternion up-vector tracking, camera roll, cross-
-slope ship tilt and orbit modes remain outstanding. The baked sky panorama still
-tracks yaw only. Normal/specular maps, shadows, material sidedness/transparency,
-spatial/filter audio and remaining presentation parity are still not complete.
+slope ship tilt and orbit modes remain outstanding. A later integration adds panorama sky pitch, source-map material banks, static
+centroid shadows, coarse booster face lighting, material sidedness/zero-key alpha
+and native spatial stereo. These remain hardware adaptations, not shader/audio
+equivalence; remaining presentation and physics/camera gaps are still explicit.
 
 ## Native layout
 
@@ -94,27 +98,26 @@ Physical Jaguar performance and cartridge/EEPROM compatibility remain untested.
 ## Delivered evidence retention
 
 Release packaging losslessly compresses complete field traces. Desktop captures
-are sampled by phase (first/last for moving/countdown phases and the last
-saved capture for other static phases); all metrics
-and all negative-control screenshots remain. Older core captures are sampled
+retain the last saved idle/countdown/throttle/pause/restart-moving view; all
+metrics and all negative-control screenshots remain. Calibration probes and static
+EEPROM fixture/reboot cases retain final imagery and all field observations. Older core captures are sampled
 by countdown, gauge state and bank pose. This integration's focused dynamics
-and front-end captures remain. The two `screenshot-retention.json` manifests
+and front-end captures remain. The screenshot-retention manifests
 record exactly which generated images were removed, after validation.
 
 `tools/check_recorded_dynamics.py` independently rechecks current-ROM archived
 observations: falling displacement, exactly 1.5 active seconds and pause during
-falling in all four manual boot/video runs, plus recorded pitch pairs against
+falling in all four dedicated fall/pause boot/video runs, plus recorded pitch pairs against
 observed gameplay before verifying replay interpolation. Its hash-bound output
 is `docs/dynamics-additional-checks.json`; it is explicitly post-run analysis,
 not another emulator execution or a synthetic gameplay input.
 
-### Core-gate rerun
+### Historical camera-oracle correction
 
 The longer rendering pipeline produced ten distinct *integer-rounded* camera
 distances but thirteen distinct Q8 filter values during the acceleration test.
 The anti-snap assertion now counts the actual Q8 values; the independent exact
 filter recurrence, maximum pullback and brake-return assertions are unchanged.
-The initial run and the full rerun are retained in `core-suite.log` and
-`core-rerun.log`. Every emulator scenario, including both complete races and all
-fault controls, executes again in the rerun; no old trace is used as a substitute
-for execution. `make test` always runs every emulator case fresh.
+The release gates always execute all emulator cases fresh; no archived trace is
+used as a substitute for execution. `tools/check_recorded_dynamics.py` is a separate,
+explicitly post-run analysis of those current-ROM observations.
