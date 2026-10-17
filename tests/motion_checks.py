@@ -14,6 +14,7 @@ def committed(result):
     last=None
     for f in result['fields'][150:]:
         seq=f['motion'][16]
+        if 'view' in f and f['view'][12]!=seq:continue
         if seq and seq!=last:
             yield f
             last=seq
@@ -28,14 +29,19 @@ def verify_motion(result):
         assert m[11]==160+(m[1]>>8),'Camera distance ignores filtered speed offset'
         assert p[0]==p[3]==((f.get('physics',[0]*32)[6]>>8)&2044),'Ship/booster ignored native terrain pitch'
         assert p[1]==p[4]==(-g[7])&2044,'Object yaw does not follow native heading'
-        angle=(m[0]>>8)&2044
+        bank=f.get('handling',[0]*32)[16] if 'handling' in f else m[0]
+        angle=(bank>>8)&2044
         assert p[2]==p[5]==angle,'Ship/booster renderer roll differs from filter state'
         assert (m[15]>>16)&0xffff==angle and m[15]&0xffff==angle
-        assert p[6:9]==m[12:15] and p[9]==g[7],'Renderer camera differs from computed pose'
-        heading=g[7]*2*math.pi/2048
-        assert abs(m[12]-((g[4]>>8)+math.sin(heading)*m[11]))<=2,'Camera X offset is wrong'
-        assert abs(m[14]-((g[6]>>8)-math.cos(heading)*m[11]))<=2,'Camera Z offset is wrong'
-        assert m[13]==m[2]>>8,'Renderer ignored smoothed height'
+        assert p[6:9]==m[12:15] and p[9]==f.get('view',[0]*4+[g[7]])[4],'Renderer camera differs from computed pose'
+        view=f.get('view',[0]*32)
+        if g[2]!=5:
+            heading=p[9]*2*math.pi/2048
+            distance=view[14] if view[1] else m[11]
+            assert abs(m[12]-((g[4]>>8)+math.sin(heading)*distance))<=2,'Camera X offset is wrong'
+            assert abs(m[14]-((g[6]>>8)-math.cos(heading)*distance))<=2,'Camera Z offset is wrong'
+            expected_y=(g[5]>>8)+(80 if view[1]==1 else 48) if view[1] else m[2]>>8
+            assert m[13]==expected_y,'Renderer ignored smoothed/view height'
         if g[2] in (0,4):
             assert m[0]==m[1]==0,'Bank/camera drift during ready/countdown'
         if previous and m[16]==previous['motion'][16]+1:

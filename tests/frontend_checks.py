@@ -54,23 +54,27 @@ def recordings(result):
 
 def replay(result):
     samples=recordings(result);assert len(samples)>50
+    extra=list(struct.iter_unpack('>6i',(Path(result['output_dir'])/'recording-view.bin').read_bytes()))
+    assert len(extra)==len(samples)
     angles=list(struct.iter_unpack('>bb',(Path(result['output_dir'])/'recording-angles.bin').read_bytes()))
     assert len(angles)==len(samples)
     assert all(b[7]>a[7] for a,b in zip(samples,samples[1:])),'Duplicate/reversed recording clock'
     # Compare stored records against observed native gameplay, not imported routes.
-    observed=set();observed_angles=set()
+    observed=set();observed_angles=set();observed_views=set()
     for f in result['fields']:
         g,m=f['game'],f['motion']
         if g[2] not in (1,2,3):continue
         sample=tuple(g[4:8]+m[:3]+[g[16]]+g[8:11]+[g[12],g[17],g[2],g[21],g[25]])
         observed.add(sample)
+        observed_views.add((sample,tuple(f['view'][8:11]+[f['view'][4],f['view'][5],f['handling'][16]])))
         observed_angles.add((sample,(f['physics'][6]>>10,f['physics'][12]>>10)))
     assert all(s in observed for s in samples),'Stored sample was not an observed native game state'
     assert all((s,a) in observed_angles for s,a in zip(samples,angles)),'Recorded pitch was not an observed native angle'
+    assert all((s,v) in observed_views for s,v in zip(samples,extra)),'Actual-camera/bank sample not observed in native gameplay'
     checked=partial=0;last=None
     for f in result['fields']:
         g,m,p,r=f['game'],f['motion'],f['pose'],f['replay']
-        if g[2]!=5 or m[16]!=r[15] or m[16]==last:continue
+        if g[2]!=5 or m[16]!=r[15] or m[16]==last or f['view'][12]!=m[16]:continue
         last=m[16];i=r[3];a=samples[i];b=samples[min(i+1,len(samples)-1)]
         alpha=0 if a[7]==b[7] else (r[4]-a[7])*256//(b[7]-a[7])
         assert r[11]==alpha and 0<=alpha<256
@@ -90,9 +94,15 @@ def replay(result):
         assert f['physics'][6]==ap[0] and f['physics'][12]==ap[1],'Replay lost recorded pitch'
         assert p[0]==p[3]==(ap[0]>>8)&2044
         assert p[1]==p[4]==(-want[3])&2044
-        assert p[2]==p[5]==(want[4]>>8)&2044
-        assert p[6:9]==m[12:15] and p[9]==want[3]
-        assert p[7]==want[6]>>8
+        ext=[]
+        for j,(v,w) in enumerate(zip(extra[i],extra[min(i+1,len(extra)-1)])):
+            delta=w-v
+            if j==3:delta=(delta+1024)%2048-1024
+            value=v+delta*alpha//256
+            ext.append(value&2044 if j==3 else value)
+        assert p[2]==p[5]==(ext[5]>>8)&2044,'Replay lost cross-slope mesh bank'
+        assert p[6:9]==m[12:15]==ext[:3] and p[9]==ext[3],'Actual-camera replay interpolation differs'
+        assert f['view'][5]==ext[4] and f['handling'][16]==ext[5]
         checked+=1;partial+=0<alpha<256
     assert checked>30 and partial>10,'Interpolation not exercised'
     paused=[f for f in result['fields'][1100:1140] if f['game'][2]==5]

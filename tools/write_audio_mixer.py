@@ -65,7 +65,15 @@ sample:
  nop
  nop
 '''
-s+=call('bg','r20',0)+''' sharq #2,r12
+s+=call('bg','r20',0)+''' movei #$1f90,r0
+ load (r0),r0
+ cmpq #0,r0
+ jr ne,.music_enabled
+ nop
+ moveq #0,r12
+ moveq #0,r13
+.music_enabled
+ sharq #2,r12
  sharq #2,r13
  move r12,r10
  move r13,r9
@@ -158,11 +166,27 @@ s+=call('bg','r20',0)+''' sharq #2,r12
  movei #.destroyskip,r2
  jump eq,(r2)
  nop
-'''+call('destroyed','r24',4)+''' sharq #2,r12
+'''+call('destroyed','r24',4)+''' movei #$1f94,r0
+ load (r0),r0
+ cmpq #0,r0
+ jr ne,.destroy_enabled
+ nop
+ moveq #0,r12
+ moveq #0,r13
+.destroy_enabled
+ sharq #2,r12
  sharq #2,r13
  add r12,r10
  add r13,r9
 .destroyskip
+ movei #$1f94,r0
+ load (r0),r0
+ cmpq #0,r0
+ jr ne,.sfx_enabled
+ nop
+ moveq #0,r11
+ moveq #0,r8
+.sfx_enabled
  ; Preserve source stereo; balance the spatial bus, never collapse music to mono.
  movei #$1604,r0
  load (r0),r16

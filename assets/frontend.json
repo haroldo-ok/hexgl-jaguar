@@ -30,7 +30,7 @@
     "separate manual and autopilot local records"
   ],
   "outputs": {
-    "front-main.cry": "51111f57f8867c3f5d5888eb003061f2ada23dbe267277412f2844575ae74a03",
+    "front-main.cry": "dfd3af0c12913c828695ed0f5509ef5283713fcc2085054aa4d9f9afc50c4ad6",
     "front-bg.cry": "e58d462825424cf010d8238c62ac1f944060260e73cb41bac863a6ba35c4765a",
     "front-font.bin": "9d65f923d99b976493f1471a3819ee77fd0f5179158237c8632ceccc51539982",
     "front-widths.bin": "baac51547e4e841254265ae5bb895d9ea9f464e81937bf542a05991c0e5ebc77"

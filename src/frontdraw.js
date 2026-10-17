@@ -79,6 +79,10 @@ frontdraw_menu:
  movei #frontdraw_scores,r1
  jump eq,(r1)
  nop
+ cmpq #5,r0
+ movei #frontdraw_settings,r1
+ jump eq,(r1)
+ nop
  FRONT_TEXT credits_one,126,61
  FRONT_TEXT credits_two,126,85
  FRONT_TEXT credits_three,126,109
@@ -95,7 +99,7 @@ frontdraw_controls:
 frontdraw_selection:
  movei #FRONT+4,r0
  load (r0),r0
- moveq #22,r1
+ moveq #18,r1
  mult r1,r0
  movei #81,r1
  add r1,r0
@@ -332,6 +336,7 @@ front_text:
  movei #.char,r8
  jump (r8)
  nop
+ include "settings_draw.inc"
  align 4
 record_saved: dc.b "RECORD SAVED",0
 save_failed: dc.b "EEPROM UNAVAILABLE",0

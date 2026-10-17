@@ -1,3 +1,5 @@
+> **Increment history:** This document describes its original implementation/test milestone. Current banked-sky, source-color/lifetime, blue-light/contact-shadow, bloom and AV changes supersede older missing-feature notes: see [REMAINING-NATIVE-SYSTEMS.md](REMAINING-NATIVE-SYSTEMS.md), [PARITY.md](PARITY.md) and the current hash-bound test reports.
+
 # Native dynamics, camera pitch and original-asset effects
 
 This integration is a substantial playable-system update, **not full HexGL parity**.

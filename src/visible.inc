@@ -156,6 +156,12 @@ check_faces_visible::
 	addq	#ambient,tmp0
 	sat8	tmp0
  ENDIF
+ ; Reset this real face's point-light bank tag before evaluating distance.
+ move f_ptr,tmp1
+ addq #1,tmp1
+ load (tmp1),tmp2
+ bclr #0,tmp2
+ store tmp2,(tmp1)
  ; Local booster illumination affects real scene faces, not only its sprite.
  movei #MATERIAL_STATE+20,tmp1
  load (tmp1),tmp2
@@ -189,9 +195,25 @@ check_faces_visible::
  store tmp0,(tmp1)
  addq #4,tmp1
  store tmp3,(tmp1)
+ ; Quantized colored PointLight response on actual near-stern face textures.
+ movei #AVSET+12,tmp1
+ load (tmp1),tmp2
+ cmpq #0,tmp2
+ jr eq,.blue_done
+ nop
+ movei #24,tmp2
+ cmp tmp2,tmp3
+ jr mi,.blue_done
+ nop
+ move f_ptr,tmp1
+ addq #1,tmp1
+ load (tmp1),tmp2
+ bset #0,tmp2
+ store tmp2,(tmp1)
+.blue_done
  add tmp3,tmp0
  sat8 tmp0
- addq #4,tmp1
+ movei #MATERIAL_STATE+44,tmp1
  store tmp0,(tmp1)
  movei #MATERIAL_STATE+8,tmp1
  load (tmp1),tmp2

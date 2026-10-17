@@ -9,15 +9,15 @@
     "--out",
     "/home/user/hexgl-jaguar/test-results/fall-pause-pal-bios",
     "--input",
-    "100:a,520:a+left,560:a,635:pause,650:none,785:pause,800:none",
+    "100:a,520:a+left,560:a,575:pause,590:none,725:pause,740:none",
     "--quiet",
     "--dump-at",
     "80,180,280,380,480,580,800,1200,2400,4800,8000,12000",
     "--title",
     "run",
     "--dump-at",
-    "685,835",
+    "625,775",
     "/home/user/hexgl-jaguar/rom/hexgl.j64"
   ],
-  "rom_sha256": "fc99ae03d093ec1483cf814d18f484bfa5adf154d42081d37a9350710c93e1a8"
+  "rom_sha256": "c7414e11b4edddc5274ae7d03742a31ee2f3e2bc9dcf815b331c9cfcc764572a"
 }

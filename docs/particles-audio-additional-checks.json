@@ -1,21 +1,21 @@
 {
   "status": "PASS",
-  "rom_sha256": "fc99ae03d093ec1483cf814d18f484bfa5adf154d42081d37a9350710c93e1a8",
+  "rom_sha256": "c7414e11b4edddc5274ae7d03742a31ee2f3e2bc9dcf815b331c9cfcc764572a",
   "method": "Independent post-run current-ROM complete-race checks; no emulator/game-RAM writes.",
   "cases": {
     "ntsc": {
-      "active_boost_dsp_fields": 95,
-      "monotonic_nonlooping_cursor_checks": 95,
-      "zero_timer_stops_checked": 576,
-      "ended_one_shot_held_without_loop_fields": 14351,
-      "original_spatial_channel_difference_at_zero_pan_fields": 93
+      "active_boost_dsp_fields": 2511,
+      "monotonic_nonlooping_cursor_checks": 2499,
+      "zero_timer_stops_checked": 13135,
+      "observed_ended_one_shot_while_timer_positive_fields": 70,
+      "original_spatial_channel_difference_at_zero_pan_fields": 2463
     },
     "pal": {
-      "active_boost_dsp_fields": 79,
-      "monotonic_nonlooping_cursor_checks": 79,
-      "zero_timer_stops_checked": 479,
-      "ended_one_shot_held_without_loop_fields": 12410,
-      "original_spatial_channel_difference_at_zero_pan_fields": 78
+      "active_boost_dsp_fields": 2086,
+      "monotonic_nonlooping_cursor_checks": 2071,
+      "zero_timer_stops_checked": 11446,
+      "observed_ended_one_shot_while_timer_positive_fields": 48,
+      "original_spatial_channel_difference_at_zero_pan_fields": 2030
     }
   }
 }

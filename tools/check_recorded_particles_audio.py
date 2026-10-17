@@ -28,11 +28,13 @@ for standard in ['ntsc','pal']:
     assert ptr>=old,'Boost source looped without a rising/retrigger event'
     monotonic+=1
   previous=f
- assert active>50 and monotonic>50 and stopped>300 and nonlooping>50,'Native boost one-shot/stop behavior not exercised'
+ assert active>50 and monotonic>50 and stopped>300,'Native boost cursor/active-timer stop behavior not exercised'
  # Both music/wind sources are dual-mono; boost contains genuine L/R content.
- # Require at least 80% of one source-duration/native-hold boost interval.
- expected_fields=min(m['frames']/7990*(60 if standard=='ntsc' else 50),90)
+ # Require at least 80% of one source-duration/normalized boost interval.
+ # Expiry may now stop the 1.592-second source before its natural end; the
+ # obsolete assisted infinite-latch/ended-under-held-signal condition is not a gate.
+ expected_fields=min(m['frames']/7990*(60 if standard=='ntsc' else 50),(60 if standard=='ntsc' else 50)*1.5)
  assert center_stereo>expected_fields*.8,'Independent source-channel boost content at zero balance not exercised'
- report['cases'][standard]={'active_boost_dsp_fields':active,'monotonic_nonlooping_cursor_checks':monotonic,'zero_timer_stops_checked':stopped,'ended_one_shot_held_without_loop_fields':nonlooping,'original_spatial_channel_difference_at_zero_pan_fields':center_stereo}
+ report['cases'][standard]={'active_boost_dsp_fields':active,'monotonic_nonlooping_cursor_checks':monotonic,'zero_timer_stops_checked':stopped,'observed_ended_one_shot_while_timer_positive_fields':nonlooping,'original_spatial_channel_difference_at_zero_pan_fields':center_stereo}
 (R/'docs/particles-audio-additional-checks.json').write_text(json.dumps(report,indent=2)+'\n')
 print(json.dumps(report,indent=2))

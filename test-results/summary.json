@@ -1,5 +1,5 @@
 {
-  "rom_sha256": "fc99ae03d093ec1483cf814d18f484bfa5adf154d42081d37a9350710c93e1a8",
+  "rom_sha256": "c7414e11b4edddc5274ae7d03742a31ee2f3e2bc9dcf815b331c9cfcc764572a",
   "emulator": "Virtual Jaguar Rx 2.1.3 headless core harness",
   "cases": {
     "manual-ntsc": {
@@ -44,7 +44,7 @@
       ],
       "fields": 2040,
       "updates": 49,
-      "audio_samples": 267667
+      "audio_samples": 267534
     },
     "race-ntsc": {
       "checks": [
@@ -68,19 +68,19 @@
       ],
       "motion_checks": {
         "verified_updates": 3864,
-        "height_filtered_updates": 2892,
+        "height_filtered_updates": 2889,
         "left_bank_seen": true,
         "right_bank_seen": true
       },
-      "fields": 15222,
+      "fields": 15942,
       "updates": 4026,
-      "race_ticks": 14520,
+      "race_ticks": 15240,
       "lap_ticks": [
-        4872,
-        4824,
-        4824
+        5115,
+        5063,
+        5062
       ],
-      "audio_samples": 2025213
+      "audio_samples": 2121094
     },
     "manual-pal": {
       "checks": [
@@ -101,7 +101,7 @@
         "restart"
       ],
       "fields": 1900,
-      "updates": 66,
+      "updates": 64,
       "audio_samples": 301739
     },
     "manual-pal-direct": {
@@ -123,8 +123,8 @@
         "restart"
       ],
       "fields": 1900,
-      "updates": 66,
-      "audio_samples": 299661
+      "updates": 64,
+      "audio_samples": 299501
     },
     "race-pal": {
       "checks": [
@@ -148,26 +148,26 @@
       ],
       "motion_checks": {
         "verified_updates": 3864,
-        "height_filtered_updates": 2880,
+        "height_filtered_updates": 2865,
         "left_bank_seen": true,
         "right_bank_seen": true
       },
-      "fields": 13162,
-      "updates": 4054,
-      "race_ticks": 12531,
+      "fields": 13801,
+      "updates": 4047,
+      "race_ticks": 13170,
       "lap_ticks": [
-        4205,
-        4163,
-        4163
+        4420,
+        4375,
+        4375
       ],
-      "audio_samples": 2101622
+      "audio_samples": 2203746
     },
     "bank-ntsc": {
       "verified_updates": 135,
       "height_filtered_updates": 0,
       "left_bank_seen": true,
       "right_bank_seen": true,
-      "half_second_left_roll_q8": -46755,
+      "half_second_left_roll_q8": -45390,
       "checks": [
         "left/right bank",
         "airbrake bank",
@@ -187,7 +187,7 @@
       }
     },
     "camera-speed-ntsc": {
-      "verified_updates": 75,
+      "verified_updates": 74,
       "height_filtered_updates": 0,
       "left_bank_seen": false,
       "right_bank_seen": false,
@@ -201,11 +201,11 @@
       "fields": 820
     },
     "bank-pal": {
-      "verified_updates": 144,
+      "verified_updates": 129,
       "height_filtered_updates": 0,
       "left_bank_seen": true,
       "right_bank_seen": true,
-      "half_second_left_roll_q8": -47074,
+      "half_second_left_roll_q8": -47075,
       "checks": [
         "left/right bank",
         "airbrake bank",
@@ -225,7 +225,7 @@
       }
     },
     "camera-speed-pal": {
-      "verified_updates": 68,
+      "verified_updates": 62,
       "height_filtered_updates": 0,
       "left_bank_seen": false,
       "right_bank_seen": false,
@@ -335,9 +335,9 @@
         },
         {
           "capture": "frame_00800.png",
-          "speed": 0,
-          "shield": 78,
-          "pixels": 1706
+          "speed": 12,
+          "shield": 90,
+          "pixels": 2173
         },
         {
           "capture": "frame_01200.png",
@@ -351,7 +351,8 @@
           "shield": 100,
           "pixels": 1735
         }
-      ]
+      ],
+      "hud_off_captures": []
     },
     "manual-ntsc-direct": {
       "checks": [
@@ -393,9 +394,9 @@
         },
         {
           "capture": "frame_00800.png",
-          "speed": 0,
-          "shield": 78,
-          "pixels": 1706
+          "speed": 12,
+          "shield": 90,
+          "pixels": 2173
         },
         {
           "capture": "frame_01200.png",
@@ -409,7 +410,8 @@
           "shield": 100,
           "pixels": 1735
         }
-      ]
+      ],
+      "hud_off_captures": []
     },
     "race-ntsc": {
       "checks": [
@@ -491,7 +493,8 @@
           "shield": 100,
           "pixels": 2793
         }
-      ]
+      ],
+      "hud_off_captures": []
     },
     "manual-pal": {
       "checks": [
@@ -528,14 +531,14 @@
         {
           "capture": "frame_00580.png",
           "speed": 0,
-          "shield": 86,
-          "pixels": 1718
+          "shield": 91,
+          "pixels": 1727
         },
         {
           "capture": "frame_00800.png",
           "speed": 0,
-          "shield": 56,
-          "pixels": 1660
+          "shield": 61,
+          "pixels": 1669
         },
         {
           "capture": "frame_01200.png",
@@ -549,7 +552,8 @@
           "shield": 100,
           "pixels": 1735
         }
-      ]
+      ],
+      "hud_off_captures": []
     },
     "manual-pal-direct": {
       "checks": [
@@ -579,21 +583,21 @@
         },
         {
           "capture": "frame_00480.png",
-          "speed": 21,
+          "speed": 20,
           "shield": 100,
-          "pixels": 2527
+          "pixels": 2492
         },
         {
           "capture": "frame_00580.png",
           "speed": 0,
-          "shield": 92,
-          "pixels": 1733
+          "shield": 91,
+          "pixels": 1727
         },
         {
           "capture": "frame_00800.png",
-          "speed": 0,
-          "shield": 56,
-          "pixels": 1660
+          "speed": 12,
+          "shield": 73,
+          "pixels": 2135
         },
         {
           "capture": "frame_01200.png",
@@ -607,7 +611,8 @@
           "shield": 100,
           "pixels": 1735
         }
-      ]
+      ],
+      "hud_off_captures": []
     },
     "race-pal": {
       "checks": [
@@ -689,7 +694,8 @@
           "shield": 100,
           "pixels": 2793
         }
-      ]
+      ],
+      "hud_off_captures": []
     },
     "bank-ntsc": {
       "checks": [
@@ -765,7 +771,8 @@
           "shield": 100,
           "pixels": 1735
         }
-      ]
+      ],
+      "hud_off_captures": []
     },
     "camera-speed-ntsc": {
       "checks": [
@@ -925,7 +932,8 @@
           "shield": 100,
           "pixels": 1735
         }
-      ]
+      ],
+      "hud_off_captures": []
     },
     "bank-pal": {
       "checks": [
@@ -1001,7 +1009,8 @@
           "shield": 100,
           "pixels": 1735
         }
-      ]
+      ],
+      "hud_off_captures": []
     },
     "camera-speed-pal": {
       "checks": [
@@ -1049,45 +1058,45 @@
         },
         {
           "capture": "frame_00504.png",
-          "speed": 3,
+          "speed": 0,
           "shield": 100,
-          "pixels": 1832
+          "pixels": 1735
         },
         {
           "capture": "frame_00506.png",
-          "speed": 3,
+          "speed": 4,
           "shield": 100,
-          "pixels": 1832
+          "pixels": 1867
         },
         {
           "capture": "frame_00508.png",
-          "speed": 6,
+          "speed": 4,
           "shield": 100,
-          "pixels": 1949
+          "pixels": 1867
         },
         {
           "capture": "frame_00510.png",
-          "speed": 6,
+          "speed": 8,
           "shield": 100,
-          "pixels": 1949
+          "pixels": 2024
         },
         {
           "capture": "frame_00512.png",
-          "speed": 10,
+          "speed": 8,
           "shield": 100,
-          "pixels": 2105
+          "pixels": 2024
         },
         {
           "capture": "frame_00514.png",
-          "speed": 13,
+          "speed": 12,
           "shield": 100,
-          "pixels": 2222
+          "pixels": 2181
         },
         {
           "capture": "frame_00516.png",
-          "speed": 13,
+          "speed": 12,
           "shield": 100,
-          "pixels": 2222
+          "pixels": 2181
         },
         {
           "capture": "frame_00518.png",
@@ -1103,33 +1112,33 @@
         },
         {
           "capture": "frame_00522.png",
-          "speed": 19,
+          "speed": 20,
           "shield": 100,
-          "pixels": 2454
+          "pixels": 2492
         },
         {
           "capture": "frame_00524.png",
-          "speed": 19,
+          "speed": 20,
           "shield": 100,
-          "pixels": 2454
+          "pixels": 2492
         },
         {
           "capture": "frame_00526.png",
-          "speed": 23,
+          "speed": 24,
           "shield": 100,
-          "pixels": 2609
+          "pixels": 2652
         },
         {
           "capture": "frame_00528.png",
-          "speed": 23,
+          "speed": 24,
           "shield": 100,
-          "pixels": 2609
+          "pixels": 2652
         },
         {
           "capture": "frame_00530.png",
-          "speed": 27,
+          "speed": 28,
           "shield": 100,
-          "pixels": 2765
+          "pixels": 2793
         },
         {
           "capture": "frame_00546.png",
@@ -1139,9 +1148,9 @@
         },
         {
           "capture": "frame_00562.png",
-          "speed": 10,
+          "speed": 4,
           "shield": 100,
-          "pixels": 2105
+          "pixels": 1867
         },
         {
           "capture": "frame_00580.png",
@@ -1161,7 +1170,8 @@
           "shield": 100,
           "pixels": 1735
         }
-      ]
+      ],
+      "hud_off_captures": []
     },
     "countdown-pause-ntsc": {
       "checks": [
@@ -1213,7 +1223,8 @@
           "shield": 100,
           "pixels": 2793
         }
-      ]
+      ],
+      "hud_off_captures": []
     },
     "countdown-pause-pal": {
       "checks": [
@@ -1265,7 +1276,8 @@
           "shield": 100,
           "pixels": 2793
         }
-      ]
+      ],
+      "hud_off_captures": []
     },
     "cold-boot-seed-7": {
       "checks": [
@@ -1317,7 +1329,8 @@
           "shield": 100,
           "pixels": 2793
         }
-      ]
+      ],
+      "hud_off_captures": []
     },
     "cold-boot-seed-42": {
       "checks": [
@@ -1369,7 +1382,8 @@
           "shield": 100,
           "pixels": 2793
         }
-      ]
+      ],
+      "hud_off_captures": []
     }
   },
   "status": "PASS"

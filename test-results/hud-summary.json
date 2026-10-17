@@ -1,6 +1,6 @@
 {
   "status": "PASS",
-  "rom_sha256": "fc99ae03d093ec1483cf814d18f484bfa5adf154d42081d37a9350710c93e1a8",
+  "rom_sha256": "c7414e11b4edddc5274ae7d03742a31ee2f3e2bc9dcf815b331c9cfcc764572a",
   "cases": {
     "ntsc": {
       "checks": [
@@ -19,7 +19,7 @@
       ],
       "shields_seen": [
         0,
-        90,
+        96,
         100
       ],
       "fields": 900,
@@ -106,32 +106,32 @@
           {
             "capture": "frame_00652.png",
             "speed": 0,
-            "shield": 90,
-            "pixels": 1727
+            "shield": 96,
+            "pixels": 1735
           },
           {
             "capture": "frame_00672.png",
             "speed": 0,
-            "shield": 90,
-            "pixels": 1727
+            "shield": 96,
+            "pixels": 1735
           },
           {
             "capture": "frame_00692.png",
             "speed": 0,
-            "shield": 90,
-            "pixels": 1727
+            "shield": 96,
+            "pixels": 1735
           },
           {
             "capture": "frame_00712.png",
             "speed": 0,
-            "shield": 90,
-            "pixels": 1727
+            "shield": 96,
+            "pixels": 1735
           },
           {
             "capture": "frame_00732.png",
             "speed": 0,
-            "shield": 90,
-            "pixels": 1727
+            "shield": 0,
+            "pixels": 1538
           },
           {
             "capture": "frame_00752.png",
@@ -175,7 +175,8 @@
             "shield": 100,
             "pixels": 1735
           }
-        ]
+        ],
+        "hud_off_captures": []
       }
     },
     "pal": {
@@ -188,16 +189,15 @@
       ],
       "speeds_seen": [
         0,
-        3,
-        6,
-        12,
-        18,
-        21,
+        4,
+        8,
+        16,
+        20,
         28
       ],
       "shields_seen": [
         0,
-        97,
+        91,
         100
       ],
       "fields": 830,
@@ -235,33 +235,33 @@
           },
           {
             "capture": "frame_00460.png",
-            "speed": 3,
+            "speed": 0,
             "shield": 100,
-            "pixels": 1832
+            "pixels": 1735
           },
           {
             "capture": "frame_00464.png",
-            "speed": 6,
+            "speed": 4,
             "shield": 100,
-            "pixels": 1949
+            "pixels": 1867
           },
           {
             "capture": "frame_00468.png",
-            "speed": 12,
+            "speed": 8,
             "shield": 100,
-            "pixels": 2181
+            "pixels": 2024
           },
           {
             "capture": "frame_00476.png",
-            "speed": 18,
+            "speed": 16,
             "shield": 100,
-            "pixels": 2411
+            "pixels": 2335
           },
           {
             "capture": "frame_00480.png",
-            "speed": 21,
+            "speed": 20,
             "shield": 100,
-            "pixels": 2527
+            "pixels": 2492
           },
           {
             "capture": "frame_00510.png",
@@ -284,32 +284,32 @@
           {
             "capture": "frame_00580.png",
             "speed": 0,
-            "shield": 97,
-            "pixels": 1735
+            "shield": 91,
+            "pixels": 1727
           },
           {
             "capture": "frame_00582.png",
             "speed": 0,
-            "shield": 97,
-            "pixels": 1735
+            "shield": 91,
+            "pixels": 1727
           },
           {
             "capture": "frame_00602.png",
             "speed": 0,
-            "shield": 97,
-            "pixels": 1735
+            "shield": 91,
+            "pixels": 1727
           },
           {
             "capture": "frame_00622.png",
             "speed": 0,
-            "shield": 97,
-            "pixels": 1735
+            "shield": 91,
+            "pixels": 1727
           },
           {
             "capture": "frame_00642.png",
             "speed": 0,
-            "shield": 0,
-            "pixels": 1538
+            "shield": 91,
+            "pixels": 1727
           },
           {
             "capture": "frame_00662.png",
@@ -359,7 +359,8 @@
             "shield": 100,
             "pixels": 1735
           }
-        ]
+        ],
+        "hud_off_captures": []
       }
     }
   }

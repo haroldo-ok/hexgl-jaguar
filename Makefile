@@ -5,7 +5,7 @@ LYXASS := $(ROOT)/vendor/lyxass/lyxass
 VJ := $(ROOT)/vendor/virtualjaguar
 PYTHON ?= python3
 export BJL_ROOT
-.PHONY: all rom assets toolchain emulator test test-core test-gui test-unit test-quick test-clean test-materials test-fall release verify clean
+.PHONY: all rom assets toolchain emulator test test-core test-gui test-unit test-quick test-clean test-materials test-fall test-gameplay test-remaining source-audit release verify clean
 all: rom
 
 toolchain:
@@ -27,8 +27,10 @@ rom: toolchain
 	$(PYTHON) tools/motion.py
 	$(PYTHON) tools/dynamics.py
 	$(PYTHON) tools/effects.py
+	$(PYTHON) tools/remaining_assets.py
 	$(PYTHON) tools/colors.py
 	$(PYTHON) tools/write_audio_mixer.py
+	$(PYTHON) tools/source_inventory.py
 	$(PYTHON) tools/prepare_engine.py
 	cd src && $(LYXASS) -d -o audio.bin audio.js
 	cd src && $(LYXASS) -sh hexgl.js
@@ -53,9 +55,13 @@ test: rom emulator test-unit
 	$(PYTHON) tests/original_audio_e2e.py
 	$(PYTHON) tests/fall_e2e.py
 	$(PYTHON) tests/frontend_e2e.py
+	$(PYTHON) tests/gameplay_e2e.py
+	$(PYTHON) tests/remaining_e2e.py
 	$(PYTHON) tools/check_recorded_dynamics.py
 	$(PYTHON) tools/check_recorded_materials.py
 	$(PYTHON) tools/check_recorded_particles_audio.py
+	$(PYTHON) tools/check_recorded_gameplay.py
+	$(PYTHON) tools/check_recorded_remaining.py
 	xvfb-run -a -s '-screen 0 1024x768x24' $(PYTHON) tests/gui_e2e.py
 
 test-core: rom emulator
@@ -67,9 +73,16 @@ test-core: rom emulator
 	$(PYTHON) tests/original_audio_e2e.py
 	$(PYTHON) tests/fall_e2e.py
 	$(PYTHON) tests/frontend_e2e.py
+	$(PYTHON) tests/gameplay_e2e.py
+	$(PYTHON) tests/remaining_e2e.py
 	$(PYTHON) tools/check_recorded_dynamics.py
 	$(PYTHON) tools/check_recorded_materials.py
 	$(PYTHON) tools/check_recorded_particles_audio.py
+	$(PYTHON) tools/check_recorded_gameplay.py
+	$(PYTHON) tools/check_recorded_remaining.py
+
+test-gameplay: rom emulator
+	$(PYTHON) tests/gameplay_e2e.py
 
 test-materials: rom emulator
 	$(PYTHON) tests/material_e2e.py
@@ -100,3 +113,9 @@ verify:
 
 clean:
 	rm -f src/hexgl.o src/hexgl.equ src/audio.bin rom/hexgl.j64
+
+source-audit:
+	$(PYTHON) tools/source_inventory.py
+
+test-remaining: rom emulator
+	$(PYTHON) tests/remaining_e2e.py

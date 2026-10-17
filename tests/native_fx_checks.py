@@ -22,11 +22,18 @@ def blend(src,dst,alpha,mode):
 def pixel(a):
  if not a[15] or a[15]&1:return False
  _,_,atlas=tables();z=a[14];size,opacity,kind=a[25:28];col,row=a[30:32]
- assert 0<=kind<=2 and 0<=opacity<=255 and z>=10
+ assert 0<=kind<=2 and 0<=opacity<=256 and z>=10
  assert size==max(2,min(32,([8,24,16][kind]*(32768//z))>>7)),'Perspective sprite size differs'
  assert 0<=col<size and 0<=row<size
- assert a[16]==atlas[kind*256+(row*16//size)*16+col*16//size],'Original sprite resampling differs'
- alpha=(a[16]>>16)*opacity//256
+ index=(row*16//size)*16+col*16//size
+ if 0x9f2000<=a[22]<0x9fa000:
+  assert (a[22]-0x9f2000)%1024==0 and (a[22]-0x9f2000)//16384==kind,'Wrong per-particle source color bank'
+  colors=struct.unpack('>8192I',(R/'assets/particle-colors.bin').read_bytes())
+  raw=colors[(a[22]-0x9f2000)//4+index]
+ else:raw=atlas[kind*256+index]
+ expected=raw if kind==2 else (raw&0xffffff00)|((raw&255)*opacity//256)
+ assert a[16]==expected,'Original source color2/life/sprite resampling differs'
+ alpha=(raw>>16)*opacity//256 if kind==2 else raw>>16
  if kind==1:alpha=alpha*204//256
  assert a[18]==alpha and a[19]==int(kind!=1),'Source alpha/blend mode differs'
  assert a[20]==blend(a[16],a[17],alpha,a[19]),'GPU RGB composite differs (including packed-alpha masking)'

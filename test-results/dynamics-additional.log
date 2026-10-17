@@ -1,34 +1,34 @@
 {
   "status": "PASS",
-  "rom_sha256": "6cfeac35d45f9713150dff96c86c72219f66a4ec9013c161a6f225ec136d5c2a",
+  "rom_sha256": "3e96e7f652145a4b78888f737ebeb64a6bfffb430d69a0ffb1fb7d6438140c02",
   "method": "Independent post-run checks of current-ROM recorded observations; original E2E invocations retained.",
   "cases": {
     "fall-pause-ntsc-direct": {
-      "fall_integration_updates": 30,
-      "paused_fall_updates": 49,
-      "terminal_fall_fields": 91
+      "fall_integration_updates": 27,
+      "paused_fall_updates": 37,
+      "terminal_fall_fields": 90
     },
     "fall-pause-ntsc-bios": {
-      "fall_integration_updates": 30,
-      "paused_fall_updates": 49,
-      "terminal_fall_fields": 91
+      "fall_integration_updates": 27,
+      "paused_fall_updates": 37,
+      "terminal_fall_fields": 90
     },
     "fall-pause-pal-direct": {
-      "fall_integration_updates": 25,
+      "fall_integration_updates": 24,
       "paused_fall_updates": 49,
       "terminal_fall_fields": 75
     },
     "fall-pause-pal-bios": {
-      "fall_integration_updates": 25,
+      "fall_integration_updates": 24,
       "paused_fall_updates": 49,
-      "terminal_fall_fields": 75
+      "terminal_fall_fields": 76
     },
     "replay-ntsc": {
-      "recorded_pitch_pairs_verified": 66,
-      "samples": 66,
-      "interpolated_commits": 158,
-      "fractional_commits": 58,
-      "record_ticks": 231,
+      "recorded_pitch_pairs_verified": 69,
+      "samples": 69,
+      "interpolated_commits": 140,
+      "fractional_commits": 33,
+      "record_ticks": 312,
       "checks": [
         "real run samples",
         "time interpolation",
@@ -41,11 +41,11 @@
       ]
     },
     "replay-pal": {
-      "recorded_pitch_pairs_verified": 109,
-      "samples": 109,
-      "interpolated_commits": 141,
-      "fractional_commits": 28,
-      "record_ticks": 396,
+      "recorded_pitch_pairs_verified": 104,
+      "samples": 104,
+      "interpolated_commits": 138,
+      "fractional_commits": 111,
+      "record_ticks": 394,
       "checks": [
         "real run samples",
         "time interpolation",

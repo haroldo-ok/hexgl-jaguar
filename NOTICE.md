@@ -71,3 +71,7 @@ to `CameraChase.js`; spark/cloud emitters and booster sprite refer to
 `ShipEffects.js`. These source files carry the original CC BY-NC 3.0 notice.
 Effect texture provenance is in `assets/effects.json`; the source sprites are
 retained unchanged under `vendor/HexGL/textures/`.
+
+## Expanded native derivatives
+
+`assets/remaining.json` binds the moving contact-shadow silhouette to the original Feisar mesh and records native blue-light/particle-color derivatives. `docs/source-inventory.json` binds all 23 application JavaScript files to their original SHA-256 values and records native/platform/network dispositions. These are derivatives/adaptations subject to the existing applicable upstream notices, not replacement art or a relicensing.

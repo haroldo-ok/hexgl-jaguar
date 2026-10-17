@@ -15,9 +15,11 @@ font binary is retained; this is not every Unicode glyph or browser text renderi
 
 The menu uses a two-column native layout. Up/Down select; A confirms. Start enters
 the existing seven-second countdown. Controls, Records and Credits do not start a
-race when confirmed. Option returns to Start. The original browser quality/HUD
+race when confirmed. Option returns to Start. The original browser quality/resolution
 options, CSS motion and full-screen result transition are not reproduced. The
-existing bitmap gauges and native text footer remain. Results add a source-font
+existing bitmap gauges and native text footer remain. The newer gameplay
+integration adds five real native options, including a HUD toggle, and a sixth
+Game Settings menu entry; browser quality/resolution controls remain excluded. Results add a source-font
 panel without covering the whole track; save success/failure is indicated there.
 
 GPU modules: `frontend.js` polls the controller once and manages menus/saves;
@@ -48,8 +50,10 @@ All use the existing safe overlay region, not concurrent GPU-local code expansio
   is playable. Recording duration therefore depends on update rate. Full races in
   the test suite fit. This is bounded RAM recording, not unlimited recording.
 - Recordings do not survive power-off. A 128-byte stock EEPROM cannot store them.
-- Camera orientation remains the existing native yaw/bank/chase adaptation, not
-  THREE.js quaternion interpolation or the original replay orbit camera.
+- Camera orientation is a native Euler adaptation, not THREE.js quaternion
+  interpolation. The latest integration adds a six-word actual-camera/bank buffer
+  per sample at `$b8000..$dbfff` and replays actual native orbit/near XYZ/yaw/roll
+  and composed cross-slope mesh bank. See `GAMEPLAY-HANDLING-VIEWS.md`.
 
 ## EEPROM format and behavior
 

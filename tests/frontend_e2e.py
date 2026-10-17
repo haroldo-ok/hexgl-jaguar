@@ -24,7 +24,7 @@ def main():
     try:
         if part in ['ui','all']:
             for standard in ['ntsc','pal']:
-                script='100:down,120:none,140:a,160:none,220:option,240:none,260:down,280:none,300:down,320:none,340:a,360:none,420:option,440:none,460:up,480:none,500:up,520:none,540:a,560:none,620:option,640:none,660:a,680:none'
+                script='100:down,120:none,140:a,160:none,220:option,240:none,260:down,280:none,300:down,320:none,340:a,360:none,420:option,440:none,460:up,480:none,500:up,520:none,530:up,535:none,540:a,560:none,620:option,640:none,660:a,680:none'
                 t=run('menu-'+standard,standard,950,script,['--no-bios','--dump-max','20','--dump-at','80,180,380,580,880'])
                 common(t);s=t['fields'];d=Path(t['output_dir']);pixels=0
                 for n,panel,text in [(180,1,'A / UP: THRUST'),(380,2,'MANUAL BEST'),(580,3,'HEXGL BY BKCORE')]:
@@ -33,7 +33,7 @@ def main():
                 assert s[880]['game'][2]==4 and all(f['game'][16]==0 for f in s[80:880])
                 assert all(f['front'][16]==0 for f in s[80:])
                 summary['cases']['menu-'+standard]={'checks':['controller navigation','controls/records/credits','Option return','real source font pixels','Start enters countdown','no unsolicited saves'],'source_font_pixels':pixels}
-                script='100:a+c,120:a,850:option,870:none,900:up,920:none,950:a,970:none,1080:pause,1100:none,1150:pause,1170:none,1500:option,1520:none'
+                script='100:a+c,120:a,850:option,870:none,900:up,920:none,930:up,940:none,950:a,970:none,1080:pause,1100:none,1150:pause,1170:none,1500:option,1520:none'
                 if standard=='ntsc':script=script.replace('100:a+c,120:a','100:a,600:a+right,630:a')
                 t=run('replay-'+standard,standard,1570,script,['--no-bios','--dump-max','24','--dump-at','880,1040,1140,1250,1460,1550'])
                 common(t);case=fc.replay(t);case['recording_input']='manual throttle and steering' if standard=='ntsc' else 'autopilot'

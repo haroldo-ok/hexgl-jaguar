@@ -1,7 +1,0 @@
-Traceback (most recent call last):
-  File "/home/user/hexgl-jaguar/tools/check_recorded_dynamics.py", line 17, in <module>
-    checks=dc.verify_fall(t);assert checks['paused_fall_updates']>20,'Pause during actual falling not exercised'
-  File "/home/user/hexgl-jaguar/tests/dynamics_checks.py", line 186, in verify_fall
-    assert checked>10 and terminal is not None
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError

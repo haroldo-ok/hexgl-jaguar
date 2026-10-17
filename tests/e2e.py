@@ -56,7 +56,8 @@ def common(result):
         if len(w)>=90 and all((f['game'][2]==1 or (f['game'][2]==5 and not f.get('replay',[0]*9)[8])) and not f['game'][13] and f['game'][8]>10 for f in w):
             assert any(f['world_changed']>100 for f in w),f'World framebuffer frozen at {start}'
     assert s[-1]['audio_samples']>s[120]['audio_samples']+1000,'ROM DSP PCM mixer stalled'
-    assert sum(f['audio_nonzero']>100 for f in s[120:])>len(s[120:])*.8,'Audio is silent'
+    audible=[f for f in s[120:] if not f.get('av_settings') or f['av_settings'][4]]
+    assert audible and sum(f['audio_nonzero']>100 for f in audible)>len(audible)*.8,'Enabled music is silent'
     return s
 
 def rendered_hud(result,finished=False):

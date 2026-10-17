@@ -13,34 +13,40 @@ online services. This does **not** authorize calling unimplemented systems done.
 - Original spark/cloud emitters and glow: perspective sizing, clipped RGB additive/alpha-over,
   approximately .7 ship-velocity inheritance and conservative center-depth queries.
 - Source normal/specular/environment material lookup banks, coarse static sun shadows,
-  native monochrome booster face lighting, zero-key booster alpha and double-sided banner.
-- Camera-pitched panorama with native seam-wrap blits.
-- Complete-duration source-channel stereo IMA4 decoding and independent L/R DSP/I2S buses.
+  native blue source-derived booster-lit face textures and projected Feisar contact shadow, zero-key booster alpha and double-sided banner.
+- Camera pitch/yaw/bank panorama with fractional A1-source seam-wrap blits.
+- Real scene convolution/bloom and native AV quality switches.
+- Complete-duration source-channel stereo IMA4 decoding, independent L/R DSP/I2S buses and independent music/effects mute.
+- Source particle color2 choices and half-life brightness, 10:5 bounded collision emission.
 - Cartridge EEPROM persistence with separate manual/assisted best times and
   two-slot recovery journals.
 
 ## Still outstanding — the overall request is not complete
 
-1. **Physics:** full angular/inertial behavior, cross-slope tilt and source-equivalent
-   collision detail. The extra assisted waypoint demo also retains a boost latch
-   between pads rather than running the entire manual integrator. Native drift, contact recoil, bilinear hover, grade pitch and
-   timed falling are implemented; the reduced-map/field-based adaptations remain.
-2. **Camera:** quaternion up-vector/roll and orbit modes. Panorama sky pitch and vertical chase
-   look-at is now implemented in actual mesh/normal transforms and replay.
-3. **Effects:** full source emitter/random-color/lifetime fidelity, per-pixel depth,
-   high-fidelity booster lighting and scene bloom. Native perspective RGB sprites
-   and .7 velocity inheritance now run; center-depth is a deliberate native policy
-   (source Particles defaults depthTest=false), not literal source semantics.
-4. **Lighting:** full normal/specular/TBN response, moving shadows, colored point lighting and
-   scene bloom. Eight source-map material banks, static centroid sun shadows and
-   monochrome scene-face lighting now run, but do not imply shader equivalence.
+1. **Physics:** full source-equivalent angular/contact detail. Native bounded yaw
+   inertia, signed fractional heading carry, map-derived cross-slope banking,
+   drift/recoil, bilinear hover, grade pitch and timed falling now run. Manual
+   and assisted paths share active-time normalized boost expiry. The assisted
+   path remains a waypoint demo rather than the complete manual solver.
+2. **Camera:** exact transformed mesh-up contribution to chase position. Native
+   chase/orbit/near, pitch/bank transforms, rolled sky and actual-view replay run.
+   Source dummy quaternion is yaw-only; CameraChase does not assign camera.up.
+3. **Effects:** complete source emitter/force/distribution/capacity and stochastic
+   booster behavior. Source color2 ranges, half-life brightness and bounded 10:5
+   emission now run; center-depth differs from source default depthTest=false.
+4. **Lighting/rendering fidelity:** full normal/specular/TBN and cubemap response,
+   directional moving shadow maps, continuous per-fragment colored attenuation,
+   and RGB/high-resolution bloom. Real projected source-ship contact shadow,
+   blue scene-face texture selection and native convolution/additive bloom now
+   run, but are documented hardware approximations, not full GLSL parity.
 5. **Audio:** WebAudio-equivalent HRTF and complete source gain/trigger
    fidelity. Original L/R content is now decoded independently; IMA4 and movement-based
    balance remain hardware adaptations. The source has
    no audio filters; the earlier filter gap was an audit error.
-6. **Presentation fidelity:** original in-race typography/message animation, browser-
-   equivalent layout/transitions and applicable settings. Native menus do not imply
-   complete original HTML/CSS/canvas parity.
+6. **Presentation fidelity:** complete browser-equivalent layout/transitions.
+   Original-font race-event banners and native slide-in feedback now run, as do
+   real gameplay and AV settings pages and keypad shortcuts. Neither implies full
+   original HTML/CSS/canvas animation or full browser resolution/quality settings.
 7. **Validation:** physical Jaguar timing, cartridge/EEPROM variants and hardware
    compatibility remain unverified. Finite emulator testing cannot establish them.
 
@@ -57,3 +63,7 @@ See [MATERIALS-SKY-AND-STEREO.md](MATERIALS-SKY-AND-STEREO.md) for the latest
 implemented systems, source provenance, hardware compromises and test design.
 
 Latest particle/audio implementation: [PARTICLES-AND-ORIGINAL-STEREO.md](PARTICLES-AND-ORIGINAL-STEREO.md).
+
+Latest gameplay integration: [GAMEPLAY-HANDLING-VIEWS.md](GAMEPLAY-HANDLING-VIEWS.md).
+
+Latest expanded integration and audit: [REMAINING-NATIVE-SYSTEMS.md](REMAINING-NATIVE-SYSTEMS.md), [source-inventory.json](source-inventory.json). The inventory covers 23 application files, not every generic browser-library function.

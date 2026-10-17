@@ -13,7 +13,7 @@ def main():
     bg.paste(title,(6,66),title)
     # Native two-column placement; original assets, not substitute pictures.
     main=bg.copy();d=ImageDraw.Draw(main)
-    for y,text in [(60,'START'),(82,'CONTROLS'),(104,'LOCAL RECORDS'),(126,'CREDITS'),(148,'REPLAY LAST RUN')]:
+    for y,text in [(60,'START'),(78,'CONTROLS'),(96,'LOCAL RECORDS'),(114,'CREDITS'),(132,'REPLAY LAST RUN'),(150,'SETTINGS')]:
         d.text((136,y),text,font=font,fill='#4190bb')
     (A/'front-main.cry').write_bytes(cry(main));(A/'front-bg.cry').write_bytes(cry(bg))
     glyphs=[];widths=[]

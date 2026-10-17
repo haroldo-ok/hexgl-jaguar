@@ -1,12 +1,12 @@
 {
   "status": "FAIL",
-  "rom_sha256": "68a738f1640a4df03256443e9faa6672588f987c0cc4fdee7d8c7d604053dcf6",
+  "rom_sha256": "f25226cafc19cab786ccfc42bebe9ed8eca44ea9ad85315a91d8d1640ab0536b",
   "video": "ntsc",
   "boot": "no-bios",
   "samples": [],
   "command": [
     "/usr/bin/virtualjaguar",
-    "/tmp/vj-negative-hrzqdhw1/broken-entry.j64",
+    "/tmp/vj-negative-h_qlwl6n/broken-entry.j64",
     "--ntsc",
     "--gpu",
     "--dsp",
@@ -15,5 +15,5 @@
   ],
   "error": "emulator exited before presenting video",
   "emulator_exit_code": 0,
-  "elapsed_seconds": 0.3
+  "elapsed_seconds": 0.29
 }

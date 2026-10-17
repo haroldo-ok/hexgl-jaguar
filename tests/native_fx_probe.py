@@ -14,6 +14,13 @@ shutil.copytree(R/'src',W/'src')
 for name in ['assets','tests','vendor']:(W/name).symlink_to(R/name,target_is_directory=True)
 (W/'tools').mkdir();shutil.copy2(R/'tools/package_rom.py',W/'tools/package_rom.py');(W/'rom').mkdir()
 p=W/'src/hexgl.js';p.write_text('FX_SELFTEST EQU 1\n'+p.read_text())
+# lyxass has a 64-file include limit; production now uses all 64 slots.
+# Inline only the diagnostic fixture in the private copy, not production code.
+p=W/'src/effects.js'
+needle=' include "../tests/fx_probe.inc"'
+assert p.read_text().count(needle)==1
+fixture=(R/'tests/fx_probe.inc').read_text().replace(' include "../tests/fx_probe_cases.inc"',(R/'tests/fx_probe_cases.inc').read_text())
+p.write_text(p.read_text().replace(needle,fixture))
 with (D/'build.log').open('w') as log:
  subprocess.run([str(R/'vendor/lyxass/lyxass'),'-sh','hexgl.js'],cwd=W/'src',env={**os.environ,'BJL_ROOT':str(R/'vendor/new_bjl')},stdout=log,stderr=subprocess.STDOUT,check=True)
  subprocess.run(['python3','tools/package_rom.py'],cwd=W,stdout=log,stderr=subprocess.STDOUT,check=True)

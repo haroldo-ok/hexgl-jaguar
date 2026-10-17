@@ -344,6 +344,26 @@ rc_points:
  sharq #15,tmp2
  sharq #15,tmp1
  move tmp2,y1
+ ; Camera up-vector adaptation: bank rotation for geometry AND normals.
+ movei #VIEW+28,x1
+ load (x1),x1
+ cmpq #0,x1
+ movei #.camera_bank_done,z1
+ jump eq,(z1)
+ nop
+ move x1,z1
+ shrq #16,z1
+ imultn z1,tmp0
+ imacn x1,y1
+ resmac tmp2
+ neg x1
+ imultn x1,tmp0
+ imacn z1,y1
+ resmac y1
+ sharq #15,tmp2
+ sharq #15,y1
+ move tmp2,tmp0
+.camera_bank_done
  shlq #16,tmp0
  shlq #16,tmp1
 

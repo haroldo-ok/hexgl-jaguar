@@ -24,6 +24,31 @@ test_shortest_heading (test_frontend.FrontendTests.test_shortest_heading) ... ok
 test_source_assets (test_frontend.FrontendTests.test_source_assets) ... ok
 test_torn_commit (test_frontend.FrontendTests.test_torn_commit) ... ok
 test_valid_journal (test_frontend.FrontendTests.test_valid_journal) ... ok
+test_new_overlay_names_are_memory_checked (test_gameplay.ActualCameraReplayLayout.test_new_overlay_names_are_memory_checked) ... ok
+test_no_host_state_injection (test_gameplay.ActualCameraReplayLayout.test_no_host_state_injection) ... ok
+test_renderer_and_particles_consume_same_roll (test_gameplay.ActualCameraReplayLayout.test_renderer_and_particles_consume_same_roll) ... ok
+test_reserved_extent (test_gameplay.ActualCameraReplayLayout.test_reserved_extent) ... ok
+test_bounded_response_all_video_steps (test_gameplay.AngularPhysics.test_bounded_response_all_video_steps) ... ok
+test_direct_mode_has_no_filter (test_gameplay.AngularPhysics.test_direct_mode_has_no_filter) ... ok
+test_fractional_heading_is_not_discarded (test_gameplay.AngularPhysics.test_fractional_heading_is_not_discarded) ... ok
+test_known_one_field_step (test_gameplay.AngularPhysics.test_known_one_field_step) ... ok
+test_negative_heading_wrap_and_carry (test_gameplay.AngularPhysics.test_negative_heading_wrap_and_carry) ... ok
+test_paused_integration_is_identity (test_gameplay.AngularPhysics.test_paused_integration_is_identity) ... ok
+test_release_settles_both_signs (test_gameplay.AngularPhysics.test_release_settles_both_signs) ... ok
+test_video_normalization (test_gameplay.AngularPhysics.test_video_normalization) ... ok
+test_ntsc_hidden_surfaces (test_gameplay.HudSuppressionOracle.test_ntsc_hidden_surfaces) ... ok
+test_pal_tom_border_is_not_hud (test_gameplay.HudSuppressionOracle.test_pal_tom_border_is_not_hud) ... ok
+test_retained_bitmap_is_rejected_both_standards (test_gameplay.HudSuppressionOracle.test_retained_bitmap_is_rejected_both_standards) ... ok
+test_visible_footer_is_rejected_both_standards (test_gameplay.HudSuppressionOracle.test_visible_footer_is_rejected_both_standards) ... ok
+test_assisted_latch_rejected (test_gameplay.RuntimeBoostOracle.test_assisted_latch_rejected) ... ok
+test_normalized_active_time_and_pause (test_gameplay.RuntimeBoostOracle.test_normalized_active_time_and_pause) ... ok
+test_pause_decay_rejected (test_gameplay.RuntimeBoostOracle.test_pause_decay_rejected) ... ok
+test_unscaled_pal_duration_rejected (test_gameplay.RuntimeBoostOracle.test_unscaled_pal_duration_rejected) ... ok
+test_controller_target_mismatch_rejected (test_gameplay.RuntimeYawOracle.test_controller_target_mismatch_rejected) ... ok
+test_exact_native_fixture (test_gameplay.RuntimeYawOracle.test_exact_native_fixture) ... ok
+test_fractional_carry_corruption_rejected (test_gameplay.RuntimeYawOracle.test_fractional_carry_corruption_rejected) ... ok
+test_instant_turn_substitution_rejected (test_gameplay.RuntimeYawOracle.test_instant_turn_substitution_rejected) ... ok
+test_pause_motion_rejected (test_gameplay.RuntimeYawOracle.test_pause_motion_rejected) ... ok
 test_all_shield_clip_levels (test_hud.HUDTests.test_all_shield_clip_levels) ... ok
 test_all_speed_clip_levels (test_hud.HUDTests.test_all_speed_clip_levels) ... ok
 test_coverage_from_png (test_hud.HUDTests.test_coverage_from_png) ... ok
@@ -84,6 +109,30 @@ test_actual_source_stereo_complete_duration_and_quality (test_native_fx_audio.St
 test_known_signed_nibbles (test_native_fx_audio.StereoADPCM.test_known_signed_nibbles) ... ok
 test_saturation_and_index_bounds (test_native_fx_audio.StereoADPCM.test_saturation_and_index_bounds) ... ok
 test_stock_cartridge_audio_slot (test_native_fx_audio.StereoADPCM.test_stock_cartridge_audio_slot) ... ok
+test_chroma_carry_rejected (test_remaining.NativeBloomOracle.test_chroma_carry_rejected) ... ok
+test_convolution_and_actual_signed_blitter_add (test_remaining.NativeBloomOracle.test_convolution_and_actual_signed_blitter_add) ... ok
+test_fake_offscreen_output_rejected (test_remaining.NativeBloomOracle.test_fake_offscreen_output_rejected) ... ok
+test_horizontal_filter_substitution_rejected (test_remaining.NativeBloomOracle.test_horizontal_filter_substitution_rejected) ... ok
+test_source_pass_substitution_rejected (test_remaining.NativeBloomOracle.test_source_pass_substitution_rejected) ... ok
+test_torn_native_commit_ignored (test_remaining.NativeBloomOracle.test_torn_native_commit_ignored) ... ok
+test_uninitialized_poweron_ram_ignored (test_remaining.NativeBloomOracle.test_uninitialized_poweron_ram_ignored) ... ok
+test_unsigned_unsafe_intensity_rejected (test_remaining.NativeBloomOracle.test_unsigned_unsafe_intensity_rejected) ... ok
+test_vertical_filter_substitution_rejected (test_remaining.NativeBloomOracle.test_vertical_filter_substitution_rejected) ... ok
+test_bad_projected_basis_rejected (test_remaining.NativeShadowOracle.test_bad_projected_basis_rejected) ... ok
+test_outside_viewport_rejected (test_remaining.NativeShadowOracle.test_outside_viewport_rejected) ... ok
+test_placeholder_solid_shadow_rejected (test_remaining.NativeShadowOracle.test_placeholder_solid_shadow_rejected) ... ok
+test_source_mesh_alpha_and_native_projection (test_remaining.NativeShadowOracle.test_source_mesh_alpha_and_native_projection) ... ok
+test_torn_shadow_commit_ignored (test_remaining.NativeShadowOracle.test_torn_shadow_commit_ignored) ... ok
+test_wrong_native_composite_rejected (test_remaining.NativeShadowOracle.test_wrong_native_composite_rejected) ... ok
+test_impossible_completed_span_counter_rejected (test_remaining.NativeSkyCommitOracle.test_impossible_completed_span_counter_rejected) ... ok
+test_only_real_complete_scanline_spans_are_accepted (test_remaining.NativeSkyCommitOracle.test_only_real_complete_scanline_spans_are_accepted) ... ok
+test_random_poweron_span_counter_is_not_execution_evidence (test_remaining.NativeSkyCommitOracle.test_random_poweron_span_counter_is_not_execution_evidence) ... ok
+test_actual_feisar_not_substitute_geometry (test_remaining.SourceDerivedRemainingAssets.test_actual_feisar_not_substitute_geometry) ... ok
+test_bloom_source_has_no_invented_brightpass (test_remaining.SourceDerivedRemainingAssets.test_bloom_source_has_no_invented_brightpass) ... ok
+test_complete_application_file_inventory_is_explicit_not_exact_parity (test_remaining.SourceDerivedRemainingAssets.test_complete_application_file_inventory_is_explicit_not_exact_parity) ... ok
+test_independent_particle_color2_variations (test_remaining.SourceDerivedRemainingAssets.test_independent_particle_color2_variations) ... ok
+test_source_derived_asset_sizes_hashes_and_rom_slots (test_remaining.SourceDerivedRemainingAssets.test_source_derived_asset_sizes_hashes_and_rom_slots) ... ok
+test_source_silhouette_alpha_is_not_solid_blob (test_remaining.SourceDerivedRemainingAssets.test_source_silhouette_alpha_is_not_solid_blob) ... ok
 test_animated_video_cannot_hide_dead_heartbeat (test_watchdogs.CoreWatchdog.test_animated_video_cannot_hide_dead_heartbeat) ... ok
 test_black_tail_including_last_field (test_watchdogs.CoreWatchdog.test_black_tail_including_last_field) ... ok
 test_boot_logo_not_native_game (test_watchdogs.CoreWatchdog.test_boot_logo_not_native_game) ... ok
@@ -99,6 +148,6 @@ test_finish_can_be_static_but_not_dead (test_watchdogs.RaceFlow.test_finish_can_
 test_millisecond_format (test_watchdogs.RaceFlow.test_millisecond_format) ... ok
 
 ----------------------------------------------------------------------
-Ran 99 tests in 2.952s
+Ran 148 tests in 3.374s
 
 OK

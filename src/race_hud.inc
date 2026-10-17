@@ -6,7 +6,7 @@
 MACRO HUDSTRING
  movei #\0-MODrun_pose+MODstart_pose,r0
  movei #\1,r1
- movei #PrintString_YX,r2
+ movei #hud_printstring,r2
  BL (r2)
 ENDM
 
@@ -33,7 +33,7 @@ draw_race_hud:
  moveq #3,r0
 .lapok
  movei #1<<16|34,r1
- movei #PrintDEC2_YX,r2
+ movei #hud_printdec2,r2
  BL (r2)
  HUDSTRING time_line,2<<16
  movei #GAME,r14
@@ -165,13 +165,42 @@ hud_status:
  store r21,(r14+108)
  move r21,r0
  movei #1<<16,r1
- movei #PrintString_YX,r2
+ movei #hud_printstring,r2
  BL (r2)
  move r22,r0
  moveq #0,r1
- movei #PrintString_YX,r2
+ movei #hud_printstring,r2
  BL (r2)
  POPLR
+
+ ; Suppress writes before the text object is scanned, not only at end-of-frame.
+ ; Keep time/status backing strings live even with the HUD disabled.
+hud_printstring:
+ movei #PrintString_YX,r3
+ jr hud_printgate
+ nop
+hud_printdec2:
+ movei #PrintDEC2_YX,r3
+hud_printgate:
+ movei #SETTINGS+4,r4
+ load (r4),r4
+ cmpq #0,r4
+ jump ne,(r3)
+ nop
+ movei #GAME+8,r4
+ load (r4),r4
+ cmpq #1,r4
+ jr eq,.hidden
+ nop
+ cmpq #4,r4
+ jr eq,.hidden
+ nop
+ cmpq #5,r4
+ jump ne,(r3)
+ nop
+.hidden
+ jump (LR)
+ nop
 
 ; r0 unsigned field count, r1 y:x. Formatter scratch is DRAM, not GPU local RAM.
 print_time:
@@ -229,7 +258,7 @@ print_time:
  storeb r0,(r23)
  POP r0
  move r24,r1
- movei #PrintString_YX,r2
+ movei #hud_printstring,r2
  BL (r2)
  POPLR r20,r21,r22,r23,r24
 
@@ -243,7 +272,7 @@ print_three:
  storeb r0,(r23)
  movei #$1200,r0
  move r24,r1
- movei #PrintString_YX,r2
+ movei #hud_printstring,r2
  BL (r2)
  POPLR r23,r24
 

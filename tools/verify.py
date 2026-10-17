@@ -23,11 +23,15 @@ assert rom[len(loader):len(loader)+len(payload)]==payload
 assert payload[:4]==b'BS94'
 addr,size=struct.unpack('>II',payload[4:12]);assert addr==0x2000
 assert len(payload)==size+12
-assert addr+size<0xe0000,'Program overlaps submitted-triangle vertex depth records'
+assert addr+size<0xb8000,'Program overlaps extended actual-camera replay records'
+assert 0xb8000+6144*24==0xdc000<0xe0000
 assert 0xe0000+8192*12==0xf8000
 # addobj preserves one candidate before its capacity rejection; reserve its guard.
-assert 0xf8000+12<0x110000
-layout=[('materials.bin',0x102000),('front-main.cry',0x192000),('front-bg.cry',0x1b7800),('collision.bin',0x200000),('height.bin',0x240000),('replay.bin',0x2c0000),('route.bin',0x2d8000),('audio.bin',0x300000),('sky.bin',0x400000)]
+assert 0xf8000+12<0xf9000
+assert 0xf9000+4800<0xfa400 and 0xfa400+4800<0xfb800
+assert 0xfb800+4800<0x110000
+assert 0x1fc0+64==0x2000
+layout=[('materials.bin',0x102000),('front-main.cry',0x192000),('front-bg.cry',0x1b7800),('blue-materials.bin',0x1e0000),('particle-colors.bin',0x1f2000),('ship-shadow.bin',0x1fa000),('collision.bin',0x200000),('height.bin',0x240000),('replay.bin',0x2c0000),('route.bin',0x2d8000),('audio.bin',0x300000),('sky.bin',0x400000)]
 for i,(name,offset) in enumerate(layout):
     b=(R/'assets'/name).read_bytes();assert rom[offset:offset+len(b)]==b
     end=layout[i+1][1] if i+1<len(layout) else len(rom)
@@ -46,8 +50,14 @@ heights=[h[0] for i,h in enumerate(struct.iter_unpack('>H',(R/'assets/height.bin
 assert max(heights)-min(heights)+80<32768,'Camera height delta exceeds signed multiply range'
 s=(R/'src/hexgl.equ').read_text()
 mods=dict(re.findall(r'(MOD(?:end|run)_\w+)\s+EQU \$([0-9a-fA-F]+)',s))
-for name in ['engine','control','bitmap_hud','frontend','frontdraw','recording','pose','effects']:
+for name in ['engine','control','bitmap_hud','frontend','frontdraw','recording','pose','effects','handling','view','presentation','skybank','postfx','bloom']:
     assert int(mods['MODend_'+name],16)<0xf03f00,'GPU module overlaps stack'
+remaining=json.loads((R/'assets/remaining.json').read_text())
+assert remaining['shadow_faces']==1676
+assert hashlib.sha256((R/remaining['ship_source']).read_bytes()).hexdigest()==remaining['ship_source_sha256']
+for name,item in remaining['outputs'].items():
+    data=(R/'assets'/name).read_bytes()
+    assert len(data)==item['bytes'] and hashlib.sha256(data).hexdigest()==item['sha256']
 # Original HUD assets are present in the loaded program, not merely archived.
 hud=json.loads((R/'assets/hud.json').read_text())
 assert hashlib.sha256((R/hud['clip_source']).read_bytes()).hexdigest()==hud['clip_source_sha256']

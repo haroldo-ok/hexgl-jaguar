@@ -1,23 +1,23 @@
-clean-ntsc exit 0 fields 1200 elapsed 13.4 s
-clean-pal exit 0 fields 1200 elapsed 21.3 s
+clean-ntsc exit 0 fields 1200 elapsed 30.1 s
+clean-pal exit 0 fields 1200 elapsed 38.6 s
 {
   "status": "PASS",
-  "rom_sha256": "6cfeac35d45f9713150dff96c86c72219f66a4ec9013c161a6f225ec136d5c2a",
+  "rom_sha256": "c7414e11b4edddc5274ae7d03742a31ee2f3e2bc9dcf815b331c9cfcc764572a",
   "method": "Separate source tree; removed ROM, GPU payload and generated native host build products. Fresh make assets rom emulator (including original material/geometry/sky/audio conversions), byte-identical ROM.",
   "cases": {
     "ntsc": {
       "boot": "direct",
       "fields": 1200,
       "motion": {
-        "verified_updates": 165,
-        "height_filtered_updates": 124,
+        "verified_updates": 152,
+        "height_filtered_updates": 115,
         "left_bank_seen": true,
         "right_bank_seen": true
       },
       "dynamics": {
-        "actual_vertices": 259,
-        "pitched_vertices": 165,
-        "hover_updates": 164,
+        "actual_vertices": 246,
+        "pitched_vertices": 152,
+        "hover_updates": 152,
         "drifting_updates": 0,
         "repulsion_updates": 0,
         "fall_updates": 0
@@ -27,15 +27,15 @@ clean-pal exit 0 fields 1200 elapsed 21.3 s
       "boot": "bios",
       "fields": 1200,
       "motion": {
-        "verified_updates": 219,
-        "height_filtered_updates": 179,
+        "verified_updates": 204,
+        "height_filtered_updates": 162,
         "left_bank_seen": true,
         "right_bank_seen": true
       },
       "dynamics": {
-        "actual_vertices": 319,
-        "pitched_vertices": 218,
-        "hover_updates": 218,
+        "actual_vertices": 305,
+        "pitched_vertices": 204,
+        "hover_updates": 204,
         "drifting_updates": 0,
         "repulsion_updates": 0,
         "fall_updates": 0

@@ -174,7 +174,1054 @@ init:
 	include "engine.js"
 	include "control.js"
 	include "pose.js"
+	include "handling.js"
+	include "view.js"
+; Real banked panorama resampling using Jaguar A1 fractional source increments.
+; Source CameraChase cube orientation counterpart: all original six sky faces.
+; No framebuffer readback, host drawing, tiled imitation or extra framebuffer.
+ MODULE skybank,MODend_irq
+ PUSHLR
+ movei #SKY_STATE,r15
+ movei #$534b5942,r0
+ store r0,(r15)
+ moveq #0,r0
+ store r0,(r15+12)
+ movei #VIEW+28,r0
+ load (r0),r0
+ cmpq #0,r0
+ movei #skybank_done,r1
+ jump eq,(r1)
+ nop
+ move r0,r19
+ shlq #16,r19
+ sharq #16,r19
+ move r0,r18
+ shrq #16,r18
+ ; Center yaw is the unrolled crop center, wrapped per scanline/segment.
+ movei #CAMERA_ANGLE_Y,r0
+ load (r0),r0
+ neg r0
+ movei #192,r1
+ add r1,r0
+ movei #2047,r1
+ and r1,r0
+ store r0,(r15+16)
+ move r0,r20
+ ; Same native vertical look-at projection as the engine's unrolled crop.
+ movei #PHYS+48,r0
+ load (r0),r0
+ sharq #8,r0
+ movei #2044,r1
+ and r1,r0
+ movei #SinTab,r1
+ add r0,r1
+ load (r1),r0
+ move r0,r1
+ shrq #16,r1
+ shlq #16,r0
+ sharq #16,r0
+ movei #176,r2
+ imult r2,r0
+ move r0,r2
+ abs r0
+ div r1,r0
+ cmpq #0,r2
+ jr pl,.pitchpositive
+ nop
+ neg r0
+.pitchpositive
+ movei #256,r1
+ add r1,r0
+ ; Bound the complete rotated viewport, not just its unrotated top row.
+ move r19,r1
+ abs r1
+ movei #192,r2
+ imult r2,r1
+ move r18,r2
+ movei #100,r3
+ imult r3,r2
+ add r2,r1
+ sharq #15,r1
+ addq #2,r1
+ cmp r1,r0
+ jr pl,.mintop
+ nop
+ move r1,r0
+.mintop
+ movei #511,r2
+ sub r1,r2
+ cmp r2,r0
+ jr mi,.maxbottom
+ nop
+ move r2,r0
+.maxbottom
+ store r0,(r15+20)
+ move r0,r21
+ ; Start at screen (0,0), using signed Q16 affine source coordinates.
+ shlq #16,r20
+ shlq #16,r21
+ move r18,r0
+ movei #192,r1
+ imult r1,r0
+ move r19,r2
+ movei #100,r3
+ imult r3,r2
+ add r2,r0
+ shlq #1,r0
+ move r20,r22
+ sub r0,r22
+ move r19,r0
+ imult r1,r0
+ move r18,r2
+ imult r3,r2
+ sub r2,r0
+ shlq #1,r0
+ move r21,r23
+ add r0,r23
+ store r22,(r15+36)
+ store r23,(r15+40)
+ shlq #1,r18
+ shlq #1,r19
+ store r18,(r15+24)
+ store r19,(r15+28)
+ moveq #0,r0
+ store r0,(r15+32)
+ movei #BLIT_A1_BASE,r14
+.wait
+ load (r14+$38),r0
+ btst #0,r0
+ jr eq,.wait
+ nop
+ movei #$c00000,r0
+ store r0,(r14)
+ movei #BLIT_PITCH1|BLIT_PIXEL16|BLIT_WID2048|BLIT_XADDINC,r0
+ store r0,(r14+_BLIT_A1_FLAGS)
+ movefa screen0.a,r16
+ store r16,(r14+_BLIT_A2_BASE)
+ movei #BLIT_PITCH2|BLIT_PIXEL16|BLIT_WID384|BLIT_XADDPIX,r0
+ store r0,(r14+_BLIT_A2_FLAGS)
+ moveq #0,r0
+ store r0,(r14+_BLIT_A1_STEP)
+ store r0,(r14+_BLIT_A1_FSTEP)
+ store r0,(r14+_BLIT_A2_STEP)
+ move r18,r0
+ shrq #16,r0
+ move r19,r1
+ neg r1
+ movei #$ffff0000,r2
+ and r2,r1
+ or r1,r0
+ store r0,(r14+_BLIT_A1_INC)
+ move r18,r0
+ shlq #16,r0
+ shrq #16,r0
+ move r19,r1
+ neg r1
+ shlq #16,r1
+ or r1,r0
+ store r0,(r14+_BLIT_A1_FINC)
+ moveq #0,r17
+.row
+ movei #$07ffffff,r0
+ and r0,r22
+ move r22,r26
+ move r23,r13
+ movei #384,r24
+ moveq #0,r25
+.segment
+ ; A1 lacks an X mask. Split at the actual 2048-wide panorama seam.
+ movei #$07ffffff,r0
+ sub r26,r0
+ div r18,r0
+ addq #1,r0
+ cmp r24,r0
+ jr mi,.segment_size
+ nop
+ move r24,r0
+.segment_size
+ move r0,r12
+ move r26,r1
+ shrq #16,r1
+ move r13,r2
+ movei #$ffff0000,r3
+ and r3,r2
+ or r2,r1
+ store r1,(r14+_BLIT_A1_PIXEL)
+ move r26,r1
+ shlq #16,r1
+ shrq #16,r1
+ move r13,r2
+ shlq #16,r2
+ or r2,r1
+ store r1,(r14+_BLIT_A1_FPIXEL)
+ move r17,r1
+ shlq #16,r1
+ or r25,r1
+ store r1,(r14+_BLIT_A2_PIXEL)
+ bset #16,r0
+ store r0,(r14+_BLIT_COUNT)
+ movei #BLIT_SRCEN|BLIT_DSTA2|BLIT_LFU_REPLACE,r0
+ store r0,(r14+_BLIT_CMD)
+.waitsegment
+ load (r14+$38),r0
+ btst #0,r0
+ jr eq,.waitsegment
+ nop
+ load (r15+32),r0
+ addq #1,r0
+ store r0,(r15+32)
+ sub r12,r24
+ add r12,r25
+ cmpq #0,r24
+ movei #.nextrow,r0
+ jump eq,(r0)
+ nop
+ move r18,r0
+ mult r12,r0
+ add r0,r26
+ movei #$07ffffff,r0
+ and r0,r26
+ ; Signed multiplication is split: Q16 sin may exceed signed 16-bit.
+ move r19,r0
+ sharq #1,r0
+ imult r12,r0
+ shlq #1,r0
+ sub r0,r13
+ movei #.segment,r0
+ jump (r0)
+ nop
+.nextrow
+ add r19,r22
+ add r18,r23
+ addq #1,r17
+ movei #200,r0
+ cmp r0,r17
+ movei #.row,r0
+ jump ne,(r0)
+ nop
+ moveq #1,r0
+ store r0,(r15+12)
+ movei #VIEW+20,r0
+ load (r0),r0
+ store r0,(r15+8)
+ movei #MOTION+64,r0
+ load (r0),r0
+ store r0,(r15+4)
+skybank_done:
+ POPLR
+ align 8
+ ENDMODULE skybank
+
+	include "presentation.js"
+; Moving, source-mesh silhouette contact shadow on the original track.
+; Hardware adaptation: projected ground-plane affine footprint, not a depth map.
+ MODULE postfx,MODend_irq
+ PUSHLR
+ movei #BLIT_A1_BASE,r14
+.waitshadow
+ load (r14+$38),r0
+ btst #0,r0
+ jr eq,.waitshadow
+ nop
+ movei #POST_STATE,r15
+ movei #$504f5354,r0
+ store r0,(r15)
+ moveq #0,r0
+ store r0,(r15+12)
+ movei #AVSET+8,r0
+ load (r0),r0
+ cmpq #0,r0
+ movei #post_done,r1
+ jump eq,(r1)
+ nop
+ movei #GAME,r14
+ load (r14+8),r0
+ cmpq #1,r0
+ jr eq,.active
+ nop
+ cmpq #5,r0
+ movei #post_done,r1
+ jump ne,(r1)
+ nop
+.active
+ movei #PHYS+16,r0
+ load (r0),r0
+ cmpq #0,r0
+ movei #post_done,r1
+ jump ne,(r1)
+ nop
+ ; Track height map conversion adds exactly 16 native units of hover.
+ load (r14+16),r16
+ movei #PHYS+32,r0
+ load (r0),r17
+ movei #16*256,r0
+ sub r0,r17
+ load (r14+24),r18
+ load (r15+56),r0
+ addq #1,r0
+ bset #0,r0
+ store r0,(r15+56)
+ move r16,r0
+ move r17,r1
+ move r18,r2
+ movei #post_project,r8
+ BL (r8)
+ cmpq #0,r3
+ movei #post_done,r4
+ jump eq,(r4)
+ nop
+ movei #POST_SCRATCH,r15
+ store r0,(r15)
+ store r1,(r15+4)
+ store r2,(r15+8)
+ ; Source Feisar X/Z ground axes, rotated by the real ship heading.
+ movei #GAME+28,r0
+ load (r0),r0
+ movei #SinTab,r15
+ load (r15+r0),r19
+ move r19,r20
+ shrq #16,r20
+ move r20,r0
+ moveq #15,r1
+ imult r1,r0
+ sharq #7,r0
+ add r16,r0
+ move r19,r2
+ imult r1,r2
+ sharq #7,r2
+ add r18,r2
+ move r17,r1
+ movei #post_project,r8
+ BL (r8)
+ cmpq #0,r3
+ movei #post_done,r4
+ jump eq,(r4)
+ nop
+ movei #POST_SCRATCH,r15
+ load (r15),r4
+ sub r4,r0
+ store r0,(r15+12)
+ load (r15+4),r4
+ sub r4,r1
+ store r1,(r15+16)
+ move r19,r0
+ moveq #27,r1
+ imult r1,r0
+ sharq #7,r0
+ add r16,r0
+ move r20,r2
+ imult r1,r2
+ sharq #7,r2
+ neg r2
+ add r18,r2
+ move r17,r1
+ movei #post_project,r8
+ BL (r8)
+ cmpq #0,r3
+ movei #post_done,r4
+ jump eq,(r4)
+ nop
+ movei #POST_SCRATCH,r15
+ load (r15),r4
+ sub r4,r0
+ store r0,(r15+20)
+ load (r15+4),r4
+ sub r4,r1
+ store r1,(r15+24)
+ load (r15+12),r2
+ imult r1,r2
+ load (r15+16),r3
+ imult r0,r3
+ sub r3,r2
+ move r2,r21
+ move r2,r24
+ abs r24
+ cmpq #4,r24
+ movei #post_done,r4
+ jump mi,(r4)
+ nop
+ store r21,(r15+28)
+ load (r15+12),r0
+ abs r0
+ load (r15+20),r1
+ abs r1
+ add r1,r0
+ load (r15),r16
+ move r16,r17
+ sub r0,r16
+ add r0,r17
+ cmpq #0,r16
+ jr pl,.xmin
+ nop
+ moveq #0,r16
+.xmin
+ movei #383,r0
+ cmp r0,r17
+ jr mi,.xmax
+ nop
+ move r0,r17
+.xmax
+ load (r15+16),r0
+ abs r0
+ load (r15+24),r1
+ abs r1
+ add r1,r0
+ load (r15+4),r18
+ move r18,r19
+ sub r0,r18
+ add r0,r19
+ movei #50,r0
+ cmp r0,r18
+ jr pl,.ymin
+ nop
+ move r0,r18
+.ymin
+ movei #199,r0
+ cmp r0,r19
+ jr mi,.ymax
+ nop
+ move r0,r19
+.ymax
+ store r16,(r15+32)
+ store r17,(r15+36)
+ store r18,(r15+40)
+ store r19,(r15+44)
+ movei #$9fa000,r20
+ movefa screen0.a,r13
+ moveq #0,r12
+ move r18,r23
+.shadow_row
+ move r16,r22
+.shadow_pixel
+ load (r15),r0
+ move r22,r4
+ sub r0,r4
+ load (r15+4),r0
+ move r23,r5
+ sub r0,r5
+ load (r15+24),r0
+ imult r4,r0
+ load (r15+20),r1
+ imult r5,r1
+ sub r1,r0
+ shlq #3,r0
+ cmpq #0,r21
+ jr pl,.u_det
+ nop
+ neg r0
+.u_det
+ move r0,r1
+ abs r0
+ div r24,r0
+ cmpq #0,r1
+ jr pl,.u_signed
+ nop
+ neg r0
+.u_signed
+ addq #8,r0
+ move r0,r6
+ movei #.shadow_next,r8
+ cmpq #0,r6
+ jump mi,(r8)
+ nop
+ moveq #16,r0
+ cmp r0,r6
+ jump cc,(r8)
+ nop
+ load (r15+12),r0
+ imult r5,r0
+ load (r15+16),r1
+ imult r4,r1
+ sub r1,r0
+ shlq #3,r0
+ cmpq #0,r21
+ jr pl,.v_det
+ nop
+ neg r0
+.v_det
+ move r0,r1
+ abs r0
+ div r24,r0
+ cmpq #0,r1
+ jr pl,.v_signed
+ nop
+ neg r0
+.v_signed
+ addq #8,r0
+ cmpq #0,r0
+ jump mi,(r8)
+ nop
+ moveq #16,r1
+ cmp r1,r0
+ jump cc,(r8)
+ nop
+ shlq #4,r0
+ add r6,r0
+ shlq #2,r0
+ add r20,r0
+ load (r0),r9
+ shrq #16,r9
+ movei #96,r0
+ mult r0,r9
+ shrq #8,r9
+ cmpq #0,r9
+ jump eq,(r8)
+ nop
+ ; Exact interleaved stock framebuffer address and CrY alpha-darkening.
+ move r23,r8
+ movei #1536,r0
+ mult r0,r8
+ move r22,r0
+ shrq #2,r0
+ shlq #4,r0
+ add r0,r8
+ move r22,r0
+ moveq #3,r1
+ and r1,r0
+ shlq #1,r0
+ add r0,r8
+ add r13,r8
+ loadw (r8),r10
+ move r10,r11
+ movei #255,r0
+ and r0,r11
+ movei #256,r0
+ sub r9,r0
+ mult r0,r11
+ shrq #8,r11
+ move r10,r0
+ movei #$ff00,r1
+ and r1,r0
+ or r11,r0
+ storew r0,(r8)
+ addq #1,r12
+ ; Last real composed pixel is independently checked in emulator screenshots.
+ store r8,(r15+48)
+ store r9,(r15+52)
+ store r10,(r15+56)
+ store r0,(r15+60)
+.shadow_next
+ addq #1,r22
+ cmp r17,r22
+ movei #.shadow_pixel,r0
+ jump mi,(r0)
+ nop
+ addq #1,r23
+ cmp r19,r23
+ movei #.shadow_row,r0
+ jump mi,(r0)
+ nop
+ movei #POST_STATE,r15
+ store r12,(r15+12)
+post_done:
+ movei #POST_STATE,r15
+ movei #MOTION+64,r0
+ load (r0),r0
+ store r0,(r15+4)
+ load (r15+56),r0
+ addq #1,r0
+ bclr #0,r0
+ store r0,(r15+56)
+ POPLR
+post_project:
+ PUSHLR
+ sharq #8,r0
+ sharq #8,r1
+ sharq #8,r2
+ movei #CAMERA_X,r15
+ load (r15),r3
+ load (r15+4),r4
+ load (r15+8),r5
+ sub r3,r0
+ sub r4,r1
+ sub r5,r2
+ load (r15+12),r3
+ movei #SinTab,r15
+ load (r15+r3),r3
+ move r3,r4
+ shrq #16,r4
+ imultn r4,r0
+ imacn r3,r2
+ resmac r5
+ neg r3
+ imultn r3,r0
+ imacn r4,r2
+ resmac r2
+ sharq #15,r5
+ sharq #15,r2
+ movei #PHYS+48,r0
+ load (r0),r0
+ sharq #8,r0
+ movei #2044,r3
+ and r3,r0
+ load (r15+r0),r3
+ move r3,r4
+ shrq #16,r4
+ imultn r4,r1
+ imacn r3,r2
+ resmac r6
+ neg r1
+ imultn r4,r2
+ imacn r3,r1
+ resmac r2
+ sharq #15,r6
+ sharq #15,r2
+ movei #VIEW+28,r0
+ load (r0),r0
+ cmpq #0,r0
+ jr eq,.particle_bank_done
+ nop
+ move r0,r1
+ shrq #16,r1
+ imultn r1,r5
+ imacn r0,r6
+ resmac r3
+ neg r0
+ imultn r0,r5
+ imacn r1,r6
+ resmac r6
+ sharq #15,r3
+ sharq #15,r6
+ move r3,r5
+.particle_bank_done
+ movei #post_project_behind,r0
+ cmpq #10,r2
+ jump mi,(r0)
+ nop
+ movei #32768,r3
+ div r2,r3
+ move r5,r0
+ abs r5
+ mult r3,r5
+ shrq #7,r5
+ cmpq #0,r0
+ jr pl,.positive_x
+ nop
+ neg r5
+.positive_x
+ move r6,r0
+ abs r6
+ mult r3,r6
+ shrq #7,r6
+ cmpq #0,r0
+ jr mi,.negative_y
+ nop
+ neg r6
+.negative_y
+ moveq #11,r0
+ movei #GAME+80,r1
+ load (r1),r1
+ movei #60,r2
+ cmp r2,r1
+ jr eq,.aspect
+ nop
+ moveq #12,r0
+.aspect
+ imult r0,r6
+ sharq #4,r6
+ movei #192,r0
+ add r0,r5
+ movei #100,r0
+ add r0,r6
+ move r5,r0
+ move r6,r1
+ moveq #1,r3
+ POPLR
+post_project_behind:
+ moveq #0,r3
+ POPLR
+ align 8
+ ENDMODULE postfx
+
 	include "effects.js"
+; Source BloomPass counterpart: separable convolution then additive screen.
+; Native low-resolution 48x25, binomial five-tap blur, 0.8 CrY luminance glow.
+; Upstream BloomPass has NO bright-pass threshold. Preserve that behavior.
+; Stock blitter performs two signed-safe <=102 intensity-add passes per tile.
+ MODULE bloom,MODend_irq
+ PUSHLR
+ movei #AVSET+4,r0
+ load (r0),r0
+ cmpq #0,r0
+ movei #bloom_done,r1
+ jump eq,(r1)
+ nop
+ movei #POST_STATE,r15
+ load (r15+60),r0
+ addq #1,r0
+ bset #0,r0
+ store r0,(r15+60)
+ moveq #0,r0
+ store r0,(r15+16)
+ store r0,(r15+20)
+ movei #BLIT_A1_BASE,r14
+.wait
+ load (r14+$38),r0
+ btst #0,r0
+ jr eq,.wait
+ nop
+ movefa screen0.a,r16
+ movei #BLOOM_GRID,r17
+ moveq #0,r18
+ moveq #0,r19
+.sample_row
+ moveq #0,r20
+.sample_pixel
+ ; Four actual scene samples per cell, prior to any bloom writes.
+ move r19,r0
+ shlq #3,r0
+ addq #2,r0
+ movei #1536,r1
+ mult r1,r0
+ move r20,r2
+ shlq #5,r2
+ addq #4,r2
+ add r2,r0
+ add r16,r0
+ loadw (r0),r1
+ addq #16,r0
+ loadw (r0),r2
+ movei #6128,r3
+ add r3,r0
+ loadw (r0),r3
+ addq #16,r0
+ loadw (r0),r4
+ movei #255,r5
+ and r5,r1
+ and r5,r2
+ and r5,r3
+ and r5,r4
+ add r2,r1
+ add r3,r1
+ add r4,r1
+ shrq #2,r1
+ store r1,(r17)
+ addq #4,r17
+ addq #1,r20
+ movei #48,r0
+ cmp r0,r20
+ movei #.sample_pixel,r0
+ jump ne,(r0)
+ nop
+ addq #1,r19
+ moveq #25,r0
+ cmp r0,r19
+ movei #.sample_row,r0
+ jump ne,(r0)
+ nop
+ moveq #0,r20
+ movei #BLOOM_GRID,r18
+ movei #BLOOM_TMP,r19
+.filter_pass
+ moveq #0,r17
+.filter_cell
+ movei #BLOOM_PROOF,r13
+ cmpq #0,r20
+ jr eq,.proof_horizontal
+ nop
+ addq #20,r13
+.proof_horizontal
+ move r17,r22
+ movei #48,r0
+ div r0,r22
+ moveq #24,r23
+ moveq #0,r0
+ cmp r0,r20
+ jr ne,.vertical
+ movei #48,r21
+ mult r21,r22
+ move r17,r0
+ sub r22,r0
+ move r0,r22
+ moveq #1,r21
+ movei #47,r23
+.vertical
+ moveq #0,r12
+ move r22,r0
+ subq #2,r0
+ cmpq #0,r0
+ jr pl,.filter_0_min
+ nop
+ moveq #0,r0
+.filter_0_min
+ cmp r23,r0
+ jr mi,.filter_0_max
+ nop
+ move r23,r0
+.filter_0_max
+ sub r22,r0
+ imult r21,r0
+ add r17,r0
+ shlq #2,r0
+ add r18,r0
+ load (r0),r1
+ movei #488,r0
+ cmp r0,r17
+ jr ne,.proof_0_skip
+ nop
+ store r1,(r13)
+ addq #4,r13
+.proof_0_skip
+ add r1,r12
+ move r22,r0
+ subq #1,r0
+ cmpq #0,r0
+ jr pl,.filter_1_min
+ nop
+ moveq #0,r0
+.filter_1_min
+ cmp r23,r0
+ jr mi,.filter_1_max
+ nop
+ move r23,r0
+.filter_1_max
+ sub r22,r0
+ imult r21,r0
+ add r17,r0
+ shlq #2,r0
+ add r18,r0
+ load (r0),r1
+ movei #488,r0
+ cmp r0,r17
+ jr ne,.proof_1_skip
+ nop
+ store r1,(r13)
+ addq #4,r13
+.proof_1_skip
+ moveq #4,r2
+ mult r2,r1
+ add r1,r12
+ move r22,r0
+ nop
+ cmpq #0,r0
+ jr pl,.filter_2_min
+ nop
+ moveq #0,r0
+.filter_2_min
+ cmp r23,r0
+ jr mi,.filter_2_max
+ nop
+ move r23,r0
+.filter_2_max
+ sub r22,r0
+ imult r21,r0
+ add r17,r0
+ shlq #2,r0
+ add r18,r0
+ load (r0),r1
+ movei #488,r0
+ cmp r0,r17
+ jr ne,.proof_2_skip
+ nop
+ store r1,(r13)
+ addq #4,r13
+.proof_2_skip
+ moveq #6,r2
+ mult r2,r1
+ add r1,r12
+ move r22,r0
+ addq #1,r0
+ cmpq #0,r0
+ jr pl,.filter_3_min
+ nop
+ moveq #0,r0
+.filter_3_min
+ cmp r23,r0
+ jr mi,.filter_3_max
+ nop
+ move r23,r0
+.filter_3_max
+ sub r22,r0
+ imult r21,r0
+ add r17,r0
+ shlq #2,r0
+ add r18,r0
+ load (r0),r1
+ movei #488,r0
+ cmp r0,r17
+ jr ne,.proof_3_skip
+ nop
+ store r1,(r13)
+ addq #4,r13
+.proof_3_skip
+ moveq #4,r2
+ mult r2,r1
+ add r1,r12
+ move r22,r0
+ addq #2,r0
+ cmpq #0,r0
+ jr pl,.filter_4_min
+ nop
+ moveq #0,r0
+.filter_4_min
+ cmp r23,r0
+ jr mi,.filter_4_max
+ nop
+ move r23,r0
+.filter_4_max
+ sub r22,r0
+ imult r21,r0
+ add r17,r0
+ shlq #2,r0
+ add r18,r0
+ load (r0),r1
+ movei #488,r0
+ cmp r0,r17
+ jr ne,.proof_4_skip
+ nop
+ store r1,(r13)
+ addq #4,r13
+.proof_4_skip
+ add r1,r12
+ shrq #4,r12
+ move r17,r0
+ shlq #2,r0
+ add r19,r0
+ store r12,(r0)
+ movei #488,r0
+ cmp r0,r17
+ jr ne,.proof_filter_skip
+ nop
+ move r20,r0
+ shlq #2,r0
+ movei #POST_STATE+28,r1
+ add r0,r1
+ store r12,(r1)
+.proof_filter_skip
+ addq #1,r17
+ movei #1200,r0
+ cmp r0,r17
+ movei #.filter_cell,r0
+ jump ne,(r0)
+ nop
+ cmpq #0,r20
+ jr ne,.filter_done
+ nop
+ moveq #1,r20
+ movei #BLOOM_TMP,r18
+ movei #BLOOM_OUT,r19
+ movei #.filter_pass,r0
+ jump (r0)
+ nop
+.filter_done
+ movei #BLIT_A1_BASE,r14
+ movei #BLIT_PITCH2|BLIT_PIXEL16|BLIT_WID384|BLIT_XADDPIX,r0
+ store r0,(r14+_BLIT_A1_FLAGS)
+ movei #BLIT_PITCH1|BLIT_PIXEL16|BLIT_WID8|BLIT_XADD0,r0
+ store r0,(r14+_BLIT_A2_FLAGS)
+ store r16,(r14)
+ movei #$0001fff8,r0
+ store r0,(r14+_BLIT_A1_STEP)
+ moveq #0,r0
+ store r0,(r14+_BLIT_A1_FSTEP)
+ store r0,(r14+_BLIT_A1_FPIXEL)
+ store r0,(r14+_BLIT_A2_PIXEL)
+ movei #BLOOM_OUT,r17
+ moveq #0,r19
+.tile_row
+ moveq #0,r20
+.tile
+ load (r17),r18
+ ; Stable actual TOM pixel proof at grid (8,10), screen (68,84).
+ movei #10,r0
+ cmp r0,r19
+ jr ne,.proof_tile_skip
+ nop
+ cmpq #8,r20
+ jr ne,.proof_tile_skip
+ nop
+ movei #129296,r0
+ add r16,r0
+ store r0,(r15+48)
+ loadw (r0),r0
+ store r0,(r15+40)
+.proof_tile_skip
+ movei #102,r0
+ mult r0,r18
+ shrq #8,r18
+ movei #10,r0
+ cmp r0,r19
+ jr ne,.proof_add_skip
+ nop
+ cmpq #8,r20
+ jr ne,.proof_add_skip
+ nop
+ store r18,(r15+36)
+.proof_add_skip
+ cmpq #0,r18
+ movei #.next_tile,r0
+ jump eq,(r0)
+ nop
+ load (r15+16),r0
+ addq #1,r0
+ store r0,(r15+16)
+ move r18,r0
+ shlq #16,r0
+ or r18,r0
+ store r0,(r14+_BLIT_SRCD)
+ store r0,(r14+_BLIT_SRCD+4)
+ move r19,r0
+ shlq #19,r0
+ move r20,r1
+ shlq #3,r1
+ or r1,r0
+ move r0,r21
+ moveq #2,r22
+.tile_pass
+ store r21,(r14+_BLIT_A1_PIXEL)
+ movei #8<<16|8,r0
+ store r0,(r14+_BLIT_COUNT)
+ movei #BLIT_DSTEN|BLIT_ADDDSEL|BLIT_UPDA1,r0
+ store r0,(r14+_BLIT_CMD)
+.wait_tile
+ load (r14+$38),r0
+ btst #0,r0
+ jr eq,.wait_tile
+ nop
+ load (r15+20),r0
+ addq #1,r0
+ store r0,(r15+20)
+ subq #1,r22
+ movei #.tile_pass,r0
+ jump ne,(r0)
+ nop
+.next_tile
+ movei #10,r0
+ cmp r0,r19
+ jr ne,.proof_after_skip
+ nop
+ cmpq #8,r20
+ jr ne,.proof_after_skip
+ nop
+ load (r15+48),r0
+ loadw (r0),r0
+ store r0,(r15+44)
+ movei #BLOOM_GRID+488*4,r0
+ load (r0),r0
+ store r0,(r15+24)
+.proof_after_skip
+ addq #4,r17
+ addq #1,r20
+ movei #48,r0
+ cmp r0,r20
+ movei #.tile,r0
+ jump ne,(r0)
+ nop
+ addq #1,r19
+ moveq #25,r0
+ cmp r0,r19
+ movei #.tile_row,r0
+ jump ne,(r0)
+ nop
+ load (r15+60),r0
+ addq #1,r0
+ bclr #0,r0
+ store r0,(r15+60)
+bloom_done:
+ POPLR
+ align 8
+ ENDMODULE bloom
+
 	include "bitmap_hud.js"
 	include "frontend.js"
 	include "frontdraw.js"
@@ -491,12 +1538,24 @@ main_loop:
 	MBL recording
 	MyINITMODULE control
 	MBL control
+	MyINITMODULE handling
+	MBL handling
 	MyINITMODULE pose
 	MBL pose
+	MyINITMODULE view
+	MBL view
+	MyINITMODULE skybank
+	MBL skybank
 	MyINITMODULE engine
 	MBL	engine
+	MyINITMODULE postfx
+	MBL postfx
 	MyINITMODULE effects
 	MBL effects
+	MyINITMODULE bloom
+	MBL bloom
+	MyINITMODULE presentation
+	MBL presentation
 	MyINITMODULE frontdraw
 	MBL frontdraw
 	MyINITMODULE bitmap_hud

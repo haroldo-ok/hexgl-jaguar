@@ -8,7 +8,9 @@ start=int(m['rom_address'],16);end=start+m['bytes']
 summary={'status':'IN_PROGRESS','rom_sha256':hashlib.sha256((R/'rom/hexgl.j64').read_bytes()).hexdigest(),'cases':{}}
 path=R/'test-results/original-audio-summary.json';path.write_text(json.dumps(summary))
 try:
- for standard,pad in [('ntsc',730),('pal',631)]:
+ for standard in ['ntsc','pal']:
+  probe=run('audio-pad-timing-'+standard+'-probe',standard,900,'100:a+c,120:a',['--no-bios']);common(probe)
+  pad=next(f['f'] for f in probe['fields'][150:] if f['game'][2]==1 and f['game'][12]>0)
   stop=pad+20;restart=stop+180;again=restart+pad-100;stop2=again+20
   t=run('boost-events-'+standard,standard,stop2+140,f'100:a+c,120:a,{stop}:option,{stop+20}:none,{restart}:a+c,{restart+20}:a,{stop2}:option,{stop2+20}:none',['--no-bios']);common(t)
   fields=t['fields'];episodes=[];stops=[];source_stereo=0;gain_checks=0
@@ -27,7 +29,7 @@ try:
    assert all(f['audio_state'][9]==end for f in stopped),'Boost kept playing after explicit timer clear'
    stops.append(len(stopped))
   assert source_stereo>=10,'Source channel difference disappeared at zero pan'
-  summary['cases'][standard]={'boost_episodes':episodes,'completed_zero_timer_stop_samples':stops,'source_stereo_at_zero_pan_fields':source_stereo,'native_stereo_gain_checks':gain_checks,'checks':['actual original-channel boost content at zero pan','real DSP one-shot cursor progression','Option timer-clear stops while stream active','second controller race restarts source at first block','unchanged black/frozen-video and source-HUD gates']}
+  summary['cases'][standard]={'probe_first_pad_field':pad,'boost_episodes':episodes,'completed_zero_timer_stop_samples':stops,'source_stereo_at_zero_pan_fields':source_stereo,'native_stereo_gain_checks':gain_checks,'checks':['actual original-channel boost content at zero pan','real DSP one-shot cursor progression','Option timer-clear stops while stream active','second controller race restarts source at first block','unchanged black/frozen-video and source-HUD gates']}
  summary['status']='PASS'
 except Exception as e:
  summary['status']='FAIL';summary['error']=str(e);raise

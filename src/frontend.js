@@ -26,6 +26,8 @@
  movei #front_format_all,r0
  BL (r0)
 front_initialized:
+ movei #settings_input,r0
+ BL (r0)
  movei #FRONT,r14
  movei #LastJoy+4,r0
  load (r0),r0
@@ -106,9 +108,9 @@ front_menu:
  cmpq #0,r0
  jr pl,.positive_choice
  nop
- moveq #4,r0
+ moveq #5,r0
 .positive_choice
- cmpq #5,r0
+ cmpq #6,r0
  jr ne,.valid_choice
  nop
  moveq #0,r0
@@ -158,6 +160,14 @@ front_menu:
 front_panel:
  moveq #1,r0
  store r0,(r14+12)
+ movei #FRONT+8,r1
+ load (r1),r1
+ cmpq #5,r1
+ jr ne,.notsettings
+ nop
+ movei #settings_panel,r8
+ BL (r8)
+.notsettings
  ; Option returns to the main screen through the normal reset path.
 front_return:
  POPLR
@@ -707,6 +717,7 @@ format_pair:
  addq #1,r1
  jump (LR)
  nop
+ include "settings.inc"
  align 8
  ENDMODULE frontend
  echo "ENDE (frontend): %HMODend_frontend"

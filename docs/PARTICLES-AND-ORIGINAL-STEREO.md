@@ -1,3 +1,5 @@
+> **Increment history:** This document describes its original implementation/test milestone. Current banked-sky, source-color/lifetime, blue-light/contact-shadow, bloom and AV changes supersede older missing-feature notes: see [REMAINING-NATIVE-SYSTEMS.md](REMAINING-NATIVE-SYSTEMS.md), [PARITY.md](PARITY.md) and the current hash-bound test reports.
+
 # Perspective particles, RGB composition and original stereo
 
 This is a native stock-Jaguar increment, **not completion of the full port**.
@@ -113,9 +115,10 @@ commented out; neither is invented as an omitted feature.
   it while active with Option, start a second race and verify the source restarts
   from its first block. Separate source L/R content is observed at zero native pan.
 - Complete-race read-only checks verify monotonic one-shot cursors and an ended
-  source remaining stopped under a held boost signal. The assisted waypoint demo
-  currently retains its boost latch between pads, unlike manual timer decay; these
-  held-signal checks are not evidence of source-equivalent boost kinetics.
+  source cursor/stop behavior. The newer gameplay integration removes the assisted
+  boost latch and normalizes duration; ended-under-an-indefinite-flag is no longer
+  a gate. See [the current gameplay note](GAMEPLAY-HANDLING-VIEWS.md). These remain
+  native timer adaptations, not source-equivalent boost kinetics.
 - Original black-screen, freeze, game-flow, bitmap-HUD, replay, EEPROM and stock
   desktop gates remain required; none was relaxed to accept the new effects.
 - `make assets rom` regenerates and compiles the assets/GPU/DSP/68000 code;
@@ -130,3 +133,7 @@ fidelity, WebAudio HRTF/gain/trigger parity, and presentation/settings remain
 unfinished. Native effects, static lighting and stereo do not imply shader,
 physics, browser UI, or physical-Jaguar equivalence. Online services remain
 excluded by the user's standalone-stock target decision.
+
+This milestone is retained; current release adds native yaw/cross-slope handling,
+actual alternate/rolled views, race banners and settings. See
+[GAMEPLAY-HANDLING-VIEWS.md](GAMEPLAY-HANDLING-VIEWS.md) for current evidence semantics.

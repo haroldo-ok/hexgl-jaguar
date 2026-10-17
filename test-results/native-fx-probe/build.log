@@ -5,13 +5,13 @@ screen0:   $1b4808
 memory end: $14acc8
 stacktop $f03ffc
 RSPC: $968
-Size (engine): $d70
-ENDE (engine): $f03e00
-Size (bitmap HUD): $150
-ENDE (bitmap HUD): $f031e0
-ENDE (frontend): $f037e0
-ENDE (frontdraw): $f03868
-ENDE (recording): $f03440
-drawHex:$6b74 104 _0 $6bbc
-ENDE : $b5140
-/home/user/.cache/native-fx-probe/rom/hexgl.j64 6291456 bytes 5af0b5e735e53293c8a08da918758ba069771f87854cc1860a1b53c234093a34
+Size (engine): $df8
+ENDE (engine): $f03e88
+Size (bitmap HUD): $1c0
+ENDE (bitmap HUD): $f03250
+ENDE (frontend): $f039e0
+ENDE (frontdraw): $f03d20
+ENDE (recording): $f034f8
+drawHex:$89ac 104 _0 $89f4
+ENDE : $b6fc0
+/home/user/.cache/native-fx-probe/rom/hexgl.j64 6291456 bytes d6e9a762ee6371514e2d13705a83e96db03e03e1413a2264d502c47ab8dcae89

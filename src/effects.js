@@ -9,6 +9,13 @@
  POPLR
  ENDIF
  PUSHLR
+ movei #SETTINGS+8,r0
+ load (r0),r0
+ cmpq #0,r0
+ jr ne,.effectsenabled
+ nop
+ POPLR
+.effectsenabled
  movei #BLIT_A1_BASE,r14
 .wait
  load (r14+$38),r0
@@ -74,7 +81,7 @@
  nop
  jump eq,(r2)
  nop
- moveq #6,r18
+ moveq #15,r18
 .spawn
  load (r15+44),r0
  move r0,r16
@@ -173,11 +180,32 @@
  addq #24,r26
  store r0,(r26)
  move r18,r0
+ moveq #3,r1
+ div r1,r0
+ mult r1,r0
+ sub r18,r0
+ moveq #0,r1
+ cmpq #0,r0
+ jr ne,.spark_kind
+ nop
  moveq #1,r1
- and r1,r0
+.spark_kind
+ move r1,r0
  move r16,r26
  addq #28,r26
  store r0,(r26)
+ ; Stable source color/color2 lerp index for this actual particle slot.
+ move r16,r0
+ movei #FX_POOL,r1
+ sub r1,r0
+ shrq #3,r0
+ movei #FX_COLORS,r1
+ add r0,r1
+ load (r15+40),r0
+ shrq #24,r0
+ moveq #15,r2
+ and r2,r0
+ store r0,(r1)
  load (r15+4),r0
  addq #1,r0
  store r0,(r15+4)
@@ -244,6 +272,24 @@ fx_draw:
  load (r15+8),r0
  addq #1,r0
  store r0,(r15+8)
+ ; Select one of sixteen original per-particle color2 variations.
+ move r16,r0
+ movei #FX_POOL,r1
+ sub r1,r0
+ shrq #3,r0
+ movei #FX_COLORS,r1
+ add r0,r1
+ load (r1),r0
+ move r16,r26
+ addq #28,r26
+ load (r26),r1
+ shlq #4,r1
+ add r1,r0
+ shlq #10,r0
+ movei #$9f2000,r1
+ add r1,r0
+ movei #FX_AUX,r1
+ store r0,(r1)
  load (r16),r0
  move r16,r26
  addq #4,r26
@@ -259,6 +305,14 @@ fx_draw:
  load (r26),r4
  movei #60,r5
  div r5,r4
+ movei #128,r5
+ add r5,r4
+ movei #256,r5
+ cmp r5,r4
+ jr mi,.source_fade
+ nop
+ move r5,r4
+.source_fade
  movei #fx_project,r8
  BL (r8)
 .drawnext
@@ -414,6 +468,13 @@ fx_project:
  PUSHLR
  move r3,r20
  move r4,r24
+ cmpq #2,r3
+ jr ne,.particle_atlas
+ nop
+ movei #effect_atlas+2048,r6
+ movei #FX_AUX,r7
+ store r6,(r7)
+.particle_atlas
  sharq #8,r0
  sharq #8,r1
  sharq #8,r2
@@ -455,6 +516,24 @@ fx_project:
  resmac r2
  sharq #15,r6
  sharq #15,r2
+ movei #VIEW+28,r0
+ load (r0),r0
+ cmpq #0,r0
+ jr eq,.particle_bank_done
+ nop
+ move r0,r1
+ shrq #16,r1
+ imultn r1,r5
+ imacn r0,r6
+ resmac r3
+ neg r0
+ imultn r0,r5
+ imacn r1,r6
+ resmac r6
+ sharq #15,r3
+ sharq #15,r6
+ move r3,r5
+.particle_bank_done
  movei #.done,r0
  cmpq #10,r2
  jump mi,(r0)
@@ -621,16 +700,41 @@ fx_project:
  div r25,r1
  add r1,r0
  shlq #2,r0
+ movei #FX_AUX,r1
+ load (r1),r1
+ cmpq #0,r1
+ jr ne,.source_atlas
+ nop
  move r20,r1
  shlq #10,r1
- add r1,r0
- movei #effect_atlas,r1
+ movei #effect_atlas,r2
+ add r2,r1
+.source_atlas
  add r1,r0
  load (r0),r0
+ ; Source l affects particle color, not the cloud alpha channel.
+ cmpq #2,r20
+ movei #.glow_alpha,r3
+ jump eq,(r3)
+ nop
+ move r0,r2
+ movei #255,r3
+ and r3,r2
+ mult r24,r2
+ shrq #8,r2
+ movei #$ffffff00,r3
+ and r3,r0
+ or r2,r0
+ move r0,r2
+ shrq #16,r2
+ jr .source_alpha
+ nop
+.glow_alpha
  move r0,r2
  shrq #16,r2
  mult r24,r2
  shrq #8,r2
+.source_alpha
  cmpq #0,r2
  jump eq,(r26)
  nop
@@ -666,6 +770,8 @@ fx_project:
  store r2,(r15+72)
  store r3,(r15+76)
  store r23,(r15+84)
+ load (r15),r4
+ store r4,(r15+88)
  store r5,(r15+112)
  store r6,(r15+116)
  store r22,(r15+120)

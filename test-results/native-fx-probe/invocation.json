@@ -12,6 +12,6 @@
     "--quiet",
     "/home/user/.cache/native-fx-probe/rom/hexgl.j64"
   ],
-  "production_rom_sha256": "fc99ae03d093ec1483cf814d18f484bfa5adf154d42081d37a9350710c93e1a8",
-  "diagnostic_rom_sha256": "5af0b5e735e53293c8a08da918758ba069771f87854cc1860a1b53c234093a34"
+  "production_rom_sha256": "c7414e11b4edddc5274ae7d03742a31ee2f3e2bc9dcf815b331c9cfcc764572a",
+  "diagnostic_rom_sha256": "d6e9a762ee6371514e2d13705a83e96db03e03e1413a2264d502c47ab8dcae89"
 }

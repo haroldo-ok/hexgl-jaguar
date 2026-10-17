@@ -44,6 +44,35 @@ pose_camera:
  addq #2,r0
  movei #MOTION,r15
  load (r15),r1
+ movei #GAME+8,r2
+ load (r2),r2
+ cmpq #5,r2
+ movei #.recorded_bank,r3
+ jump eq,(r3)
+ nop
+ movei #HANDLING+32,r2
+ load (r2),r2
+ add r2,r1
+ movei #420*256,r2
+ cmp r2,r1
+ jr mi,.bank_max
+ nop
+ move r2,r1
+.bank_max
+ neg r2
+ cmp r2,r1
+ jr pl,.bank_min
+ nop
+ move r2,r1
+.bank_min
+ movei #HANDLING+64,r2
+ store r1,(r2)
+ jr .bank_ready
+ nop
+.recorded_bank
+ movei #HANDLING+64,r2
+ load (r2),r1
+.bank_ready
  sharq #8,r1
  movei #2044,r2
  and r2,r1

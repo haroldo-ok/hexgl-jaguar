@@ -111,6 +111,12 @@ CLS::
  move tmp0,sky_y
  movei #MATERIAL_STATE+16,tmp1
  store sky_y,(tmp1)
+ movei #SKY_STATE+12,tmp0
+ load (tmp0),tmp0
+ cmpq #0,tmp0
+ movei #.sky_done,tmp1
+ jump ne,(tmp1)
+ nop
  movei #2048,sky_width
  sub sky_x,sky_width
  movei #max_x,tmp0

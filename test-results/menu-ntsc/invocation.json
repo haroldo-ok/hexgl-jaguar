@@ -9,7 +9,7 @@
     "--out",
     "/home/user/hexgl-jaguar/test-results/menu-ntsc",
     "--input",
-    "100:down,120:none,140:a,160:none,220:option,240:none,260:down,280:none,300:down,320:none,340:a,360:none,420:option,440:none,460:up,480:none,500:up,520:none,540:a,560:none,620:option,640:none,660:a,680:none",
+    "100:down,120:none,140:a,160:none,220:option,240:none,260:down,280:none,300:down,320:none,340:a,360:none,420:option,440:none,460:up,480:none,500:up,520:none,530:up,535:none,540:a,560:none,620:option,640:none,660:a,680:none",
     "--quiet",
     "--dump-at",
     "80,180,280,380,480,580,800,1200,2400,4800,8000,12000",
@@ -22,5 +22,5 @@
     "80,180,380,580,880",
     "/home/user/hexgl-jaguar/rom/hexgl.j64"
   ],
-  "rom_sha256": "fc99ae03d093ec1483cf814d18f484bfa5adf154d42081d37a9350710c93e1a8"
+  "rom_sha256": "c7414e11b4edddc5274ae7d03742a31ee2f3e2bc9dcf815b331c9cfcc764572a"
 }

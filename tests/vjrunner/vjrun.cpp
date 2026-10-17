@@ -137,6 +137,8 @@ struct FrameStats
     long     changed     = -1;  // pixels differing from previous field
     uint32_t gpuPC       = 0;
     uint32_t game[28] = {};
+    uint32_t bloomProof[16]={},postScratch[16]={},skyState[16]={},postState[16]={},avSettings[16]={},particleColors[16]={},
+        handling[32]={},view[32]={},settings[16]={},presentation[16]={};
     uint32_t physics[32] = {}, effects[16] = {}, particles[128] = {};
     uint32_t motion[17] = {}, pose[10] = {}, front[20] = {}, replay[20] = {};
     char records[4][10] = {};
@@ -213,6 +215,9 @@ static FrameStats analyseFrame(int frame)
     for(int i=0;i<28;i++) st.game[i]=GET32(jaguarMainRAM,0x1000+4*i);
     for(int i=0;i<32;i++)st.fxAux[i]=GET32(jaguarMainRAM,0x1b00+4*i);
     for(int i=0;i<32;i++)st.fxDepth[i]=GET32(jaguarMainRAM,0x1c00+4*i);
+    for(int i=0;i<32;i++){st.handling[i]=GET32(jaguarMainRAM,0x1d00+4*i);st.view[i]=GET32(jaguarMainRAM,0x1d80+4*i);}
+    for(int i=0;i<16;i++){st.settings[i]=GET32(jaguarMainRAM,0x1e40+4*i);st.presentation[i]=GET32(jaguarMainRAM,0x1e00+4*i);}
+    for(int i=0;i<16;i++){st.bloomProof[i]=GET32(jaguarMainRAM,0x1f40+4*i);st.postScratch[i]=GET32(jaguarMainRAM,0x1fc0+4*i);st.skyState[i]=GET32(jaguarMainRAM,0x1e80+4*i);st.postState[i]=GET32(jaguarMainRAM,0x1ec0+4*i);st.avSettings[i]=GET32(jaguarMainRAM,0x1f80+4*i);st.particleColors[i]=GET32(jaguarMainRAM,0x1f00+4*i);}
     st.audioSamples=GET32(jaguarMainRAM,0x1084);
     for(int i=0;i<10;i++)st.audioState[i]=GET32(jaguarMainRAM,0x1a00+4*i);
     for(int i=0;i<12;i++)st.materialState[i]=GET32(jaguarMainRAM,0x1a40+4*i);
@@ -270,6 +275,17 @@ static int buttonFromName(const std::string &n)
     if (n == "a")      return BUTTON_A;
     if (n == "b")      return BUTTON_B;
     if (n == "c")      return BUTTON_C;
+    if (n == "1") return BUTTON_1;
+    if (n == "2") return BUTTON_2;
+    if (n == "3") return BUTTON_3;
+    if (n == "4") return BUTTON_4;
+    if (n == "5") return BUTTON_5;
+    if (n == "6") return BUTTON_6;
+    if (n == "7") return BUTTON_7;
+    if (n == "8") return BUTTON_8;
+    if (n == "9") return BUTTON_9;
+    if (n == "0") return BUTTON_0;
+    if (n == "star") return BUTTON_s;
     if (n == "start")  return BUTTON_s;
     if (n == "option") return BUTTON_OPTION;
     if (n == "pause")  return BUTTON_PAUSE;
@@ -592,6 +608,26 @@ int main(int argc, char **argv)
             for(int j=0;j<17;j++)fprintf(rf,"%d%s",(int32_t)s.motion[j],j==16?"":",");
             fprintf(rf,"],\"pose\":[");
             for(int j=0;j<10;j++)fprintf(rf,"%d%s",(int32_t)s.pose[j],j==9?"":",");
+            fprintf(rf,"],\"handling\":[");
+            for(int j=0;j<32;j++)fprintf(rf,"%d%s",(int32_t)s.handling[j],j==31?"":",");
+            fprintf(rf,"],\"view\":[");
+            for(int j=0;j<32;j++)fprintf(rf,"%d%s",(int32_t)s.view[j],j==31?"":",");
+            fprintf(rf,"],\"bloom_proof\":[");
+            for(int j=0;j<16;j++)fprintf(rf,"%d%s",(int32_t)s.bloomProof[j],j==15?"":",");
+            fprintf(rf,"],\"post_scratch\":[");
+            for(int j=0;j<16;j++)fprintf(rf,"%d%s",(int32_t)s.postScratch[j],j==15?"":",");
+            fprintf(rf,"],\"sky_state\":[");
+            for(int j=0;j<16;j++)fprintf(rf,"%d%s",(int32_t)s.skyState[j],j==15?"":",");
+            fprintf(rf,"],\"post_state\":[");
+            for(int j=0;j<16;j++)fprintf(rf,"%d%s",(int32_t)s.postState[j],j==15?"":",");
+            fprintf(rf,"],\"av_settings\":[");
+            for(int j=0;j<16;j++)fprintf(rf,"%d%s",(int32_t)s.avSettings[j],j==15?"":",");
+            fprintf(rf,"],\"particle_colors\":[");
+            for(int j=0;j<16;j++)fprintf(rf,"%d%s",(int32_t)s.particleColors[j],j==15?"":",");
+            fprintf(rf,"],\"settings\":[");
+            for(int j=0;j<16;j++)fprintf(rf,"%d%s",(int32_t)s.settings[j],j==15?"":",");
+            fprintf(rf,"],\"presentation\":[");
+            for(int j=0;j<16;j++)fprintf(rf,"%d%s",(int32_t)s.presentation[j],j==15?"":",");
             fprintf(rf,"],\"fx_aux\":[");
             for(int j=0;j<32;j++)fprintf(rf,"%d%s",(int32_t)s.fxAux[j],j==31?"":",");
             fprintf(rf,"],\"fx_depth\":[");
@@ -661,6 +697,8 @@ int main(int argc, char **argv)
         if(record){fwrite(jaguarMainRAM+0x150000,64,recordCount,record);fclose(record);}
         record=fopen((outDir+"/recording-angles.bin").c_str(),"wb");
         if(record){fwrite(jaguarMainRAM+0x1b0000,2,recordCount,record);fclose(record);}
+        record=fopen((outDir+"/recording-view.bin").c_str(),"wb");
+        if(record){fwrite(jaguarMainRAM+0xb8000,24,recordCount,record);fclose(record);}
     }
     FILE *ram = fopen((outDir + "/ram.bin").c_str(), "wb");
     if(ram){fwrite(jaguarMainRAM,1,0x200000,ram);fclose(ram);}

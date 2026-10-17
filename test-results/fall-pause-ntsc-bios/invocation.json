@@ -9,15 +9,15 @@
     "--out",
     "/home/user/hexgl-jaguar/test-results/fall-pause-ntsc-bios",
     "--input",
-    "100:a,590:a+b+left,605:a,670:pause,685:none,730:pause,745:a,897:pause,912:none,1047:pause,1062:none",
+    "100:a,590:a+right+b,615:a,669:pause,684:none,819:pause,834:none",
     "--quiet",
     "--dump-at",
     "80,180,280,380,480,580,800,1200,2400,4800,8000,12000",
     "--title",
     "run",
     "--dump-at",
-    "947,1097",
+    "719,869",
     "/home/user/hexgl-jaguar/rom/hexgl.j64"
   ],
-  "rom_sha256": "fc99ae03d093ec1483cf814d18f484bfa5adf154d42081d37a9350710c93e1a8"
+  "rom_sha256": "c7414e11b4edddc5274ae7d03742a31ee2f3e2bc9dcf815b331c9cfcc764572a"
 }

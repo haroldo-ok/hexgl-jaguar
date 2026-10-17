@@ -30,7 +30,7 @@ def materials(result):
  for f in fields:
   m=f['material_state'];base,bank,count,tex,row=m[:5]
   assert 0<=bank<8 and 0x902000<=base<0x992000,'Invalid ROM material bank'
-  assert 0x902000<=tex<0x992000 and (tex-0x902000)%8192==0,'Renderer did not consume native atlas texture'
+  assert (0x902000<=tex<0x992000 and (tex-0x902000)%8192==0) or (0x9e0000<=tex<0x9f2000 and (tex-0x9e0000)%8192==0),'Renderer did not consume a source-derived native atlas texture'
   assert 0<=row<=312,'Sky crop outside panorama'
   if previous and m[:2]==previous[:2]:assert base==0x902000+bank*9*8192,'Atlas selection does not match bank'
   if previous and m[9:12]==previous[9:12] and count:

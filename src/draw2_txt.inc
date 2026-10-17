@@ -135,9 +135,21 @@ triangle:
 	shrq	#8,tmp3
 	moveta	tmp3,luminance.a
 
-	load	(tmp2),tmp0
-	movei	#MATERIAL_STATE,tmp1
-	load	(tmp1),tmp1
+ move tmp2,tmp0
+ moveq #1,tmp1
+ and tmp1,tmp0
+ bclr #0,tmp2
+ cmpq #0,tmp0
+ jr eq,.unlit_bank
+ nop
+ movei #$9e0000,tmp1
+ jr .native_bank_ready
+ nop
+.unlit_bank
+ movei #MATERIAL_STATE,tmp1
+ load (tmp1),tmp1
+.native_bank_ready
+ load (tmp2),tmp0
 	shrq	#16-13,tmp0
 	add	tmp0,tmp1
 	movei	#MATERIAL_STATE+12,tmp0

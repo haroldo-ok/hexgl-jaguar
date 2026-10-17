@@ -1,5 +1,5 @@
 {
-  "rom_sha256": "fc99ae03d093ec1483cf814d18f484bfa5adf154d42081d37a9350710c93e1a8",
+  "rom_sha256": "c7414e11b4edddc5274ae7d03742a31ee2f3e2bc9dcf815b331c9cfcc764572a",
   "status": "PASS",
   "cases": {
     "menu-ntsc": {
@@ -14,11 +14,11 @@
       "source_font_pixels": 1586
     },
     "replay-ntsc": {
-      "recorded_pitch_pairs_verified": 64,
-      "samples": 64,
-      "interpolated_commits": 156,
-      "fractional_commits": 19,
-      "record_ticks": 231,
+      "recorded_pitch_pairs_verified": 59,
+      "samples": 59,
+      "interpolated_commits": 149,
+      "fractional_commits": 68,
+      "record_ticks": 256,
       "checks": [
         "real run samples",
         "time interpolation",
@@ -43,10 +43,10 @@
       "source_font_pixels": 1586
     },
     "replay-pal": {
-      "recorded_pitch_pairs_verified": 107,
-      "samples": 107,
-      "interpolated_commits": 140,
-      "fractional_commits": 26,
+      "recorded_pitch_pairs_verified": 103,
+      "samples": 103,
+      "interpolated_commits": 137,
+      "fractional_commits": 21,
       "record_ticks": 396,
       "checks": [
         "real run samples",
@@ -72,11 +72,11 @@
       ],
       "record": {
         "generation": 1,
-        "total_ms": 242000,
-        "lap_ms": 80400,
+        "total_ms": 254000,
+        "lap_ms": 84366,
         "slot": 16
       },
-      "eeprom_sha256": "e758a3b00ae6f4e61c351649e0a2eca72c72d028f1fa49f4f24ba2f339c705ae"
+      "eeprom_sha256": "c8aec4cb58ba28b37d6dd15a29dbe83126d9f635471b8221899387fb191a667a"
     },
     "save-pal": {
       "checks": [
@@ -90,11 +90,11 @@
       ],
       "record": {
         "generation": 1,
-        "total_ms": 250620,
-        "lap_ms": 83260,
+        "total_ms": 263400,
+        "lap_ms": 87500,
         "slot": 16
       },
-      "eeprom_sha256": "f66cd2cdfd6511bb561d4521d668274095a958d2b760d162ea379ad71a5cab94"
+      "eeprom_sha256": "3412c3b9ff5b6541b410352e9fdb801814a55b4110dc9cb2fa056db717cf35c7"
     },
     "journal-torn": {
       "checks": [
@@ -103,7 +103,7 @@
         "no repair writes"
       ],
       "fixture": "torn",
-      "loaded_total_ms": 242000,
+      "loaded_total_ms": 254000,
       "generation": 1
     },
     "journal-checksum": {
@@ -113,7 +113,7 @@
         "no repair writes"
       ],
       "fixture": "checksum",
-      "loaded_total_ms": 242000,
+      "loaded_total_ms": 254000,
       "generation": 1
     },
     "journal-wrap": {
@@ -123,7 +123,7 @@
         "no repair writes"
       ],
       "fixture": "wrap",
-      "loaded_total_ms": 242000,
+      "loaded_total_ms": 254000,
       "generation": 0
     },
     "journal-invalid": {

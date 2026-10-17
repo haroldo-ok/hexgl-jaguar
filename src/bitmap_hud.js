@@ -3,6 +3,49 @@
 ; Draw only into the completed BACK buffer; main loop publishes at next VBL.
  MODULE bitmap_hud,MODend_irq
  PUSHLR
+ ; The settings panel uses the upper viewport for its original-font title.
+ movei #GAME+8,r0
+ load (r0),r0
+ cmpq #0,r0
+ jr ne,.settings_done
+ nop
+ movei #FRONT+8,r0
+ load (r0),r0
+ cmpq #5,r0
+ jr ne,.settings_done
+ nop
+ POPLR
+.settings_done
+ movei #SETTINGS+4,r0
+ load (r0),r0
+ cmpq #0,r0
+ movei #.hudvisible,r3
+ jump ne,(r3)
+ nop
+ movei #GAME+8,r0
+ load (r0),r0
+ cmpq #1,r0
+ jr eq,.hidehud
+ nop
+ cmpq #4,r0
+ jr eq,.hidehud
+ nop
+ cmpq #5,r0
+ movei #.hudvisible,r3
+ jump ne,(r3)
+ nop
+.hidehud
+ movei #TxtScreen,r0
+ movei #((max_x_txt>>3)*max_y_txt)/4,r1
+ moveq #0,r2
+.cleartext
+ store r2,(r0)
+ addq #4,r0
+ subq #1,r1
+ jr ne,.cleartext
+ nop
+ POPLR
+.hudvisible
  ; Renderer may have launched its final blit asynchronously.
  movei #BLIT_A1_BASE,r14
 .hudwait

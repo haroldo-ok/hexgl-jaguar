@@ -49,3 +49,20 @@ MATERIAL_STATE equ $1a40 ; atlas pointer, bank, draw count, last texture pointer
 FX_AUX equ $1b00 ; inherited velocity, projection and actual pixel blend proof
 FX_DEPTH equ $1c00 ; read-only submitted-triangle depth query diagnostics
 TRI_DEPTH equ $e0000 ; 8192 records x 3 actual vertex Z words, ends $f8000, plus 12-byte overflow guard for the first rejected face
+
+HANDLING equ $1d00 ; 32 words: yaw inertia, cross-slope and applied mesh bank
+VIEW equ $1d80 ; 32 words: native camera mode, orbit, roll and actual coordinates
+PRESENT equ $1e00 ; 16 words: active-time race-banner events and transition
+SETTINGS equ $1e40 ; 16 words: magic,HUD,particles,view,bank,inertia,selection
+REPLAY_VIEW equ $b8000 ; 6144 x 24 actual-camera/bank samples, ends $dc000
+
+; Expanded native presentation/effects, reserved through $1fff.
+SKY_STATE EQU $1e80
+POST_STATE EQU $1ec0
+FX_COLORS EQU $1f00
+AVSET EQU $1f80
+POST_SCRATCH EQU $1fc0
+BLOOM_GRID EQU $f9000
+BLOOM_TMP EQU $fa400
+BLOOM_OUT EQU $fb800
+BLOOM_PROOF EQU $1f40

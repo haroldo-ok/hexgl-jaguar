@@ -50,8 +50,62 @@ Original HUD: 23656 bytes
 python3 tools/motion.py
 python3 tools/dynamics.py
 python3 tools/effects.py
+python3 tools/remaining_assets.py
+{
+  "method": "Source-derived native blue-light material bank, original spark/cloud RGB color2 interpolation, and actual Feisar mesh silhouette contact shadow. Quantized stock-hardware adaptations.",
+  "ship_source": "vendor/HexGL/geometries/ships/feisar/feisar.js",
+  "ship_source_sha256": "5a97ef50a510e2d1ff3628ee13210a27666139ee07783fe67374b34773dcc716",
+  "shadow_faces": 1676,
+  "color_endpoints": [
+    [
+      [
+        255,
+        192,
+        0
+      ],
+      [
+        255,
+        255,
+        255
+      ]
+    ],
+    [
+      [
+        102,
+        102,
+        102
+      ],
+      [
+        164,
+        241,
+        255
+      ]
+    ]
+  ],
+  "rom_offsets": {
+    "blue-materials.bin": "0x1e0000",
+    "particle-colors.bin": "0x1f2000",
+    "ship-shadow.bin": "0x1fa000"
+  },
+  "outputs": {
+    "blue-materials.bin": {
+      "bytes": 73728,
+      "sha256": "9cb2fad7559dd67836fb9ca33618900e2297825b598a0a078bd6f0d9b96353f9"
+    },
+    "particle-colors.bin": {
+      "bytes": 32768,
+      "sha256": "fe8f5de44263da7f4a1e6576b778ee90bc56312f37ffebdc32b659f9bc903c85"
+    },
+    "ship-shadow.bin": {
+      "bytes": 1024,
+      "sha256": "dde776124db7c9e7f3c1489fb0864e2ca903bfa3a0d23ae9df8ccb98d0e1a702"
+    }
+  }
+}
 python3 tools/colors.py
 python3 tools/write_audio_mixer.py
+python3 tools/source_inventory.py
+Audited 19 application source files; exact parity: false
 python3 tools/prepare_engine.py
 cd src && /home/user/.cache/dynamics-clean/hexgl-jaguar/vendor/lyxass/lyxass -d -o audio.bin audio.js
 cd src && /home/user/.cache/dynamics-clean/hexgl-jaguar/vendor/lyxass/lyxass -sh hexgl.js
@@ -62,19 +116,19 @@ screen0:   $1b4808
 memory end: $14acc8
 stacktop $f03ffc
 RSPC: $968
-Size (engine): $d70
-ENDE (engine): $f03e00
-Size (bitmap HUD): $150
-ENDE (bitmap HUD): $f031e0
-ENDE (frontend): $f037e0
-ENDE (frontdraw): $f03868
-ENDE (recording): $f03440
-drawHex:$685c 104 _0 $68a4
-ENDE : $b4e40
+Size (engine): $df8
+ENDE (engine): $f03e88
+Size (bitmap HUD): $1c0
+ENDE (bitmap HUD): $f03250
+ENDE (frontend): $f039e0
+ENDE (frontdraw): $f03d20
+ENDE (recording): $f034f8
+drawHex:$8694 104 _0 $86dc
+ENDE : $b6ca0
 m68k-linux-gnu-as -m68000 src/cart_boot.S -o src/cart_boot.o
 m68k-linux-gnu-ld -Ttext=0x900000 --oformat=binary src/cart_boot.o -o src/cart_boot.bin
 python3 tools/package_rom.py
-/home/user/.cache/dynamics-clean/hexgl-jaguar/rom/hexgl.j64 6291456 bytes fc99ae03d093ec1483cf814d18f484bfa5adf154d42081d37a9350710c93e1a8
+/home/user/.cache/dynamics-clean/hexgl-jaguar/rom/hexgl.j64 6291456 bytes c7414e11b4edddc5274ae7d03742a31ee2f3e2bc9dcf815b331c9cfcc764572a
 python3 tools/verify.py
 {
   "material_banks": 8,
@@ -93,10 +147,10 @@ python3 tools/verify.py
     "shield": 297
   },
   "rom_bytes": 6291456,
-  "sha256": "fc99ae03d093ec1483cf814d18f484bfa5adf154d42081d37a9350710c93e1a8",
+  "sha256": "c7414e11b4edddc5274ae7d03742a31ee2f3e2bc9dcf815b331c9cfcc764572a",
   "load_address": "0x2000",
-  "loaded_bytes": 732736,
-  "loaded_end": "0xb4e40",
+  "loaded_bytes": 740512,
+  "loaded_end": "0xb6ca0",
   "scratch_start": "0x110000",
   "triangle_arena_end": "0x14acc8",
   "framebuffer_start": "0x1b4800",

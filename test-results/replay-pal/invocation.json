@@ -9,7 +9,7 @@
     "--out",
     "/home/user/hexgl-jaguar/test-results/replay-pal",
     "--input",
-    "100:a+c,120:a,850:option,870:none,900:up,920:none,950:a,970:none,1080:pause,1100:none,1150:pause,1170:none,1500:option,1520:none",
+    "100:a+c,120:a,850:option,870:none,900:up,920:none,930:up,940:none,950:a,970:none,1080:pause,1100:none,1150:pause,1170:none,1500:option,1520:none",
     "--quiet",
     "--dump-at",
     "80,180,280,380,480,580,800,1200,2400,4800,8000,12000",
@@ -22,5 +22,5 @@
     "880,1040,1140,1250,1460,1550",
     "/home/user/hexgl-jaguar/rom/hexgl.j64"
   ],
-  "rom_sha256": "fc99ae03d093ec1483cf814d18f484bfa5adf154d42081d37a9350710c93e1a8"
+  "rom_sha256": "c7414e11b4edddc5274ae7d03742a31ee2f3e2bc9dcf815b331c9cfcc764572a"
 }

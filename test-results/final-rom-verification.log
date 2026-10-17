@@ -15,10 +15,10 @@
     "shield": 297
   },
   "rom_bytes": 6291456,
-  "sha256": "6cfeac35d45f9713150dff96c86c72219f66a4ec9013c161a6f225ec136d5c2a",
+  "sha256": "3e96e7f652145a4b78888f737ebeb64a6bfffb430d69a0ffb1fb7d6438140c02",
   "load_address": "0x2000",
-  "loaded_bytes": 664032,
-  "loaded_end": "0xa41e0",
+  "loaded_bytes": 736832,
+  "loaded_end": "0xb5e40",
   "scratch_start": "0x110000",
   "triangle_arena_end": "0x14acc8",
   "framebuffer_start": "0x1b4800",

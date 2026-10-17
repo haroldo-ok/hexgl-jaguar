@@ -10,7 +10,8 @@ def main():
  try:
   for standard,h in [('ntsc',60),('pal',50)]:
    go=100+7*h
-   script=f'100:a,{go+70}:a+b+left,{go+85}:a,{go+150}:pause,{go+165}:none,{go+210}:pause,{go+225}:a'
+   script=f'100:a,{go+70}:a+b+right,{go+95}:a,{go+150}:pause,{go+165}:none,{go+210}:pause,{go+225}:a'
+   if standard=='pal':script=f'100:a,{go+70}:a+b+right,{go+85}:a,{go+150}:pause,{go+165}:none,{go+210}:pause,{go+225}:a'
    shots=','.join(map(str,[go+55,go+100,go+130,go+145,go+250,go+280,go+310]))
    name='dynamics-drive-'+standard
    t=run(name,standard,1600,script,['--no-bios','--effects','--dump-max','24','--dump-at',shots]);common(t)

@@ -114,6 +114,23 @@ record_initialized:
  load (r0),r0
  sharq #10,r0
  storeb r0,(r1)
+ ; Actual camera and composed bank supplement the 64-byte gameplay sample.
+ load (r15+4),r16
+ moveq #24,r0
+ mult r0,r16
+ movei #REPLAY_VIEW,r0
+ add r0,r16
+ movei #record_extra_sources-MODrun_recording+MODstart_recording,r17
+ moveq #6,r18
+.extra_write
+ load (r17),r0
+ addq #4,r17
+ load (r0),r0
+ store r0,(r16)
+ addq #4,r16
+ subq #1,r18
+ jr ne,.extra_write
+ nop
  load (r14+88),r0
  store r0,(r15+68)
  load (r14+92),r0
@@ -264,6 +281,52 @@ replay_play:
  movei #PHYS+48,r18
  movei #replay_angle,r8
  BL (r8)
+ ; Replay the recorded actual view, not the current live view/settings.
+ move r23,r16
+ move r24,r17
+ movei #REPLAY_BUFFER,r0
+ sub r0,r16
+ sub r0,r17
+ shrq #6,r16
+ shrq #6,r17
+ moveq #24,r0
+ mult r0,r16
+ mult r0,r17
+ movei #REPLAY_VIEW,r0
+ add r0,r16
+ add r0,r17
+ movei #record_extra_sources-MODrun_recording+MODstart_recording,r21
+ moveq #6,r20
+.extra_read
+ load (r16),r0
+ load (r17),r1
+ addq #4,r16
+ addq #4,r17
+ sub r0,r1
+ cmpq #3,r20
+ jr ne,.extra_linear
+ nop
+ movei #1024,r2
+ add r2,r1
+ movei #2047,r3
+ and r3,r1
+ sub r2,r1
+.extra_linear
+ movei #replay_lerp,r8
+ BL (r8)
+ cmpq #3,r20
+ jr ne,.extra_store
+ nop
+ movei #2044,r1
+ and r1,r0
+.extra_store
+ load (r21),r1
+ addq #4,r21
+ store r0,(r1)
+ subq #1,r20
+ movei #.extra_read,r8
+ jump ne,(r8)
+ nop
  ; Step-valued telemetry/audio events use the preceding sample, not interpolation.
  move r23,r16
  addq #32,r16
@@ -349,6 +412,8 @@ replay_lerp:
  jump (LR)
  nop
  align 4
+record_extra_sources:
+ dc.l VIEW+32,VIEW+36,VIEW+40,VIEW+16,VIEW+20,HANDLING+64
 record_sources:
  dc.l GAME+16,GAME+20,GAME+24,GAME+28,MOTION,MOTION+4,MOTION+8,GAME+64
  dc.l GAME+32,GAME+36,GAME+40,GAME+48,GAME+68,GAME+8,GAME+84,GAME+100

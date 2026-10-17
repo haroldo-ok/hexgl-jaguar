@@ -12,10 +12,10 @@ jobs:
       - name: Install build and desktop-test dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential pkg-config libsdl2-dev qtbase5-dev zlib1g-dev binutils-m68k-linux-gnu virtualjaguar xvfb xauth xdotool libgl1-mesa-dri
+          sudo apt-get install -y build-essential pkg-config libsdl2-dev qtbase5-dev zlib1g-dev binutils-m68k-linux-gnu virtualjaguar xvfb xauth xdotool libgl1-mesa-dri ffmpeg
           python -m pip install -r requirements.txt
       - name: Build ROM and run all fresh tests
-        run: make test
+        run: make test test-clean
       - name: Preserve logs, metrics and actual screenshots even on failure
         if: always()
         uses: actions/upload-artifact@v4

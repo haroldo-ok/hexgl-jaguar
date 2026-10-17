@@ -19,13 +19,18 @@ def transformed_vertex(f):
  v=[signed16(v[j]+f['mesh_positions'][j]-p[6+j]) for j in range(3)]
  co,si=trig(p[9]);x=(co*v[0]+si*v[2]+16383)>>15;z=(-si*v[0]+co*v[2]+16383)>>15;y=v[1]
  co,si=trig(f['physics'][12]>>8)
- return x,(co*y+si*z)>>15,(co*z-si*y)>>15
+ y,z=(co*y+si*z)>>15,(co*z-si*y)>>15
+ view=f.get('view',[0]*32)
+ if view[7]:
+  co,si=trig(view[5]>>8);x,y=(co*x+si*y)>>15,(co*y-si*x)>>15
+ return x,y,z
 
 def verify_vertices(result):
  checked=pitched=0;seen=None
  for f in result['fields'][150:]:
   q=f['physics'];m=f['motion']
   if len(q)<30 or q[25]!=m[16] or q[25]==seen:continue
+  if 'view' in f and f['view'][12]!=m[16]:continue
   seen=q[25]
   actual=(signed16(q[26]>>16),signed16(q[26]),signed16(q[27]>>16))
   wanted=transformed_vertex(f)

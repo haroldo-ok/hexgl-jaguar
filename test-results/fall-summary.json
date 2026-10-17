@@ -1,13 +1,14 @@
 {
   "status": "PASS",
-  "rom_sha256": "fc99ae03d093ec1483cf814d18f484bfa5adf154d42081d37a9350710c93e1a8",
+  "rom_sha256": "c7414e11b4edddc5274ae7d03742a31ee2f3e2bc9dcf815b331c9cfcc764572a",
   "cases": {
     "fall-pause-ntsc-direct": {
-      "fall_integration_updates": 29,
-      "paused_fall_updates": 37,
-      "terminal_fall_fields": 92,
-      "probe_first_fall_field": 885,
-      "controller_pause_field": 897,
+      "fall_integration_updates": 22,
+      "paused_fall_updates": 29,
+      "terminal_fall_fields": 93,
+      "probe_controller_path": "left40",
+      "probe_first_fall_field": 680,
+      "controller_pause_field": 692,
       "checks": [
         "controller-triggered unsupported fall",
         "exact PAL/NTSC displacement at capped dt",
@@ -16,11 +17,12 @@
       ]
     },
     "fall-pause-ntsc-bios": {
-      "fall_integration_updates": 29,
-      "paused_fall_updates": 37,
-      "terminal_fall_fields": 92,
-      "probe_first_fall_field": 885,
-      "controller_pause_field": 897,
+      "fall_integration_updates": 21,
+      "paused_fall_updates": 29,
+      "terminal_fall_fields": 90,
+      "probe_controller_path": "rightb25",
+      "probe_first_fall_field": 657,
+      "controller_pause_field": 669,
       "checks": [
         "controller-triggered unsupported fall",
         "exact PAL/NTSC displacement at capped dt",
@@ -30,10 +32,11 @@
     },
     "fall-pause-pal-direct": {
       "fall_integration_updates": 24,
-      "paused_fall_updates": 49,
-      "terminal_fall_fields": 75,
-      "probe_first_fall_field": 746,
-      "controller_pause_field": 758,
+      "paused_fall_updates": 36,
+      "terminal_fall_fields": 77,
+      "probe_controller_path": "left40",
+      "probe_first_fall_field": 565,
+      "controller_pause_field": 577,
       "checks": [
         "controller-triggered unsupported fall",
         "exact PAL/NTSC displacement at capped dt",
@@ -43,10 +46,11 @@
     },
     "fall-pause-pal-bios": {
       "fall_integration_updates": 24,
-      "paused_fall_updates": 49,
-      "terminal_fall_fields": 76,
-      "probe_first_fall_field": 623,
-      "controller_pause_field": 635,
+      "paused_fall_updates": 36,
+      "terminal_fall_fields": 77,
+      "probe_controller_path": "left40",
+      "probe_first_fall_field": 563,
+      "controller_pause_field": 575,
       "checks": [
         "controller-triggered unsupported fall",
         "exact PAL/NTSC displacement at capped dt",

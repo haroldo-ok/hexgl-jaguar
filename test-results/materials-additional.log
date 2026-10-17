@@ -1,6 +1,6 @@
 {
   "status": "PASS",
-  "rom_sha256": "6cfeac35d45f9713150dff96c86c72219f66a4ec9013c161a6f225ec136d5c2a",
+  "rom_sha256": "3e96e7f652145a4b78888f737ebeb64a6bfffb430d69a0ffb1fb7d6438140c02",
   "method": "Post-run analysis of current-ROM read-only dynamics observations; no new emulator run or game RAM write.",
   "cases": {
     "dynamics-route-ntsc": {
@@ -16,7 +16,7 @@
       ],
       "sky_crop_rows": 19,
       "fields_with_scene_illumination": 2850,
-      "face_light_additions_checked": 1341
+      "face_light_additions_checked": 1299
     },
     "dynamics-route-pal": {
       "material_banks": [
@@ -31,23 +31,24 @@
       ],
       "sky_crop_rows": 20,
       "fields_with_scene_illumination": 2850,
-      "face_light_additions_checked": 1151
+      "face_light_additions_checked": 1158
     },
     "dynamics-drive-ntsc": {
       "material_banks": [
         0
       ],
-      "sky_crop_rows": 12,
-      "fields_with_scene_illumination": 903,
-      "face_light_additions_checked": 432
+      "sky_crop_rows": 11,
+      "fields_with_scene_illumination": 757,
+      "face_light_additions_checked": 412
     },
     "dynamics-drive-pal": {
       "material_banks": [
-        0
+        0,
+        7
       ],
       "sky_crop_rows": 12,
-      "fields_with_scene_illumination": 723,
-      "face_light_additions_checked": 298
+      "fields_with_scene_illumination": 815,
+      "face_light_additions_checked": 404
     }
   }
 }

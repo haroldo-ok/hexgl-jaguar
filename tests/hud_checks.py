@@ -64,10 +64,20 @@ def check_pixels(image,speed,shield,standard):
 
 def verify(result):
     d=Path(result['output_dir']);s=result['fields'];standard=result['video'].lower();matches=[]
+    hidden=[]
     captures=sorted(d.glob('frame_*.png'))+[d/'final.png']
     for path in captures:
         n=len(s)-1 if path.name=='final.png' else int(path.stem.split('_')[1])
         if n<150:continue
+        recent=s[max(0,n-12):n+1]
+        if all(f['game'][2]==0 and f.get('front',[0]*3)[2]==5 for f in recent):
+            from gameplay_checks import hud_hidden
+            hidden.append({'capture':path.name,'settings_panel_absent_bitmap_pixels':hud_hidden(path,result,n,footer=False)})
+            continue
+        if all(f.get('settings',[0,1])[1]==0 and f['game'][2] in (1,4,5) for f in recent):
+            from gameplay_checks import hud_hidden
+            hidden.append({'capture':path.name,'absent_bitmap_pixels':hud_hidden(path,result,n)})
+            continue
         candidates={(f['game'][8],f['game'][9]) for f in s[max(0,n-12):n+1]}
         im=Image.open(path);failures=[]
         for speed,shield in candidates:
@@ -76,4 +86,4 @@ def verify(result):
             matches.append({'capture':path.name,'speed':speed,'shield':shield,'pixels':count});break
         else:raise AssertionError(path.name+': no recently committed state matches original-art oracle; '+str(failures))
     assert len(matches)>=3,'Not enough actual captures checked'
-    return {'checks':['original three PNG layers in actual TOM output','HUD.js speed trapezoid and shield rectangle','native speed/shield digits','recent live game state'], 'captures':matches}
+    return {'checks':['original three PNG layers in actual TOM output','HUD.js speed trapezoid and shield rectangle','native speed/shield digits','recent live game state'], 'captures':matches,'hud_off_captures':hidden}

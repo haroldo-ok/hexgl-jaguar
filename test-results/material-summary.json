@@ -1,23 +1,23 @@
 {
   "status": "PASS",
-  "rom_sha256": "fc99ae03d093ec1483cf814d18f484bfa5adf154d42081d37a9350710c93e1a8",
+  "rom_sha256": "c7414e11b4edddc5274ae7d03742a31ee2f3e2bc9dcf815b331c9cfcc764572a",
   "cases": {
     "ntsc": {
-      "exact_original_music_adpcm_samples": 619,
+      "exact_original_music_adpcm_samples": 718,
       "music_stereo_content_samples": 0,
-      "completed_dsp_samples_checked": 1146,
+      "completed_dsp_samples_checked": 1148,
       "pan_range": [
         -52,
         52
       ],
-      "actual_stereo_fields": 611,
+      "actual_stereo_fields": 622,
       "material_banks": [
         0,
         7
       ],
-      "sky_crop_rows": 12,
-      "fields_with_scene_illumination": 622,
-      "face_light_additions_checked": 296,
+      "sky_crop_rows": 11,
+      "fields_with_scene_illumination": 721,
+      "face_light_additions_checked": 380,
       "sky_pixel_captures": [
         {
           "capture": "frame_00180.png",
@@ -41,23 +41,27 @@
         },
         {
           "capture": "frame_00570.png",
-          "exact_pitch_and_yaw_sky_pixels": 4921
+          "exact_pitch_and_yaw_sky_pixels": 4699
         },
         {
           "capture": "frame_00580.png",
-          "exact_pitch_and_yaw_sky_pixels": 6092
+          "exact_pitch_and_yaw_sky_pixels": 6179
         },
         {
           "capture": "frame_00600.png",
-          "exact_pitch_and_yaw_sky_pixels": 5854
+          "exact_pitch_and_yaw_sky_pixels": 5583
         },
         {
           "capture": "frame_00620.png",
-          "exact_pitch_and_yaw_sky_pixels": 1257
+          "exact_pitch_and_yaw_sky_pixels": 5330
         },
         {
           "capture": "frame_00650.png",
-          "exact_pitch_and_yaw_sky_pixels": 6158
+          "exact_pitch_and_yaw_sky_pixels": 6278
+        },
+        {
+          "capture": "frame_00800.png",
+          "exact_pitch_and_yaw_sky_pixels": 7680
         }
       ],
       "checks": [
@@ -70,21 +74,21 @@
       ]
     },
     "pal": {
-      "exact_original_music_adpcm_samples": 610,
+      "exact_original_music_adpcm_samples": 567,
       "music_stereo_content_samples": 0,
-      "completed_dsp_samples_checked": 1149,
+      "completed_dsp_samples_checked": 1148,
       "pan_range": [
         -52,
         52
       ],
-      "actual_stereo_fields": 645,
+      "actual_stereo_fields": 597,
       "material_banks": [
         0,
         7
       ],
-      "sky_crop_rows": 8,
-      "fields_with_scene_illumination": 612,
-      "face_light_additions_checked": 280,
+      "sky_crop_rows": 7,
+      "fields_with_scene_illumination": 569,
+      "face_light_additions_checked": 256,
       "sky_pixel_captures": [
         {
           "capture": "frame_00180.png",
@@ -104,23 +108,23 @@
         },
         {
           "capture": "frame_00500.png",
-          "exact_pitch_and_yaw_sky_pixels": 5266
+          "exact_pitch_and_yaw_sky_pixels": 5201
         },
         {
           "capture": "frame_00510.png",
-          "exact_pitch_and_yaw_sky_pixels": 5964
+          "exact_pitch_and_yaw_sky_pixels": 5811
         },
         {
           "capture": "frame_00530.png",
-          "exact_pitch_and_yaw_sky_pixels": 4620
+          "exact_pitch_and_yaw_sky_pixels": 5959
         },
         {
           "capture": "frame_00550.png",
-          "exact_pitch_and_yaw_sky_pixels": 4691
+          "exact_pitch_and_yaw_sky_pixels": 4321
         },
         {
           "capture": "frame_00580.png",
-          "exact_pitch_and_yaw_sky_pixels": 5822
+          "exact_pitch_and_yaw_sky_pixels": 5661
         }
       ],
       "checks": [

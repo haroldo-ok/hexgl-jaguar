@@ -4,12 +4,12 @@
     "--symbols",
     "/home/user/hexgl-jaguar/src/hexgl.equ",
     "--frames",
-    "1522",
+    "1558",
     "--pal",
     "--out",
     "/home/user/hexgl-jaguar/test-results/boost-events-pal",
     "--input",
-    "100:a+c,120:a,651:option,671:none,831:a+c,851:a,1382:option,1402:none",
+    "100:a+c,120:a,669:option,689:none,849:a+c,869:a,1418:option,1438:none",
     "--quiet",
     "--dump-at",
     "80,180,280,380,480,580,800,1200,2400,4800,8000,12000",
@@ -18,5 +18,5 @@
     "--no-bios",
     "/home/user/hexgl-jaguar/rom/hexgl.j64"
   ],
-  "rom_sha256": "fc99ae03d093ec1483cf814d18f484bfa5adf154d42081d37a9350710c93e1a8"
+  "rom_sha256": "c7414e11b4edddc5274ae7d03742a31ee2f3e2bc9dcf815b331c9cfcc764572a"
 }

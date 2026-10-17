@@ -122,6 +122,14 @@ race_active:
 .notfalling
  movei #physics_begin,r0
  BL (r0)
+ ; Boost expires against active race-clock fields in both control paths.
+ load (r14+48),r0
+ sub r18,r0
+ jr pl,.boost_decay
+ nop
+ moveq #0,r0
+.boost_decay
+ store r0,(r14+48)
  load (r14+56),r0
  cmpq #0,r0
  movei #run_autopilot,r1
@@ -131,26 +139,8 @@ race_active:
  load (r14+24),r22
  load (r14+28),r23
  load (r14+32),r24
- ; Turn is 1/512 revolution per video field; B doubles airbrake steering.
- move r19,r1
- shlq #2,r1
- btst #JOY_B_BIT,r20
- jr eq,.turn
- nop
- shlq #1,r1
-.turn
- btst #JOY_LEFT_BIT,r20
- jr eq,.right
- nop
- add r1,r23
-.right
- btst #JOY_RIGHT_BIT,r20
- jr eq,.turnend
- nop
- sub r1,r23
-.turnend
- movei #2044,r0
- and r0,r23
+ movei #angular_step,r0
+ BL (r0)
  store r23,(r14+28)
  btst #JOY_A_BIT,r20
  jr ne,.thrust
@@ -191,12 +181,6 @@ race_active:
  cmpq #0,r0
  jr eq,.noboost
  nop
- sub r19,r0
- jr pl,.boostok
- nop
- moveq #0,r0
-.boostok
- store r0,(r14+48)
  addq #14,r24
 .noboost
  mult r19,r24
@@ -255,7 +239,11 @@ valid_move:
  cmpq #2,r3
  jr ne,.checkpoints
  nop
- movei #90,r0
+ load (r14+80),r0
+ move r0,r1
+ shlq #1,r0
+ add r1,r0
+ shrq #1,r0 ; 1.5 active seconds on either video standard
  store r0,(r14+48)
 .checkpoints
  cmpq #3,r3
@@ -435,6 +423,7 @@ outside_map:
  moveq #0,r4
 
 
+ include "angular.inc"
  include "dynamics.inc"
  align 8
  ENDMODULE control

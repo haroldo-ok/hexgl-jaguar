@@ -1,21 +1,23 @@
-fall-pause-ntsc-direct-probe exit 0 fields 1300 elapsed 13.4 s
-fall-pause-ntsc-direct exit 0 fields 1500 elapsed 16.0 s
-fall-pause-ntsc-bios-probe exit 0 fields 1300 elapsed 13.1 s
-fall-pause-ntsc-bios exit 0 fields 1500 elapsed 15.6 s
-fall-pause-pal-direct-probe exit 0 fields 1300 elapsed 16.7 s
-fall-pause-pal-direct exit 0 fields 1500 elapsed 18.0 s
-fall-pause-pal-bios-probe exit 0 fields 1300 elapsed 17.0 s
-fall-pause-pal-bios exit 0 fields 1500 elapsed 18.2 s
+fall-pause-ntsc-direct-probe-left40 exit 0 fields 1300 elapsed 18.3 s
+fall-pause-ntsc-direct exit 0 fields 1500 elapsed 21.4 s
+fall-pause-ntsc-bios-probe-left40 exit 0 fields 1300 elapsed 19.8 s
+fall-pause-ntsc-bios-probe-rightb25 exit 0 fields 1300 elapsed 19.8 s
+fall-pause-ntsc-bios exit 0 fields 1500 elapsed 23.5 s
+fall-pause-pal-direct-probe-left40 exit 0 fields 1300 elapsed 23.4 s
+fall-pause-pal-direct exit 0 fields 1500 elapsed 27.0 s
+fall-pause-pal-bios-probe-left40 exit 0 fields 1300 elapsed 24.4 s
+fall-pause-pal-bios exit 0 fields 1500 elapsed 26.4 s
 {
   "status": "PASS",
-  "rom_sha256": "6cfeac35d45f9713150dff96c86c72219f66a4ec9013c161a6f225ec136d5c2a",
+  "rom_sha256": "c7414e11b4edddc5274ae7d03742a31ee2f3e2bc9dcf815b331c9cfcc764572a",
   "cases": {
     "fall-pause-ntsc-direct": {
-      "fall_integration_updates": 30,
-      "paused_fall_updates": 49,
-      "terminal_fall_fields": 91,
-      "probe_first_fall_field": 961,
-      "controller_pause_field": 973,
+      "fall_integration_updates": 22,
+      "paused_fall_updates": 29,
+      "terminal_fall_fields": 93,
+      "probe_controller_path": "left40",
+      "probe_first_fall_field": 680,
+      "controller_pause_field": 692,
       "checks": [
         "controller-triggered unsupported fall",
         "exact PAL/NTSC displacement at capped dt",
@@ -24,11 +26,12 @@ fall-pause-pal-bios exit 0 fields 1500 elapsed 18.2 s
       ]
     },
     "fall-pause-ntsc-bios": {
-      "fall_integration_updates": 30,
-      "paused_fall_updates": 49,
-      "terminal_fall_fields": 91,
-      "probe_first_fall_field": 800,
-      "controller_pause_field": 812,
+      "fall_integration_updates": 21,
+      "paused_fall_updates": 29,
+      "terminal_fall_fields": 90,
+      "probe_controller_path": "rightb25",
+      "probe_first_fall_field": 657,
+      "controller_pause_field": 669,
       "checks": [
         "controller-triggered unsupported fall",
         "exact PAL/NTSC displacement at capped dt",
@@ -37,11 +40,12 @@ fall-pause-pal-bios exit 0 fields 1500 elapsed 18.2 s
       ]
     },
     "fall-pause-pal-direct": {
-      "fall_integration_updates": 25,
-      "paused_fall_updates": 49,
-      "terminal_fall_fields": 75,
-      "probe_first_fall_field": 797,
-      "controller_pause_field": 809,
+      "fall_integration_updates": 24,
+      "paused_fall_updates": 36,
+      "terminal_fall_fields": 77,
+      "probe_controller_path": "left40",
+      "probe_first_fall_field": 565,
+      "controller_pause_field": 577,
       "checks": [
         "controller-triggered unsupported fall",
         "exact PAL/NTSC displacement at capped dt",
@@ -50,11 +54,12 @@ fall-pause-pal-bios exit 0 fields 1500 elapsed 18.2 s
       ]
     },
     "fall-pause-pal-bios": {
-      "fall_integration_updates": 25,
-      "paused_fall_updates": 49,
-      "terminal_fall_fields": 75,
-      "probe_first_fall_field": 678,
-      "controller_pause_field": 690,
+      "fall_integration_updates": 24,
+      "paused_fall_updates": 36,
+      "terminal_fall_fields": 77,
+      "probe_controller_path": "left40",
+      "probe_first_fall_field": 563,
+      "controller_pause_field": 575,
       "checks": [
         "controller-triggered unsupported fall",
         "exact PAL/NTSC displacement at capped dt",

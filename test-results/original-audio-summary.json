@@ -1,17 +1,18 @@
 {
   "status": "PASS",
-  "rom_sha256": "fc99ae03d093ec1483cf814d18f484bfa5adf154d42081d37a9350710c93e1a8",
+  "rom_sha256": "c7414e11b4edddc5274ae7d03742a31ee2f3e2bc9dcf815b331c9cfcc764572a",
   "cases": {
     "ntsc": {
+      "probe_first_pad_field": 740,
       "boost_episodes": [
         {
-          "first_active_field": 730,
+          "first_active_field": 740,
           "observed_active_fields": 20,
           "first_cartridge_cursor": "0xbea37d"
         },
         {
-          "first_active_field": 1558,
-          "observed_active_fields": 23,
+          "first_active_field": 1577,
+          "observed_active_fields": 24,
           "first_cartridge_cursor": "0xbea37d"
         }
       ],
@@ -19,8 +20,8 @@
         55,
         55
       ],
-      "source_stereo_at_zero_pan_fields": 38,
-      "native_stereo_gain_checks": 43,
+      "source_stereo_at_zero_pan_fields": 42,
+      "native_stereo_gain_checks": 44,
       "checks": [
         "actual original-channel boost content at zero pan",
         "real DSP one-shot cursor progression",
@@ -30,15 +31,16 @@
       ]
     },
     "pal": {
+      "probe_first_pad_field": 649,
       "boost_episodes": [
         {
-          "first_active_field": 632,
+          "first_active_field": 649,
           "observed_active_fields": 20,
-          "first_cartridge_cursor": "0xbea398"
+          "first_cartridge_cursor": "0xbea397"
         },
         {
-          "first_active_field": 1363,
-          "observed_active_fields": 20,
+          "first_active_field": 1396,
+          "observed_active_fields": 23,
           "first_cartridge_cursor": "0xbea398"
         }
       ],
@@ -46,8 +48,8 @@
         55,
         55
       ],
-      "source_stereo_at_zero_pan_fields": 38,
-      "native_stereo_gain_checks": 40,
+      "source_stereo_at_zero_pan_fields": 41,
+      "native_stereo_gain_checks": 43,
       "checks": [
         "actual original-channel boost content at zero pan",
         "real DSP one-shot cursor progression",
