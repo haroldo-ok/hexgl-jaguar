@@ -1,0 +1,17 @@
+{
+  "args": [
+    "/home/user/hexgl-jaguar/tests/vjrunner/vjrun",
+    "--symbols",
+    "/home/user/.cache/native-fx-probe/src/hexgl.equ",
+    "--frames",
+    "320",
+    "--no-bios",
+    "--ntsc",
+    "--out",
+    "/home/user/hexgl-jaguar/test-results/native-fx-probe",
+    "--quiet",
+    "/home/user/.cache/native-fx-probe/rom/hexgl.j64"
+  ],
+  "production_rom_sha256": "fc99ae03d093ec1483cf814d18f484bfa5adf154d42081d37a9350710c93e1a8",
+  "diagnostic_rom_sha256": "5af0b5e735e53293c8a08da918758ba069771f87854cc1860a1b53c234093a34"
+}

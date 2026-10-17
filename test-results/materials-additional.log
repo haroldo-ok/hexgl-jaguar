@@ -1,0 +1,53 @@
+{
+  "status": "PASS",
+  "rom_sha256": "6cfeac35d45f9713150dff96c86c72219f66a4ec9013c161a6f225ec136d5c2a",
+  "method": "Post-run analysis of current-ROM read-only dynamics observations; no new emulator run or game RAM write.",
+  "cases": {
+    "dynamics-route-ntsc": {
+      "material_banks": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "sky_crop_rows": 19,
+      "fields_with_scene_illumination": 2850,
+      "face_light_additions_checked": 1341
+    },
+    "dynamics-route-pal": {
+      "material_banks": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "sky_crop_rows": 20,
+      "fields_with_scene_illumination": 2850,
+      "face_light_additions_checked": 1151
+    },
+    "dynamics-drive-ntsc": {
+      "material_banks": [
+        0
+      ],
+      "sky_crop_rows": 12,
+      "fields_with_scene_illumination": 903,
+      "face_light_additions_checked": 432
+    },
+    "dynamics-drive-pal": {
+      "material_banks": [
+        0
+      ],
+      "sky_crop_rows": 12,
+      "fields_with_scene_illumination": 723,
+      "face_light_additions_checked": 298
+    }
+  }
+}

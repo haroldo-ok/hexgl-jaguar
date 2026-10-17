@@ -1,0 +1,45 @@
+clean-ntsc exit 0 fields 1200 elapsed 13.4 s
+clean-pal exit 0 fields 1200 elapsed 21.3 s
+{
+  "status": "PASS",
+  "rom_sha256": "6cfeac35d45f9713150dff96c86c72219f66a4ec9013c161a6f225ec136d5c2a",
+  "method": "Separate source tree; removed ROM, GPU payload and generated native host build products. Fresh make assets rom emulator (including original material/geometry/sky/audio conversions), byte-identical ROM.",
+  "cases": {
+    "ntsc": {
+      "boot": "direct",
+      "fields": 1200,
+      "motion": {
+        "verified_updates": 165,
+        "height_filtered_updates": 124,
+        "left_bank_seen": true,
+        "right_bank_seen": true
+      },
+      "dynamics": {
+        "actual_vertices": 259,
+        "pitched_vertices": 165,
+        "hover_updates": 164,
+        "drifting_updates": 0,
+        "repulsion_updates": 0,
+        "fall_updates": 0
+      }
+    },
+    "pal": {
+      "boot": "bios",
+      "fields": 1200,
+      "motion": {
+        "verified_updates": 219,
+        "height_filtered_updates": 179,
+        "left_bank_seen": true,
+        "right_bank_seen": true
+      },
+      "dynamics": {
+        "actual_vertices": 319,
+        "pitched_vertices": 218,
+        "hover_updates": 218,
+        "drifting_updates": 0,
+        "repulsion_updates": 0,
+        "fall_updates": 0
+      }
+    }
+  }
+}

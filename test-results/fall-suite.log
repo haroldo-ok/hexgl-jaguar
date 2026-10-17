@@ -1,0 +1,66 @@
+fall-pause-ntsc-direct-probe exit 0 fields 1300 elapsed 13.4 s
+fall-pause-ntsc-direct exit 0 fields 1500 elapsed 16.0 s
+fall-pause-ntsc-bios-probe exit 0 fields 1300 elapsed 13.1 s
+fall-pause-ntsc-bios exit 0 fields 1500 elapsed 15.6 s
+fall-pause-pal-direct-probe exit 0 fields 1300 elapsed 16.7 s
+fall-pause-pal-direct exit 0 fields 1500 elapsed 18.0 s
+fall-pause-pal-bios-probe exit 0 fields 1300 elapsed 17.0 s
+fall-pause-pal-bios exit 0 fields 1500 elapsed 18.2 s
+{
+  "status": "PASS",
+  "rom_sha256": "6cfeac35d45f9713150dff96c86c72219f66a4ec9013c161a6f225ec136d5c2a",
+  "cases": {
+    "fall-pause-ntsc-direct": {
+      "fall_integration_updates": 30,
+      "paused_fall_updates": 49,
+      "terminal_fall_fields": 91,
+      "probe_first_fall_field": 961,
+      "controller_pause_field": 973,
+      "checks": [
+        "controller-triggered unsupported fall",
+        "exact PAL/NTSC displacement at capped dt",
+        "pause freezes falling for >20 native updates",
+        "1.5 active seconds to destruction"
+      ]
+    },
+    "fall-pause-ntsc-bios": {
+      "fall_integration_updates": 30,
+      "paused_fall_updates": 49,
+      "terminal_fall_fields": 91,
+      "probe_first_fall_field": 800,
+      "controller_pause_field": 812,
+      "checks": [
+        "controller-triggered unsupported fall",
+        "exact PAL/NTSC displacement at capped dt",
+        "pause freezes falling for >20 native updates",
+        "1.5 active seconds to destruction"
+      ]
+    },
+    "fall-pause-pal-direct": {
+      "fall_integration_updates": 25,
+      "paused_fall_updates": 49,
+      "terminal_fall_fields": 75,
+      "probe_first_fall_field": 797,
+      "controller_pause_field": 809,
+      "checks": [
+        "controller-triggered unsupported fall",
+        "exact PAL/NTSC displacement at capped dt",
+        "pause freezes falling for >20 native updates",
+        "1.5 active seconds to destruction"
+      ]
+    },
+    "fall-pause-pal-bios": {
+      "fall_integration_updates": 25,
+      "paused_fall_updates": 49,
+      "terminal_fall_fields": 75,
+      "probe_first_fall_field": 678,
+      "controller_pause_field": 690,
+      "checks": [
+        "controller-triggered unsupported fall",
+        "exact PAL/NTSC displacement at capped dt",
+        "pause freezes falling for >20 native updates",
+        "1.5 active seconds to destruction"
+      ]
+    }
+  }
+}

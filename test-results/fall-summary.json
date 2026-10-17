@@ -1,0 +1,58 @@
+{
+  "status": "PASS",
+  "rom_sha256": "fc99ae03d093ec1483cf814d18f484bfa5adf154d42081d37a9350710c93e1a8",
+  "cases": {
+    "fall-pause-ntsc-direct": {
+      "fall_integration_updates": 29,
+      "paused_fall_updates": 37,
+      "terminal_fall_fields": 92,
+      "probe_first_fall_field": 885,
+      "controller_pause_field": 897,
+      "checks": [
+        "controller-triggered unsupported fall",
+        "exact PAL/NTSC displacement at capped dt",
+        "pause freezes falling for >20 native updates",
+        "1.5 active seconds to destruction"
+      ]
+    },
+    "fall-pause-ntsc-bios": {
+      "fall_integration_updates": 29,
+      "paused_fall_updates": 37,
+      "terminal_fall_fields": 92,
+      "probe_first_fall_field": 885,
+      "controller_pause_field": 897,
+      "checks": [
+        "controller-triggered unsupported fall",
+        "exact PAL/NTSC displacement at capped dt",
+        "pause freezes falling for >20 native updates",
+        "1.5 active seconds to destruction"
+      ]
+    },
+    "fall-pause-pal-direct": {
+      "fall_integration_updates": 24,
+      "paused_fall_updates": 49,
+      "terminal_fall_fields": 75,
+      "probe_first_fall_field": 746,
+      "controller_pause_field": 758,
+      "checks": [
+        "controller-triggered unsupported fall",
+        "exact PAL/NTSC displacement at capped dt",
+        "pause freezes falling for >20 native updates",
+        "1.5 active seconds to destruction"
+      ]
+    },
+    "fall-pause-pal-bios": {
+      "fall_integration_updates": 24,
+      "paused_fall_updates": 49,
+      "terminal_fall_fields": 76,
+      "probe_first_fall_field": 623,
+      "controller_pause_field": 635,
+      "checks": [
+        "controller-triggered unsupported fall",
+        "exact PAL/NTSC displacement at capped dt",
+        "pause freezes falling for >20 native updates",
+        "1.5 active seconds to destruction"
+      ]
+    }
+  }
+}

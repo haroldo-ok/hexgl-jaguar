@@ -1,0 +1,26 @@
+{
+  "args": [
+    "/home/user/hexgl-jaguar/tests/vjrunner/vjrun",
+    "--symbols",
+    "/home/user/hexgl-jaguar/src/hexgl.equ",
+    "--frames",
+    "1300",
+    "--pal",
+    "--out",
+    "/home/user/hexgl-jaguar/test-results/materials-pal",
+    "--input",
+    "100:a,490:a+b+left,505:a,515:a+b+right,535:a",
+    "--quiet",
+    "--dump-at",
+    "80,180,280,380,480,580,800,1200,2400,4800,8000,12000",
+    "--title",
+    "run",
+    "--no-bios",
+    "--dump-at",
+    "180,480,500,510,530,550,580",
+    "--dump-max",
+    "24",
+    "/home/user/hexgl-jaguar/rom/hexgl.j64"
+  ],
+  "rom_sha256": "fc99ae03d093ec1483cf814d18f484bfa5adf154d42081d37a9350710c93e1a8"
+}

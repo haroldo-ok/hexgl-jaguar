@@ -1,0 +1,22 @@
+{
+  "args": [
+    "/home/user/hexgl-jaguar/tests/vjrunner/vjrun",
+    "--symbols",
+    "/home/user/hexgl-jaguar/src/hexgl.equ",
+    "--frames",
+    "1720",
+    "--ntsc",
+    "--out",
+    "/home/user/hexgl-jaguar/test-results/boost-events-ntsc",
+    "--input",
+    "100:a+c,120:a,750:option,770:none,930:a+c,950:a,1580:option,1600:none",
+    "--quiet",
+    "--dump-at",
+    "80,180,280,380,480,580,800,1200,2400,4800,8000,12000",
+    "--title",
+    "run",
+    "--no-bios",
+    "/home/user/hexgl-jaguar/rom/hexgl.j64"
+  ],
+  "rom_sha256": "fc99ae03d093ec1483cf814d18f484bfa5adf154d42081d37a9350710c93e1a8"
+}

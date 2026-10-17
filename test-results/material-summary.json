@@ -1,0 +1,136 @@
+{
+  "status": "PASS",
+  "rom_sha256": "fc99ae03d093ec1483cf814d18f484bfa5adf154d42081d37a9350710c93e1a8",
+  "cases": {
+    "ntsc": {
+      "exact_original_music_adpcm_samples": 619,
+      "music_stereo_content_samples": 0,
+      "completed_dsp_samples_checked": 1146,
+      "pan_range": [
+        -52,
+        52
+      ],
+      "actual_stereo_fields": 611,
+      "material_banks": [
+        0,
+        7
+      ],
+      "sky_crop_rows": 12,
+      "fields_with_scene_illumination": 622,
+      "face_light_additions_checked": 296,
+      "sky_pixel_captures": [
+        {
+          "capture": "frame_00180.png",
+          "exact_pitch_and_yaw_sky_pixels": 5800
+        },
+        {
+          "capture": "frame_00280.png",
+          "exact_pitch_and_yaw_sky_pixels": 5800
+        },
+        {
+          "capture": "frame_00380.png",
+          "exact_pitch_and_yaw_sky_pixels": 5800
+        },
+        {
+          "capture": "frame_00480.png",
+          "exact_pitch_and_yaw_sky_pixels": 5800
+        },
+        {
+          "capture": "frame_00550.png",
+          "exact_pitch_and_yaw_sky_pixels": 4447
+        },
+        {
+          "capture": "frame_00570.png",
+          "exact_pitch_and_yaw_sky_pixels": 4921
+        },
+        {
+          "capture": "frame_00580.png",
+          "exact_pitch_and_yaw_sky_pixels": 6092
+        },
+        {
+          "capture": "frame_00600.png",
+          "exact_pitch_and_yaw_sky_pixels": 5854
+        },
+        {
+          "capture": "frame_00620.png",
+          "exact_pitch_and_yaw_sky_pixels": 1257
+        },
+        {
+          "capture": "frame_00650.png",
+          "exact_pitch_and_yaw_sky_pixels": 6158
+        }
+      ],
+      "checks": [
+        "actual interleaved stereo PCM",
+        "left/right native spatial bus and centered music",
+        "signed saturating DSP gain arithmetic",
+        "runtime ROM atlas addresses",
+        "real scene-face point-light addition",
+        "exact camera-dependent sky framebuffer pixels including seam wrap"
+      ]
+    },
+    "pal": {
+      "exact_original_music_adpcm_samples": 610,
+      "music_stereo_content_samples": 0,
+      "completed_dsp_samples_checked": 1149,
+      "pan_range": [
+        -52,
+        52
+      ],
+      "actual_stereo_fields": 645,
+      "material_banks": [
+        0,
+        7
+      ],
+      "sky_crop_rows": 8,
+      "fields_with_scene_illumination": 612,
+      "face_light_additions_checked": 280,
+      "sky_pixel_captures": [
+        {
+          "capture": "frame_00180.png",
+          "exact_pitch_and_yaw_sky_pixels": 5800
+        },
+        {
+          "capture": "frame_00280.png",
+          "exact_pitch_and_yaw_sky_pixels": 5800
+        },
+        {
+          "capture": "frame_00380.png",
+          "exact_pitch_and_yaw_sky_pixels": 5800
+        },
+        {
+          "capture": "frame_00480.png",
+          "exact_pitch_and_yaw_sky_pixels": 4281
+        },
+        {
+          "capture": "frame_00500.png",
+          "exact_pitch_and_yaw_sky_pixels": 5266
+        },
+        {
+          "capture": "frame_00510.png",
+          "exact_pitch_and_yaw_sky_pixels": 5964
+        },
+        {
+          "capture": "frame_00530.png",
+          "exact_pitch_and_yaw_sky_pixels": 4620
+        },
+        {
+          "capture": "frame_00550.png",
+          "exact_pitch_and_yaw_sky_pixels": 4691
+        },
+        {
+          "capture": "frame_00580.png",
+          "exact_pitch_and_yaw_sky_pixels": 5822
+        }
+      ],
+      "checks": [
+        "actual interleaved stereo PCM",
+        "left/right native spatial bus and centered music",
+        "signed saturating DSP gain arithmetic",
+        "runtime ROM atlas addresses",
+        "real scene-face point-light addition",
+        "exact camera-dependent sky framebuffer pixels including seam wrap"
+      ]
+    }
+  }
+}

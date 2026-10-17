@@ -1,0 +1,50 @@
+[
+  {
+    "name": "front",
+    "expected": 0
+  },
+  {
+    "name": "coplanar",
+    "expected": 0
+  },
+  {
+    "name": "bias_boundary",
+    "expected": 0
+  },
+  {
+    "name": "behind",
+    "expected": 1
+  },
+  {
+    "name": "outside",
+    "expected": 0
+  },
+  {
+    "name": "reverse_winding_behind",
+    "expected": 1
+  },
+  {
+    "name": "near_plane_skipped",
+    "expected": 0
+  },
+  {
+    "name": "ship_excluded",
+    "expected": 0
+  },
+  {
+    "name": "booster_excluded",
+    "expected": 0
+  },
+  {
+    "name": "degenerate_skipped",
+    "expected": 0
+  },
+  {
+    "name": "varying_reciprocal_front",
+    "expected": 0
+  },
+  {
+    "name": "varying_reciprocal_behind",
+    "expected": 1
+  }
+]

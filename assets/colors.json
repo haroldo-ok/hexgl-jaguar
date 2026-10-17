@@ -1,0 +1,8 @@
+{
+  "decode": "256 x 0x00RRGGBB chroma DAC coefficients, intensity multiplication >>8",
+  "encode": "32768 RGB555 colors, bit fields R10/G5/B0, intensity floor quantization",
+  "outputs": {
+    "color-decode.bin": "4795e304610ff864bcf437ca4303c0b25f6597f0a8ff5dc6937f11e8da65d062",
+    "color-encode.bin": "31dd9b9489c0910818262f85c3db54635cce645a876a772dbf76b3f227823424"
+  }
+}

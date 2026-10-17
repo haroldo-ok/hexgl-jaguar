@@ -1,0 +1,60 @@
+{
+  "status": "PASS",
+  "rom_sha256": "fc99ae03d093ec1483cf814d18f484bfa5adf154d42081d37a9350710c93e1a8",
+  "cases": {
+    "ntsc": {
+      "boost_episodes": [
+        {
+          "first_active_field": 730,
+          "observed_active_fields": 20,
+          "first_cartridge_cursor": "0xbea37d"
+        },
+        {
+          "first_active_field": 1558,
+          "observed_active_fields": 23,
+          "first_cartridge_cursor": "0xbea37d"
+        }
+      ],
+      "completed_zero_timer_stop_samples": [
+        55,
+        55
+      ],
+      "source_stereo_at_zero_pan_fields": 38,
+      "native_stereo_gain_checks": 43,
+      "checks": [
+        "actual original-channel boost content at zero pan",
+        "real DSP one-shot cursor progression",
+        "Option timer-clear stops while stream active",
+        "second controller race restarts source at first block",
+        "unchanged black/frozen-video and source-HUD gates"
+      ]
+    },
+    "pal": {
+      "boost_episodes": [
+        {
+          "first_active_field": 632,
+          "observed_active_fields": 20,
+          "first_cartridge_cursor": "0xbea398"
+        },
+        {
+          "first_active_field": 1363,
+          "observed_active_fields": 20,
+          "first_cartridge_cursor": "0xbea398"
+        }
+      ],
+      "completed_zero_timer_stop_samples": [
+        55,
+        55
+      ],
+      "source_stereo_at_zero_pan_fields": 38,
+      "native_stereo_gain_checks": 40,
+      "checks": [
+        "actual original-channel boost content at zero pan",
+        "real DSP one-shot cursor progression",
+        "Option timer-clear stops while stream active",
+        "second controller race restarts source at first block",
+        "unchanged black/frozen-video and source-HUD gates"
+      ]
+    }
+  }
+}

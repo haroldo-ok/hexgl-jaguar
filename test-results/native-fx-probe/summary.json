@@ -1,0 +1,72 @@
+{
+  "status": "PASS",
+  "rom_sha256": "fc99ae03d093ec1483cf814d18f484bfa5adf154d42081d37a9350710c93e1a8",
+  "diagnostic_rom_sha256": "5af0b5e735e53293c8a08da918758ba069771f87854cc1860a1b53c234093a34",
+  "method": "Separate native-GPU fixture ROM, unchanged production fx_occluded assembly, read-only host observations. Not a gameplay trace.",
+  "production_depth_source_sha256": "a6aa6b4514b6fb95fb9741efad1d64e4b2ed77bc5bdb25f783396437442a8ed6",
+  "cases": [
+    {
+      "name": "front",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "coplanar",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "bias_boundary",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "behind",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "outside",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "reverse_winding_behind",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "near_plane_skipped",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "ship_excluded",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "booster_excluded",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "degenerate_skipped",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "varying_reciprocal_front",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "varying_reciprocal_behind",
+      "expected": 1,
+      "actual": 1
+    }
+  ],
+  "actual_occlusion_rejections": 3,
+  "varying_vertex_triangle_z": 160,
+  "gpu_overlay_end": "0xf03ce8"
+}

@@ -1,0 +1,230 @@
+{
+  "rom_sha256": "fc99ae03d093ec1483cf814d18f484bfa5adf154d42081d37a9350710c93e1a8",
+  "removed": [
+    {
+      "path": "fall-pause-pal-bios-probe/frame_00380.png",
+      "sha256": "09703eed9fd604ae84c2a1dfcc912af168140900a3d432d51dbfb5f364ddcd1d"
+    },
+    {
+      "path": "fall-pause-pal-bios-probe/frame_00180.png",
+      "sha256": "af58624e16b49b35fda0bcf5a0e645be353932245b11d16651a4fe7539acc739"
+    },
+    {
+      "path": "fall-pause-pal-bios-probe/frame_00800.png",
+      "sha256": "63940af9904e7dfbab6db67ade11fe3a1cb17a680a9b8a211cbd12ac782fc11c"
+    },
+    {
+      "path": "fall-pause-pal-bios-probe/frame_01200.png",
+      "sha256": "63940af9904e7dfbab6db67ade11fe3a1cb17a680a9b8a211cbd12ac782fc11c"
+    },
+    {
+      "path": "fall-pause-pal-bios-probe/frame_00080.png",
+      "sha256": "39b14a524b7422fbaf169572b2e1549fa61a7c626b348e9e69082a7f62cfa658"
+    },
+    {
+      "path": "fall-pause-pal-bios-probe/frame_00480.png",
+      "sha256": "d45ff60de9042583e0cfa47f0bfaeb34624aa4da448243df4aa9910a02936ca1"
+    },
+    {
+      "path": "fall-pause-pal-bios-probe/frame_00280.png",
+      "sha256": "2d614a698eab5ef098f3a1a27dd27188c94098d3a802a7cc8c023d305a75bc69"
+    },
+    {
+      "path": "fall-pause-pal-bios-probe/frame_00580.png",
+      "sha256": "23cbcd194092e3c963263b67de540d40eacbb0116c333ce774492a60ffcb5e43"
+    },
+    {
+      "path": "journal-torn/frame_00380.png",
+      "sha256": "9808724389dc6ce7dfcfa839040fbfe22f148bc48d6c733c31a975d95ec573bb"
+    },
+    {
+      "path": "journal-torn/frame_00180.png",
+      "sha256": "9808724389dc6ce7dfcfa839040fbfe22f148bc48d6c733c31a975d95ec573bb"
+    },
+    {
+      "path": "journal-torn/frame_00080.png",
+      "sha256": "9808724389dc6ce7dfcfa839040fbfe22f148bc48d6c733c31a975d95ec573bb"
+    },
+    {
+      "path": "journal-torn/frame_00280.png",
+      "sha256": "9808724389dc6ce7dfcfa839040fbfe22f148bc48d6c733c31a975d95ec573bb"
+    },
+    {
+      "path": "fall-pause-pal-direct-probe/frame_00380.png",
+      "sha256": "09703eed9fd604ae84c2a1dfcc912af168140900a3d432d51dbfb5f364ddcd1d"
+    },
+    {
+      "path": "fall-pause-pal-direct-probe/frame_00180.png",
+      "sha256": "af58624e16b49b35fda0bcf5a0e645be353932245b11d16651a4fe7539acc739"
+    },
+    {
+      "path": "fall-pause-pal-direct-probe/frame_00800.png",
+      "sha256": "56e5a63b42f8308d9c4cc725ef7abe2844f0490287adf775ee04e143632ea812"
+    },
+    {
+      "path": "fall-pause-pal-direct-probe/frame_01200.png",
+      "sha256": "eaa979b573c70d7e9a73e9172697aae2ebb655e9f3a0b36491b94e3b4780cfe9"
+    },
+    {
+      "path": "fall-pause-pal-direct-probe/frame_00080.png",
+      "sha256": "39b14a524b7422fbaf169572b2e1549fa61a7c626b348e9e69082a7f62cfa658"
+    },
+    {
+      "path": "fall-pause-pal-direct-probe/frame_00480.png",
+      "sha256": "97d41d90e036acd76fa032ad0581404bcc3cd025e5b6c08dfd89eae20f81fc71"
+    },
+    {
+      "path": "fall-pause-pal-direct-probe/frame_00280.png",
+      "sha256": "2d614a698eab5ef098f3a1a27dd27188c94098d3a802a7cc8c023d305a75bc69"
+    },
+    {
+      "path": "fall-pause-pal-direct-probe/frame_00580.png",
+      "sha256": "ec3c679a931aa4886bbc4beab084fc3fecad08f6b20ba57604ae0772af8f9a16"
+    },
+    {
+      "path": "journal-invalid/frame_00380.png",
+      "sha256": "9808724389dc6ce7dfcfa839040fbfe22f148bc48d6c733c31a975d95ec573bb"
+    },
+    {
+      "path": "journal-invalid/frame_00180.png",
+      "sha256": "9808724389dc6ce7dfcfa839040fbfe22f148bc48d6c733c31a975d95ec573bb"
+    },
+    {
+      "path": "journal-invalid/frame_00080.png",
+      "sha256": "9808724389dc6ce7dfcfa839040fbfe22f148bc48d6c733c31a975d95ec573bb"
+    },
+    {
+      "path": "journal-invalid/frame_00280.png",
+      "sha256": "9808724389dc6ce7dfcfa839040fbfe22f148bc48d6c733c31a975d95ec573bb"
+    },
+    {
+      "path": "save-reboot-pal/frame_00380.png",
+      "sha256": "9c67929caedfa422c9a6aef0fd2e3c9415032a228da84eaf4e6d9fd4f8543228"
+    },
+    {
+      "path": "save-reboot-pal/frame_00180.png",
+      "sha256": "240cc3c09fba8aacc4bf30628e8138a5536a5efe5d9beb3a17e7e90186b98e03"
+    },
+    {
+      "path": "save-reboot-pal/frame_00080.png",
+      "sha256": "39b14a524b7422fbaf169572b2e1549fa61a7c626b348e9e69082a7f62cfa658"
+    },
+    {
+      "path": "save-reboot-pal/frame_00280.png",
+      "sha256": "9c67929caedfa422c9a6aef0fd2e3c9415032a228da84eaf4e6d9fd4f8543228"
+    },
+    {
+      "path": "fall-pause-ntsc-bios-probe/frame_00380.png",
+      "sha256": "fac02c8b09b06a7fac86d3a36973e67d803a919f71e8fa93c8c6d371bbffec43"
+    },
+    {
+      "path": "fall-pause-ntsc-bios-probe/frame_00180.png",
+      "sha256": "cc65356458905faa6c9f4239dfb348b1f5d2a0047eb50f725a4689187b2c22b8"
+    },
+    {
+      "path": "fall-pause-ntsc-bios-probe/frame_00800.png",
+      "sha256": "4cd1e90c1d0c96f00df2ffa7c977a4926827074fb5b88a4005cb4187e81135e2"
+    },
+    {
+      "path": "fall-pause-ntsc-bios-probe/frame_01200.png",
+      "sha256": "34d2aa15cc642f79aaf5de2d5eec5ac0a37d328c28928e241b44f99346de458a"
+    },
+    {
+      "path": "fall-pause-ntsc-bios-probe/frame_00080.png",
+      "sha256": "9808724389dc6ce7dfcfa839040fbfe22f148bc48d6c733c31a975d95ec573bb"
+    },
+    {
+      "path": "fall-pause-ntsc-bios-probe/frame_00480.png",
+      "sha256": "9d24b4201ca139b29ac7b582dc6a3d6ba2d1fb938e22018ff5a4f4176eccf5f2"
+    },
+    {
+      "path": "fall-pause-ntsc-bios-probe/frame_00280.png",
+      "sha256": "c299d964b439754ff168ad53a788558f2c577a3a0b836101b162a100210acf93"
+    },
+    {
+      "path": "fall-pause-ntsc-bios-probe/frame_00580.png",
+      "sha256": "c72e56ffac8ae11516955c4fe249e42e20905ffde54d51837df8b01f5531fdcf"
+    },
+    {
+      "path": "journal-checksum/frame_00380.png",
+      "sha256": "9808724389dc6ce7dfcfa839040fbfe22f148bc48d6c733c31a975d95ec573bb"
+    },
+    {
+      "path": "journal-checksum/frame_00180.png",
+      "sha256": "9808724389dc6ce7dfcfa839040fbfe22f148bc48d6c733c31a975d95ec573bb"
+    },
+    {
+      "path": "journal-checksum/frame_00080.png",
+      "sha256": "9808724389dc6ce7dfcfa839040fbfe22f148bc48d6c733c31a975d95ec573bb"
+    },
+    {
+      "path": "journal-checksum/frame_00280.png",
+      "sha256": "9808724389dc6ce7dfcfa839040fbfe22f148bc48d6c733c31a975d95ec573bb"
+    },
+    {
+      "path": "fall-pause-ntsc-direct-probe/frame_00380.png",
+      "sha256": "fac02c8b09b06a7fac86d3a36973e67d803a919f71e8fa93c8c6d371bbffec43"
+    },
+    {
+      "path": "fall-pause-ntsc-direct-probe/frame_00180.png",
+      "sha256": "cc65356458905faa6c9f4239dfb348b1f5d2a0047eb50f725a4689187b2c22b8"
+    },
+    {
+      "path": "fall-pause-ntsc-direct-probe/frame_00800.png",
+      "sha256": "4cd1e90c1d0c96f00df2ffa7c977a4926827074fb5b88a4005cb4187e81135e2"
+    },
+    {
+      "path": "fall-pause-ntsc-direct-probe/frame_01200.png",
+      "sha256": "34d2aa15cc642f79aaf5de2d5eec5ac0a37d328c28928e241b44f99346de458a"
+    },
+    {
+      "path": "fall-pause-ntsc-direct-probe/frame_00080.png",
+      "sha256": "9808724389dc6ce7dfcfa839040fbfe22f148bc48d6c733c31a975d95ec573bb"
+    },
+    {
+      "path": "fall-pause-ntsc-direct-probe/frame_00480.png",
+      "sha256": "9d24b4201ca139b29ac7b582dc6a3d6ba2d1fb938e22018ff5a4f4176eccf5f2"
+    },
+    {
+      "path": "fall-pause-ntsc-direct-probe/frame_00280.png",
+      "sha256": "c299d964b439754ff168ad53a788558f2c577a3a0b836101b162a100210acf93"
+    },
+    {
+      "path": "fall-pause-ntsc-direct-probe/frame_00580.png",
+      "sha256": "c72e56ffac8ae11516955c4fe249e42e20905ffde54d51837df8b01f5531fdcf"
+    },
+    {
+      "path": "journal-wrap/frame_00380.png",
+      "sha256": "9808724389dc6ce7dfcfa839040fbfe22f148bc48d6c733c31a975d95ec573bb"
+    },
+    {
+      "path": "journal-wrap/frame_00180.png",
+      "sha256": "9808724389dc6ce7dfcfa839040fbfe22f148bc48d6c733c31a975d95ec573bb"
+    },
+    {
+      "path": "journal-wrap/frame_00080.png",
+      "sha256": "9808724389dc6ce7dfcfa839040fbfe22f148bc48d6c733c31a975d95ec573bb"
+    },
+    {
+      "path": "journal-wrap/frame_00280.png",
+      "sha256": "9808724389dc6ce7dfcfa839040fbfe22f148bc48d6c733c31a975d95ec573bb"
+    },
+    {
+      "path": "save-reboot-ntsc/frame_00380.png",
+      "sha256": "68652800e882650fade42a9a670b133fde51b9bf1b6671bba41dec46dcfb85d9"
+    },
+    {
+      "path": "save-reboot-ntsc/frame_00180.png",
+      "sha256": "f5c4221f3d20771e547157c251605ce0c11b97ce27e9227d1a26a4753b52dd30"
+    },
+    {
+      "path": "save-reboot-ntsc/frame_00080.png",
+      "sha256": "9808724389dc6ce7dfcfa839040fbfe22f148bc48d6c733c31a975d95ec573bb"
+    },
+    {
+      "path": "save-reboot-ntsc/frame_00280.png",
+      "sha256": "68652800e882650fade42a9a670b133fde51b9bf1b6671bba41dec46dcfb85d9"
+    }
+  ],
+  "policy": "Calibration probes, journal fixtures and fresh-process save-reboot runs retain final.png. Every field trace, invocation, metric and original verdict is retained. All actual fall/pause and material/sky/stereo captures retained."
+}

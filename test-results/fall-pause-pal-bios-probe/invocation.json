@@ -1,0 +1,21 @@
+{
+  "args": [
+    "/home/user/hexgl-jaguar/tests/vjrunner/vjrun",
+    "--symbols",
+    "/home/user/hexgl-jaguar/src/hexgl.equ",
+    "--frames",
+    "1300",
+    "--pal",
+    "--out",
+    "/home/user/hexgl-jaguar/test-results/fall-pause-pal-bios-probe",
+    "--input",
+    "100:a,520:a+left,560:a",
+    "--quiet",
+    "--dump-at",
+    "80,180,280,380,480,580,800,1200,2400,4800,8000,12000",
+    "--title",
+    "run",
+    "/home/user/hexgl-jaguar/rom/hexgl.j64"
+  ],
+  "rom_sha256": "fc99ae03d093ec1483cf814d18f484bfa5adf154d42081d37a9350710c93e1a8"
+}

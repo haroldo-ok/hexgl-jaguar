@@ -1,0 +1,573 @@
+{
+  "banks": 8,
+  "materials": 9,
+  "size": [
+    64,
+    64
+  ],
+  "rom_offset": "0x102000",
+  "bytes": 589824,
+  "sha256": "c10418f4ee47b2fc8d44c6e01e8ede41143ad8c57f45e8532142a12b519a7e4b",
+  "entries": [
+    {
+      "bank": 0,
+      "material": "ship",
+      "offset": 0,
+      "sha256": "7b7cb808367ba80ba26f643ad5e2407bd59512e322f78835785782665698ca51",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 0,
+      "material": "booster",
+      "offset": 8192,
+      "sha256": "48ca056da03a7f42b2b7cb6deff3caefdfd5bff1599b18f47e325c0be9924f50",
+      "transparent_texels": 1798
+    },
+    {
+      "bank": 0,
+      "material": "track",
+      "offset": 16384,
+      "sha256": "727dd4c274f0f2b755e990784ae166a4419d1d0cb8c6b6c52d629d5abd8546b9",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 0,
+      "material": "base",
+      "offset": 24576,
+      "sha256": "4c45d8fecd56a4517f1037c97921d5e142053544b966a7a8748f80b3be44c503",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 0,
+      "material": "speed",
+      "offset": 32768,
+      "sha256": "555c7c8d1971e143ea7e1c5645933a82311754f2a6edb5ce03615a603c565cec",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 0,
+      "material": "scrapers1",
+      "offset": 40960,
+      "sha256": "5020bfdf9fcd2e402210eb22e940b122603092eae8aab2d0de1dbe0e685942c7",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 0,
+      "material": "scrapers2",
+      "offset": 49152,
+      "sha256": "1bbb223c4f85377e01b48582117834857b90d9fbd18e9898f6cff3255e813c3a",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 0,
+      "material": "start",
+      "offset": 57344,
+      "sha256": "365fef3fb7db6cbfc02033a858d268a2d516fa8fcb56d6f6374bd51d54d3f892",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 0,
+      "material": "banner",
+      "offset": 65536,
+      "sha256": "256f72545df0d91d78c10a8362410121a1fea2c05ac9c9278ef4b00315852fdc",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 1,
+      "material": "ship",
+      "offset": 73728,
+      "sha256": "a106319ffe353b18bfb41f3af6be294af2bc3576a705ebd12fc837c87652292c",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 1,
+      "material": "booster",
+      "offset": 81920,
+      "sha256": "48ca056da03a7f42b2b7cb6deff3caefdfd5bff1599b18f47e325c0be9924f50",
+      "transparent_texels": 1798
+    },
+    {
+      "bank": 1,
+      "material": "track",
+      "offset": 90112,
+      "sha256": "42ff8cb04d991c02a00b1711075e0489fd66072b366212d33c6c992d4c24d35e",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 1,
+      "material": "base",
+      "offset": 98304,
+      "sha256": "7dbd4d0f3ec4261438a4178f5d49fd1dc2ee4b863961338325407e4fc924a736",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 1,
+      "material": "speed",
+      "offset": 106496,
+      "sha256": "555c7c8d1971e143ea7e1c5645933a82311754f2a6edb5ce03615a603c565cec",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 1,
+      "material": "scrapers1",
+      "offset": 114688,
+      "sha256": "b9b1b443b38a5650d8757a50da4a3aa2d78bd9a1e61ff1f829aabffdefc42985",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 1,
+      "material": "scrapers2",
+      "offset": 122880,
+      "sha256": "6209516c12b58011978de73304fa052132d5b43510d0bf36ac0354ed776bf916",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 1,
+      "material": "start",
+      "offset": 131072,
+      "sha256": "31e6143505f72f4aad25ccdd0f924010e3a6fd68863d6a832f53603b40055b3f",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 1,
+      "material": "banner",
+      "offset": 139264,
+      "sha256": "256f72545df0d91d78c10a8362410121a1fea2c05ac9c9278ef4b00315852fdc",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 2,
+      "material": "ship",
+      "offset": 147456,
+      "sha256": "7dd675f3d658630153874929e9d17527e8c17f72c3a8ac1a24182f129be865e0",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 2,
+      "material": "booster",
+      "offset": 155648,
+      "sha256": "48ca056da03a7f42b2b7cb6deff3caefdfd5bff1599b18f47e325c0be9924f50",
+      "transparent_texels": 1798
+    },
+    {
+      "bank": 2,
+      "material": "track",
+      "offset": 163840,
+      "sha256": "a61af0a49ce807b0d235427ce97c63fe562087df431c0bb50d8f334ee154559d",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 2,
+      "material": "base",
+      "offset": 172032,
+      "sha256": "71ba61ec389dde4253f771be671518104637fe1b975a17aa62528ccba7c38667",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 2,
+      "material": "speed",
+      "offset": 180224,
+      "sha256": "555c7c8d1971e143ea7e1c5645933a82311754f2a6edb5ce03615a603c565cec",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 2,
+      "material": "scrapers1",
+      "offset": 188416,
+      "sha256": "31a023eabcfdd2b4965e20fd910b095816051713f0f57632e016cdd0427d1e05",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 2,
+      "material": "scrapers2",
+      "offset": 196608,
+      "sha256": "0b5f79fac0678f41cf70472a57b49e000db80a0426fc4987696391e68e11bdba",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 2,
+      "material": "start",
+      "offset": 204800,
+      "sha256": "2bd8e9c4c23eb1364a5f86add69813ae0402c3bff17be96e83c2a7e10263db11",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 2,
+      "material": "banner",
+      "offset": 212992,
+      "sha256": "256f72545df0d91d78c10a8362410121a1fea2c05ac9c9278ef4b00315852fdc",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 3,
+      "material": "ship",
+      "offset": 221184,
+      "sha256": "0c3e79d629813a50137becb3d55990b2a8756ed8792cc3a7840689a71d7965b6",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 3,
+      "material": "booster",
+      "offset": 229376,
+      "sha256": "48ca056da03a7f42b2b7cb6deff3caefdfd5bff1599b18f47e325c0be9924f50",
+      "transparent_texels": 1798
+    },
+    {
+      "bank": 3,
+      "material": "track",
+      "offset": 237568,
+      "sha256": "9359ad23f571bc1bc606a466b786d9218670946bdd9cb618853a5a66674159a6",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 3,
+      "material": "base",
+      "offset": 245760,
+      "sha256": "60ca9cc36d60711e654f02ef820bce62b6ece897d791b63223fb7e91ab871754",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 3,
+      "material": "speed",
+      "offset": 253952,
+      "sha256": "555c7c8d1971e143ea7e1c5645933a82311754f2a6edb5ce03615a603c565cec",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 3,
+      "material": "scrapers1",
+      "offset": 262144,
+      "sha256": "f87ee6daddf4af5d9d020b4131900e4f414894474d921bfff6beeecd345543ba",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 3,
+      "material": "scrapers2",
+      "offset": 270336,
+      "sha256": "945e34ace6fcbc1186dff8e8b12dc67c940aedbe9dc1d52ef9365912f10f111d",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 3,
+      "material": "start",
+      "offset": 278528,
+      "sha256": "e766bbe7e05671afd948024e423b223597a3cbe64d04b540bafa3e4c37d9cbb8",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 3,
+      "material": "banner",
+      "offset": 286720,
+      "sha256": "256f72545df0d91d78c10a8362410121a1fea2c05ac9c9278ef4b00315852fdc",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 4,
+      "material": "ship",
+      "offset": 294912,
+      "sha256": "c3f29dcbc716f3100495125c1edeb0652532a677e121d1b4bdb1aaa210080208",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 4,
+      "material": "booster",
+      "offset": 303104,
+      "sha256": "48ca056da03a7f42b2b7cb6deff3caefdfd5bff1599b18f47e325c0be9924f50",
+      "transparent_texels": 1798
+    },
+    {
+      "bank": 4,
+      "material": "track",
+      "offset": 311296,
+      "sha256": "d2066d2f268d728d2625b685765df7c41ece7c4fd752b960583c1d97ddbbfd68",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 4,
+      "material": "base",
+      "offset": 319488,
+      "sha256": "8a3f730452f999aa9b92efe75e81d332f06eee9e0b8b73c503214d5bfcb8f4d5",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 4,
+      "material": "speed",
+      "offset": 327680,
+      "sha256": "555c7c8d1971e143ea7e1c5645933a82311754f2a6edb5ce03615a603c565cec",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 4,
+      "material": "scrapers1",
+      "offset": 335872,
+      "sha256": "bbd6fc24757b18071c78892657df0faec1752234c8fc301e872a5c342efb59c2",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 4,
+      "material": "scrapers2",
+      "offset": 344064,
+      "sha256": "ae2916274e6453a8ce37ee0f7ef2621cd3a71a78e4fb2fc638dbbd3f7c1c6407",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 4,
+      "material": "start",
+      "offset": 352256,
+      "sha256": "e849634e083db19ad8916407b5c851eb7adecad568e0eee717ed6d6ae5f9f0cc",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 4,
+      "material": "banner",
+      "offset": 360448,
+      "sha256": "256f72545df0d91d78c10a8362410121a1fea2c05ac9c9278ef4b00315852fdc",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 5,
+      "material": "ship",
+      "offset": 368640,
+      "sha256": "7b7cb808367ba80ba26f643ad5e2407bd59512e322f78835785782665698ca51",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 5,
+      "material": "booster",
+      "offset": 376832,
+      "sha256": "48ca056da03a7f42b2b7cb6deff3caefdfd5bff1599b18f47e325c0be9924f50",
+      "transparent_texels": 1798
+    },
+    {
+      "bank": 5,
+      "material": "track",
+      "offset": 385024,
+      "sha256": "727dd4c274f0f2b755e990784ae166a4419d1d0cb8c6b6c52d629d5abd8546b9",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 5,
+      "material": "base",
+      "offset": 393216,
+      "sha256": "af7dc159a3b4f078d638b517733505a264a3722cd474b6c046c2533c141f138d",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 5,
+      "material": "speed",
+      "offset": 401408,
+      "sha256": "555c7c8d1971e143ea7e1c5645933a82311754f2a6edb5ce03615a603c565cec",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 5,
+      "material": "scrapers1",
+      "offset": 409600,
+      "sha256": "e631367a4b8e31c1123a30a3d67489ba2f92fa91cd9dc33ce9658dd17db0dadc",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 5,
+      "material": "scrapers2",
+      "offset": 417792,
+      "sha256": "7df757afe3752b7518772f1ed1689e08664ccf7820144f1e5fe726f4739c8008",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 5,
+      "material": "start",
+      "offset": 425984,
+      "sha256": "5cb8a8ecbc6e31632b4b8ced02ccdf502b87321fc1acf5ee27dbffafc5713fde",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 5,
+      "material": "banner",
+      "offset": 434176,
+      "sha256": "256f72545df0d91d78c10a8362410121a1fea2c05ac9c9278ef4b00315852fdc",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 6,
+      "material": "ship",
+      "offset": 442368,
+      "sha256": "7b7cb808367ba80ba26f643ad5e2407bd59512e322f78835785782665698ca51",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 6,
+      "material": "booster",
+      "offset": 450560,
+      "sha256": "48ca056da03a7f42b2b7cb6deff3caefdfd5bff1599b18f47e325c0be9924f50",
+      "transparent_texels": 1798
+    },
+    {
+      "bank": 6,
+      "material": "track",
+      "offset": 458752,
+      "sha256": "727dd4c274f0f2b755e990784ae166a4419d1d0cb8c6b6c52d629d5abd8546b9",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 6,
+      "material": "base",
+      "offset": 466944,
+      "sha256": "aa7388ff10030dfbec00669facc03b9385a02b03e20de0bca6743964d91c1a00",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 6,
+      "material": "speed",
+      "offset": 475136,
+      "sha256": "555c7c8d1971e143ea7e1c5645933a82311754f2a6edb5ce03615a603c565cec",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 6,
+      "material": "scrapers1",
+      "offset": 483328,
+      "sha256": "b6135b34c057460fd213f2b57bd193ef3192de8ff2c4c5c899a03aa7c510da7f",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 6,
+      "material": "scrapers2",
+      "offset": 491520,
+      "sha256": "b8ef7112e87c68427f05d752e64d079e9e127636ee98543e212d097258045829",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 6,
+      "material": "start",
+      "offset": 499712,
+      "sha256": "5cb8a8ecbc6e31632b4b8ced02ccdf502b87321fc1acf5ee27dbffafc5713fde",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 6,
+      "material": "banner",
+      "offset": 507904,
+      "sha256": "256f72545df0d91d78c10a8362410121a1fea2c05ac9c9278ef4b00315852fdc",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 7,
+      "material": "ship",
+      "offset": 516096,
+      "sha256": "7b7cb808367ba80ba26f643ad5e2407bd59512e322f78835785782665698ca51",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 7,
+      "material": "booster",
+      "offset": 524288,
+      "sha256": "48ca056da03a7f42b2b7cb6deff3caefdfd5bff1599b18f47e325c0be9924f50",
+      "transparent_texels": 1798
+    },
+    {
+      "bank": 7,
+      "material": "track",
+      "offset": 532480,
+      "sha256": "727dd4c274f0f2b755e990784ae166a4419d1d0cb8c6b6c52d629d5abd8546b9",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 7,
+      "material": "base",
+      "offset": 540672,
+      "sha256": "1889edd7b251946e0ac7bb59e7abb526dc684c1c93a4571824da602021a295b7",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 7,
+      "material": "speed",
+      "offset": 548864,
+      "sha256": "555c7c8d1971e143ea7e1c5645933a82311754f2a6edb5ce03615a603c565cec",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 7,
+      "material": "scrapers1",
+      "offset": 557056,
+      "sha256": "1c00380162c008b2049cb70f00cceb35d310bb8e3dda8b455ad94ba1c4484feb",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 7,
+      "material": "scrapers2",
+      "offset": 565248,
+      "sha256": "cc819bb8cc70be20d2d77a1417f82edcc41d969650d9e455cde57b29539e4cdd",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 7,
+      "material": "start",
+      "offset": 573440,
+      "sha256": "5cb8a8ecbc6e31632b4b8ced02ccdf502b87321fc1acf5ee27dbffafc5713fde",
+      "transparent_texels": 0
+    },
+    {
+      "bank": 7,
+      "material": "banner",
+      "offset": 581632,
+      "sha256": "256f72545df0d91d78c10a8362410121a1fea2c05ac9c9278ef4b00315852fdc",
+      "transparent_texels": 0
+    }
+  ],
+  "adaptations": [
+    "eight yaw-dependent tangent-space lookup banks; no per-face TBN or shader interpolation",
+    "original normal/specular maps, exponent 42, base normal scale 3",
+    "original sky cubemap reflections modulated by scraper specular maps",
+    "ordered-alpha zero-key booster; opaque source-blue speed pads",
+    "static centroid sun visibility baked into native face luminance; no moving ship shadow"
+  ],
+  "shadows": {
+    "sources": {
+      "vendor/HexGL/geometries/ships/feisar/feisar.js": "5a97ef50a510e2d1ff3628ee13210a27666139ee07783fe67374b34773dcc716",
+      "vendor/HexGL/geometries/booster/booster.js": "3d032b38292fba7edd0f4d517e738c605c24713bee1cafed90c11689d5ccdea1",
+      "vendor/HexGL/geometries/tracks/cityscape/track.js": "194637db9a5cb1b219180c64f727567f4050d36fa1a6d0f6341e382c059d8a55",
+      "vendor/HexGL/geometries/bonus/base/base.js": "79485de286a2e950284d54e1e789d85c7f6c84727e3239942412607ad0e05dca",
+      "vendor/HexGL/geometries/tracks/cityscape/bonus/speed.js": "5f59eca92bfdba8350a0731e6a4757c26996a50ffa3ae57f4ed9ad1b3925b805",
+      "vendor/HexGL/geometries/tracks/cityscape/scrapers1.js": "3ed663ec33f3282f0bb111ddf78e5c523aa2a85eef6a78dc687f10b94f3bda91",
+      "vendor/HexGL/geometries/tracks/cityscape/scrapers2.js": "0fa57ea89932f78816b9e81128216970a3a7ea882986e3d2c32988e33e4aa7df",
+      "vendor/HexGL/geometries/tracks/cityscape/start.js": "93077d9b8285850e799942d3816bcd302b95738f3d0aea1c701f2e4c7ef70f55",
+      "vendor/HexGL/geometries/tracks/cityscape/startbanner.js": "46ef976e97dbb5f53c9f47ba96784c749aa752ae6e10e179c78ad705599f8829"
+    },
+    "direction": [
+      -0.879598994267085,
+      0.2638796982801255,
+      0.3958195474201882
+    ],
+    "receiver_faces": 10290,
+    "occluded_faces": 7435,
+    "method": "double-sided triangle ray test at each static receiver centroid, self-hit epsilon 1 native unit"
+  },
+  "sources": {
+    "vendor/HexGL/textures/skybox/dawnclouds/px.jpg": "57d99274a0a845efa6f2becf2c95e5016162eace1407cc72451287be3c7b96a2",
+    "vendor/HexGL/textures/skybox/dawnclouds/nx.jpg": "178887c0403f41a269ff00c7d4261dd56b74c304ffaeea962822dd6e7fb7caaf",
+    "vendor/HexGL/textures/skybox/dawnclouds/py.jpg": "c206d7eeec43a778e038c771532c733ef3c13a345b35717446bc05162ab5b6ba",
+    "vendor/HexGL/textures/skybox/dawnclouds/ny.jpg": "7afdda2733fe370d4927244b3541ea5070b1f15a392a234dc31ec1d0006ac6a0",
+    "vendor/HexGL/textures/skybox/dawnclouds/pz.jpg": "b4880fa714eddcef261700a98af318b476b9053f23f1b39091036a9e70e91110",
+    "vendor/HexGL/textures/skybox/dawnclouds/nz.jpg": "5e5ba7b8955522e8d86ffb303c201548209df1a7d7177565c7be29103619a17e",
+    "vendor/HexGL/textures/ships/feisar/diffuse.jpg": "b8e1effc02e62b7c79f134427971f4fb48ce2ad81410d1e1bba2dcb0601dbd84",
+    "vendor/HexGL/textures/ships/feisar/normal.jpg": "51832d00c6704ffc4c28806a4c1f65ce90b0ae3d8f9628d48c04bfd2700f75b4",
+    "vendor/HexGL/textures/ships/feisar/specular.jpg": "aa9404d803bae9f16cd92d965ebcae407e8616008eff5e332d26639ec509bea2",
+    "vendor/HexGL/textures/ships/feisar/booster/booster.png": "8427219b736170a8f3ecd54e0b241ffd020a442fcfd2b7b6b0abdb18e02f5b22",
+    "vendor/HexGL/textures/tracks/cityscape/diffuse.jpg": "ead336170dd1547d729c05e4d2d25e7355b4154c65b08bcd2da5fcf78cfbce26",
+    "vendor/HexGL/textures/tracks/cityscape/normal.jpg": "edd6dd342419f9138f1ec7e9bddacd631b1b615ec5fcf04a598d08a9326ea573",
+    "vendor/HexGL/textures/tracks/cityscape/specular.jpg": "dfbbd750acd2da0178c72f0365cd4c590121cc772afaa49ac92ac14bd345ee03",
+    "vendor/HexGL/textures/bonus/base/diffuse.jpg": "3e612bad2f6756df128232b969877116bc1d4115fb007fcd27597ede0dcbe880",
+    "vendor/HexGL/textures/bonus/base/normal.jpg": "c379c2f8525d290f8b55519ca915c4730f6f1dafdf9c6af27c97c6b225b424db",
+    "vendor/HexGL/textures/bonus/base/specular.jpg": "9ecb56d2784694ad632dd80e726a318db97d58ac03d07e521355c205d1ea946e",
+    "vendor/HexGL/textures/tracks/cityscape/scrapers1/diffuse.jpg": "9308b3d62dffc4a45e687f0d009de2a7fc268577a0562865df749ad7002ce665",
+    "vendor/HexGL/textures/tracks/cityscape/scrapers1/normal.jpg": "06b70ea74ed7c1583f2fba092016c03cc9cd09b855f7bf3d590ffffb95549fd3",
+    "vendor/HexGL/textures/tracks/cityscape/scrapers1/specular.jpg": "544794d4b1d734b1342782c11f1dce6bf3085adce4f51f3aa9c277660469f3c5",
+    "vendor/HexGL/textures/tracks/cityscape/scrapers2/diffuse.jpg": "a97fb5c44d94daa14becaeecdfb1fee9b463a2e3162ac8f869fda61c6063358a",
+    "vendor/HexGL/textures/tracks/cityscape/scrapers2/normal.jpg": "26160538d8c2b3493ecb038138531cc8c8d897fec651c395efdec00c717837f8",
+    "vendor/HexGL/textures/tracks/cityscape/scrapers2/specular.jpg": "9a9d0cb1caae0835de6c7fb2eb08e44a148f7bc616e7ec1b26a0dadfb1465725",
+    "vendor/HexGL/textures/tracks/cityscape/start/diffuse.jpg": "b8b83099e11861c5a07793c2f7cc7ead27b537b34d8e12b5492a073faebd94ae",
+    "vendor/HexGL/textures/tracks/cityscape/start/normal.jpg": "31253c93db5deeb50f41204e2cb9f470e5c9636fede56121c1185f2c7a919132",
+    "vendor/HexGL/textures/tracks/cityscape/start/specular.jpg": "f51e7d7e1c9eef829fbd2cd4810ef46f2a8b4c6be1027533dea8db280f224be1",
+    "vendor/HexGL/textures/tracks/cityscape/start/start.jpg": "c810d525868b4698b42c2637847d144eda271d089484c87b87d19af3ce07e269"
+  }
+}

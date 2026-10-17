@@ -1,0 +1,150 @@
+menu-ntsc exit 0 fields 950 elapsed 12.3 s
+replay-ntsc exit 0 fields 1570 elapsed 19.0 s
+menu-pal exit 0 fields 950 elapsed 15.4 s
+replay-pal exit 0 fields 1570 elapsed 22.7 s
+save-reboot-ntsc exit 0 fields 400 elapsed 5.5 s
+save-reboot-pal exit 0 fields 400 elapsed 6.6 s
+journal-torn exit 0 fields 400 elapsed 5.3 s
+journal-checksum exit 0 fields 400 elapsed 5.2 s
+journal-wrap exit 0 fields 400 elapsed 5.3 s
+journal-invalid exit 0 fields 400 elapsed 5.8 s
+{
+  "rom_sha256": "6cfeac35d45f9713150dff96c86c72219f66a4ec9013c161a6f225ec136d5c2a",
+  "status": "PASS",
+  "cases": {
+    "menu-ntsc": {
+      "checks": [
+        "controller navigation",
+        "controls/records/credits",
+        "Option return",
+        "real source font pixels",
+        "Start enters countdown",
+        "no unsolicited saves"
+      ],
+      "source_font_pixels": 1586
+    },
+    "replay-ntsc": {
+      "recorded_pitch_pairs_verified": 66,
+      "samples": 66,
+      "interpolated_commits": 158,
+      "fractional_commits": 58,
+      "record_ticks": 231,
+      "checks": [
+        "real run samples",
+        "time interpolation",
+        "mesh positions and camera",
+        "wrapped heading",
+        "pause/resume",
+        "stable end",
+        "Option exit",
+        "no replay score writes"
+      ],
+      "recording_input": "manual throttle and steering"
+    },
+    "menu-pal": {
+      "checks": [
+        "controller navigation",
+        "controls/records/credits",
+        "Option return",
+        "real source font pixels",
+        "Start enters countdown",
+        "no unsolicited saves"
+      ],
+      "source_font_pixels": 1586
+    },
+    "replay-pal": {
+      "recorded_pitch_pairs_verified": 109,
+      "samples": 109,
+      "interpolated_commits": 141,
+      "fractional_commits": 28,
+      "record_ticks": 396,
+      "checks": [
+        "real run samples",
+        "time interpolation",
+        "mesh positions and camera",
+        "wrapped heading",
+        "pause/resume",
+        "stable end",
+        "Option exit",
+        "no replay score writes"
+      ],
+      "recording_input": "autopilot"
+    },
+    "save-ntsc": {
+      "checks": [
+        "real full-race serial EEPROM write",
+        "nine writes only on improvement",
+        "readback verified",
+        "new process cold-load",
+        "PAL/NTSC normalized milliseconds",
+        "manual/assisted separation",
+        "visible original-font saved time"
+      ],
+      "record": {
+        "generation": 1,
+        "total_ms": 234100,
+        "lap_ms": 77766,
+        "slot": 16
+      },
+      "eeprom_sha256": "f1a97e3ab2497aa272647a87a0f0cc9fa085778929a8ff68ec26959439fba6a7"
+    },
+    "save-pal": {
+      "checks": [
+        "real full-race serial EEPROM write",
+        "nine writes only on improvement",
+        "readback verified",
+        "new process cold-load",
+        "PAL/NTSC normalized milliseconds",
+        "manual/assisted separation",
+        "visible original-font saved time"
+      ],
+      "record": {
+        "generation": 1,
+        "total_ms": 243780,
+        "lap_ms": 80980,
+        "slot": 16
+      },
+      "eeprom_sha256": "68583f98d0206f12cce686d31cd24b98286d07267517db1b2bdb93d3118b7db1"
+    },
+    "journal-torn": {
+      "checks": [
+        "EEPROM boot recovery",
+        "bounded boot/no freeze",
+        "no repair writes"
+      ],
+      "fixture": "torn",
+      "loaded_total_ms": 234100,
+      "generation": 1
+    },
+    "journal-checksum": {
+      "checks": [
+        "EEPROM boot recovery",
+        "bounded boot/no freeze",
+        "no repair writes"
+      ],
+      "fixture": "checksum",
+      "loaded_total_ms": 234100,
+      "generation": 1
+    },
+    "journal-wrap": {
+      "checks": [
+        "EEPROM boot recovery",
+        "bounded boot/no freeze",
+        "no repair writes"
+      ],
+      "fixture": "wrap",
+      "loaded_total_ms": 234100,
+      "generation": 0
+    },
+    "journal-invalid": {
+      "checks": [
+        "EEPROM boot recovery",
+        "bounded boot/no freeze",
+        "no repair writes"
+      ],
+      "fixture": "invalid",
+      "loaded_total_ms": 0,
+      "generation": 0
+    }
+  }
+}
